@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package service.init.v1;
+
+// Init is an internal service that the plugin framework uses to initialize
+// a plugin after it has been loaded. Initialization takes place when the
+// plugin client connects, since the client is responsible for hosting the
+// broker that is used to provide host services. If we initialize before that,
+// there would be no broker available to connect to host services with.
+// The service is also used for graceful cleanup when the plugin is unloaded.
+service Bootstrap {
+  rpc Init(InitRequest) returns (InitResponse);
+  rpc Deinit(DeinitRequest) returns (DeinitResponse);
+}
+
+// Init request parameters
+message InitRequest {
+  // List of all the names of gRPC services implemented by the host.
+  // These names are the fully qualified gRPC service name.
+  repeated string host_service_names = 1;
+}
+
+// Init response parameters
+message InitResponse {
+  // List of all the names of gRPC services implemented by the service. These
+  // names are the fully qualified gRPC service name.
+  repeated string plugin_service_names = 1;
+}
+
+// Deinit request parameters
+message DeinitRequest {}
+
+// Deinit response parameters
+message DeinitResponse {}

@@ -1,0 +1,24 @@
+syntax = "proto3";
+package plugin.keystore.management.v1;
+
+import "google/protobuf/struct.proto";
+import "plugin/keystore/common/v1/common.proto";
+
+service KeystoreProvider {
+  rpc CreateKeystore(CreateKeystoreRequest) returns (CreateKeystoreResponse);
+  rpc DeleteKeystore(DeleteKeystoreRequest) returns (DeleteKeystoreResponse);
+}
+
+message CreateKeystoreRequest {
+  google.protobuf.Struct values = 1;
+}
+
+message CreateKeystoreResponse {
+  plugin.keystore.common.v1.KeystoreInstanceConfig config = 1;
+}
+
+message DeleteKeystoreRequest {
+  plugin.keystore.common.v1.KeystoreInstanceConfig config = 1;
+}
+
+message DeleteKeystoreResponse {}

@@ -1,0 +1,19 @@
+syntax = "proto3";
+package kms.plugin.extauthz.v1;
+
+option go_package = "github.com/openkcm/plugin-sdk/proto/kms/plugin/extauthz/v1;authzpluginv1";
+
+service ExternalAuthZPlugin {
+  rpc Check(CheckRequest) returns (CheckResponse);
+}
+
+message CheckRequest {
+  string subject = 1;
+  string object = 2;
+  string action = 3;
+}
+
+message CheckResponse {
+  bool allowed = 1;
+  string message = 2;
+}

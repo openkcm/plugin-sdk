@@ -1,0 +1,38 @@
+version: "2"
+linters:
+  exclusions:
+    rules:
+      - linters:
+          - errcheck
+        source: ^func Test
+      - linters:
+          - errcheck
+        path: (.+)_test\.go
+    paths:
+      - vendor
+      - third_party$
+      - builtin$
+      - examples$
+
+formatters:
+  enable:
+    - gci
+    - gofmt
+    - goimports
+  settings:
+    gci:
+      sections:
+        - standard
+        - default
+        - prefix(github.com/openkcm/plugin-sdk)
+        - blank
+        - dot
+        - alias
+        - localmodule
+  exclusions:
+    generated: lax
+    paths:
+      - vendor
+      - third_party$
+      - builtin$
+      - examples$

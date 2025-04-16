@@ -1,0 +1,14 @@
+version: v2
+modules:
+  - path: proto
+  - path: internal/proto
+lint:
+  use:
+    - STANDARD
+  except:
+    - SERVICE_SUFFIX
+breaking:
+  use:
+    - FILE
+  ignore:
+    - proto/plugin/systeminformation/v1/systeminformation.proto

@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package kms.service.common.config.v1;
+
+option go_package = "github.com/openkcm/plugin-sdk/proto/spire/service/common/config/v1;configv1";
+
+service Config {
+  // Configure is called by KMS AuthZ to configure the plugin with the plugin
+  // specific configuration data and a set of KMS AuthZ core configuration. It is
+  // currently called when the plugin is first loaded after it has been
+  // initialized. At a future point, it may be called to reconfigure the
+  // plugin during runtime. Implementations should therefore expect that
+  // calls to Configure can happen concurrently with other RPCs against the
+  // plugin.
+  rpc Configure(ConfigureRequest) returns (ConfigureResponse);
+
+  // Validate is called by KMS AuthZ with a potential specific configuration for
+  // the plugin to determine if it is usable.
+  rpc Validate(ValidateRequest) returns (ValidateResponse);
+}
+
+message ConfigureRequest {
+  // Required. YAML encoded plugin configuration.
+  string yaml_configuration = 1;
+}
+
+message ConfigureResponse {}
+
+message ValidateRequest {
+  // Required. YAML encoded plugin configuration.
+  string yaml_configuration = 1;
+}
+
+message ValidateResponse {
+  // Required. True when the plugin deems the configuration usable.
+  bool valid = 1;
+
+  // Optional. Zero or more notes providing feedback
+  repeated string notes = 2;
+}

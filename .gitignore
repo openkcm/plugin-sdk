@@ -1,0 +1,13 @@
+# test coverage
+/cover.out
+/cover.html
+
+# binaries
+testpluginbinary
+
+# Go vendor directory
+/vendor
+
+# Jetbrains IDE files
+*.iml
+.idea

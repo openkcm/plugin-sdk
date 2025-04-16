@@ -1,0 +1,21 @@
+syntax = "proto3";
+package plugin.systeminformation.v1;
+
+service SystemInformationService {
+  rpc Get(GetRequest) returns (GetResponse);
+}
+
+message GetRequest {
+  string id = 1;
+  RequestType type = 2;
+}
+
+message GetResponse {
+  map<string, string> metadata = 1;
+}
+
+enum RequestType {
+  REQUEST_TYPE_UNSPECIFIED = 0;
+  REQUEST_TYPE_SYSTEM = 1;
+  REQUEST_TYPE_SUBACCOUNT = 2;
+}
