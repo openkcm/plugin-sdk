@@ -1,0 +1,19 @@
+name: OpenKCM Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - feature/*
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  use-template:
+    uses: openkcm/pipeline-template/.github/workflows/pipeline.yaml@main
+    with:
+      go-version: '1.24'
+      gcp-service-account-key: "test"
+      gcp-project-id: "test"
+      app-name: 'plugin-sdk'
