@@ -17,3 +17,4 @@ jobs:
       gcp-service-account-key: "test"
       gcp-project-id: "test"
       app-name: 'plugin-sdk'
+
