@@ -19,11 +19,13 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	KeystoreInstanceKeyOperation_GetKey_FullMethodName     = "/plugin.keystore.operations.v1.KeystoreInstanceKeyOperation/GetKey"
-	KeystoreInstanceKeyOperation_CreateKey_FullMethodName  = "/plugin.keystore.operations.v1.KeystoreInstanceKeyOperation/CreateKey"
-	KeystoreInstanceKeyOperation_DeleteKey_FullMethodName  = "/plugin.keystore.operations.v1.KeystoreInstanceKeyOperation/DeleteKey"
-	KeystoreInstanceKeyOperation_EnableKey_FullMethodName  = "/plugin.keystore.operations.v1.KeystoreInstanceKeyOperation/EnableKey"
-	KeystoreInstanceKeyOperation_DisableKey_FullMethodName = "/plugin.keystore.operations.v1.KeystoreInstanceKeyOperation/DisableKey"
+	KeystoreInstanceKeyOperation_GetKey_FullMethodName              = "/plugin.keystore.operations.v1.KeystoreInstanceKeyOperation/GetKey"
+	KeystoreInstanceKeyOperation_CreateKey_FullMethodName           = "/plugin.keystore.operations.v1.KeystoreInstanceKeyOperation/CreateKey"
+	KeystoreInstanceKeyOperation_DeleteKey_FullMethodName           = "/plugin.keystore.operations.v1.KeystoreInstanceKeyOperation/DeleteKey"
+	KeystoreInstanceKeyOperation_EnableKey_FullMethodName           = "/plugin.keystore.operations.v1.KeystoreInstanceKeyOperation/EnableKey"
+	KeystoreInstanceKeyOperation_DisableKey_FullMethodName          = "/plugin.keystore.operations.v1.KeystoreInstanceKeyOperation/DisableKey"
+	KeystoreInstanceKeyOperation_GetImportParameters_FullMethodName = "/plugin.keystore.operations.v1.KeystoreInstanceKeyOperation/GetImportParameters"
+	KeystoreInstanceKeyOperation_ImportKeyMaterial_FullMethodName   = "/plugin.keystore.operations.v1.KeystoreInstanceKeyOperation/ImportKeyMaterial"
 )
 
 // KeystoreInstanceKeyOperationClient is the client API for KeystoreInstanceKeyOperation service.
@@ -40,6 +42,10 @@ type KeystoreInstanceKeyOperationClient interface {
 	EnableKey(ctx context.Context, in *EnableKeyRequest, opts ...grpc.CallOption) (*EnableKeyResponse, error)
 	// DisableKey deactivates a key while maintaining its existence
 	DisableKey(ctx context.Context, in *DisableKeyRequest, opts ...grpc.CallOption) (*DisableKeyResponse, error)
+	// Gets the parameters needed for importing key material
+	GetImportParameters(ctx context.Context, in *GetImportParametersRequest, opts ...grpc.CallOption) (*GetImportParametersResponse, error)
+	// Imports key material into a KMS key
+	ImportKeyMaterial(ctx context.Context, in *ImportKeyMaterialRequest, opts ...grpc.CallOption) (*ImportKeyMaterialResponse, error)
 }
 
 type keystoreInstanceKeyOperationClient struct {
@@ -95,6 +101,24 @@ func (c *keystoreInstanceKeyOperationClient) DisableKey(ctx context.Context, in 
 	return out, nil
 }
 
+func (c *keystoreInstanceKeyOperationClient) GetImportParameters(ctx context.Context, in *GetImportParametersRequest, opts ...grpc.CallOption) (*GetImportParametersResponse, error) {
+	out := new(GetImportParametersResponse)
+	err := c.cc.Invoke(ctx, KeystoreInstanceKeyOperation_GetImportParameters_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *keystoreInstanceKeyOperationClient) ImportKeyMaterial(ctx context.Context, in *ImportKeyMaterialRequest, opts ...grpc.CallOption) (*ImportKeyMaterialResponse, error) {
+	out := new(ImportKeyMaterialResponse)
+	err := c.cc.Invoke(ctx, KeystoreInstanceKeyOperation_ImportKeyMaterial_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // KeystoreInstanceKeyOperationServer is the server API for KeystoreInstanceKeyOperation service.
 // All implementations must embed UnimplementedKeystoreInstanceKeyOperationServer
 // for forward compatibility
@@ -109,6 +133,10 @@ type KeystoreInstanceKeyOperationServer interface {
 	EnableKey(context.Context, *EnableKeyRequest) (*EnableKeyResponse, error)
 	// DisableKey deactivates a key while maintaining its existence
 	DisableKey(context.Context, *DisableKeyRequest) (*DisableKeyResponse, error)
+	// Gets the parameters needed for importing key material
+	GetImportParameters(context.Context, *GetImportParametersRequest) (*GetImportParametersResponse, error)
+	// Imports key material into a KMS key
+	ImportKeyMaterial(context.Context, *ImportKeyMaterialRequest) (*ImportKeyMaterialResponse, error)
 	mustEmbedUnimplementedKeystoreInstanceKeyOperationServer()
 }
 
@@ -130,6 +158,12 @@ func (UnimplementedKeystoreInstanceKeyOperationServer) EnableKey(context.Context
 }
 func (UnimplementedKeystoreInstanceKeyOperationServer) DisableKey(context.Context, *DisableKeyRequest) (*DisableKeyResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DisableKey not implemented")
+}
+func (UnimplementedKeystoreInstanceKeyOperationServer) GetImportParameters(context.Context, *GetImportParametersRequest) (*GetImportParametersResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetImportParameters not implemented")
+}
+func (UnimplementedKeystoreInstanceKeyOperationServer) ImportKeyMaterial(context.Context, *ImportKeyMaterialRequest) (*ImportKeyMaterialResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ImportKeyMaterial not implemented")
 }
 func (UnimplementedKeystoreInstanceKeyOperationServer) mustEmbedUnimplementedKeystoreInstanceKeyOperationServer() {
 }
@@ -235,6 +269,42 @@ func _KeystoreInstanceKeyOperation_DisableKey_Handler(srv interface{}, ctx conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _KeystoreInstanceKeyOperation_GetImportParameters_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetImportParametersRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(KeystoreInstanceKeyOperationServer).GetImportParameters(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: KeystoreInstanceKeyOperation_GetImportParameters_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(KeystoreInstanceKeyOperationServer).GetImportParameters(ctx, req.(*GetImportParametersRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _KeystoreInstanceKeyOperation_ImportKeyMaterial_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ImportKeyMaterialRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(KeystoreInstanceKeyOperationServer).ImportKeyMaterial(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: KeystoreInstanceKeyOperation_ImportKeyMaterial_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(KeystoreInstanceKeyOperationServer).ImportKeyMaterial(ctx, req.(*ImportKeyMaterialRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // KeystoreInstanceKeyOperation_ServiceDesc is the grpc.ServiceDesc for KeystoreInstanceKeyOperation service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -261,6 +331,14 @@ var KeystoreInstanceKeyOperation_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DisableKey",
 			Handler:    _KeystoreInstanceKeyOperation_DisableKey_Handler,
+		},
+		{
+			MethodName: "GetImportParameters",
+			Handler:    _KeystoreInstanceKeyOperation_GetImportParameters_Handler,
+		},
+		{
+			MethodName: "ImportKeyMaterial",
+			Handler:    _KeystoreInstanceKeyOperation_ImportKeyMaterial_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

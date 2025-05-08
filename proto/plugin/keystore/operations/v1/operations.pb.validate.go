@@ -460,6 +460,8 @@ func (m *CreateKeyRequest) validate(all bool) error {
 
 	// no validation rules for Region
 
+	// no validation rules for KeyType
+
 	if m.Id != nil {
 		// no validation rules for Id
 	}
@@ -565,6 +567,8 @@ func (m *CreateKeyResponse) validate(all bool) error {
 	var errors []error
 
 	// no validation rules for KeyId
+
+	// no validation rules for Status
 
 	if len(errors) > 0 {
 		return CreateKeyResponseMultiError(errors)
@@ -1344,3 +1348,534 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = DisableKeyResponseValidationError{}
+
+// Validate checks the field values on GetImportParametersRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetImportParametersRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetImportParametersRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetImportParametersRequestMultiError, or nil if none found.
+func (m *GetImportParametersRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetImportParametersRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetParameters()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, GetImportParametersRequestValidationError{
+					field:  "Parameters",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, GetImportParametersRequestValidationError{
+					field:  "Parameters",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetParameters()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return GetImportParametersRequestValidationError{
+				field:  "Parameters",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	// no validation rules for Algorithm
+
+	if len(errors) > 0 {
+		return GetImportParametersRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetImportParametersRequestMultiError is an error wrapping multiple
+// validation errors returned by GetImportParametersRequest.ValidateAll() if
+// the designated constraints aren't met.
+type GetImportParametersRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetImportParametersRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetImportParametersRequestMultiError) AllErrors() []error { return m }
+
+// GetImportParametersRequestValidationError is the validation error returned
+// by GetImportParametersRequest.Validate if the designated constraints aren't met.
+type GetImportParametersRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetImportParametersRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetImportParametersRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetImportParametersRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetImportParametersRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetImportParametersRequestValidationError) ErrorName() string {
+	return "GetImportParametersRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetImportParametersRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetImportParametersRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetImportParametersRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetImportParametersRequestValidationError{}
+
+// Validate checks the field values on GetImportParametersResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetImportParametersResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetImportParametersResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetImportParametersResponseMultiError, or nil if none found.
+func (m *GetImportParametersResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetImportParametersResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for KeyId
+
+	if all {
+		switch v := interface{}(m.GetImportParameters()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, GetImportParametersResponseValidationError{
+					field:  "ImportParameters",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, GetImportParametersResponseValidationError{
+					field:  "ImportParameters",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetImportParameters()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return GetImportParametersResponseValidationError{
+				field:  "ImportParameters",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return GetImportParametersResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetImportParametersResponseMultiError is an error wrapping multiple
+// validation errors returned by GetImportParametersResponse.ValidateAll() if
+// the designated constraints aren't met.
+type GetImportParametersResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetImportParametersResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetImportParametersResponseMultiError) AllErrors() []error { return m }
+
+// GetImportParametersResponseValidationError is the validation error returned
+// by GetImportParametersResponse.Validate if the designated constraints
+// aren't met.
+type GetImportParametersResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetImportParametersResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetImportParametersResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetImportParametersResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetImportParametersResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetImportParametersResponseValidationError) ErrorName() string {
+	return "GetImportParametersResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetImportParametersResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetImportParametersResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetImportParametersResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetImportParametersResponseValidationError{}
+
+// Validate checks the field values on ImportKeyMaterialRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *ImportKeyMaterialRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ImportKeyMaterialRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// ImportKeyMaterialRequestMultiError, or nil if none found.
+func (m *ImportKeyMaterialRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ImportKeyMaterialRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetParameters()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, ImportKeyMaterialRequestValidationError{
+					field:  "Parameters",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, ImportKeyMaterialRequestValidationError{
+					field:  "Parameters",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetParameters()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ImportKeyMaterialRequestValidationError{
+				field:  "Parameters",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetImportParameters()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, ImportKeyMaterialRequestValidationError{
+					field:  "ImportParameters",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, ImportKeyMaterialRequestValidationError{
+					field:  "ImportParameters",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetImportParameters()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ImportKeyMaterialRequestValidationError{
+				field:  "ImportParameters",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	// no validation rules for EncryptedKeyMaterial
+
+	if len(errors) > 0 {
+		return ImportKeyMaterialRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// ImportKeyMaterialRequestMultiError is an error wrapping multiple validation
+// errors returned by ImportKeyMaterialRequest.ValidateAll() if the designated
+// constraints aren't met.
+type ImportKeyMaterialRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ImportKeyMaterialRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ImportKeyMaterialRequestMultiError) AllErrors() []error { return m }
+
+// ImportKeyMaterialRequestValidationError is the validation error returned by
+// ImportKeyMaterialRequest.Validate if the designated constraints aren't met.
+type ImportKeyMaterialRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ImportKeyMaterialRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ImportKeyMaterialRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ImportKeyMaterialRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ImportKeyMaterialRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ImportKeyMaterialRequestValidationError) ErrorName() string {
+	return "ImportKeyMaterialRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e ImportKeyMaterialRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sImportKeyMaterialRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ImportKeyMaterialRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ImportKeyMaterialRequestValidationError{}
+
+// Validate checks the field values on ImportKeyMaterialResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *ImportKeyMaterialResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ImportKeyMaterialResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// ImportKeyMaterialResponseMultiError, or nil if none found.
+func (m *ImportKeyMaterialResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ImportKeyMaterialResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return ImportKeyMaterialResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// ImportKeyMaterialResponseMultiError is an error wrapping multiple validation
+// errors returned by ImportKeyMaterialResponse.ValidateAll() if the
+// designated constraints aren't met.
+type ImportKeyMaterialResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ImportKeyMaterialResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ImportKeyMaterialResponseMultiError) AllErrors() []error { return m }
+
+// ImportKeyMaterialResponseValidationError is the validation error returned by
+// ImportKeyMaterialResponse.Validate if the designated constraints aren't met.
+type ImportKeyMaterialResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ImportKeyMaterialResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ImportKeyMaterialResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ImportKeyMaterialResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ImportKeyMaterialResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ImportKeyMaterialResponseValidationError) ErrorName() string {
+	return "ImportKeyMaterialResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e ImportKeyMaterialResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sImportKeyMaterialResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ImportKeyMaterialResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ImportKeyMaterialResponseValidationError{}
