@@ -1,6 +1,7 @@
 syntax = "proto3";
 package plugin.keystore.operations.v1;
 
+import "google/protobuf/struct.proto";
 import "plugin/keystore/common/v1/common.proto";
 
 // KeystoreInstanceKeyOperation service defines the operations available for key management
@@ -19,6 +20,12 @@ service KeystoreInstanceKeyOperation {
 
   // DisableKey deactivates a key while maintaining its existence
   rpc DisableKey(DisableKeyRequest) returns (DisableKeyResponse);
+
+  // Gets the parameters needed for importing key material
+  rpc GetImportParameters(GetImportParametersRequest) returns (GetImportParametersResponse);
+
+  // Imports key material into a KMS key
+  rpc ImportKeyMaterial(ImportKeyMaterialRequest) returns (ImportKeyMaterialResponse);
 }
 
 // KeyAlgorithm defines the supported key algorithms across all operations
@@ -27,6 +34,12 @@ enum KeyAlgorithm {
   KEY_ALGORITHM_AES256 = 1;
   KEY_ALGORITHM_RSA3072 = 2;
   KEY_ALGORITHM_RSA4096 = 3;
+}
+
+enum KeyType {
+  KEY_TYPE_UNSPECIFIED = 0;
+  KEY_TYPE_SYSTEM_MANAGED = 1; // System-managed key
+  KEY_TYPE_BYOK = 2; // Bring Your Own Key
 }
 
 // RequestParameters contains the common fields needed for most key operations
@@ -53,10 +66,12 @@ message CreateKeyRequest {
   KeyAlgorithm algorithm = 2;
   optional string id = 3; // Optional predefined key ID
   string region = 4; // The region in which to create the key
+  KeyType key_type = 5; // Key type (system-managed or BYOK)
 }
 
 message CreateKeyResponse {
   string key_id = 1; // The ID of the created key
+  string status = 2; // The current status of the key (e.g., enabled, disabled)
 }
 
 // DeleteKeyRequest contains parameters for key deletion
@@ -80,3 +95,25 @@ message DisableKeyRequest {
 }
 
 message DisableKeyResponse {}
+
+// GetImportParametersRequest contains parameters for retrieving import parameters
+message GetImportParametersRequest {
+  RequestParameters parameters = 1;
+  KeyAlgorithm algorithm = 2;
+}
+
+// ImportKeyMaterialRequest contains parameters for importing key material
+message GetImportParametersResponse {
+  string key_id = 1;
+  google.protobuf.Struct import_parameters = 2; // The parameters needed for importing key material
+}
+
+// ImportKeyMaterialRequest contains parameters for importing key material
+message ImportKeyMaterialRequest {
+  RequestParameters parameters = 1;
+  google.protobuf.Struct import_parameters = 2; // The parameters needed for importing key material
+  string encrypted_key_material = 3; // The encrypted key material to be imported
+}
+
+// ImportKeyMaterialResponse contains the response for key material import
+message ImportKeyMaterialResponse {}
