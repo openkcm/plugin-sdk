@@ -14,7 +14,9 @@ In case you are the maintainer of a new SAP open source project, these are the s
 
 ***
 
-# Our new open source project
+# OpenKCM: plugin-sdk
+
+[![REUSE status](https://api.reuse.software/badge/github.com/openkcm/plugin-sdk)](https://api.reuse.software/info/github.com/openkcm/plugin-sdk)
 
 ## About this project
 
@@ -37,4 +39,4 @@ We as members, contributors, and leaders pledge to make participation in our com
 
 ## Licensing
 
-Copyright (20xx-)20xx SAP SE or an SAP affiliate company and <your-project> contributors. Please see our [LICENSE](LICENSE) for copyright and license information. Detailed information including third-party components and their licensing/copyright information is available [via the REUSE tool](https://api.reuse.software/info/github.com/openkcm/<your-project>).
+Copyright (20xx-)20xx SAP SE or an SAP affiliate company and OpenKCM contributors. Please see our [LICENSE](LICENSE) for copyright and license information. Detailed information including third-party components and their licensing/copyright information is available [via the REUSE tool](https://api.reuse.software/info/github.com/openkcm/plugin-sdk).
