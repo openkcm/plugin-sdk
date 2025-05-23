@@ -3,7 +3,6 @@ on:
   push:
     branches:
       - main
-      - 'releases/**'
   pull_request:
     types: [opened, synchronize, reopened, labeled, unlabeled]
   delete:
@@ -12,10 +11,7 @@ permissions:
   pull-requests: write
 jobs:
   buf:
-    runs-on: [self-hosted, solinas]
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: bufbuild/buf-action@v1
-        with:
-          version: 1.47.2
-          # token: ${{ secrets.BUF_TOKEN }}
