@@ -7,7 +7,7 @@ require (
 	github.com/hashicorp/go-plugin v1.6.3
 	github.com/magodo/slog2hclog v0.0.0-20240614031327-090ebd72a033
 	github.com/zeebo/errs/v2 v2.0.5
-	golang.org/x/sys v0.32.0
+	golang.org/x/sys v0.33.0
 	google.golang.org/grpc v1.72.2
 	google.golang.org/protobuf v1.36.6
 )
