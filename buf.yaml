@@ -12,5 +12,5 @@ breaking:
     - FILE
   ignore:
     - proto/plugin/systeminformation/v1/systeminformation.proto
-    - kms/plugin/extauthz/v1/extauthz.proto
-    - kms/service/common/config/v1/config.proto
+    - proto/kms/plugin/extauthz/v1/extauthz.proto
+    - proto/kms/service/common/config/v1/config.proto
