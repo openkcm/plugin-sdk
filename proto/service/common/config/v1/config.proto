@@ -2,13 +2,10 @@ syntax = "proto3";
 package service.common.config.v1;
 
 service Config {
-  // Configure is called by KMS AuthZ to configure the plugin with the plugin
-  // specific configuration data and a set of KMS AuthZ core configuration. It is
-  // currently called when the plugin is first loaded after it has been
-  // initialized. At a future point, it may be called to reconfigure the
-  // plugin during runtime. Implementations should therefore expect that
-  // calls to Configure can happen concurrently with other RPCs against the
-  // plugin.
+  // Configure the plugin with the plugin specific configuration data and a set the core configuration. It is
+  // currently called when the plugin is first loaded after it has been initialized. At a future point, it may
+  // be called to reconfigure the plugin during runtime. Implementations should therefore expect that
+  // calls to Configure can happen concurrently with other RPCs against the plugin.
   rpc Configure(ConfigureRequest) returns (ConfigureResponse);
 }
 
