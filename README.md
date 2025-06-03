@@ -1,21 +1,24 @@
-# OpenKCM: plugin-sdk
-
 [![REUSE status](https://api.reuse.software/badge/github.com/openkcm/plugin-sdk)](https://api.reuse.software/info/github.com/openkcm/plugin-sdk)
+
+# Plugin SDK
 
 ## About this project
 
-*Insert a short description of your project here...*
+Service definitions, code generated stubs and infrastructure for running and testing KCM plugins.
 
-## Requirements and Setup
+## Overview
 
-*Insert a short description what is required to get your project running...*
+External plugins are separate processes and use
+[go-plugin](https://github.com/hashicorp/go-plugin) under the covers.
+
+KMS communicates with plugins over gRPC. As such, the various interfaces are defined via gRPC service definitions.
 
 ## Support, Feedback, Contributing
 
-This project is open to feature requests/suggestions, bug reports etc. via [GitHub issues](https://github.com/openkcm/<your-project>/issues). Contribution and feedback are encouraged and always welcome. For more information about how to contribute, the project structure, as well as additional contribution information, see our [Contribution Guidelines](CONTRIBUTING.md).
+This project is open to feature requests/suggestions, bug reports etc. via [GitHub issues](https://github.com/openkcm/plugin-sdk/issues). Contribution and feedback are encouraged and always welcome. For more information about how to contribute, the project structure, as well as additional contribution information, see our [Contribution Guidelines](CONTRIBUTING.md).
 
 ## Security / Disclosure
-If you find any bug that may be a security problem, please follow our instructions at [in our security policy](https://github.com/openkcm/<your-project>/security/policy) on how to report it. Please do not create GitHub issues for security-related doubts or problems.
+If you find any bug that may be a security problem, please follow our instructions at [in our security policy](https://github.com/openkcm/plugin-sdk/security/policy) on how to report it. Please do not create GitHub issues for security-related doubts or problems.
 
 ## Code of Conduct
 
