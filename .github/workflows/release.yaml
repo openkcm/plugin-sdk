@@ -103,6 +103,7 @@ jobs:
 
       - name: Build Changelog
         id: github_release
+        if: ${{ env.SKIP != 'true' }}
         uses: mikepenz/release-changelog-builder-action@e92187bd633e680ebfdd15961a7c30b2d097e7ad # v5
         with:
           mode: "PR"
