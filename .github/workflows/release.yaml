@@ -144,6 +144,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Update to the next version
+        if: ${{ env.SKIP != 'true' }}
+        run: |
+          task release:update-repo-version --verbose -- "${{ env.next_version }}-dev"
+
       - name: Generate SBOM
         if: ${{ env.SKIP != 'true' }}
         run: |
