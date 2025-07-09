@@ -57,6 +57,23 @@ func TestLoad(t *testing.T) {
 			},
 			wantError: false,
 		},
+		{
+			name: "load testplugin feature",
+			config: Config{
+				Logger: slog.Default(),
+				PluginConfigs: []PluginConfig{
+					{
+						// testpluginbinary is built in the TestMain function
+						Path:        "./testpluginbinary",
+						Type:        "TestService",
+						Logger:      slog.Default(),
+						HYOKEnabled: true,
+					},
+				},
+				HostServices: nil,
+			},
+			wantError: false,
+		},
 	}
 
 	// run the tests
@@ -196,6 +213,67 @@ func TestLookupByTypeAndName(t *testing.T) {
 				t.Errorf("expected value: %v, got: %v", tc.wantNil, got)
 			} else if !tc.wantNil && got != nil {
 				return
+			}
+		})
+	}
+}
+
+func TestPluginInfo_Features(t *testing.T) {
+	tests := []struct {
+		name         string
+		pluginCfg    PluginConfig
+		wantFeatures []string
+	}{
+		{
+			name: "HYOK enabled",
+			pluginCfg: PluginConfig{
+				Path:        "./testpluginbinary",
+				Type:        "TestService",
+				Name:        "TestPluginHYOK",
+				Logger:      slog.Default(),
+				HYOKEnabled: true,
+			},
+			wantFeatures: []string{"HYOK"},
+		},
+		{
+			name: "HYOK disabled",
+			pluginCfg: PluginConfig{
+				Path:        "./testpluginbinary",
+				Type:        "TestService",
+				Name:        "TestPluginNoHYOK",
+				Logger:      slog.Default(),
+				HYOKEnabled: false,
+			},
+			wantFeatures: nil,
+		},
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			cfg := Config{
+				Logger:        slog.Default(),
+				PluginConfigs: []PluginConfig{tc.pluginCfg},
+				HostServices:  nil,
+			}
+			catalog, err := Load(context.Background(), cfg)
+			if err != nil {
+				t.Fatalf("failed to load plugin: %v", err)
+			}
+			defer catalog.Close()
+			plugin := catalog.LookupByTypeAndName(tc.pluginCfg.Type, tc.pluginCfg.Name)
+			if plugin == nil {
+				t.Fatalf("plugin not found")
+			}
+			features := plugin.Info().Features()
+			if len(features) != len(tc.wantFeatures) {
+				t.Errorf("expected features %v, got %v", tc.wantFeatures, features)
+				return
+			}
+			for i, f := range tc.wantFeatures {
+				if features[i] != f {
+					t.Errorf("expected features %v, got %v", tc.wantFeatures, features)
+					break
+				}
 			}
 		})
 	}
