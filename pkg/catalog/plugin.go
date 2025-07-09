@@ -51,7 +51,8 @@ type PluginConfig struct {
 
 	HostServices []api.ServiceServer
 
-	HYOKEnabled bool
+	// Tags are the metadata associated with a plugin these can be used to filter plugins later e.g. ['FeatureA'] on client side.
+	Tags []string
 }
 
 // PluginInfo provides the information for the loaded plugin.
@@ -62,7 +63,8 @@ type PluginInfo interface {
 	// The type of the plugin
 	Type() string
 
-	Features() []string
+	// Tags associated with the plugin
+	Tags() []string
 }
 
 type Plugin struct {
@@ -139,14 +141,10 @@ func loadPlugin(ctx context.Context, logger *slog.Logger, config PluginConfig) (
 	// Plugin has been loaded and initialized. Ensure the plugin client is
 	// killed when the plugin is closed.
 	plugin.closers = append(plugin.closers, closerFunc(pluginClient.Kill))
-	pluginFeatures := []string{}
-	if config.HYOKEnabled {
-		pluginFeatures = append(pluginFeatures, "HYOK")
-	}
 	info := pluginInfo{
-		name:     config.Name,
-		typ:      config.Type,
-		features: pluginFeatures,
+		name: config.Name,
+		typ:  config.Type,
+		tags: config.Tags,
 	}
 
 	return newPlugin(ctx, plugin.conn, info, config.Logger, plugin.closers, config.HostServices)
@@ -163,9 +161,9 @@ func injectEnv(config PluginConfig, cmd *exec.Cmd) {
 }
 
 type pluginInfo struct {
-	name     string
-	typ      string
-	features []string
+	name string
+	typ  string
+	tags []string
 }
 
 func (info pluginInfo) Name() string {
@@ -176,7 +174,7 @@ func (info pluginInfo) Type() string {
 	return info.typ
 }
 
-func (info pluginInfo) Features() []string { return info.features }
+func (info pluginInfo) Tags() []string { return info.tags }
 
 type pluginCloser struct {
 	plugin io.Closer
