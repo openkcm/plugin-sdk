@@ -26,6 +26,15 @@ service KeystoreInstanceKeyOperation {
 
   // Imports key material into a KMS key
   rpc ImportKeyMaterial(ImportKeyMaterialRequest) returns (ImportKeyMaterialResponse);
+
+  // Validate the key attributes against the plugin's requirements
+  rpc ValidateKey(ValidateKeyRequest) returns (ValidateKeyResponse);
+
+  // ValidateKeyAccessData checks the access data for key management and crypto operations
+  rpc ValidateKeyAccessData(ValidateKeyAccessDataRequest) returns (ValidateKeyAccessDataResponse);
+
+  // ExtractKeyRegion extracts the region from key attributes
+  rpc ExtractKeyRegion(ExtractKeyRegionRequest) returns (ExtractKeyRegionResponse);
 }
 
 // KeyAlgorithm defines the supported key algorithms across all operations
@@ -40,6 +49,7 @@ enum KeyType {
   KEY_TYPE_UNSPECIFIED = 0;
   KEY_TYPE_SYSTEM_MANAGED = 1; // System-managed key
   KEY_TYPE_BYOK = 2; // Bring Your Own Key
+  KEY_TYPE_HYOK = 3; // Hold Your Own Key
 }
 
 // RequestParameters contains the common fields needed for most key operations
@@ -117,3 +127,40 @@ message ImportKeyMaterialRequest {
 
 // ImportKeyMaterialResponse contains the response for key material import
 message ImportKeyMaterialResponse {}
+
+// ValidateKeyRequest contains parameters for validating key attributes
+message ValidateKeyRequest {
+  KeyType key_type = 1;
+  KeyAlgorithm algorithm = 2;
+  string region = 3; // The region in which the key is to be validated
+  string native_key_id = 4; // The native key ID if applicable
+}
+
+// ValidateKeyResponse contains the result of key validation
+message ValidateKeyResponse {
+  bool is_valid = 1; // Indicates if the key attributes are valid
+  string message = 2; // Additional information about the validation result
+}
+
+// ValidateKeyAccessDataRequest contains access data for key management and crypto operations
+message ValidateKeyAccessDataRequest {
+  google.protobuf.Struct management = 1;
+  google.protobuf.Struct crypto = 2;
+}
+
+// ValidateKeyAccessDataResponse contains the result of key access data validation
+message ValidateKeyAccessDataResponse {
+  bool is_valid = 1; // Indicates if the key access data is valid
+  string message = 2; // Additional information about the validation result
+}
+
+// ExtractKeyRegionRequest contains parameters for extracting the key region
+message ExtractKeyRegionRequest {
+  string native_key_id = 1; // The region can be derived from the native key ID
+  google.protobuf.Struct management_access_data = 2; // Or the access details of the management role
+}
+
+// ExtractKeyRegionResponse contains the extracted key region
+message ExtractKeyRegionResponse {
+  string region = 1; // The extracted region from the key attributes
+}

@@ -1879,3 +1879,724 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = ImportKeyMaterialResponseValidationError{}
+
+// Validate checks the field values on ValidateKeyRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *ValidateKeyRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ValidateKeyRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// ValidateKeyRequestMultiError, or nil if none found.
+func (m *ValidateKeyRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ValidateKeyRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for KeyType
+
+	// no validation rules for Algorithm
+
+	// no validation rules for Region
+
+	// no validation rules for NativeKeyId
+
+	if len(errors) > 0 {
+		return ValidateKeyRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// ValidateKeyRequestMultiError is an error wrapping multiple validation errors
+// returned by ValidateKeyRequest.ValidateAll() if the designated constraints
+// aren't met.
+type ValidateKeyRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ValidateKeyRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ValidateKeyRequestMultiError) AllErrors() []error { return m }
+
+// ValidateKeyRequestValidationError is the validation error returned by
+// ValidateKeyRequest.Validate if the designated constraints aren't met.
+type ValidateKeyRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ValidateKeyRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ValidateKeyRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ValidateKeyRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ValidateKeyRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ValidateKeyRequestValidationError) ErrorName() string {
+	return "ValidateKeyRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e ValidateKeyRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sValidateKeyRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ValidateKeyRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ValidateKeyRequestValidationError{}
+
+// Validate checks the field values on ValidateKeyResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *ValidateKeyResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ValidateKeyResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// ValidateKeyResponseMultiError, or nil if none found.
+func (m *ValidateKeyResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ValidateKeyResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for IsValid
+
+	// no validation rules for Message
+
+	if len(errors) > 0 {
+		return ValidateKeyResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// ValidateKeyResponseMultiError is an error wrapping multiple validation
+// errors returned by ValidateKeyResponse.ValidateAll() if the designated
+// constraints aren't met.
+type ValidateKeyResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ValidateKeyResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ValidateKeyResponseMultiError) AllErrors() []error { return m }
+
+// ValidateKeyResponseValidationError is the validation error returned by
+// ValidateKeyResponse.Validate if the designated constraints aren't met.
+type ValidateKeyResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ValidateKeyResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ValidateKeyResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ValidateKeyResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ValidateKeyResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ValidateKeyResponseValidationError) ErrorName() string {
+	return "ValidateKeyResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e ValidateKeyResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sValidateKeyResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ValidateKeyResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ValidateKeyResponseValidationError{}
+
+// Validate checks the field values on ValidateKeyAccessDataRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *ValidateKeyAccessDataRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ValidateKeyAccessDataRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// ValidateKeyAccessDataRequestMultiError, or nil if none found.
+func (m *ValidateKeyAccessDataRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ValidateKeyAccessDataRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetManagement()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, ValidateKeyAccessDataRequestValidationError{
+					field:  "Management",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, ValidateKeyAccessDataRequestValidationError{
+					field:  "Management",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetManagement()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ValidateKeyAccessDataRequestValidationError{
+				field:  "Management",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetCrypto()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, ValidateKeyAccessDataRequestValidationError{
+					field:  "Crypto",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, ValidateKeyAccessDataRequestValidationError{
+					field:  "Crypto",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetCrypto()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ValidateKeyAccessDataRequestValidationError{
+				field:  "Crypto",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return ValidateKeyAccessDataRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// ValidateKeyAccessDataRequestMultiError is an error wrapping multiple
+// validation errors returned by ValidateKeyAccessDataRequest.ValidateAll() if
+// the designated constraints aren't met.
+type ValidateKeyAccessDataRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ValidateKeyAccessDataRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ValidateKeyAccessDataRequestMultiError) AllErrors() []error { return m }
+
+// ValidateKeyAccessDataRequestValidationError is the validation error returned
+// by ValidateKeyAccessDataRequest.Validate if the designated constraints
+// aren't met.
+type ValidateKeyAccessDataRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ValidateKeyAccessDataRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ValidateKeyAccessDataRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ValidateKeyAccessDataRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ValidateKeyAccessDataRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ValidateKeyAccessDataRequestValidationError) ErrorName() string {
+	return "ValidateKeyAccessDataRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e ValidateKeyAccessDataRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sValidateKeyAccessDataRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ValidateKeyAccessDataRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ValidateKeyAccessDataRequestValidationError{}
+
+// Validate checks the field values on ValidateKeyAccessDataResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *ValidateKeyAccessDataResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ValidateKeyAccessDataResponse with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the result is a list of violation errors wrapped in
+// ValidateKeyAccessDataResponseMultiError, or nil if none found.
+func (m *ValidateKeyAccessDataResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ValidateKeyAccessDataResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for IsValid
+
+	// no validation rules for Message
+
+	if len(errors) > 0 {
+		return ValidateKeyAccessDataResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// ValidateKeyAccessDataResponseMultiError is an error wrapping multiple
+// validation errors returned by ValidateKeyAccessDataResponse.ValidateAll()
+// if the designated constraints aren't met.
+type ValidateKeyAccessDataResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ValidateKeyAccessDataResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ValidateKeyAccessDataResponseMultiError) AllErrors() []error { return m }
+
+// ValidateKeyAccessDataResponseValidationError is the validation error
+// returned by ValidateKeyAccessDataResponse.Validate if the designated
+// constraints aren't met.
+type ValidateKeyAccessDataResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ValidateKeyAccessDataResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ValidateKeyAccessDataResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ValidateKeyAccessDataResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ValidateKeyAccessDataResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ValidateKeyAccessDataResponseValidationError) ErrorName() string {
+	return "ValidateKeyAccessDataResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e ValidateKeyAccessDataResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sValidateKeyAccessDataResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ValidateKeyAccessDataResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ValidateKeyAccessDataResponseValidationError{}
+
+// Validate checks the field values on ExtractKeyRegionRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *ExtractKeyRegionRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ExtractKeyRegionRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// ExtractKeyRegionRequestMultiError, or nil if none found.
+func (m *ExtractKeyRegionRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ExtractKeyRegionRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for NativeKeyId
+
+	if all {
+		switch v := interface{}(m.GetManagementAccessData()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, ExtractKeyRegionRequestValidationError{
+					field:  "ManagementAccessData",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, ExtractKeyRegionRequestValidationError{
+					field:  "ManagementAccessData",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetManagementAccessData()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ExtractKeyRegionRequestValidationError{
+				field:  "ManagementAccessData",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return ExtractKeyRegionRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// ExtractKeyRegionRequestMultiError is an error wrapping multiple validation
+// errors returned by ExtractKeyRegionRequest.ValidateAll() if the designated
+// constraints aren't met.
+type ExtractKeyRegionRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ExtractKeyRegionRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ExtractKeyRegionRequestMultiError) AllErrors() []error { return m }
+
+// ExtractKeyRegionRequestValidationError is the validation error returned by
+// ExtractKeyRegionRequest.Validate if the designated constraints aren't met.
+type ExtractKeyRegionRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ExtractKeyRegionRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ExtractKeyRegionRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ExtractKeyRegionRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ExtractKeyRegionRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ExtractKeyRegionRequestValidationError) ErrorName() string {
+	return "ExtractKeyRegionRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e ExtractKeyRegionRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sExtractKeyRegionRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ExtractKeyRegionRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ExtractKeyRegionRequestValidationError{}
+
+// Validate checks the field values on ExtractKeyRegionResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *ExtractKeyRegionResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ExtractKeyRegionResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// ExtractKeyRegionResponseMultiError, or nil if none found.
+func (m *ExtractKeyRegionResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ExtractKeyRegionResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Region
+
+	if len(errors) > 0 {
+		return ExtractKeyRegionResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// ExtractKeyRegionResponseMultiError is an error wrapping multiple validation
+// errors returned by ExtractKeyRegionResponse.ValidateAll() if the designated
+// constraints aren't met.
+type ExtractKeyRegionResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ExtractKeyRegionResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ExtractKeyRegionResponseMultiError) AllErrors() []error { return m }
+
+// ExtractKeyRegionResponseValidationError is the validation error returned by
+// ExtractKeyRegionResponse.Validate if the designated constraints aren't met.
+type ExtractKeyRegionResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ExtractKeyRegionResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ExtractKeyRegionResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ExtractKeyRegionResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ExtractKeyRegionResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ExtractKeyRegionResponseValidationError) ErrorName() string {
+	return "ExtractKeyRegionResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e ExtractKeyRegionResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sExtractKeyRegionResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ExtractKeyRegionResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ExtractKeyRegionResponseValidationError{}
