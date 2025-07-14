@@ -33,6 +33,8 @@ type BuiltInConfig struct {
 	// Logger is the logger to be wired to the external plugin.
 	Logger *slog.Logger
 
+	LogLevel string
+
 	// HostServices are the host service servers provided to the plugin.
 	HostServices []api.ServiceServer
 }
@@ -62,7 +64,7 @@ func loadBuiltIn(ctx context.Context, builtIn BuiltIn, config BuiltInConfig) (_ 
 	pluginServers := append([]api.ServiceServer{builtIn.Plugin}, builtIn.Services...)
 
 	logLevelPlugin := new(slog.LevelVar)
-	setLogLevel(logLevelPlugin, "info")
+	setLogLevel(logLevelPlugin, config.LogLevel)
 
 	log := slog2hclog.New(config.Logger, logLevelPlugin)
 	bootstrap.Register(builtinServer, pluginServers, log, dialer)
