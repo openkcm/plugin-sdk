@@ -86,7 +86,7 @@ func Load(ctx context.Context, config Config, builtIns ...BuiltIn) (catalog *Cat
 
 		var plugin *Plugin
 		if pluginConfig.IsExternal() {
-			plugin, err = loadPlugin(ctx, config.Logger, pluginConfig)
+			plugin, err = loadPlugin(ctx, pluginConfig)
 			if err != nil {
 				config.Logger.ErrorContext(ctx, "Failed to load plugin", telemetry.PluginName, pluginConfig.Name, "error", err)
 				return nil, fmt.Errorf("failed to load plugin %q: %w", pluginConfig.Name, err)
@@ -95,7 +95,7 @@ func Load(ctx context.Context, config Config, builtIns ...BuiltIn) (catalog *Cat
 			for _, builtin := range builtIns {
 				if builtin.Name == pluginConfig.Name {
 					plugin, err = loadBuiltIn(ctx, builtin, BuiltInConfig{
-						Logger:       config.Logger,
+						Logger:       pluginConfig.Logger,
 						LogLevel:     pluginConfig.LogLevel,
 						HostServices: config.HostServices,
 					})

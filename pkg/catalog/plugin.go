@@ -158,8 +158,8 @@ func (p *Plugin) GrpcServiceNames() []string {
 	return p.grpcServiceNames
 }
 
-func loadPlugin(ctx context.Context, logger *slog.Logger, config PluginConfig) (*Plugin, error) {
-	logger.InfoContext(ctx, "Loading plugin", "name", config.Name, "path", config.Path)
+func loadPlugin(ctx context.Context, config PluginConfig) (*Plugin, error) {
+	config.Logger.InfoContext(ctx, "Loading plugin", "name", config.Name, "path", config.Path)
 
 	logLevelPlugin := new(slog.LevelVar)
 	setLogLevel(logLevelPlugin, config.LogLevel)
