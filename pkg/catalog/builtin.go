@@ -31,21 +31,11 @@ func MakeBuiltIn(name string, pluginServer api.PluginServer, serviceServers ...a
 	}
 }
 
-type BuiltInConfig struct {
-	// Logger is the logger to be wired to the external plugin.
-	Logger *slog.Logger
-
-	LogLevel string
-
-	// HostServices are the host service servers provided to the plugin.
-	HostServices []api.ServiceServer
-}
-
-func loadBuiltIn(ctx context.Context, builtIn BuiltIn, config BuiltInConfig) (_ *Plugin, err error) {
+func loadBuiltIn(ctx context.Context, builtIn BuiltIn, pluginConfig PluginConfig) (_ *Plugin, err error) {
 	dialer := &builtinDialer{
 		pluginName:   builtIn.Name,
-		log:          config.Logger,
-		hostServices: config.HostServices,
+		log:          pluginConfig.Logger,
+		hostServices: pluginConfig.HostServices,
 	}
 
 	var closers closerGroup
@@ -56,18 +46,18 @@ func loadBuiltIn(ctx context.Context, builtIn BuiltIn, config BuiltInConfig) (_ 
 	}()
 	closers = append(closers, dialer)
 
-	builtinServer, serverCloser := newBuiltInServer(config.Logger)
+	builtinServer, serverCloser := newBuiltInServer(pluginConfig.Logger)
 	closers = append(closers, serverCloser)
 
 	pluginServers := append([]api.ServiceServer{builtIn.Plugin}, builtIn.Services...)
 
 	logLevelPlugin := new(slog.LevelVar)
-	setLogLevel(logLevelPlugin, config.LogLevel)
+	setLogLevel(logLevelPlugin, pluginConfig.LogLevel)
 
-	log := slog2hclog.New(config.Logger, logLevelPlugin)
+	log := slog2hclog.New(pluginConfig.Logger, logLevelPlugin)
 	bootstrap.Register(builtinServer, pluginServers, log, dialer)
 
-	builtinConn, err := startPipeServer(builtinServer, config.Logger)
+	builtinConn, err := startPipeServer(builtinServer, pluginConfig.Logger)
 	if err != nil {
 		return nil, err
 	}
@@ -79,7 +69,7 @@ func loadBuiltIn(ctx context.Context, builtIn BuiltIn, config BuiltInConfig) (_ 
 		tags: builtIn.Tags,
 	}
 
-	return newPlugin(ctx, builtinConn, info, config.Logger, closers, config.HostServices)
+	return newPlugin(ctx, builtinConn, info, pluginConfig.Logger, closers, pluginConfig.HostServices)
 }
 
 func newBuiltInServer(log *slog.Logger) (*grpc.Server, io.Closer) {

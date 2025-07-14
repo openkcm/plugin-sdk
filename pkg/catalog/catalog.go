@@ -94,11 +94,7 @@ func Load(ctx context.Context, config Config, builtIns ...BuiltIn) (catalog *Cat
 		} else {
 			for _, builtin := range builtIns {
 				if builtin.Name == pluginConfig.Name {
-					plugin, err = loadBuiltIn(ctx, builtin, BuiltInConfig{
-						Logger:       pluginConfig.Logger,
-						LogLevel:     pluginConfig.LogLevel,
-						HostServices: config.HostServices,
-					})
+					plugin, err = loadBuiltIn(ctx, builtin, pluginConfig)
 					if err != nil {
 						config.Logger.ErrorContext(ctx, "Failed to load builtin plugin", telemetry.PluginName, pluginConfig.Name, "error", err)
 						return nil, fmt.Errorf("failed to load builtin plugin %q: %w", pluginConfig.Name, err)
