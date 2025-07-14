@@ -8,7 +8,6 @@ import (
 	"time"
 
 	"github.com/openkcm/plugin-sdk/api"
-	"github.com/openkcm/plugin-sdk/pkg/telemetry"
 )
 
 const (
@@ -75,14 +74,15 @@ func Load(ctx context.Context, config Config, builtIns ...BuiltIn) (catalog *Cat
 			config.Logger.Debug("Not loading plugin; disabled")
 			continue
 		}
+		logger := config.Logger.WithGroup("plugin")
 
 		pluginConfig.HostServices = config.HostServices
 
 		var plugin *Plugin
 		if pluginConfig.IsExternal() {
-			pluginLog := config.Logger.With(
-				telemetry.PluginName, pluginConfig.Name,
-				telemetry.PluginType, pluginConfig.Type,
+			pluginLog := logger.With(
+				Name, pluginConfig.Name,
+				Type, pluginConfig.Type,
 			)
 			pluginConfig.Logger = pluginLog
 
@@ -94,9 +94,9 @@ func Load(ctx context.Context, config Config, builtIns ...BuiltIn) (catalog *Cat
 		} else {
 			for _, builtin := range builtIns {
 				if builtin.Name == pluginConfig.Name {
-					pluginLog := config.Logger.With(
-						telemetry.PluginName, pluginConfig.Name,
-						telemetry.PluginType, builtin.Plugin.Type(),
+					pluginLog := logger.With(
+						Name, pluginConfig.Name,
+						Type, builtin.Plugin.Type(),
 					)
 					pluginConfig.Logger = pluginLog
 
@@ -109,7 +109,7 @@ func Load(ctx context.Context, config Config, builtIns ...BuiltIn) (catalog *Cat
 			}
 		}
 		if plugin == nil {
-			config.Logger.ErrorContext(ctx, "Failed to load external/builtin plugin")
+			logger.ErrorContext(ctx, "Failed to load external/builtin plugin")
 			return nil, fmt.Errorf("failed to load external/builtin plugin %s", pluginConfig.Name)
 		}
 
