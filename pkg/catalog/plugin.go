@@ -75,69 +75,6 @@ type PluginInfo interface {
 	Tags() []string
 }
 
-// PluginRepo is a repository of plugin facades for a given plugin type.
-type PluginRepo interface {
-	ServiceRepo
-
-	// Constraints returns the constraints required by the plugin repository.
-	// The Load function will ensure that these constraints are satisfied before
-	// returning successfully.
-	Constraints() Constraints
-
-	// BuiltIns provides the list of built ins that are available for the
-	// given plugin repository.
-	BuiltIns() []BuiltIn
-}
-
-// ServiceRepo is a repository for service facades for a given service.
-type ServiceRepo interface {
-	// Binder returns a function that is used by the catalog system to "bind"
-	// the facade returned by selected version to the repository. It MUST
-	// return void and take a single argument of type X, where X can be
-	// assigned to by any of the facade implementation types returned by the
-	// provided versions (see Versions).
-	Binder() any
-
-	// Versions returns the versions supported by the repository, ordered by
-	// most to least preferred. The first version supported by the plugin will
-	// be used. When a deprecated version is bound, warning messaging will
-	// recommend the first version in the list as a replacement, unless it is
-	// also deprecated.
-	Versions() []Version
-
-	// Clear is called when loading fails to clear the repository of any
-	// previously bound facades.
-	Clear()
-}
-
-// Version represents a plugin or service version. It is used to instantiate
-// facades for the versions that are bound to the plugin or service
-// repositories (see the Binder method on the ServiceRepo).
-type Version interface {
-	// New returns a new facade for this version. Instantiated facades are only
-	// bound via the repo binder when they match a gRPC service name provided
-	// by the plugin.
-	New() Facade
-
-	// Deprecated returns whether the version is deprecated.
-	Deprecated() bool
-}
-
-// Facade is a facade for a specific plugin or service version.
-type Facade interface {
-	// ServiceClient is used to initialize the service client with the
-	// connection to the plugin providing the service server.
-	api.ServiceClient
-
-	// InitInfo is used to initialize the facade with information for the
-	// loaded plugin providing the service server.
-	InitInfo(info PluginInfo)
-
-	// InitLog initializes the facade with the logger for the loaded plugin
-	// that provides the service server.
-	InitLog(log *slog.Logger)
-}
-
 type Plugin struct {
 	closerGroup
 

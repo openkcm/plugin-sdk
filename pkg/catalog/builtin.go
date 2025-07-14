@@ -9,10 +9,11 @@ import (
 	"time"
 
 	"github.com/magodo/slog2hclog"
-	"github.com/openkcm/plugin-sdk/api"
-	"github.com/openkcm/plugin-sdk/internal/bootstrap"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
+
+	"github.com/openkcm/plugin-sdk/api"
+	"github.com/openkcm/plugin-sdk/internal/bootstrap"
 )
 
 type BuiltIn struct {
@@ -40,10 +41,6 @@ type BuiltInConfig struct {
 	HostServices []api.ServiceServer
 }
 
-//func LoadBuiltIn(ctx context.Context, builtIn BuiltIn, config BuiltInConfig) (_ *Plugin, err error) {
-//	return loadBuiltIn(ctx, builtIn, config)
-//}
-
 func loadBuiltIn(ctx context.Context, builtIn BuiltIn, config BuiltInConfig) (_ *Plugin, err error) {
 	dialer := &builtinDialer{
 		pluginName:   builtIn.Name,
@@ -54,7 +51,7 @@ func loadBuiltIn(ctx context.Context, builtIn BuiltIn, config BuiltInConfig) (_ 
 	var closers closerGroup
 	defer func() {
 		if err != nil {
-			closers.Close()
+			_ = closers.Close()
 		}
 	}()
 	closers = append(closers, dialer)
