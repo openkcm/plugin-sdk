@@ -77,39 +77,9 @@ func Load(ctx context.Context, config Config, builtIns ...BuiltIn) (catalog *Cat
 
 		pluginConfig.HostServices = config.HostServices
 
-		var plugin *Plugin
-		if pluginConfig.IsExternal() {
-			pluginLog := config.Logger.With(
-				Name, pluginConfig.Name,
-				Type, pluginConfig.Type,
-			)
-			pluginConfig.Logger = pluginLog
-
-			plugin, err = loadPlugin(ctx, pluginConfig)
-			if err != nil {
-				pluginConfig.Logger.ErrorContext(ctx, "Failed to load plugin", "error", err)
-				return nil, fmt.Errorf("failed to load plugin %q: %w", pluginConfig.Name, err)
-			}
-		} else {
-			for _, builtin := range builtIns {
-				if builtin.Name == pluginConfig.Name {
-					pluginLog := config.Logger.With(
-						Name, pluginConfig.Name,
-						Type, builtin.Plugin.Type(),
-					)
-					pluginConfig.Logger = pluginLog
-
-					plugin, err = loadBuiltIn(ctx, builtin, pluginConfig)
-					if err != nil {
-						pluginConfig.Logger.ErrorContext(ctx, "Failed to load builtin plugin", "error", err)
-						return nil, fmt.Errorf("failed to load builtin plugin %q: %w", pluginConfig.Name, err)
-					}
-				}
-			}
-		}
-		if plugin == nil {
-			config.Logger.ErrorContext(ctx, "Failed to load external/builtin plugin")
-			return nil, fmt.Errorf("failed to load external/builtin plugin %s", pluginConfig.Name)
+		plugin, err := loadPluginAs(ctx, config.Logger, pluginConfig, builtIns...)
+		if err != nil {
+			return nil, err
 		}
 
 		closers = append(closers, pluginCloser{plugin: plugin, log: pluginConfig.Logger})
@@ -117,8 +87,7 @@ func Load(ctx context.Context, config Config, builtIns ...BuiltIn) (catalog *Cat
 		cfgurer := makeConfigurer(plugin, pluginConfig)
 		err = cfgurer.Configure(ctx)
 		if err != nil {
-			pluginConfig.Logger.ErrorContext(ctx, "Failed to configure plugin", "error", err)
-			return nil, fmt.Errorf("failed to configure plugin %q of type %q; %v", pluginConfig.Name, pluginConfig.Type, err)
+			return nil, fmt.Errorf("failed to configure plugin %s of type %s; %v", pluginConfig.Name, pluginConfig.Type, err)
 		}
 		configurers = append(configurers, cfgurer)
 
@@ -129,4 +98,45 @@ func Load(ctx context.Context, config Config, builtIns ...BuiltIn) (catalog *Cat
 		closers:     closers,
 		configurers: configurers,
 	}, nil
+}
+
+func loadPluginAs(ctx context.Context, logger *slog.Logger, pluginConfig PluginConfig, builtIns ...BuiltIn) (*Plugin, error) {
+	if pluginConfig.IsExternal() {
+		plugin, err := loadPluginAsExternal(ctx, logger, pluginConfig)
+		if err != nil {
+			return nil, fmt.Errorf("failed to load external plugin %s: %w", pluginConfig.Name, err)
+		}
+		return plugin, nil
+	}
+
+	plugin, err := loadPluginAsBuiltIn(ctx, logger, pluginConfig, builtIns...)
+	if err != nil {
+		return nil, fmt.Errorf("failed to load builtin plugin %s: %w", pluginConfig.Name, err)
+	}
+	return plugin, nil
+}
+
+func loadPluginAsExternal(ctx context.Context, logger *slog.Logger, pluginConfig PluginConfig) (*Plugin, error) {
+	pluginLog := logger.With(
+		Name, pluginConfig.Name,
+		Type, pluginConfig.Type,
+	)
+	pluginConfig.Logger = pluginLog
+
+	return loadPlugin(ctx, pluginConfig)
+}
+
+func loadPluginAsBuiltIn(ctx context.Context, logger *slog.Logger, pluginConfig PluginConfig, builtIns ...BuiltIn) (*Plugin, error) {
+	for _, builtin := range builtIns {
+		if builtin.Name == pluginConfig.Name {
+			pluginLog := logger.With(
+				Name, pluginConfig.Name,
+				Type, builtin.Plugin.Type(),
+			)
+			pluginConfig.Logger = pluginLog
+
+			return loadBuiltIn(ctx, builtin, pluginConfig)
+		}
+	}
+	return nil, fmt.Errorf("builtin plugin %q not found", pluginConfig.Name)
 }
