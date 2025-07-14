@@ -71,12 +71,6 @@ func Load(ctx context.Context, config Config, builtIns ...BuiltIn) (catalog *Cat
 
 	configurers := make(Configurers, 0)
 	for _, pluginConfig := range config.PluginConfigs {
-		pluginLog := config.Logger.With(
-			telemetry.PluginName, pluginConfig.Name,
-			telemetry.PluginType, pluginConfig.Type,
-		)
-		pluginConfig.Logger = pluginLog
-
 		if pluginConfig.Disabled {
 			config.Logger.Debug("Not loading plugin; disabled")
 			continue
@@ -86,38 +80,50 @@ func Load(ctx context.Context, config Config, builtIns ...BuiltIn) (catalog *Cat
 
 		var plugin *Plugin
 		if pluginConfig.IsExternal() {
+			pluginLog := config.Logger.With(
+				telemetry.PluginName, pluginConfig.Name,
+				telemetry.PluginType, pluginConfig.Type,
+			)
+			pluginConfig.Logger = pluginLog
+
 			plugin, err = loadPlugin(ctx, pluginConfig)
 			if err != nil {
-				config.Logger.ErrorContext(ctx, "Failed to load plugin", telemetry.PluginName, pluginConfig.Name, "error", err)
+				pluginConfig.Logger.ErrorContext(ctx, "Failed to load plugin", "error", err)
 				return nil, fmt.Errorf("failed to load plugin %q: %w", pluginConfig.Name, err)
 			}
 		} else {
 			for _, builtin := range builtIns {
 				if builtin.Name == pluginConfig.Name {
+					pluginLog := config.Logger.With(
+						telemetry.PluginName, pluginConfig.Name,
+						telemetry.PluginType, builtin.Plugin.Type(),
+					)
+					pluginConfig.Logger = pluginLog
+
 					plugin, err = loadBuiltIn(ctx, builtin, pluginConfig)
 					if err != nil {
-						config.Logger.ErrorContext(ctx, "Failed to load builtin plugin", telemetry.PluginName, pluginConfig.Name, "error", err)
+						pluginConfig.Logger.ErrorContext(ctx, "Failed to load builtin plugin", "error", err)
 						return nil, fmt.Errorf("failed to load builtin plugin %q: %w", pluginConfig.Name, err)
 					}
 				}
 			}
 		}
 		if plugin == nil {
-			config.Logger.ErrorContext(ctx, "Failed to load external/builtin plugin", telemetry.PluginName, pluginConfig.Name)
+			config.Logger.ErrorContext(ctx, "Failed to load external/builtin plugin")
 			return nil, fmt.Errorf("failed to load external/builtin plugin %s", pluginConfig.Name)
 		}
 
-		closers = append(closers, pluginCloser{plugin: plugin, log: pluginLog})
+		closers = append(closers, pluginCloser{plugin: plugin, log: pluginConfig.Logger})
 
 		cfgurer := makeConfigurer(plugin, pluginConfig)
 		err = cfgurer.Configure(ctx)
 		if err != nil {
-			config.Logger.ErrorContext(ctx, "Failed to configure plugin", telemetry.PluginName, pluginConfig.Name, "error", err)
+			pluginConfig.Logger.ErrorContext(ctx, "Failed to configure plugin", "error", err)
 			return nil, fmt.Errorf("failed to configure plugin %q of type %q; %v", pluginConfig.Name, pluginConfig.Type, err)
 		}
 		configurers = append(configurers, cfgurer)
 
-		pluginLog.Info("Plugin loaded")
+		pluginConfig.Logger.Info("Plugin loaded")
 	}
 
 	return &Catalog{
