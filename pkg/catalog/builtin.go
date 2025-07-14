@@ -17,6 +17,7 @@ import (
 
 type BuiltIn struct {
 	Name     string
+	Tags     []string
 	Plugin   api.PluginServer
 	Services []api.ServiceServer
 }
@@ -78,6 +79,7 @@ func loadBuiltIn(ctx context.Context, builtIn BuiltIn, config BuiltInConfig) (_ 
 	info := pluginInfo{
 		name: builtIn.Name,
 		typ:  builtIn.Plugin.Type(),
+		tags: builtIn.Tags,
 	}
 
 	return newPlugin(ctx, builtinConn, info, config.Logger, closers, config.HostServices)

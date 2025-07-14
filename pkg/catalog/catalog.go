@@ -107,8 +107,8 @@ func Load(ctx context.Context, config Config, builtIns ...BuiltIn) (catalog *Cat
 			}
 		}
 		if plugin == nil {
-			config.Logger.ErrorContext(ctx, "Failed to load external/builtin plugin", telemetry.PluginName, pluginConfig.Name, "error", err)
-			return nil, fmt.Errorf("failed to load external/builtin plugin %q: %w", pluginConfig.Name, err)
+			config.Logger.ErrorContext(ctx, "Failed to load external/builtin plugin", telemetry.PluginName, pluginConfig.Name)
+			return nil, fmt.Errorf("failed to load external/builtin plugin %s", pluginConfig.Name)
 		}
 
 		closers = append(closers, pluginCloser{plugin: plugin, log: pluginLog})
