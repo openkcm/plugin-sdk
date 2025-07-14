@@ -96,6 +96,7 @@ func Load(ctx context.Context, config Config, builtIns ...BuiltIn) (catalog *Cat
 				if builtin.Name == pluginConfig.Name {
 					plugin, err = loadBuiltIn(ctx, builtin, BuiltInConfig{
 						Logger:       config.Logger,
+						LogLevel:     pluginConfig.LogLevel,
 						HostServices: config.HostServices,
 					})
 					if err != nil {
