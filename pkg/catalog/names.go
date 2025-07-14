@@ -1,6 +1,6 @@
 package catalog
 
 const (
-	Name = "name"
-	Type = "type"
+	Name = "pluginName"
+	Type = "pluginType"
 )

@@ -74,13 +74,12 @@ func Load(ctx context.Context, config Config, builtIns ...BuiltIn) (catalog *Cat
 			config.Logger.Debug("Not loading plugin; disabled")
 			continue
 		}
-		logger := config.Logger.WithGroup("plugin")
 
 		pluginConfig.HostServices = config.HostServices
 
 		var plugin *Plugin
 		if pluginConfig.IsExternal() {
-			pluginLog := logger.With(
+			pluginLog := config.Logger.With(
 				Name, pluginConfig.Name,
 				Type, pluginConfig.Type,
 			)
@@ -94,7 +93,7 @@ func Load(ctx context.Context, config Config, builtIns ...BuiltIn) (catalog *Cat
 		} else {
 			for _, builtin := range builtIns {
 				if builtin.Name == pluginConfig.Name {
-					pluginLog := logger.With(
+					pluginLog := config.Logger.With(
 						Name, pluginConfig.Name,
 						Type, builtin.Plugin.Type(),
 					)
@@ -109,7 +108,7 @@ func Load(ctx context.Context, config Config, builtIns ...BuiltIn) (catalog *Cat
 			}
 		}
 		if plugin == nil {
-			logger.ErrorContext(ctx, "Failed to load external/builtin plugin")
+			config.Logger.ErrorContext(ctx, "Failed to load external/builtin plugin")
 			return nil, fmt.Errorf("failed to load external/builtin plugin %s", pluginConfig.Name)
 		}
 
