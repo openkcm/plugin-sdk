@@ -55,6 +55,14 @@ type PluginConfig struct {
 	Tags []string
 }
 
+func (c *PluginConfig) IsExternal() bool {
+	return c.Path != ""
+}
+
+func (c PluginConfig) IsEnabled() bool {
+	return !c.Disabled
+}
+
 // PluginInfo provides the information for the loaded plugin.
 type PluginInfo interface {
 	// The name of the plugin

@@ -37,11 +37,11 @@ type BuiltInConfig struct {
 	HostServices []api.ServiceServer
 }
 
-func LoadBuiltIn(ctx context.Context, builtIn BuiltIn, config BuiltInConfig) (_ PluginBuildIn, err error) {
-	return loadBuiltIn(ctx, builtIn, config)
-}
+//func LoadBuiltIn(ctx context.Context, builtIn BuiltIn, config BuiltInConfig) (_ *Plugin, err error) {
+//	return loadBuiltIn(ctx, builtIn, config)
+//}
 
-func loadBuiltIn(ctx context.Context, builtIn BuiltIn, config BuiltInConfig) (_ *pluginImpl, err error) {
+func loadBuiltIn(ctx context.Context, builtIn BuiltIn, config BuiltInConfig) (_ *Plugin, err error) {
 	dialer := &builtinDialer{
 		pluginName:   builtIn.Name,
 		log:          config.Logger,
@@ -78,7 +78,7 @@ func loadBuiltIn(ctx context.Context, builtIn BuiltIn, config BuiltInConfig) (_ 
 		typ:  builtIn.Plugin.Type(),
 	}
 
-	return newPluginBuiltIn(ctx, builtinConn, info, config.Logger, closers, config.HostServices)
+	return newPlugin(ctx, builtinConn, info, config.Logger, closers, config.HostServices)
 }
 
 func newBuiltInServer(log *slog.Logger) (*grpc.Server, io.Closer) {

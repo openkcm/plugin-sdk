@@ -57,7 +57,7 @@ func (c *Catalog) LookupByTypeAndName(pluginType, pluginName string) *Plugin {
 	return nil
 }
 
-func Load(ctx context.Context, config Config) (catalog *Catalog, err error) {
+func Load(ctx context.Context, config Config, builtIns ...BuiltIn) (catalog *Catalog, err error) {
 	closers := make(closerGroup, 0)
 	defer func() {
 		// If loading fails, clear out the catalog and close down all plugins
@@ -83,11 +83,33 @@ func Load(ctx context.Context, config Config) (catalog *Catalog, err error) {
 		}
 
 		pluginConfig.HostServices = config.HostServices
-		plugin, err := loadPlugin(ctx, config.Logger, pluginConfig)
-		if err != nil {
-			config.Logger.ErrorContext(ctx, "Failed to load plugin", telemetry.PluginName, pluginConfig.Name, "error", err)
-			return nil, fmt.Errorf("failed to load plugin %q: %w", pluginConfig.Name, err)
+
+		var plugin *Plugin
+		if pluginConfig.IsExternal() {
+			plugin, err = loadPlugin(ctx, config.Logger, pluginConfig)
+			if err != nil {
+				config.Logger.ErrorContext(ctx, "Failed to load plugin", telemetry.PluginName, pluginConfig.Name, "error", err)
+				return nil, fmt.Errorf("failed to load plugin %q: %w", pluginConfig.Name, err)
+			}
+		} else {
+			for _, builtin := range builtIns {
+				if builtin.Name == pluginConfig.Name {
+					plugin, err = loadBuiltIn(ctx, builtin, BuiltInConfig{
+						Logger:       config.Logger,
+						HostServices: config.HostServices,
+					})
+					if err != nil {
+						config.Logger.ErrorContext(ctx, "Failed to load builtin plugin", telemetry.PluginName, pluginConfig.Name, "error", err)
+						return nil, fmt.Errorf("failed to load builtin plugin %q: %w", pluginConfig.Name, err)
+					}
+				}
+			}
 		}
+		if plugin == nil {
+			config.Logger.ErrorContext(ctx, "Failed to load plugin external or in builtin", telemetry.PluginName, pluginConfig.Name, "error", err)
+			return nil, fmt.Errorf("failed to load plugin external or in builtin %q: %w", pluginConfig.Name, err)
+		}
+
 		closers = append(closers, pluginCloser{plugin: plugin, log: pluginLog})
 
 		cfgurer := makeConfigurer(plugin, pluginConfig)
@@ -100,6 +122,7 @@ func Load(ctx context.Context, config Config) (catalog *Catalog, err error) {
 
 		pluginLog.Info("Plugin loaded")
 	}
+
 	return &Catalog{
 		closers:     closers,
 		configurers: configurers,
