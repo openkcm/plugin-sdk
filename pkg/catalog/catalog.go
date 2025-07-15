@@ -117,6 +117,14 @@ func loadPluginAs(ctx context.Context, logger *slog.Logger, pluginConfig PluginC
 }
 
 func loadPluginAsExternal(ctx context.Context, logger *slog.Logger, pluginConfig PluginConfig) (*Plugin, error) {
+	if pluginConfig.Name == "" {
+		return nil, fmt.Errorf("failed to load external plugin, missing name")
+	}
+
+	if pluginConfig.Type == "" {
+		return nil, fmt.Errorf("failed to load external plugin %s, missing type", pluginConfig.Name)
+	}
+
 	pluginLog := logger.With(
 		Name, pluginConfig.Name,
 		Type, pluginConfig.Type,
@@ -127,6 +135,10 @@ func loadPluginAsExternal(ctx context.Context, logger *slog.Logger, pluginConfig
 }
 
 func loadPluginAsBuiltIn(ctx context.Context, logger *slog.Logger, pluginConfig PluginConfig, builtIns ...BuiltIn) (*Plugin, error) {
+	if pluginConfig.Name == "" {
+		return nil, fmt.Errorf("failed to load builtin plugin, missing name")
+	}
+
 	for _, builtin := range builtIns {
 		if builtin.Name == pluginConfig.Name {
 			pluginLog := logger.With(
