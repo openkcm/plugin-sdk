@@ -90,7 +90,9 @@ func (p *Plugin) ClientConnection() grpc.ClientConnInterface {
 func (p *Plugin) Info() PluginInfo {
 	return p.info
 }
-
+func (p *Plugin) Logger() *slog.Logger {
+	return p.logger
+}
 func (p *Plugin) GrpcServiceNames() []string {
 	return p.grpcServiceNames
 }

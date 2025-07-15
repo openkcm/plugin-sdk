@@ -82,7 +82,7 @@ func Load(ctx context.Context, config Config, builtIns ...BuiltIn) (catalog *Cat
 			return nil, err
 		}
 
-		closers = append(closers, pluginCloser{plugin: plugin, log: pluginConfig.Logger})
+		closers = append(closers, pluginCloser{plugin: plugin, log: plugin.Logger()})
 
 		cfgurer := makeConfigurer(plugin, pluginConfig)
 		err = cfgurer.Configure(ctx)
@@ -90,6 +90,8 @@ func Load(ctx context.Context, config Config, builtIns ...BuiltIn) (catalog *Cat
 			return nil, fmt.Errorf("failed to configure plugin %s of type %s; %v", pluginConfig.Name, pluginConfig.Type, err)
 		}
 		configurers = append(configurers, cfgurer)
+
+		plugin.Logger().Info("Loaded plugin")
 	}
 
 	return &Catalog{
