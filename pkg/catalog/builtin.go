@@ -112,16 +112,20 @@ type pipeConn struct {
 	io.Closer
 }
 
-func startPipeServer(server *grpc.Server, log *slog.Logger) (_ *pipeConn, err error) {
-	var closers closerGroup
-
+func startPipeServer(server *grpc.Server, log *slog.Logger) (*pipeConn, error) {
 	pipeNet := newPipeNet()
-	closers = append(closers, pipeNet)
 
 	var wg sync.WaitGroup
+
+	var closers closerGroup
 	closers = append(closers, closerFunc(wg.Wait), closerFunc(func() {
 		if !gracefulStopWithTimeout(server, time.Minute) {
 			log.Warn("Forced timed-out plugin server to stop")
+		}
+	}), closerFunc(func() {
+		err := pipeNet.Close()
+		if err != nil {
+			return
 		}
 	}))
 
