@@ -90,8 +90,6 @@ func Load(ctx context.Context, config Config, builtIns ...BuiltIn) (catalog *Cat
 			return nil, fmt.Errorf("failed to configure plugin %s of type %s; %v", pluginConfig.Name, pluginConfig.Type, err)
 		}
 		configurers = append(configurers, cfgurer)
-
-		pluginConfig.Logger.Info("Plugin loaded")
 	}
 
 	return &Catalog{
