@@ -68,6 +68,11 @@ func Load(ctx context.Context, config Config, builtIns ...BuiltIn) (catalog *Cat
 		}
 	}()
 
+	// in case if configuration logger is not set get the default one
+	if config.Logger == nil {
+		config.Logger = slog.Default()
+	}
+
 	configurers := make(Configurers, 0)
 	for _, pluginConfig := range config.PluginConfigs {
 		if pluginConfig.Disabled {
