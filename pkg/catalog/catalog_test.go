@@ -34,7 +34,7 @@ func TestLoad(t *testing.T) {
 				Logger: slog.Default(),
 				PluginConfigs: []PluginConfig{
 					{
-						Path:   "/does/not/exist",
+						Path:   "/does/not/exist1",
 						Type:   "TestService",
 						Logger: slog.Default(),
 					},
@@ -48,7 +48,7 @@ func TestLoad(t *testing.T) {
 				Logger: slog.Default(),
 				PluginConfigs: []PluginConfig{
 					{
-						Path:   "/does/not/exist",
+						Path:   "/does/not/exist2",
 						Name:   "TestService",
 						Logger: slog.Default(),
 					},
