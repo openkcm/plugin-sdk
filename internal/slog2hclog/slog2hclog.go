@@ -24,10 +24,17 @@ func (s *stdslogWrapper) clone() *stdslogWrapper {
 	var oriSlog *slog.Logger = nil
 	if s.oriSlog != nil {
 		newOriSlog := *s.oriSlog
-		oriSlog = &newOriSlog
+		oriSlog = slog.New(&levelOverrideHandler{
+			Handler:       newOriSlog.Handler(),
+			overrideLevel: levelMapToSlog[s.GetLevel()],
+		})
 	}
+
 	return &stdslogWrapper{
-		slog:    &newSlog,
+		slog: slog.New(&levelOverrideHandler{
+			Handler:       newSlog.Handler(),
+			overrideLevel: levelMapToSlog[s.GetLevel()],
+		}),
 		oriSlog: oriSlog,
 		names:   append([]string{}, s.names...),
 		args:    append([]interface{}{}, s.args...),
