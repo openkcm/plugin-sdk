@@ -192,12 +192,12 @@ type pluginCloser struct {
 }
 
 func (c pluginCloser) Close() error {
-	c.log.Debug("Unloading plugin")
+	c.log.Info("Plugins unloading")
 	if err := c.plugin.Close(); err != nil {
 		c.log.Error("Failed to unload plugin", "error", err)
 		return err
 	}
-	c.log.Info("Plugin unloaded")
+	c.log.Info("Plugins unloaded")
 	return nil
 }
 
