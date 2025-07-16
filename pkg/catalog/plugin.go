@@ -16,6 +16,7 @@ import (
 
 	"github.com/openkcm/plugin-sdk/api"
 	"github.com/openkcm/plugin-sdk/internal/bootstrap"
+	"github.com/openkcm/plugin-sdk/internal/slog2hclog"
 )
 
 type PluginConfigs []PluginConfig
@@ -111,7 +112,7 @@ func loadPlugin(ctx context.Context, config PluginConfig) (*Plugin, error) {
 
 	pluginClient := goplugin.NewClient(&goplugin.ClientConfig{
 		SecureConfig: seccfg,
-		Logger:       newHClogFromSlog(config.Logger, config.LogLevel),
+		Logger:       slog2hclog.NewWithLevel(config.Logger, config.LogLevel),
 		HandshakeConfig: goplugin.HandshakeConfig{
 			ProtocolVersion:  1,
 			MagicCookieKey:   config.Type,
