@@ -76,7 +76,7 @@ func TestSetLogLevel(t *testing.T) {
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
 			// Act
-			log := newSlog2HClog(slog.Default(), tc.input)
+			log := newHClogFromSlog(slog.Default(), tc.input)
 
 			// Assert
 			if got := log.GetLevel(); got != tc.want {

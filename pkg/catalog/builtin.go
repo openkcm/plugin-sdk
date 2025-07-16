@@ -50,7 +50,7 @@ func loadBuiltIn(ctx context.Context, builtIn BuiltIn, pluginConfig PluginConfig
 
 	pluginServers := append([]api.ServiceServer{builtIn.Plugin}, builtIn.Services...)
 
-	log := newSlog2HClog(pluginConfig.Logger, pluginConfig.LogLevel)
+	log := newHClogFromSlog(pluginConfig.Logger, pluginConfig.LogLevel)
 	bootstrap.Register(builtinServer, pluginServers, log, dialer)
 
 	builtinConn, err := startPipeServer(builtinServer, pluginConfig.Logger)

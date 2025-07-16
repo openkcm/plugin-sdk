@@ -111,7 +111,7 @@ func loadPlugin(ctx context.Context, config PluginConfig) (*Plugin, error) {
 
 	pluginClient := goplugin.NewClient(&goplugin.ClientConfig{
 		SecureConfig: seccfg,
-		Logger:       newSlog2HClog(config.Logger, config.LogLevel),
+		Logger:       newHClogFromSlog(config.Logger, config.LogLevel),
 		HandshakeConfig: goplugin.HandshakeConfig{
 			ProtocolVersion:  1,
 			MagicCookieKey:   config.Type,
