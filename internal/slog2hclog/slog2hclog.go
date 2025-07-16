@@ -99,9 +99,6 @@ func (s *stdslogWrapper) Trace(msg string, args ...interface{}) {
 func (s *stdslogWrapper) Debug(msg string, args ...interface{}) {
 	s.slog.Debug(msg, args...)
 }
-func (s *stdslogWrapper) DebugContext(ctx context.Context, msg string, args ...interface{}) {
-	s.slog.DebugContext(ctx, msg, args...)
-}
 
 func (s *stdslogWrapper) Info(msg string, args ...interface{}) {
 	s.slog.Info(msg, args...)
