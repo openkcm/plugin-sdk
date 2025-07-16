@@ -24,17 +24,10 @@ func (s *stdslogWrapper) clone() *stdslogWrapper {
 	var oriSlog *slog.Logger = nil
 	if s.oriSlog != nil {
 		newOriSlog := *s.oriSlog
-		oriSlog = slog.New(&levelOverrideHandler{
-			Handler:       newOriSlog.Handler(),
-			overrideLevel: levelMapToSlog[s.GetLevel()],
-		})
+		oriSlog = &newOriSlog
 	}
-
 	return &stdslogWrapper{
-		slog: slog.New(&levelOverrideHandler{
-			Handler:       newSlog.Handler(),
-			overrideLevel: levelMapToSlog[s.GetLevel()],
-		}),
+		slog:    &newSlog,
 		oriSlog: oriSlog,
 		names:   append([]string{}, s.names...),
 		args:    append([]interface{}{}, s.args...),
@@ -166,11 +159,16 @@ func (s *stdslogWrapper) Name() string {
 func (s *stdslogWrapper) Named(name string) hclog.Logger {
 	sl := s.clone()
 	if len(s.names) == 0 {
-		newSlog := *sl.slog
-		sl.oriSlog = &newSlog
+		sl.oriSlog = slog.New(&levelOverrideHandler{
+			Handler:       sl.slog.Handler(),
+			overrideLevel: levelMapToSlog[s.GetLevel()],
+		})
 	}
 	sl.names = append(sl.names, name)
-	sl.slog = s.slog.WithGroup(name)
+	sl.slog = slog.New(&levelOverrideHandler{
+		Handler:       s.slog.WithGroup(name).Handler(),
+		overrideLevel: levelMapToSlog[s.GetLevel()],
+	})
 	return sl
 }
 
