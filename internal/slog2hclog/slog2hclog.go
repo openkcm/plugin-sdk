@@ -93,10 +93,7 @@ func NewWithLevel(l *slog.Logger, logLevel string) hclog.Logger {
 }
 
 func (s *stdslogWrapper) Trace(msg string, args ...interface{}) {
-	s.TraceContext(context.Background(), msg, args...)
-}
-func (s *stdslogWrapper) TraceContext(ctx context.Context, msg string, args ...interface{}) {
-	s.slog.Log(ctx, SlogLevelTrace, msg, args...)
+	s.slog.Log(context.Background(), SlogLevelTrace, msg, args...)
 }
 
 func (s *stdslogWrapper) Debug(msg string, args ...interface{}) {
@@ -109,22 +106,13 @@ func (s *stdslogWrapper) DebugContext(ctx context.Context, msg string, args ...i
 func (s *stdslogWrapper) Info(msg string, args ...interface{}) {
 	s.slog.Info(msg, args...)
 }
-func (s *stdslogWrapper) InfoContext(ctx context.Context, msg string, args ...interface{}) {
-	s.slog.InfoContext(ctx, msg, args...)
-}
 
 func (s *stdslogWrapper) Warn(msg string, args ...interface{}) {
 	s.slog.Warn(msg, args...)
 }
-func (s *stdslogWrapper) WarnContext(ctx context.Context, msg string, args ...interface{}) {
-	s.slog.WarnContext(ctx, msg, args...)
-}
 
 func (s *stdslogWrapper) Error(msg string, args ...interface{}) {
 	s.slog.Error(msg, args...)
-}
-func (s *stdslogWrapper) ErrorContext(ctx context.Context, msg string, args ...interface{}) {
-	s.slog.ErrorContext(ctx, msg, args...)
 }
 
 func (s *stdslogWrapper) GetLevel() hclog.Level {
