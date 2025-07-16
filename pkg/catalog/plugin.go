@@ -9,8 +9,8 @@ import (
 	"io"
 	"log/slog"
 	"os/exec"
-	"strings"
 
+	"github.com/hashicorp/go-hclog"
 	"github.com/magodo/slog2hclog"
 	"google.golang.org/grpc"
 
@@ -100,11 +100,7 @@ func (p *Plugin) GrpcServiceNames() []string {
 func loadPlugin(ctx context.Context, config PluginConfig) (*Plugin, error) {
 	config.Logger.InfoContext(ctx, "Loading plugin", "name", config.Name, "path", config.Path)
 
-	logLevelPlugin := new(slog.LevelVar)
-	setLogLevel(logLevelPlugin, config.LogLevel)
-
 	cmd := pluginCmd(config.Path, config.Args...)
-
 	injectEnv(config, cmd)
 
 	// Create the secure config based on the (optional) checksum
@@ -114,9 +110,10 @@ func loadPlugin(ctx context.Context, config PluginConfig) (*Plugin, error) {
 	}
 
 	// Start the plugin client
+
 	pluginClient := goplugin.NewClient(&goplugin.ClientConfig{
 		SecureConfig: seccfg,
-		Logger:       slog2hclog.New(config.Logger, logLevelPlugin),
+		Logger:       newSlog2HClog(config.Logger, config.LogLevel),
 		HandshakeConfig: goplugin.HandshakeConfig{
 			ProtocolVersion:  1,
 			MagicCookieKey:   config.Type,
@@ -259,19 +256,8 @@ func initPlugin(ctx context.Context, conn grpc.ClientConnInterface, hostServices
 	return bootstrap.Init(ctx, conn, hostServiceGRPCServiceNames)
 }
 
-// setLogLevel converts the level string used in the config to a slog.LevelVar
-// and sets the levelVar to the corresponding level.
-func setLogLevel(levelVar *slog.LevelVar, level string) {
-	switch strings.ToLower(level) {
-	case "debug":
-		levelVar.Set(slog.LevelDebug)
-	case "info":
-		levelVar.Set(slog.LevelInfo)
-	case "warn":
-		levelVar.Set(slog.LevelWarn)
-	case "error":
-		levelVar.Set(slog.LevelError)
-	default:
-		levelVar.Set(slog.LevelInfo)
-	}
+func newSlog2HClog(logger *slog.Logger, logLevel string) hclog.Logger {
+	log := slog2hclog.New(logger, new(slog.LevelVar))
+	log.SetLevel(hclog.LevelFromString(logLevel))
+	return log
 }

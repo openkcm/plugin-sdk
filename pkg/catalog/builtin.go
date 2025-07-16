@@ -8,7 +8,6 @@ import (
 	"sync"
 	"time"
 
-	"github.com/magodo/slog2hclog"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 
@@ -51,10 +50,7 @@ func loadBuiltIn(ctx context.Context, builtIn BuiltIn, pluginConfig PluginConfig
 
 	pluginServers := append([]api.ServiceServer{builtIn.Plugin}, builtIn.Services...)
 
-	logLevelPlugin := new(slog.LevelVar)
-	setLogLevel(logLevelPlugin, pluginConfig.LogLevel)
-
-	log := slog2hclog.New(pluginConfig.Logger, logLevelPlugin)
+	log := newSlog2HClog(pluginConfig.Logger, pluginConfig.LogLevel)
 	bootstrap.Register(builtinServer, pluginServers, log, dialer)
 
 	builtinConn, err := startPipeServer(builtinServer, pluginConfig.Logger)
