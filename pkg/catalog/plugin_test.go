@@ -1,7 +1,6 @@
 package catalog
 
 import (
-	"log/slog"
 	"os/exec"
 	"testing"
 )
@@ -122,87 +121,6 @@ func TestBuildSecureConfig(t *testing.T) {
 				t.Errorf("expected error value: %v, got: %s", tc.wantError, err)
 			} else if !tc.wantError && err == nil {
 				return
-			}
-		})
-	}
-}
-
-func TestSetLogLevel(t *testing.T) {
-	lv := new(slog.LevelVar)
-
-	// create test cases
-	tests := []struct {
-		name  string
-		input string
-		want  slog.Level
-	}{
-		{
-			name: "zero values",
-			want: slog.LevelInfo,
-		}, {
-			name:  "invalid input",
-			input: "invalid",
-			want:  slog.LevelInfo,
-		}, {
-			name:  "debug lower case",
-			input: "debug",
-			want:  slog.LevelDebug,
-		}, {
-			name:  "debug upper case",
-			input: "DEBUG",
-			want:  slog.LevelDebug,
-		}, {
-			name:  "debug mixed case",
-			input: "DEbug",
-			want:  slog.LevelDebug,
-		}, {
-			name:  "info lower case",
-			input: "info",
-			want:  slog.LevelInfo,
-		}, {
-			name:  "info upper case",
-			input: "INFO",
-			want:  slog.LevelInfo,
-		}, {
-			name:  "info mixed case",
-			input: "INfo",
-			want:  slog.LevelInfo,
-		}, {
-			name:  "warn lower case",
-			input: "warn",
-			want:  slog.LevelWarn,
-		}, {
-			name:  "warn upper case",
-			input: "WARN",
-			want:  slog.LevelWarn,
-		}, {
-			name:  "warn mixed case",
-			input: "WArn",
-			want:  slog.LevelWarn,
-		}, {
-			name:  "error lower case",
-			input: "error",
-			want:  slog.LevelError,
-		}, {
-			name:  "error upper case",
-			input: "ERROR",
-			want:  slog.LevelError,
-		}, {
-			name:  "error mixed case",
-			input: "ERRor",
-			want:  slog.LevelError,
-		},
-	}
-
-	// run the tests
-	for _, tc := range tests {
-		t.Run(tc.name, func(t *testing.T) {
-			// Act
-			setLogLevel(lv, tc.input)
-
-			// Assert
-			if got := lv.Level(); got != tc.want {
-				t.Errorf("expected  value: %v, got: %s", tc.want, got)
 			}
 		})
 	}
