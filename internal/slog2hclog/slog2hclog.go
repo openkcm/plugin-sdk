@@ -159,10 +159,8 @@ func (s *stdslogWrapper) Name() string {
 func (s *stdslogWrapper) Named(name string) hclog.Logger {
 	sl := s.clone()
 	if len(s.names) == 0 {
-		sl.oriSlog = slog.New(&levelOverrideHandler{
-			Handler:       sl.slog.Handler(),
-			overrideLevel: levelMapToSlog[s.GetLevel()],
-		})
+		newSlog := *sl.slog
+		sl.oriSlog = &newSlog
 	}
 	sl.names = append(sl.names, name)
 	sl.slog = slog.New(&levelOverrideHandler{
