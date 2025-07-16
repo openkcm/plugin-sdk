@@ -10,8 +10,6 @@ import (
 	"log/slog"
 	"os/exec"
 
-	"github.com/hashicorp/go-hclog"
-	"github.com/magodo/slog2hclog"
 	"google.golang.org/grpc"
 
 	goplugin "github.com/hashicorp/go-plugin"
@@ -254,10 +252,4 @@ func initPlugin(ctx context.Context, conn grpc.ClientConnInterface, hostServices
 	ctx, cancel := context.WithTimeout(ctx, initTimeout)
 	defer cancel()
 	return bootstrap.Init(ctx, conn, hostServiceGRPCServiceNames)
-}
-
-func newSlog2HClog(logger *slog.Logger, logLevel string) hclog.Logger {
-	log := slog2hclog.New(logger, new(slog.LevelVar))
-	log.SetLevel(hclog.LevelFromString(logLevel))
-	return log
 }
