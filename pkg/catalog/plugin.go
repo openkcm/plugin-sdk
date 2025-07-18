@@ -9,15 +9,14 @@ import (
 	"io"
 	"log/slog"
 	"os/exec"
-	"strings"
 
-	"github.com/magodo/slog2hclog"
 	"google.golang.org/grpc"
 
 	goplugin "github.com/hashicorp/go-plugin"
 
 	"github.com/openkcm/plugin-sdk/api"
 	"github.com/openkcm/plugin-sdk/internal/bootstrap"
+	"github.com/openkcm/plugin-sdk/internal/slog2hclog"
 )
 
 type PluginConfigs []PluginConfig
@@ -55,6 +54,14 @@ type PluginConfig struct {
 	Tags []string
 }
 
+func (c *PluginConfig) IsExternal() bool {
+	return c.Path != ""
+}
+
+func (c PluginConfig) IsEnabled() bool {
+	return !c.Disabled
+}
+
 // PluginInfo provides the information for the loaded plugin.
 type PluginInfo interface {
 	// The name of the plugin
@@ -82,19 +89,17 @@ func (p *Plugin) ClientConnection() grpc.ClientConnInterface {
 func (p *Plugin) Info() PluginInfo {
 	return p.info
 }
-
+func (p *Plugin) Logger() *slog.Logger {
+	return p.logger
+}
 func (p *Plugin) GrpcServiceNames() []string {
 	return p.grpcServiceNames
 }
 
-func loadPlugin(ctx context.Context, logger *slog.Logger, config PluginConfig) (*Plugin, error) {
-	logger.InfoContext(ctx, "Loading plugin", "name", config.Name, "path", config.Path)
-
-	logLevelPlugin := new(slog.LevelVar)
-	setLogLevel(logLevelPlugin, config.LogLevel)
+func loadPlugin(ctx context.Context, config PluginConfig) (*Plugin, error) {
+	config.Logger.InfoContext(ctx, "Loading plugin", "name", config.Name, "path", config.Path)
 
 	cmd := pluginCmd(config.Path, config.Args...)
-
 	injectEnv(config, cmd)
 
 	// Create the secure config based on the (optional) checksum
@@ -104,9 +109,10 @@ func loadPlugin(ctx context.Context, logger *slog.Logger, config PluginConfig) (
 	}
 
 	// Start the plugin client
+
 	pluginClient := goplugin.NewClient(&goplugin.ClientConfig{
 		SecureConfig: seccfg,
-		Logger:       slog2hclog.New(config.Logger, logLevelPlugin),
+		Logger:       slog2hclog.NewWithLevel(config.Logger, config.LogLevel),
 		HandshakeConfig: goplugin.HandshakeConfig{
 			ProtocolVersion:  1,
 			MagicCookieKey:   config.Type,
@@ -182,12 +188,12 @@ type pluginCloser struct {
 }
 
 func (c pluginCloser) Close() error {
-	c.log.Debug("Unloading plugin")
+	c.log.Info("Plugins unloading")
 	if err := c.plugin.Close(); err != nil {
 		c.log.Error("Failed to unload plugin", "error", err)
 		return err
 	}
-	c.log.Info("Plugin unloaded")
+	c.log.Info("Plugins unloaded")
 	return nil
 }
 
@@ -247,21 +253,4 @@ func initPlugin(ctx context.Context, conn grpc.ClientConnInterface, hostServices
 	ctx, cancel := context.WithTimeout(ctx, initTimeout)
 	defer cancel()
 	return bootstrap.Init(ctx, conn, hostServiceGRPCServiceNames)
-}
-
-// setLogLevel converts the level string used in the config to a slog.LevelVar
-// and sets the levelVar to the corresponding level.
-func setLogLevel(levelVar *slog.LevelVar, level string) {
-	switch strings.ToLower(level) {
-	case "debug":
-		levelVar.Set(slog.LevelDebug)
-	case "info":
-		levelVar.Set(slog.LevelInfo)
-	case "warn":
-		levelVar.Set(slog.LevelWarn)
-	case "error":
-		levelVar.Set(slog.LevelError)
-	default:
-		levelVar.Set(slog.LevelInfo)
-	}
 }

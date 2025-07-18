@@ -19,7 +19,7 @@ type HostDialer interface {
 
 // register given servers with the gRPC server. The given dialer and logger will
 // be used when the plugins are initialized.
-func register(s *grpc.Server, servers []api.ServiceServer, logger hclog.Logger, dialer HostDialer) {
+func Register(s *grpc.Server, servers []api.ServiceServer, logger hclog.Logger, dialer HostDialer) {
 	var names []string
 	var impls []any
 	for _, server := range servers {

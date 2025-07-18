@@ -40,7 +40,7 @@ func newHCPlugin(logger hclog.Logger, pluginServer api.PluginServer, serviceServ
 }
 
 func (p *hcServer) GRPCServer(broker *goplugin.GRPCBroker, server *grpc.Server) (err error) {
-	register(server, p.servers, p.logger, &hcDialer{broker: broker})
+	Register(server, p.servers, p.logger, &hcDialer{broker: broker})
 	return nil
 }
 
