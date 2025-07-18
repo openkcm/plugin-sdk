@@ -8,7 +8,6 @@ import (
 	"time"
 
 	"github.com/openkcm/plugin-sdk/api"
-	"github.com/openkcm/plugin-sdk/pkg/telemetry"
 )
 
 const (
@@ -57,7 +56,7 @@ func (c *Catalog) LookupByTypeAndName(pluginType, pluginName string) *Plugin {
 	return nil
 }
 
-func Load(ctx context.Context, config Config) (catalog *Catalog, err error) {
+func Load(ctx context.Context, config Config, builtIns ...BuiltIn) (catalog *Catalog, err error) {
 	closers := make(closerGroup, 0)
 	defer func() {
 		// If loading fails, clear out the catalog and close down all plugins
@@ -69,39 +68,90 @@ func Load(ctx context.Context, config Config) (catalog *Catalog, err error) {
 		}
 	}()
 
+	// in case if configuration logger is not set get the default one
+	if config.Logger == nil {
+		config.Logger = slog.Default()
+	}
+
 	configurers := make(Configurers, 0)
 	for _, pluginConfig := range config.PluginConfigs {
-		pluginLog := config.Logger.With(
-			telemetry.PluginName, pluginConfig.Name,
-			telemetry.PluginType, pluginConfig.Type,
-		)
-		pluginConfig.Logger = pluginLog
-
 		if pluginConfig.Disabled {
 			config.Logger.Debug("Not loading plugin; disabled")
 			continue
 		}
 
 		pluginConfig.HostServices = config.HostServices
-		plugin, err := loadPlugin(ctx, config.Logger, pluginConfig)
+
+		plugin, err := loadPluginAs(ctx, config.Logger, pluginConfig, builtIns...)
 		if err != nil {
-			config.Logger.ErrorContext(ctx, "Failed to load plugin", telemetry.PluginName, pluginConfig.Name, "error", err)
-			return nil, fmt.Errorf("failed to load plugin %q: %w", pluginConfig.Name, err)
+			return nil, err
 		}
-		closers = append(closers, pluginCloser{plugin: plugin, log: pluginLog})
+
+		closers = append(closers, pluginCloser{plugin: plugin, log: plugin.Logger()})
 
 		cfgurer := makeConfigurer(plugin, pluginConfig)
 		err = cfgurer.Configure(ctx)
 		if err != nil {
-			config.Logger.ErrorContext(ctx, "Failed to configure plugin", telemetry.PluginName, pluginConfig.Name, "error", err)
-			return nil, fmt.Errorf("failed to configure plugin %q of type %q; %v", pluginConfig.Name, pluginConfig.Type, err)
+			return nil, fmt.Errorf("failed to configure plugin %s of type %s; %v", pluginConfig.Name, pluginConfig.Type, err)
 		}
 		configurers = append(configurers, cfgurer)
 
-		pluginLog.Info("Plugin loaded")
+		plugin.Logger().Info("Loaded plugin")
 	}
+
 	return &Catalog{
 		closers:     closers,
 		configurers: configurers,
 	}, nil
+}
+
+func loadPluginAs(ctx context.Context, logger *slog.Logger, pluginConfig PluginConfig, builtIns ...BuiltIn) (*Plugin, error) {
+	if pluginConfig.IsExternal() {
+		plugin, err := loadPluginAsExternal(ctx, logger, pluginConfig)
+		if err != nil {
+			return nil, fmt.Errorf("failed to load external plugin %s: %w", pluginConfig.Name, err)
+		}
+		return plugin, nil
+	}
+
+	plugin, err := loadPluginAsBuiltIn(ctx, logger, pluginConfig, builtIns...)
+	if err != nil {
+		return nil, fmt.Errorf("failed to load builtin plugin %s: %w", pluginConfig.Name, err)
+	}
+	return plugin, nil
+}
+
+func loadPluginAsExternal(ctx context.Context, logger *slog.Logger, pluginConfig PluginConfig) (*Plugin, error) {
+	if pluginConfig.Name == "" {
+		return nil, fmt.Errorf("failed to load external plugin, missing name")
+	}
+
+	if pluginConfig.Type == "" {
+		return nil, fmt.Errorf("failed to load external plugin %s, missing type", pluginConfig.Name)
+	}
+
+	pluginConfig.Logger = logger.With(
+		Name, pluginConfig.Name,
+		Type, pluginConfig.Type,
+	)
+
+	return loadPlugin(ctx, pluginConfig)
+}
+
+func loadPluginAsBuiltIn(ctx context.Context, logger *slog.Logger, pluginConfig PluginConfig, builtIns ...BuiltIn) (*Plugin, error) {
+	if pluginConfig.Name == "" {
+		return nil, fmt.Errorf("failed to load builtin plugin, missing name")
+	}
+
+	for _, builtin := range builtIns {
+		if builtin.Name == pluginConfig.Name {
+			pluginConfig.Logger = logger.With(
+				Name, pluginConfig.Name,
+				Type, builtin.Plugin.Type(),
+			)
+
+			return loadBuiltIn(ctx, builtin, pluginConfig)
+		}
+	}
+	return nil, fmt.Errorf("builtin plugin %q not found", pluginConfig.Name)
 }

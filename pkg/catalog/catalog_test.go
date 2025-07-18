@@ -29,6 +29,34 @@ func TestLoad(t *testing.T) {
 			},
 			wantError: false,
 		}, {
+			name: "missing name",
+			config: Config{
+				Logger: slog.Default(),
+				PluginConfigs: []PluginConfig{
+					{
+						Path:   "/does/not/exist1",
+						Type:   "TestService",
+						Logger: slog.Default(),
+					},
+				},
+				HostServices: nil,
+			},
+			wantError: true,
+		}, {
+			name: "missing type",
+			config: Config{
+				Logger: slog.Default(),
+				PluginConfigs: []PluginConfig{
+					{
+						Path:   "/does/not/exist2",
+						Name:   "TestService",
+						Logger: slog.Default(),
+					},
+				},
+				HostServices: nil,
+			},
+			wantError: true,
+		}, {
 			name: "invalid path",
 			config: Config{
 				Logger: slog.Default(),
@@ -50,6 +78,7 @@ func TestLoad(t *testing.T) {
 						// testpluginbinary is built in the TestMain function
 						Path:   "./testpluginbinary",
 						Type:   "TestService",
+						Name:   "TestService",
 						Logger: slog.Default(),
 					},
 				},
@@ -66,6 +95,7 @@ func TestLoad(t *testing.T) {
 						// testpluginbinary is built in the TestMain function
 						Path:   "./testpluginbinary",
 						Type:   "TestService",
+						Name:   "TestService",
 						Logger: slog.Default(),
 						Tags:   []string{"feature1", "feature2"},
 					},
@@ -110,6 +140,7 @@ func TestLookupByType(t *testing.T) {
 				// testpluginbinary is built in the TestMain function
 				Path:   "./testpluginbinary",
 				Type:   "TestService",
+				Name:   "TestService",
 				Logger: slog.Default(),
 			},
 		},

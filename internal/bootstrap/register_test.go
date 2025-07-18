@@ -183,7 +183,7 @@ func TestRegister(t *testing.T) {
 			grpcSrv := grpc.NewServer()
 
 			// Act
-			register(grpcSrv, tc.svcs, hclog.Default(), hostDialerMock{})
+			Register(grpcSrv, tc.svcs, hclog.Default(), hostDialerMock{})
 		})
 	}
 }
