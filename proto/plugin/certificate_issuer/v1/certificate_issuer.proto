@@ -1,0 +1,33 @@
+syntax = "proto3";
+package plugin.certificate_issuer.v1;
+
+service CertificateIssuerService {
+  rpc GetCertificate(GetCertificateRequest) returns (GetCertificateResponse);
+}
+
+message GetCertificateRequest {
+  string common_name = 1;
+  repeated string locality = 2;
+  GetCertificateValidty validity = 3;
+  PrivateKey private_key = 4;
+}
+
+message GetCertificateValidty {
+  int64 value = 1;
+  ValidityType type = 2;
+}
+
+enum ValidityType {
+  VALIDITY_TYPE_UNSPECIFIED = 0;
+  VALIDITY_TYPE_DAYS = 1;
+  VALIDITY_TYPE_MONTHS = 2;
+  VALIDITY_TYPE_YEARS = 3;
+}
+
+message PrivateKey {
+  bytes data = 1;
+}
+
+message GetCertificateResponse {
+  string certificate_chain = 1;
+}
