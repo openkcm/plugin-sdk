@@ -4,7 +4,7 @@
 // - protoc             (unknown)
 // source: plugin/notification/v1/notification.proto
 
-package v1
+package notificationv1
 
 import (
 	context "context"
@@ -19,7 +19,7 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	NotificationService_SendNotification_FullMethodName = "/NotificationService/SendNotification"
+	NotificationService_SendNotification_FullMethodName = "/plugin.notification.v1.NotificationService/SendNotification"
 )
 
 // NotificationServiceClient is the client API for NotificationService service.
@@ -98,7 +98,7 @@ func _NotificationService_SendNotification_Handler(srv interface{}, ctx context.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var NotificationService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "NotificationService",
+	ServiceName: "plugin.notification.v1.NotificationService",
 	HandlerType: (*NotificationServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
