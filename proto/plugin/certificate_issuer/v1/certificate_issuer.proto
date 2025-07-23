@@ -8,11 +8,11 @@ service CertificateIssuerService {
 message GetCertificateRequest {
   string common_name = 1;
   repeated string locality = 2;
-  GetCertificateValidty validity = 3;
+  GetCertificateValidity validity = 3;
   PrivateKey private_key = 4;
 }
 
-message GetCertificateValidty {
+message GetCertificateValidity {
   int64 value = 1;
   ValidityType type = 2;
 }
