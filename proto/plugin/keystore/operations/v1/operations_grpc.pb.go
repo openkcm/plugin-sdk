@@ -19,13 +19,16 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	KeystoreInstanceKeyOperation_GetKey_FullMethodName              = "/plugin.keystore.operations.v1.KeystoreInstanceKeyOperation/GetKey"
-	KeystoreInstanceKeyOperation_CreateKey_FullMethodName           = "/plugin.keystore.operations.v1.KeystoreInstanceKeyOperation/CreateKey"
-	KeystoreInstanceKeyOperation_DeleteKey_FullMethodName           = "/plugin.keystore.operations.v1.KeystoreInstanceKeyOperation/DeleteKey"
-	KeystoreInstanceKeyOperation_EnableKey_FullMethodName           = "/plugin.keystore.operations.v1.KeystoreInstanceKeyOperation/EnableKey"
-	KeystoreInstanceKeyOperation_DisableKey_FullMethodName          = "/plugin.keystore.operations.v1.KeystoreInstanceKeyOperation/DisableKey"
-	KeystoreInstanceKeyOperation_GetImportParameters_FullMethodName = "/plugin.keystore.operations.v1.KeystoreInstanceKeyOperation/GetImportParameters"
-	KeystoreInstanceKeyOperation_ImportKeyMaterial_FullMethodName   = "/plugin.keystore.operations.v1.KeystoreInstanceKeyOperation/ImportKeyMaterial"
+	KeystoreInstanceKeyOperation_GetKey_FullMethodName                = "/plugin.keystore.operations.v1.KeystoreInstanceKeyOperation/GetKey"
+	KeystoreInstanceKeyOperation_CreateKey_FullMethodName             = "/plugin.keystore.operations.v1.KeystoreInstanceKeyOperation/CreateKey"
+	KeystoreInstanceKeyOperation_DeleteKey_FullMethodName             = "/plugin.keystore.operations.v1.KeystoreInstanceKeyOperation/DeleteKey"
+	KeystoreInstanceKeyOperation_EnableKey_FullMethodName             = "/plugin.keystore.operations.v1.KeystoreInstanceKeyOperation/EnableKey"
+	KeystoreInstanceKeyOperation_DisableKey_FullMethodName            = "/plugin.keystore.operations.v1.KeystoreInstanceKeyOperation/DisableKey"
+	KeystoreInstanceKeyOperation_GetImportParameters_FullMethodName   = "/plugin.keystore.operations.v1.KeystoreInstanceKeyOperation/GetImportParameters"
+	KeystoreInstanceKeyOperation_ImportKeyMaterial_FullMethodName     = "/plugin.keystore.operations.v1.KeystoreInstanceKeyOperation/ImportKeyMaterial"
+	KeystoreInstanceKeyOperation_ValidateKey_FullMethodName           = "/plugin.keystore.operations.v1.KeystoreInstanceKeyOperation/ValidateKey"
+	KeystoreInstanceKeyOperation_ValidateKeyAccessData_FullMethodName = "/plugin.keystore.operations.v1.KeystoreInstanceKeyOperation/ValidateKeyAccessData"
+	KeystoreInstanceKeyOperation_ExtractKeyRegion_FullMethodName      = "/plugin.keystore.operations.v1.KeystoreInstanceKeyOperation/ExtractKeyRegion"
 )
 
 // KeystoreInstanceKeyOperationClient is the client API for KeystoreInstanceKeyOperation service.
@@ -46,6 +49,12 @@ type KeystoreInstanceKeyOperationClient interface {
 	GetImportParameters(ctx context.Context, in *GetImportParametersRequest, opts ...grpc.CallOption) (*GetImportParametersResponse, error)
 	// Imports key material into a KMS key
 	ImportKeyMaterial(ctx context.Context, in *ImportKeyMaterialRequest, opts ...grpc.CallOption) (*ImportKeyMaterialResponse, error)
+	// Validate the key attributes against the plugin's requirements
+	ValidateKey(ctx context.Context, in *ValidateKeyRequest, opts ...grpc.CallOption) (*ValidateKeyResponse, error)
+	// ValidateKeyAccessData checks the access data for key management and crypto operations
+	ValidateKeyAccessData(ctx context.Context, in *ValidateKeyAccessDataRequest, opts ...grpc.CallOption) (*ValidateKeyAccessDataResponse, error)
+	// ExtractKeyRegion extracts the region from key attributes
+	ExtractKeyRegion(ctx context.Context, in *ExtractKeyRegionRequest, opts ...grpc.CallOption) (*ExtractKeyRegionResponse, error)
 }
 
 type keystoreInstanceKeyOperationClient struct {
@@ -119,6 +128,33 @@ func (c *keystoreInstanceKeyOperationClient) ImportKeyMaterial(ctx context.Conte
 	return out, nil
 }
 
+func (c *keystoreInstanceKeyOperationClient) ValidateKey(ctx context.Context, in *ValidateKeyRequest, opts ...grpc.CallOption) (*ValidateKeyResponse, error) {
+	out := new(ValidateKeyResponse)
+	err := c.cc.Invoke(ctx, KeystoreInstanceKeyOperation_ValidateKey_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *keystoreInstanceKeyOperationClient) ValidateKeyAccessData(ctx context.Context, in *ValidateKeyAccessDataRequest, opts ...grpc.CallOption) (*ValidateKeyAccessDataResponse, error) {
+	out := new(ValidateKeyAccessDataResponse)
+	err := c.cc.Invoke(ctx, KeystoreInstanceKeyOperation_ValidateKeyAccessData_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *keystoreInstanceKeyOperationClient) ExtractKeyRegion(ctx context.Context, in *ExtractKeyRegionRequest, opts ...grpc.CallOption) (*ExtractKeyRegionResponse, error) {
+	out := new(ExtractKeyRegionResponse)
+	err := c.cc.Invoke(ctx, KeystoreInstanceKeyOperation_ExtractKeyRegion_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // KeystoreInstanceKeyOperationServer is the server API for KeystoreInstanceKeyOperation service.
 // All implementations must embed UnimplementedKeystoreInstanceKeyOperationServer
 // for forward compatibility
@@ -137,6 +173,12 @@ type KeystoreInstanceKeyOperationServer interface {
 	GetImportParameters(context.Context, *GetImportParametersRequest) (*GetImportParametersResponse, error)
 	// Imports key material into a KMS key
 	ImportKeyMaterial(context.Context, *ImportKeyMaterialRequest) (*ImportKeyMaterialResponse, error)
+	// Validate the key attributes against the plugin's requirements
+	ValidateKey(context.Context, *ValidateKeyRequest) (*ValidateKeyResponse, error)
+	// ValidateKeyAccessData checks the access data for key management and crypto operations
+	ValidateKeyAccessData(context.Context, *ValidateKeyAccessDataRequest) (*ValidateKeyAccessDataResponse, error)
+	// ExtractKeyRegion extracts the region from key attributes
+	ExtractKeyRegion(context.Context, *ExtractKeyRegionRequest) (*ExtractKeyRegionResponse, error)
 	mustEmbedUnimplementedKeystoreInstanceKeyOperationServer()
 }
 
@@ -164,6 +206,15 @@ func (UnimplementedKeystoreInstanceKeyOperationServer) GetImportParameters(conte
 }
 func (UnimplementedKeystoreInstanceKeyOperationServer) ImportKeyMaterial(context.Context, *ImportKeyMaterialRequest) (*ImportKeyMaterialResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ImportKeyMaterial not implemented")
+}
+func (UnimplementedKeystoreInstanceKeyOperationServer) ValidateKey(context.Context, *ValidateKeyRequest) (*ValidateKeyResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ValidateKey not implemented")
+}
+func (UnimplementedKeystoreInstanceKeyOperationServer) ValidateKeyAccessData(context.Context, *ValidateKeyAccessDataRequest) (*ValidateKeyAccessDataResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ValidateKeyAccessData not implemented")
+}
+func (UnimplementedKeystoreInstanceKeyOperationServer) ExtractKeyRegion(context.Context, *ExtractKeyRegionRequest) (*ExtractKeyRegionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ExtractKeyRegion not implemented")
 }
 func (UnimplementedKeystoreInstanceKeyOperationServer) mustEmbedUnimplementedKeystoreInstanceKeyOperationServer() {
 }
@@ -305,6 +356,60 @@ func _KeystoreInstanceKeyOperation_ImportKeyMaterial_Handler(srv interface{}, ct
 	return interceptor(ctx, in, info, handler)
 }
 
+func _KeystoreInstanceKeyOperation_ValidateKey_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ValidateKeyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(KeystoreInstanceKeyOperationServer).ValidateKey(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: KeystoreInstanceKeyOperation_ValidateKey_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(KeystoreInstanceKeyOperationServer).ValidateKey(ctx, req.(*ValidateKeyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _KeystoreInstanceKeyOperation_ValidateKeyAccessData_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ValidateKeyAccessDataRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(KeystoreInstanceKeyOperationServer).ValidateKeyAccessData(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: KeystoreInstanceKeyOperation_ValidateKeyAccessData_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(KeystoreInstanceKeyOperationServer).ValidateKeyAccessData(ctx, req.(*ValidateKeyAccessDataRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _KeystoreInstanceKeyOperation_ExtractKeyRegion_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ExtractKeyRegionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(KeystoreInstanceKeyOperationServer).ExtractKeyRegion(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: KeystoreInstanceKeyOperation_ExtractKeyRegion_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(KeystoreInstanceKeyOperationServer).ExtractKeyRegion(ctx, req.(*ExtractKeyRegionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // KeystoreInstanceKeyOperation_ServiceDesc is the grpc.ServiceDesc for KeystoreInstanceKeyOperation service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -339,6 +444,18 @@ var KeystoreInstanceKeyOperation_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ImportKeyMaterial",
 			Handler:    _KeystoreInstanceKeyOperation_ImportKeyMaterial_Handler,
+		},
+		{
+			MethodName: "ValidateKey",
+			Handler:    _KeystoreInstanceKeyOperation_ValidateKey_Handler,
+		},
+		{
+			MethodName: "ValidateKeyAccessData",
+			Handler:    _KeystoreInstanceKeyOperation_ValidateKeyAccessData_Handler,
+		},
+		{
+			MethodName: "ExtractKeyRegion",
+			Handler:    _KeystoreInstanceKeyOperation_ExtractKeyRegion_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
