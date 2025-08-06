@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://github.com/openkcm/plugin-sdk/compare/v0.3.0...v0.4.0) (2025-08-06)
+
+
+### Features
+
+* add interface for transforming crypto access data ([#43](https://github.com/openkcm/plugin-sdk/issues/43)) ([adabf82](https://github.com/openkcm/plugin-sdk/commit/adabf824a9db12818f413589fb5d5c301738d25d))
+
 ## [0.3.0](https://github.com/openkcm/plugin-sdk/compare/v0.2.0...v0.3.0) (2025-07-24)
 
 
