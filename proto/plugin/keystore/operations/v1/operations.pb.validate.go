@@ -2364,6 +2364,222 @@ var _ interface {
 	ErrorName() string
 } = ValidateKeyAccessDataResponseValidationError{}
 
+// Validate checks the field values on TransformCryptoAccessDataRequest with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the first error encountered is returned, or nil if there are
+// no violations.
+func (m *TransformCryptoAccessDataRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on TransformCryptoAccessDataRequest with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the result is a list of violation errors wrapped in
+// TransformCryptoAccessDataRequestMultiError, or nil if none found.
+func (m *TransformCryptoAccessDataRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *TransformCryptoAccessDataRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for NativeKeyId
+
+	// no validation rules for AccessData
+
+	if len(errors) > 0 {
+		return TransformCryptoAccessDataRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// TransformCryptoAccessDataRequestMultiError is an error wrapping multiple
+// validation errors returned by
+// TransformCryptoAccessDataRequest.ValidateAll() if the designated
+// constraints aren't met.
+type TransformCryptoAccessDataRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m TransformCryptoAccessDataRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m TransformCryptoAccessDataRequestMultiError) AllErrors() []error { return m }
+
+// TransformCryptoAccessDataRequestValidationError is the validation error
+// returned by TransformCryptoAccessDataRequest.Validate if the designated
+// constraints aren't met.
+type TransformCryptoAccessDataRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e TransformCryptoAccessDataRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e TransformCryptoAccessDataRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e TransformCryptoAccessDataRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e TransformCryptoAccessDataRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e TransformCryptoAccessDataRequestValidationError) ErrorName() string {
+	return "TransformCryptoAccessDataRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e TransformCryptoAccessDataRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sTransformCryptoAccessDataRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = TransformCryptoAccessDataRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = TransformCryptoAccessDataRequestValidationError{}
+
+// Validate checks the field values on TransformCryptoAccessDataResponse with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the first error encountered is returned, or nil if there are
+// no violations.
+func (m *TransformCryptoAccessDataResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on TransformCryptoAccessDataResponse
+// with the rules defined in the proto definition for this message. If any
+// rules are violated, the result is a list of violation errors wrapped in
+// TransformCryptoAccessDataResponseMultiError, or nil if none found.
+func (m *TransformCryptoAccessDataResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *TransformCryptoAccessDataResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for TransformedAccessData
+
+	if len(errors) > 0 {
+		return TransformCryptoAccessDataResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// TransformCryptoAccessDataResponseMultiError is an error wrapping multiple
+// validation errors returned by
+// TransformCryptoAccessDataResponse.ValidateAll() if the designated
+// constraints aren't met.
+type TransformCryptoAccessDataResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m TransformCryptoAccessDataResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m TransformCryptoAccessDataResponseMultiError) AllErrors() []error { return m }
+
+// TransformCryptoAccessDataResponseValidationError is the validation error
+// returned by TransformCryptoAccessDataResponse.Validate if the designated
+// constraints aren't met.
+type TransformCryptoAccessDataResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e TransformCryptoAccessDataResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e TransformCryptoAccessDataResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e TransformCryptoAccessDataResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e TransformCryptoAccessDataResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e TransformCryptoAccessDataResponseValidationError) ErrorName() string {
+	return "TransformCryptoAccessDataResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e TransformCryptoAccessDataResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sTransformCryptoAccessDataResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = TransformCryptoAccessDataResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = TransformCryptoAccessDataResponseValidationError{}
+
 // Validate checks the field values on ExtractKeyRegionRequest with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.

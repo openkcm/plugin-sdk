@@ -19,16 +19,17 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	KeystoreInstanceKeyOperation_GetKey_FullMethodName                = "/plugin.keystore.operations.v1.KeystoreInstanceKeyOperation/GetKey"
-	KeystoreInstanceKeyOperation_CreateKey_FullMethodName             = "/plugin.keystore.operations.v1.KeystoreInstanceKeyOperation/CreateKey"
-	KeystoreInstanceKeyOperation_DeleteKey_FullMethodName             = "/plugin.keystore.operations.v1.KeystoreInstanceKeyOperation/DeleteKey"
-	KeystoreInstanceKeyOperation_EnableKey_FullMethodName             = "/plugin.keystore.operations.v1.KeystoreInstanceKeyOperation/EnableKey"
-	KeystoreInstanceKeyOperation_DisableKey_FullMethodName            = "/plugin.keystore.operations.v1.KeystoreInstanceKeyOperation/DisableKey"
-	KeystoreInstanceKeyOperation_GetImportParameters_FullMethodName   = "/plugin.keystore.operations.v1.KeystoreInstanceKeyOperation/GetImportParameters"
-	KeystoreInstanceKeyOperation_ImportKeyMaterial_FullMethodName     = "/plugin.keystore.operations.v1.KeystoreInstanceKeyOperation/ImportKeyMaterial"
-	KeystoreInstanceKeyOperation_ValidateKey_FullMethodName           = "/plugin.keystore.operations.v1.KeystoreInstanceKeyOperation/ValidateKey"
-	KeystoreInstanceKeyOperation_ValidateKeyAccessData_FullMethodName = "/plugin.keystore.operations.v1.KeystoreInstanceKeyOperation/ValidateKeyAccessData"
-	KeystoreInstanceKeyOperation_ExtractKeyRegion_FullMethodName      = "/plugin.keystore.operations.v1.KeystoreInstanceKeyOperation/ExtractKeyRegion"
+	KeystoreInstanceKeyOperation_GetKey_FullMethodName                    = "/plugin.keystore.operations.v1.KeystoreInstanceKeyOperation/GetKey"
+	KeystoreInstanceKeyOperation_CreateKey_FullMethodName                 = "/plugin.keystore.operations.v1.KeystoreInstanceKeyOperation/CreateKey"
+	KeystoreInstanceKeyOperation_DeleteKey_FullMethodName                 = "/plugin.keystore.operations.v1.KeystoreInstanceKeyOperation/DeleteKey"
+	KeystoreInstanceKeyOperation_EnableKey_FullMethodName                 = "/plugin.keystore.operations.v1.KeystoreInstanceKeyOperation/EnableKey"
+	KeystoreInstanceKeyOperation_DisableKey_FullMethodName                = "/plugin.keystore.operations.v1.KeystoreInstanceKeyOperation/DisableKey"
+	KeystoreInstanceKeyOperation_GetImportParameters_FullMethodName       = "/plugin.keystore.operations.v1.KeystoreInstanceKeyOperation/GetImportParameters"
+	KeystoreInstanceKeyOperation_ImportKeyMaterial_FullMethodName         = "/plugin.keystore.operations.v1.KeystoreInstanceKeyOperation/ImportKeyMaterial"
+	KeystoreInstanceKeyOperation_ValidateKey_FullMethodName               = "/plugin.keystore.operations.v1.KeystoreInstanceKeyOperation/ValidateKey"
+	KeystoreInstanceKeyOperation_ValidateKeyAccessData_FullMethodName     = "/plugin.keystore.operations.v1.KeystoreInstanceKeyOperation/ValidateKeyAccessData"
+	KeystoreInstanceKeyOperation_TransformCryptoAccessData_FullMethodName = "/plugin.keystore.operations.v1.KeystoreInstanceKeyOperation/TransformCryptoAccessData"
+	KeystoreInstanceKeyOperation_ExtractKeyRegion_FullMethodName          = "/plugin.keystore.operations.v1.KeystoreInstanceKeyOperation/ExtractKeyRegion"
 )
 
 // KeystoreInstanceKeyOperationClient is the client API for KeystoreInstanceKeyOperation service.
@@ -53,6 +54,8 @@ type KeystoreInstanceKeyOperationClient interface {
 	ValidateKey(ctx context.Context, in *ValidateKeyRequest, opts ...grpc.CallOption) (*ValidateKeyResponse, error)
 	// ValidateKeyAccessData checks the access data for key management and crypto operations
 	ValidateKeyAccessData(ctx context.Context, in *ValidateKeyAccessDataRequest, opts ...grpc.CallOption) (*ValidateKeyAccessDataResponse, error)
+	// TransformCryptoAccessData transforms the JSON-stored crypto access data into protobuf wire format for a given key
+	TransformCryptoAccessData(ctx context.Context, in *TransformCryptoAccessDataRequest, opts ...grpc.CallOption) (*TransformCryptoAccessDataResponse, error)
 	// ExtractKeyRegion extracts the region from key attributes
 	ExtractKeyRegion(ctx context.Context, in *ExtractKeyRegionRequest, opts ...grpc.CallOption) (*ExtractKeyRegionResponse, error)
 }
@@ -146,6 +149,15 @@ func (c *keystoreInstanceKeyOperationClient) ValidateKeyAccessData(ctx context.C
 	return out, nil
 }
 
+func (c *keystoreInstanceKeyOperationClient) TransformCryptoAccessData(ctx context.Context, in *TransformCryptoAccessDataRequest, opts ...grpc.CallOption) (*TransformCryptoAccessDataResponse, error) {
+	out := new(TransformCryptoAccessDataResponse)
+	err := c.cc.Invoke(ctx, KeystoreInstanceKeyOperation_TransformCryptoAccessData_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *keystoreInstanceKeyOperationClient) ExtractKeyRegion(ctx context.Context, in *ExtractKeyRegionRequest, opts ...grpc.CallOption) (*ExtractKeyRegionResponse, error) {
 	out := new(ExtractKeyRegionResponse)
 	err := c.cc.Invoke(ctx, KeystoreInstanceKeyOperation_ExtractKeyRegion_FullMethodName, in, out, opts...)
@@ -177,6 +189,8 @@ type KeystoreInstanceKeyOperationServer interface {
 	ValidateKey(context.Context, *ValidateKeyRequest) (*ValidateKeyResponse, error)
 	// ValidateKeyAccessData checks the access data for key management and crypto operations
 	ValidateKeyAccessData(context.Context, *ValidateKeyAccessDataRequest) (*ValidateKeyAccessDataResponse, error)
+	// TransformCryptoAccessData transforms the JSON-stored crypto access data into protobuf wire format for a given key
+	TransformCryptoAccessData(context.Context, *TransformCryptoAccessDataRequest) (*TransformCryptoAccessDataResponse, error)
 	// ExtractKeyRegion extracts the region from key attributes
 	ExtractKeyRegion(context.Context, *ExtractKeyRegionRequest) (*ExtractKeyRegionResponse, error)
 	mustEmbedUnimplementedKeystoreInstanceKeyOperationServer()
@@ -212,6 +226,9 @@ func (UnimplementedKeystoreInstanceKeyOperationServer) ValidateKey(context.Conte
 }
 func (UnimplementedKeystoreInstanceKeyOperationServer) ValidateKeyAccessData(context.Context, *ValidateKeyAccessDataRequest) (*ValidateKeyAccessDataResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ValidateKeyAccessData not implemented")
+}
+func (UnimplementedKeystoreInstanceKeyOperationServer) TransformCryptoAccessData(context.Context, *TransformCryptoAccessDataRequest) (*TransformCryptoAccessDataResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method TransformCryptoAccessData not implemented")
 }
 func (UnimplementedKeystoreInstanceKeyOperationServer) ExtractKeyRegion(context.Context, *ExtractKeyRegionRequest) (*ExtractKeyRegionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ExtractKeyRegion not implemented")
@@ -392,6 +409,24 @@ func _KeystoreInstanceKeyOperation_ValidateKeyAccessData_Handler(srv interface{}
 	return interceptor(ctx, in, info, handler)
 }
 
+func _KeystoreInstanceKeyOperation_TransformCryptoAccessData_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TransformCryptoAccessDataRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(KeystoreInstanceKeyOperationServer).TransformCryptoAccessData(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: KeystoreInstanceKeyOperation_TransformCryptoAccessData_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(KeystoreInstanceKeyOperationServer).TransformCryptoAccessData(ctx, req.(*TransformCryptoAccessDataRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _KeystoreInstanceKeyOperation_ExtractKeyRegion_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ExtractKeyRegionRequest)
 	if err := dec(in); err != nil {
@@ -452,6 +487,10 @@ var KeystoreInstanceKeyOperation_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ValidateKeyAccessData",
 			Handler:    _KeystoreInstanceKeyOperation_ValidateKeyAccessData_Handler,
+		},
+		{
+			MethodName: "TransformCryptoAccessData",
+			Handler:    _KeystoreInstanceKeyOperation_TransformCryptoAccessData_Handler,
 		},
 		{
 			MethodName: "ExtractKeyRegion",

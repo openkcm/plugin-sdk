@@ -33,6 +33,9 @@ service KeystoreInstanceKeyOperation {
   // ValidateKeyAccessData checks the access data for key management and crypto operations
   rpc ValidateKeyAccessData(ValidateKeyAccessDataRequest) returns (ValidateKeyAccessDataResponse);
 
+  // TransformCryptoAccessData transforms the JSON-stored crypto access data into protobuf wire format for a given key
+  rpc TransformCryptoAccessData(TransformCryptoAccessDataRequest) returns (TransformCryptoAccessDataResponse);
+
   // ExtractKeyRegion extracts the region from key attributes
   rpc ExtractKeyRegion(ExtractKeyRegionRequest) returns (ExtractKeyRegionResponse);
 }
@@ -152,6 +155,17 @@ message ValidateKeyAccessDataRequest {
 message ValidateKeyAccessDataResponse {
   bool is_valid = 1; // Indicates if the key access data is valid
   string message = 2; // Additional information about the validation result
+}
+
+// TransformCryptoAccessDataRequest contains parameters for transforming crypto access data
+message TransformCryptoAccessDataRequest {
+  string native_key_id = 1; // The native key ID for which the access data is transformed
+  bytes access_data = 2; // The JSON crypto access data to be transformed
+}
+
+// TransformCryptoAccessDataResponse contains the transformed crypto access data
+message TransformCryptoAccessDataResponse {
+  map<string, bytes> transformed_access_data = 1; // The transformed crypto access data in wire format
 }
 
 // ExtractKeyRegionRequest contains parameters for extracting the key region
