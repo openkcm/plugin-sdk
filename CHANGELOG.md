@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.0](https://github.com/openkcm/plugin-sdk/compare/v0.4.0...v0.5.0) (2025-08-19)
+
+
+### Features
+
+* add interface for identity management ([#44](https://github.com/openkcm/plugin-sdk/issues/44)) ([d745d3d](https://github.com/openkcm/plugin-sdk/commit/d745d3dcc177a31443ebf1821af2036131dceefd))
+
 ## [0.4.0](https://github.com/openkcm/plugin-sdk/compare/v0.3.0...v0.4.0) (2025-08-06)
 
 
