@@ -1,0 +1,34 @@
+syntax = "proto3";
+package plugin.identity_management.v1;
+
+service IdentityManagementService {
+  rpc GetUsersForGroup(GetUsersForGroupRequest) returns (GetUsersForGroupResponse);
+  rpc GetGroupsForUser(GetGroupsForUserRequest) returns (GetGroupsForUserResponse);
+}
+
+message GetUsersForGroupRequest {
+  string group_id = 1;
+}
+
+message GetUsersForGroupResponse {
+  repeated User users = 1;
+}
+
+message User {
+  string id = 1;
+  string name = 2;
+  string email = 3;
+}
+
+message GetGroupsForUserRequest {
+  string user_id = 1;
+}
+
+message GetGroupsForUserResponse {
+  repeated Group groups = 1;
+}
+
+message Group {
+  string id = 1;
+  string name = 2;
+}
