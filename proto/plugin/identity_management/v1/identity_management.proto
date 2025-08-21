@@ -2,8 +2,15 @@ syntax = "proto3";
 package plugin.identity_management.v1;
 
 service IdentityManagementService {
+  rpc GetAllGroups(GetAllGroupsRequest) returns (GetAllGroupsResponse);
   rpc GetUsersForGroup(GetUsersForGroupRequest) returns (GetUsersForGroupResponse);
   rpc GetGroupsForUser(GetGroupsForUserRequest) returns (GetGroupsForUserResponse);
+}
+
+message GetAllGroupsRequest {}
+
+message GetAllGroupsResponse {
+  repeated Group groups = 1;
 }
 
 message GetUsersForGroupRequest {
