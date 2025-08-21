@@ -35,6 +35,244 @@ var (
 	_ = sort.Sort
 )
 
+// Validate checks the field values on GetAllGroupsRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetAllGroupsRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetAllGroupsRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetAllGroupsRequestMultiError, or nil if none found.
+func (m *GetAllGroupsRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetAllGroupsRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return GetAllGroupsRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetAllGroupsRequestMultiError is an error wrapping multiple validation
+// errors returned by GetAllGroupsRequest.ValidateAll() if the designated
+// constraints aren't met.
+type GetAllGroupsRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetAllGroupsRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetAllGroupsRequestMultiError) AllErrors() []error { return m }
+
+// GetAllGroupsRequestValidationError is the validation error returned by
+// GetAllGroupsRequest.Validate if the designated constraints aren't met.
+type GetAllGroupsRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetAllGroupsRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetAllGroupsRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetAllGroupsRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetAllGroupsRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetAllGroupsRequestValidationError) ErrorName() string {
+	return "GetAllGroupsRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetAllGroupsRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetAllGroupsRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetAllGroupsRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetAllGroupsRequestValidationError{}
+
+// Validate checks the field values on GetAllGroupsResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetAllGroupsResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetAllGroupsResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetAllGroupsResponseMultiError, or nil if none found.
+func (m *GetAllGroupsResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetAllGroupsResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	for idx, item := range m.GetGroups() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, GetAllGroupsResponseValidationError{
+						field:  fmt.Sprintf("Groups[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, GetAllGroupsResponseValidationError{
+						field:  fmt.Sprintf("Groups[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return GetAllGroupsResponseValidationError{
+					field:  fmt.Sprintf("Groups[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return GetAllGroupsResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetAllGroupsResponseMultiError is an error wrapping multiple validation
+// errors returned by GetAllGroupsResponse.ValidateAll() if the designated
+// constraints aren't met.
+type GetAllGroupsResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetAllGroupsResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetAllGroupsResponseMultiError) AllErrors() []error { return m }
+
+// GetAllGroupsResponseValidationError is the validation error returned by
+// GetAllGroupsResponse.Validate if the designated constraints aren't met.
+type GetAllGroupsResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetAllGroupsResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetAllGroupsResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetAllGroupsResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetAllGroupsResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetAllGroupsResponseValidationError) ErrorName() string {
+	return "GetAllGroupsResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetAllGroupsResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetAllGroupsResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetAllGroupsResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetAllGroupsResponseValidationError{}
+
 // Validate checks the field values on GetUsersForGroupRequest with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.
