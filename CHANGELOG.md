@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.0](https://github.com/openkcm/plugin-sdk/compare/v0.5.0...v0.6.0) (2025-08-21)
+
+
+### Features
+
+* add GetAllGroups function to identity management ([#53](https://github.com/openkcm/plugin-sdk/issues/53)) ([8926887](https://github.com/openkcm/plugin-sdk/commit/8926887fa0604118f4524dc69e3cb3cd0f0ea982))
+
 ## [0.5.0](https://github.com/openkcm/plugin-sdk/compare/v0.4.0...v0.5.0) (2025-08-19)
 
 
