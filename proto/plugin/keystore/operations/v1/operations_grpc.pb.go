@@ -37,6 +37,10 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type KeystoreInstanceKeyOperationClient interface {
 	// GetKey retrieves the details of a key by its ID
+	// * Returns error "code = InvalidArgument desc = failed to authenticate with the keystore provider"
+	// if the provided access data is invalid
+	// * Returns error "code = NotFound desc = key not found in the keystore provider"
+	// if the key does not exist
 	GetKey(ctx context.Context, in *GetKeyRequest, opts ...grpc.CallOption) (*GetKeyResponse, error)
 	// CreateKey generates a new key with the specified algorithm
 	CreateKey(ctx context.Context, in *CreateKeyRequest, opts ...grpc.CallOption) (*CreateKeyResponse, error)
@@ -172,6 +176,10 @@ func (c *keystoreInstanceKeyOperationClient) ExtractKeyRegion(ctx context.Contex
 // for forward compatibility
 type KeystoreInstanceKeyOperationServer interface {
 	// GetKey retrieves the details of a key by its ID
+	// * Returns error "code = InvalidArgument desc = failed to authenticate with the keystore provider"
+	// if the provided access data is invalid
+	// * Returns error "code = NotFound desc = key not found in the keystore provider"
+	// if the key does not exist
 	GetKey(context.Context, *GetKeyRequest) (*GetKeyResponse, error)
 	// CreateKey generates a new key with the specified algorithm
 	CreateKey(context.Context, *CreateKeyRequest) (*CreateKeyResponse, error)
