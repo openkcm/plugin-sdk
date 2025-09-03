@@ -7,6 +7,10 @@ import "plugin/keystore/common/v1/common.proto";
 // KeystoreInstanceKeyOperation service defines the operations available for key management
 service KeystoreInstanceKeyOperation {
   // GetKey retrieves the details of a key by its ID
+  // * Returns error "code = InvalidArgument desc = failed to authenticate with the keystore provider"
+  // if the provided access data is invalid
+  // * Returns error "code = NotFound desc = key not found in the keystore provider"
+  // if the key does not exist
   rpc GetKey(GetKeyRequest) returns (GetKeyResponse);
 
   // CreateKey generates a new key with the specified algorithm
