@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.7.1](https://github.com/openkcm/plugin-sdk/compare/v0.7.0...v0.7.1) (2025-10-05)
+
+
+### Bug Fixes
+
+* add hclog2slog module ([#63](https://github.com/openkcm/plugin-sdk/issues/63)) ([fc81751](https://github.com/openkcm/plugin-sdk/commit/fc817515b0c61ffbd8aedc4ba73503d7ff5b7c98))
+* update the content of release-please-config.json ([#65](https://github.com/openkcm/plugin-sdk/issues/65)) ([3b833c4](https://github.com/openkcm/plugin-sdk/commit/3b833c456a89a2f928b2730a31b5936d6039ea78))
+
 ## [0.7.0](https://github.com/openkcm/plugin-sdk/compare/v0.6.0...v0.7.0) (2025-09-03)
 
 
