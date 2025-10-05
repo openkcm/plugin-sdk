@@ -38,7 +38,32 @@
     },
     {
       "type": "build",
-      "section": "🧱 Build / Dependencies",
+      "section": "🧱 Build",
+      "hidden": false
+    },
+    {
+      "type": "deps",
+      "section": "Dependencies",
+      "hidden": false
+    },
+    {
+      "type": "refactor",
+      "section": "♻️ Code Refactoring",
+      "hidden": false
+    },
+    {
+      "type": "perf",
+      "section": "⚡ Performance Improvements",
+      "hidden": false
+    },
+    {
+      "type": "test",
+      "section": "✅ Tests",
+      "hidden": false
+    },
+    {
+      "type": "revert",
+      "section": "⏪ Reverts",
       "hidden": false
     }
   ],
@@ -48,9 +73,5 @@
     ".": {
       "release-type": "go"
     }
-  },
-  "changelog": {
-    "template": "## Changelog\n\n{{#each commits}}\n- {{this.message}} (#{{this.pullRequestNumber}})\n{{/each}}",
-    "include-vcs-changes": true
   }
 }
