@@ -24,11 +24,41 @@ var levelMapToHclog = map[slog.Level]hclog.Level{
 	slog.LevelError + 4: hclog.Off,
 }
 
+// levelMapFromHclog converts hclog.Level to slog.Level.
+var levelMapFromHclog = map[hclog.Level]slog.Level{
+	hclog.Trace: slog.LevelDebug - 4,
+	hclog.Debug: slog.LevelDebug,
+	hclog.Info:  slog.LevelInfo,
+	hclog.Warn:  slog.LevelWarn,
+	hclog.Error: slog.LevelError,
+	hclog.Off:   slog.LevelError + 4,
+}
+
 // hclogHandler implements slog.Handler by delegating to an hclog.Logger.
 type hclogHandler struct {
 	hcl  hclog.Logger
 	lvl  slog.Level
 	args []any
+}
+
+// New creates a new slog.Logger backed by an hclog.Logger.
+//
+// The returned *slog.Logger will send all log events to the given hclog.Logger
+// with compatible levels and fields.
+func New(hclLogger hclog.Logger) *slog.Logger {
+	return NewWithLevel(hclLogger, hclLogger.GetLevel())
+}
+
+func NewWithStringLevel(hclLogger hclog.Logger, logLevel string) *slog.Logger {
+	return NewWithLevel(hclLogger, hclog.LevelFromString(logLevel))
+}
+
+func NewWithLevel(hclLogger hclog.Logger, logLevel hclog.Level) *slog.Logger {
+	handler := &hclogHandler{
+		hcl: hclLogger,
+		lvl: levelMapFromHclog[logLevel],
+	}
+	return slog.New(handler)
 }
 
 // Enabled checks whether the given level is enabled on the underlying hclog.Logger.
@@ -90,21 +120,4 @@ func (h *hclogHandler) WithGroup(name string) slog.Handler {
 		lvl:  h.lvl,
 		args: h.args,
 	}
-}
-
-// New creates a new slog.Logger backed by an hclog.Logger.
-//
-// The returned *slog.Logger will send all log events to the given hclog.Logger
-// with compatible levels and fields.
-func New(hclLogger hclog.Logger) *slog.Logger {
-	handler := &hclogHandler{
-		hcl: hclLogger,
-		lvl: slog.LevelInfo,
-	}
-	return slog.New(handler)
-}
-
-// AsSlog wraps an hclog.Logger as a *slog.Logger.
-func AsSlog(h hclog.Logger) *slog.Logger {
-	return New(h)
 }
