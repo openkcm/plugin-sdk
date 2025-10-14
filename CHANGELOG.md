@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.0](https://github.com/openkcm/plugin-sdk/compare/v0.7.1...v0.8.0) (2025-10-14)
+
+
+### Features
+
+* Add GetGroup function ([#67](https://github.com/openkcm/plugin-sdk/issues/67)) ([d0d04d5](https://github.com/openkcm/plugin-sdk/commit/d0d04d5b8be1abfe813ba185f35c54a2b916eea4))
+
 ## [0.7.1](https://github.com/openkcm/plugin-sdk/compare/v0.7.0...v0.7.1) (2025-10-05)
 
 
