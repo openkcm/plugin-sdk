@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.1](https://github.com/openkcm/plugin-sdk/compare/v0.8.0...v0.8.1) (2025-10-29)
+
+
+### Bug Fixes
+
+* update keystore plugin errors ([d403a26](https://github.com/openkcm/plugin-sdk/commit/d403a26dbe069ca901e1207f4eacc5186a708792))
+
 ## [0.8.0](https://github.com/openkcm/plugin-sdk/compare/v0.7.1...v0.8.0) (2025-10-14)
 
 
