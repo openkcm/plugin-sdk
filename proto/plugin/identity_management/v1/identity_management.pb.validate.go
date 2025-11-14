@@ -35,6 +35,107 @@ var (
 	_ = sort.Sort
 )
 
+// Validate checks the field values on AuthContext with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *AuthContext) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on AuthContext with the rules defined in
+// the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in AuthContextMultiError, or
+// nil if none found.
+func (m *AuthContext) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *AuthContext) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Data
+
+	if len(errors) > 0 {
+		return AuthContextMultiError(errors)
+	}
+
+	return nil
+}
+
+// AuthContextMultiError is an error wrapping multiple validation errors
+// returned by AuthContext.ValidateAll() if the designated constraints aren't met.
+type AuthContextMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m AuthContextMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m AuthContextMultiError) AllErrors() []error { return m }
+
+// AuthContextValidationError is the validation error returned by
+// AuthContext.Validate if the designated constraints aren't met.
+type AuthContextValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e AuthContextValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e AuthContextValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e AuthContextValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e AuthContextValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e AuthContextValidationError) ErrorName() string { return "AuthContextValidationError" }
+
+// Error satisfies the builtin error interface
+func (e AuthContextValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sAuthContext.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = AuthContextValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = AuthContextValidationError{}
+
 // Validate checks the field values on GetGroupRequest with the rules defined
 // in the proto definition for this message. If any rules are violated, the
 // first error encountered is returned, or nil if there are no violations.
@@ -58,6 +159,35 @@ func (m *GetGroupRequest) validate(all bool) error {
 	var errors []error
 
 	// no validation rules for GroupName
+
+	if all {
+		switch v := interface{}(m.GetAuthContext()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, GetGroupRequestValidationError{
+					field:  "AuthContext",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, GetGroupRequestValidationError{
+					field:  "AuthContext",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetAuthContext()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return GetGroupRequestValidationError{
+				field:  "AuthContext",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
 
 	if len(errors) > 0 {
 		return GetGroupRequestMultiError(errors)
@@ -287,6 +417,35 @@ func (m *GetAllGroupsRequest) validate(all bool) error {
 	}
 
 	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetAuthContext()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, GetAllGroupsRequestValidationError{
+					field:  "AuthContext",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, GetAllGroupsRequestValidationError{
+					field:  "AuthContext",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetAuthContext()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return GetAllGroupsRequestValidationError{
+				field:  "AuthContext",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
 
 	if len(errors) > 0 {
 		return GetAllGroupsRequestMultiError(errors)
@@ -527,6 +686,35 @@ func (m *GetUsersForGroupRequest) validate(all bool) error {
 	var errors []error
 
 	// no validation rules for GroupId
+
+	if all {
+		switch v := interface{}(m.GetAuthContext()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, GetUsersForGroupRequestValidationError{
+					field:  "AuthContext",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, GetUsersForGroupRequestValidationError{
+					field:  "AuthContext",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetAuthContext()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return GetUsersForGroupRequestValidationError{
+				field:  "AuthContext",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
 
 	if len(errors) > 0 {
 		return GetUsersForGroupRequestMultiError(errors)
@@ -871,6 +1059,35 @@ func (m *GetGroupsForUserRequest) validate(all bool) error {
 	var errors []error
 
 	// no validation rules for UserId
+
+	if all {
+		switch v := interface{}(m.GetAuthContext()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, GetGroupsForUserRequestValidationError{
+					field:  "AuthContext",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, GetGroupsForUserRequestValidationError{
+					field:  "AuthContext",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetAuthContext()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return GetGroupsForUserRequestValidationError{
+				field:  "AuthContext",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
 
 	if len(errors) > 0 {
 		return GetGroupsForUserRequestMultiError(errors)
