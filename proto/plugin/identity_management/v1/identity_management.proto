@@ -8,15 +8,22 @@ service IdentityManagementService {
   rpc GetGroupsForUser(GetGroupsForUserRequest) returns (GetGroupsForUserResponse);
 }
 
+message AuthContext {
+  map<string, string> data = 1;
+}
+
 message GetGroupRequest {
   string group_name = 1;
+  AuthContext auth_context = 99;
 }
 
 message GetGroupResponse {
   Group group = 1;
 }
 
-message GetAllGroupsRequest {}
+message GetAllGroupsRequest {
+  AuthContext auth_context = 99;
+}
 
 message GetAllGroupsResponse {
   repeated Group groups = 1;
@@ -24,6 +31,7 @@ message GetAllGroupsResponse {
 
 message GetUsersForGroupRequest {
   string group_id = 1;
+  AuthContext auth_context = 99;
 }
 
 message GetUsersForGroupResponse {
@@ -38,6 +46,7 @@ message User {
 
 message GetGroupsForUserRequest {
   string user_id = 1;
+  AuthContext auth_context = 99;
 }
 
 message GetGroupsForUserResponse {
