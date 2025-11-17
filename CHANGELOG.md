@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.9.0](https://github.com/openkcm/plugin-sdk/compare/v0.8.1...v0.9.0) (2025-11-17)
+
+
+### Features
+
+* add auth context to IDM plugin ([#75](https://github.com/openkcm/plugin-sdk/issues/75)) ([149e7b3](https://github.com/openkcm/plugin-sdk/commit/149e7b3aabec34a6b575b7fd191ecce5cf238cb1))
+
 ## [0.8.1](https://github.com/openkcm/plugin-sdk/compare/v0.8.0...v0.8.1) (2025-10-29)
 
 
