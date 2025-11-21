@@ -62,6 +62,10 @@ func (c PluginConfig) IsEnabled() bool {
 	return !c.Disabled
 }
 
+type Build interface {
+	SetValue(string)
+}
+
 // PluginInfo provides the information for the loaded plugin.
 type PluginInfo interface {
 	// The name of the plugin
@@ -72,6 +76,9 @@ type PluginInfo interface {
 
 	// Tags associated with the plugin
 	Tags() []string
+
+	// Build of the plugin
+	Build() string
 }
 
 type Plugin struct {
@@ -167,9 +174,10 @@ func injectEnv(config PluginConfig, cmd *exec.Cmd) {
 }
 
 type pluginInfo struct {
-	name string
-	typ  string
-	tags []string
+	name      string
+	typ       string
+	buildInfo string
+	tags      []string
 }
 
 func (info pluginInfo) Name() string {
@@ -181,6 +189,12 @@ func (info pluginInfo) Type() string {
 }
 
 func (info pluginInfo) Tags() []string { return info.tags }
+
+func (info pluginInfo) Build() string { return info.buildInfo }
+
+func (info pluginInfo) SetValue(value string) {
+	info.buildInfo = value
+}
 
 type pluginCloser struct {
 	plugin io.Closer

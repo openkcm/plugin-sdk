@@ -25,13 +25,17 @@ func makeConfigurer(plugin *Plugin, pluginConfig PluginConfig) *configurer {
 
 func (c *configurer) Configure(ctx context.Context) error {
 	client := configv1.NewConfigClient(c.plugin.ClientConnection())
-	_, err := client.Configure(ctx, &configv1.ConfigureRequest{
+	resp, err := client.Configure(ctx, &configv1.ConfigureRequest{
 		YamlConfiguration: c.pluginConfig.YamlConfiguration,
 	})
 	switch status.Code(err) {
 	case codes.Unimplemented:
 		return nil
 	case codes.OK:
+		sbi, ok := c.plugin.Info().(Build)
+		if ok {
+			sbi.SetValue(resp.GetBuildInfo())
+		}
 		return nil
 	}
 	return err

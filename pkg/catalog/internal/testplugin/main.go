@@ -9,6 +9,8 @@ import (
 	configv1 "github.com/openkcm/plugin-sdk/proto/service/common/config/v1"
 )
 
+var BuildInfo = "{}"
+
 type TestPlugin struct {
 	testv1.UnsafeTestServiceServer
 	configv1.UnsafeConfigServer
@@ -19,7 +21,9 @@ func (p *TestPlugin) Test(ctx context.Context, req *testv1.TestRequest) (*testv1
 }
 
 func (p *TestPlugin) Configure(ctx context.Context, req *configv1.ConfigureRequest) (*configv1.ConfigureResponse, error) {
-	return &configv1.ConfigureResponse{}, nil
+	return &configv1.ConfigureResponse{
+		BuildInfo: &BuildInfo,
+	}, nil
 }
 
 // main() serves the plugin. Serve() will not return. If there is a
