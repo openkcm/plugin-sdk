@@ -154,7 +154,7 @@ func loadPlugin(ctx context.Context, config PluginConfig) (*Plugin, error) {
 	// Plugin has been loaded and initialized. Ensure the plugin client is
 	// killed when the plugin is closed.
 	plugin.closers = append(plugin.closers, closerFunc(pluginClient.Kill))
-	info := pluginInfo{
+	info := &pluginInfo{
 		name: config.Name,
 		typ:  config.Type,
 		tags: config.Tags,
@@ -180,17 +180,17 @@ type pluginInfo struct {
 	tags      []string
 }
 
-func (info pluginInfo) Name() string {
+func (info *pluginInfo) Name() string {
 	return info.name
 }
 
-func (info pluginInfo) Type() string {
+func (info *pluginInfo) Type() string {
 	return info.typ
 }
 
-func (info pluginInfo) Tags() []string { return info.tags }
+func (info *pluginInfo) Tags() []string { return info.tags }
 
-func (info pluginInfo) Build() string { return info.buildInfo }
+func (info *pluginInfo) Build() string { return info.buildInfo }
 
 func (info *pluginInfo) SetValue(value string) {
 	info.buildInfo = value
