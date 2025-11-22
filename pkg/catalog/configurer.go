@@ -34,9 +34,22 @@ func (c *configurer) Configure(ctx context.Context) error {
 	case codes.OK:
 		sbi, ok := c.plugin.Info().(Build)
 		if ok {
-			sbi.SetValue(resp.GetBuildInfo())
+			sbi.SetValue(extractBuildInfo(resp))
 		}
 		return nil
 	}
 	return err
+}
+
+func extractBuildInfo(resp *configv1.ConfigureResponse) string {
+	value := "{}"
+	defer func() {
+		if err := recover(); err != nil {
+			value = "{}"
+		}
+	}()
+
+	value = resp.GetBuildInfo()
+
+	return value
 }
