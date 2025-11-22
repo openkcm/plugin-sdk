@@ -192,8 +192,7 @@ func (info pluginInfo) Tags() []string { return info.tags }
 
 func (info pluginInfo) Build() string { return info.buildInfo }
 
-//nolint:staticcheck
-func (info pluginInfo) SetValue(value string) {
+func (info *pluginInfo) SetValue(value string) {
 	info.buildInfo = value
 }
 
