@@ -10,10 +10,6 @@ import (
 	configv1 "github.com/openkcm/plugin-sdk/proto/service/common/config/v1"
 )
 
-const (
-	defaultEmptyBuildInfo = "{}"
-)
-
 type Configurers []*configurer
 
 type configurer struct {
@@ -52,12 +48,8 @@ func extractBuildInfo(resp *configv1.ConfigureResponse) string {
 	}()
 
 	if resp == nil {
-		return defaultEmptyBuildInfo
+		return ""
 	}
 
-	value := strings.TrimSpace(resp.GetBuildInfo())
-	if value == "" {
-		return defaultEmptyBuildInfo
-	}
-	return value
+	return strings.TrimSpace(resp.GetBuildInfo())
 }
