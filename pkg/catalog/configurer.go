@@ -2,11 +2,16 @@ package catalog
 
 import (
 	"context"
+	"strings"
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
 	configv1 "github.com/openkcm/plugin-sdk/proto/service/common/config/v1"
+)
+
+const (
+	defaultEmptyBuildInfo = "{}"
 )
 
 type Configurers []*configurer
@@ -42,14 +47,17 @@ func (c *configurer) Configure(ctx context.Context) error {
 }
 
 func extractBuildInfo(resp *configv1.ConfigureResponse) string {
-	value := "{}"
 	defer func() {
-		if err := recover(); err != nil {
-			value = "{}"
-		}
+		_ = recover()
 	}()
 
-	value = resp.GetBuildInfo()
+	if resp == nil {
+		return defaultEmptyBuildInfo
+	}
 
+	value := strings.TrimSpace(resp.GetBuildInfo())
+	if value == "" {
+		return defaultEmptyBuildInfo
+	}
 	return value
 }
