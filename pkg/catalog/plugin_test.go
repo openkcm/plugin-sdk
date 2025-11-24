@@ -20,7 +20,7 @@ func TestClientConnection(t *testing.T) {
 
 func TestInfo(t *testing.T) {
 	// Arrange
-	p := Plugin{info: pluginInfo{name: "test"}}
+	p := Plugin{info: &pluginInfo{name: "test"}}
 
 	// Act
 	got := p.Info()

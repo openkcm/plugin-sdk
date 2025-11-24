@@ -14,4 +14,6 @@ message ConfigureRequest {
   string yaml_configuration = 1;
 }
 
-message ConfigureResponse {}
+message ConfigureResponse {
+  optional string build_info = 1;
+}

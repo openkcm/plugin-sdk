@@ -159,6 +159,10 @@ func (m *ConfigureResponse) validate(all bool) error {
 
 	var errors []error
 
+	if m.BuildInfo != nil {
+		// no validation rules for BuildInfo
+	}
+
 	if len(errors) > 0 {
 		return ConfigureResponseMultiError(errors)
 	}

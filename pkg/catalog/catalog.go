@@ -56,6 +56,14 @@ func (c *Catalog) LookupByTypeAndName(pluginType, pluginName string) *Plugin {
 	return nil
 }
 
+func (c *Catalog) ListPluginInfo() []PluginInfo {
+	var plugins []PluginInfo
+	for _, cfgr := range c.configurers {
+		plugins = append(plugins, cfgr.plugin.Info())
+	}
+	return plugins
+}
+
 func Load(ctx context.Context, config Config, builtIns ...BuiltIn) (catalog *Catalog, err error) {
 	closers := make(closerGroup, 0)
 	defer func() {
