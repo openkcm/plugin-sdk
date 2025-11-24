@@ -2,6 +2,7 @@ package catalog
 
 import (
 	"context"
+	"strings"
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -25,14 +26,30 @@ func makeConfigurer(plugin *Plugin, pluginConfig PluginConfig) *configurer {
 
 func (c *configurer) Configure(ctx context.Context) error {
 	client := configv1.NewConfigClient(c.plugin.ClientConnection())
-	_, err := client.Configure(ctx, &configv1.ConfigureRequest{
+	resp, err := client.Configure(ctx, &configv1.ConfigureRequest{
 		YamlConfiguration: c.pluginConfig.YamlConfiguration,
 	})
 	switch status.Code(err) {
 	case codes.Unimplemented:
 		return nil
 	case codes.OK:
+		sbi, ok := c.plugin.Info().(Build)
+		if ok {
+			sbi.SetValue(extractBuildInfo(resp))
+		}
 		return nil
 	}
 	return err
+}
+
+func extractBuildInfo(resp *configv1.ConfigureResponse) string {
+	defer func() {
+		_ = recover()
+	}()
+
+	if resp == nil {
+		return ""
+	}
+
+	return strings.TrimSpace(resp.GetBuildInfo())
 }

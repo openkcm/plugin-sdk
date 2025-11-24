@@ -60,7 +60,7 @@ func loadBuiltIn(ctx context.Context, builtIn BuiltIn, pluginConfig PluginConfig
 	}
 	closers = append(closers, builtinConn)
 
-	info := pluginInfo{
+	info := &pluginInfo{
 		name: builtIn.Name,
 		typ:  builtIn.Plugin.Type(),
 		tags: builtIn.Tags,
