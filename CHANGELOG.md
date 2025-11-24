@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.9.1](https://github.com/openkcm/plugin-sdk/compare/v0.9.0...v0.9.1) (2025-11-24)
+
+
+### Bug Fixes
+
+* **deps:** bump google.golang.org/grpc from 1.76.0 to 1.77.0 ([#77](https://github.com/openkcm/plugin-sdk/issues/77)) ([e40d55b](https://github.com/openkcm/plugin-sdk/commit/e40d55ba5a3207024fd31ae38abc009993458bb4))
+* update the configure function to return build info of the plugin ([#79](https://github.com/openkcm/plugin-sdk/issues/79)) ([d25ba67](https://github.com/openkcm/plugin-sdk/commit/d25ba6773ea8cdeffba4e3d52c40e00a0e1790fd))
+
 ## [0.9.0](https://github.com/openkcm/plugin-sdk/compare/v0.8.1...v0.9.0) (2025-11-17)
 
 
