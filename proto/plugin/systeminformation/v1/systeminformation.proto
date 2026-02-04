@@ -13,4 +13,3 @@ message GetRequest {
 message GetResponse {
   map<string, string> metadata = 1;
 }
-
