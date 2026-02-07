@@ -24,10 +24,11 @@ type BuiltInPlugin interface {
 }
 
 type builtInPluginStruct struct {
-	name     string
-	tags     []string
-	plugin   api.PluginServer
-	services []api.ServiceServer
+	name      string
+	tags      []string
+	plugin    api.PluginServer
+	services  []api.ServiceServer
+	buildInfo string
 }
 
 func (p *builtInPluginStruct) Name() string {
@@ -47,11 +48,15 @@ func (p *builtInPluginStruct) Services() []api.ServiceServer {
 }
 
 func (p *builtInPluginStruct) Build() string {
-	return "{}"
+	return p.buildInfo
 }
 
 func (p *builtInPluginStruct) Type() string {
 	return p.plugin.Type()
+}
+
+func (p *builtInPluginStruct) SetValue(value string) {
+	p.buildInfo = value
 }
 
 var _ BuiltInPlugin = (*builtInPluginStruct)(nil)
