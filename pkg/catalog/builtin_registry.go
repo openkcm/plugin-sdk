@@ -1,26 +1,26 @@
 package catalog
 
 type BuiltInPluginRegistry interface {
-	Register(plugin BuiltInPlugin)
-	Get() []BuiltInPlugin
+	Register(plugin BuiltIn)
+	Get() []BuiltIn
 }
 
 type buildInRegistry struct {
-	plugins []BuiltInPlugin
+	plugins []BuiltIn
 }
 
 func DefaultBuiltInPluginRegistry() BuiltInPluginRegistry {
 	return &buildInRegistry{
-		plugins: make([]BuiltInPlugin, 0),
+		plugins: make([]BuiltIn, 0),
 	}
 }
 
-func (r *buildInRegistry) Register(plugin BuiltInPlugin) {
+func (r *buildInRegistry) Register(plugin BuiltIn) {
 	r.plugins = append(r.plugins, plugin)
 }
 
-func (r *buildInRegistry) Get() []BuiltInPlugin {
-	plugins := make([]BuiltInPlugin, 0, len(r.plugins))
+func (r *buildInRegistry) Get() []BuiltIn {
+	plugins := make([]BuiltIn, 0, len(r.plugins))
 	plugins = append(plugins, r.plugins...)
 	return plugins
 }

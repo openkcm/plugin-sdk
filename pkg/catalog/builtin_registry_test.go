@@ -23,14 +23,14 @@ func TestBuiltInRegistry(t *testing.T) {
 
 		reg := DefaultBuiltInPluginRegistry()
 
-		p1 := BuiltInPlugin{Name: "plugin-1"}
-		p2 := BuiltInPlugin{Name: "plugin-2"}
+		p1 := BuiltIn{Name: "plugin-1"}
+		p2 := BuiltIn{Name: "plugin-2"}
 
 		reg.Register(p1)
 		reg.Register(p2)
 
 		got := reg.Get()
-		want := []BuiltInPlugin{p1, p2}
+		want := []BuiltIn{p1, p2}
 
 		if !reflect.DeepEqual(got, want) {
 			t.Fatalf("unexpected plugins\nwant: %#v\ngot:  %#v", want, got)
@@ -42,11 +42,11 @@ func TestBuiltInRegistry(t *testing.T) {
 
 		reg := DefaultBuiltInPluginRegistry()
 
-		p1 := BuiltInPlugin{Name: "plugin-1"}
+		p1 := BuiltIn{Name: "plugin-1"}
 		reg.Register(p1)
 
 		plugins := reg.Get()
-		plugins[0] = BuiltInPlugin{Name: "mutated"}
+		plugins[0] = BuiltIn{Name: "mutated"}
 
 		got := reg.Get()
 		if got[0].Name != p1.Name {
