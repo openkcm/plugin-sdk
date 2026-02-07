@@ -16,22 +16,22 @@ import (
 	"github.com/openkcm/plugin-sdk/internal/slog2hclog"
 )
 
-type BuiltIn struct {
+type BuiltInPlugin struct {
 	Name     string
 	Tags     []string
 	Plugin   api.PluginServer
 	Services []api.ServiceServer
 }
 
-func MakeBuiltIn(name string, pluginServer api.PluginServer, serviceServers ...api.ServiceServer) BuiltIn {
-	return BuiltIn{
+func MakeBuiltInPlugin(name string, pluginServer api.PluginServer, serviceServers ...api.ServiceServer) BuiltInPlugin {
+	return BuiltInPlugin{
 		Name:     name,
 		Plugin:   pluginServer,
 		Services: serviceServers,
 	}
 }
 
-func loadBuiltIn(ctx context.Context, builtIn BuiltIn, pluginConfig PluginConfig) (_ *Plugin, err error) {
+func loadBuiltInPlugin(ctx context.Context, builtIn BuiltInPlugin, pluginConfig PluginConfig) (_ *Plugin, err error) {
 	dialer := &builtinDialer{
 		pluginName:   builtIn.Name,
 		log:          pluginConfig.Logger,
