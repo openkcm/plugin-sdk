@@ -4,11 +4,12 @@ import (
 	"context"
 	"fmt"
 
+	"google.golang.org/protobuf/types/known/structpb"
+
 	"github.com/openkcm/plugin-sdk/api/service/keystore"
 	"github.com/openkcm/plugin-sdk/pkg/catalog"
 	commonv1 "github.com/openkcm/plugin-sdk/proto/plugin/keystore/common/v1"
 	managementv1 "github.com/openkcm/plugin-sdk/proto/plugin/keystore/management/v1"
-	"google.golang.org/protobuf/types/known/structpb"
 )
 
 var _ keystore.KeystoreManagement = (*hashicorpKeystoreManagementV1Plugin)(nil)
