@@ -69,7 +69,7 @@ func AsBuiltIn(name string, pluginServer api.PluginServer, serviceServers ...api
 	}
 }
 
-func loadBuiltInPlugin(ctx context.Context, builtIn BuiltInPlugin, pluginConfig PluginConfig) (_ *Plugin, err error) {
+func loadBuiltInPlugin(ctx context.Context, builtIn BuiltInPlugin, pluginConfig PluginConfig) (_ Plugin, err error) {
 	dialer := &builtinDialer{
 		pluginName:   builtIn.Name(),
 		log:          pluginConfig.Logger,
@@ -104,7 +104,8 @@ func loadBuiltInPlugin(ctx context.Context, builtIn BuiltInPlugin, pluginConfig 
 		tags: builtIn.Tags(),
 	}
 
-	return newPlugin(ctx, builtinConn, info, pluginConfig.Logger, closers, pluginConfig.HostServices)
+	p, err := newPlugin(ctx, builtinConn, info, pluginConfig.Logger, closers, pluginConfig.HostServices)
+	return p, err
 }
 
 func newBuiltInServer(log *slog.Logger) (*grpc.Server, io.Closer) {
