@@ -37,8 +37,8 @@ func (c *Catalog) Close() error {
 	return c.closers.Close()
 }
 
-func (c *Catalog) LookupByType(pluginType string) []*Plugin {
-	var plugins []*Plugin
+func (c *Catalog) LookupByType(pluginType string) []Plugin {
+	var plugins []Plugin
 	for _, cfgr := range c.configurers {
 		if cfgr.plugin.Info().Type() == pluginType {
 			plugins = append(plugins, cfgr.plugin)
@@ -47,7 +47,7 @@ func (c *Catalog) LookupByType(pluginType string) []*Plugin {
 	return plugins
 }
 
-func (c *Catalog) LookupByTypeAndName(pluginType, pluginName string) *Plugin {
+func (c *Catalog) LookupByTypeAndName(pluginType, pluginName string) Plugin {
 	for _, cfgr := range c.configurers {
 		if cfgr.plugin.Info().Type() == pluginType && cfgr.plugin.Info().Name() == pluginName {
 			return cfgr.plugin
@@ -113,7 +113,7 @@ func Load(ctx context.Context, config Config, builtIns ...BuiltInPlugin) (catalo
 	}, nil
 }
 
-func loadPluginAs(ctx context.Context, logger *slog.Logger, pluginConfig PluginConfig, builtIns ...BuiltInPlugin) (*Plugin, error) {
+func loadPluginAs(ctx context.Context, logger *slog.Logger, pluginConfig PluginConfig, builtIns ...BuiltInPlugin) (Plugin, error) {
 	if pluginConfig.IsExternal() {
 		plugin, err := loadPluginAsExternal(ctx, logger, pluginConfig)
 		if err != nil {
@@ -129,7 +129,7 @@ func loadPluginAs(ctx context.Context, logger *slog.Logger, pluginConfig PluginC
 	return plugin, nil
 }
 
-func loadPluginAsExternal(ctx context.Context, logger *slog.Logger, pluginConfig PluginConfig) (*Plugin, error) {
+func loadPluginAsExternal(ctx context.Context, logger *slog.Logger, pluginConfig PluginConfig) (Plugin, error) {
 	if pluginConfig.Name == "" {
 		return nil, fmt.Errorf("failed to load external plugin, missing name")
 	}
@@ -146,7 +146,7 @@ func loadPluginAsExternal(ctx context.Context, logger *slog.Logger, pluginConfig
 	return loadPlugin(ctx, pluginConfig)
 }
 
-func loadPluginAsBuiltIn(ctx context.Context, logger *slog.Logger, pluginConfig PluginConfig, builtIns ...BuiltInPlugin) (*Plugin, error) {
+func loadPluginAsBuiltIn(ctx context.Context, logger *slog.Logger, pluginConfig PluginConfig, builtIns ...BuiltInPlugin) (Plugin, error) {
 	if pluginConfig.Name == "" {
 		return nil, fmt.Errorf("failed to load builtin plugin, missing name")
 	}

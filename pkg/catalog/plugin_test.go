@@ -7,7 +7,7 @@ import (
 
 func TestClientConnection(t *testing.T) {
 	// Arrange
-	p := Plugin{}
+	p := pluginStruct{}
 
 	// Act
 	got := p.ClientConnection()
@@ -20,7 +20,7 @@ func TestClientConnection(t *testing.T) {
 
 func TestInfo(t *testing.T) {
 	// Arrange
-	p := Plugin{info: &pluginInfo{name: "test"}}
+	p := pluginStruct{info: &pluginInfo{name: "test"}}
 
 	// Act
 	got := p.Info()
@@ -33,7 +33,7 @@ func TestInfo(t *testing.T) {
 
 func TestGrpcServiceNames(t *testing.T) {
 	// Arrange
-	p := Plugin{grpcServiceNames: []string{"test"}}
+	p := pluginStruct{grpcServiceNames: []string{"test"}}
 
 	// Act
 	got := p.GrpcServiceNames()

@@ -13,11 +13,11 @@ import (
 type Configurers []*configurer
 
 type configurer struct {
-	plugin       *Plugin
+	plugin       Plugin
 	pluginConfig PluginConfig
 }
 
-func makeConfigurer(plugin *Plugin, pluginConfig PluginConfig) *configurer {
+func makeConfigurer(plugin Plugin, pluginConfig PluginConfig) *configurer {
 	return &configurer{
 		plugin:       plugin,
 		pluginConfig: pluginConfig,
