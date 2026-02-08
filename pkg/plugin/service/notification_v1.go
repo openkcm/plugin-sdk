@@ -11,11 +11,11 @@ import (
 var _ notification.Notification = (*hashicorpNotificationV1Plugin)(nil)
 
 type hashicorpNotificationV1Plugin struct {
-	plugin     *catalog.Plugin
+	plugin     catalog.Plugin
 	grpcClient notificationv1.NotificationServiceClient
 }
 
-func NewNotificationV1Plugin(plugin *catalog.Plugin) notification.Notification {
+func NewNotificationV1Plugin(plugin catalog.Plugin) notification.Notification {
 	return &hashicorpNotificationV1Plugin{
 		plugin:     plugin,
 		grpcClient: notificationv1.NewNotificationServiceClient(plugin.ClientConnection()),

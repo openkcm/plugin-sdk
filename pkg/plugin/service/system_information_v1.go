@@ -11,11 +11,11 @@ import (
 var _ systeminformation.SystemInformation = (*hashicorpSystemInformationV1Plugin)(nil)
 
 type hashicorpSystemInformationV1Plugin struct {
-	plugin     *catalog.Plugin
+	plugin     catalog.Plugin
 	grpcClient systeminformationv1.SystemInformationServiceClient
 }
 
-func NewSystemInformationV1Plugin(plugin *catalog.Plugin) systeminformation.SystemInformation {
+func NewSystemInformationV1Plugin(plugin catalog.Plugin) systeminformation.SystemInformation {
 	return &hashicorpSystemInformationV1Plugin{
 		plugin:     plugin,
 		grpcClient: systeminformationv1.NewSystemInformationServiceClient(plugin.ClientConnection()),

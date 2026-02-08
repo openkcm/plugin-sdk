@@ -11,11 +11,11 @@ import (
 var _ certificateissuer.CertificateIssuer = (*hashicorpCertificateIssuerV1Plugin)(nil)
 
 type hashicorpCertificateIssuerV1Plugin struct {
-	plugin     *catalog.Plugin
+	plugin     catalog.Plugin
 	grpcClient certificate_issuerv1.CertificateIssuerServiceClient
 }
 
-func NewCertificateIssuerV1Plugin(plugin *catalog.Plugin) certificateissuer.CertificateIssuer {
+func NewCertificateIssuerV1Plugin(plugin catalog.Plugin) certificateissuer.CertificateIssuer {
 	return &hashicorpCertificateIssuerV1Plugin{
 		plugin:     plugin,
 		grpcClient: certificate_issuerv1.NewCertificateIssuerServiceClient(plugin.ClientConnection()),

@@ -15,11 +15,11 @@ import (
 var _ keystore.KeystoreManagement = (*hashicorpKeystoreManagementV1Plugin)(nil)
 
 type hashicorpKeystoreManagementV1Plugin struct {
-	plugin     *catalog.Plugin
+	plugin     catalog.Plugin
 	grpcClient managementv1.KeystoreProviderClient
 }
 
-func NewKeystoreManagementV1Plugin(plugin *catalog.Plugin) keystore.KeystoreManagement {
+func NewKeystoreManagementV1Plugin(plugin catalog.Plugin) keystore.KeystoreManagement {
 	return &hashicorpKeystoreManagementV1Plugin{
 		plugin:     plugin,
 		grpcClient: managementv1.NewKeystoreProviderClient(plugin.ClientConnection()),

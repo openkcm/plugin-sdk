@@ -11,11 +11,11 @@ import (
 var _ identitymanagement.IdentityManagement = (*hashicorpIdentityManagementV1Plugin)(nil)
 
 type hashicorpIdentityManagementV1Plugin struct {
-	plugin     *catalog.Plugin
+	plugin     catalog.Plugin
 	grpcClient identity_managementv1.IdentityManagementServiceClient
 }
 
-func NewIdentityManagementV1Plugin(plugin *catalog.Plugin) identitymanagement.IdentityManagement {
+func NewIdentityManagementV1Plugin(plugin catalog.Plugin) identitymanagement.IdentityManagement {
 	return &hashicorpIdentityManagementV1Plugin{
 		plugin:     plugin,
 		grpcClient: identity_managementv1.NewIdentityManagementServiceClient(plugin.ClientConnection()),

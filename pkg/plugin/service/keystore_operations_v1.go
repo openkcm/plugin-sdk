@@ -15,11 +15,11 @@ import (
 var _ keystore.KeystoreOperations = (*hashicorpKeystoreOperationsV1Plugin)(nil)
 
 type hashicorpKeystoreOperationsV1Plugin struct {
-	plugin     *catalog.Plugin
+	plugin     catalog.Plugin
 	grpcClient operationsv1.KeystoreInstanceKeyOperationClient
 }
 
-func NewKeystoreOperationsV1Plugin(plugin *catalog.Plugin) keystore.KeystoreOperations {
+func NewKeystoreOperationsV1Plugin(plugin catalog.Plugin) keystore.KeystoreOperations {
 	return &hashicorpKeystoreOperationsV1Plugin{
 		plugin:     plugin,
 		grpcClient: operationsv1.NewKeystoreInstanceKeyOperationClient(plugin.ClientConnection()),
