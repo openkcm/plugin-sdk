@@ -85,6 +85,10 @@ func TestInjectEnv(t *testing.T) {
 	t.Parallel()
 
 	cmd := exec.Command("test")
+	cmd.Env = []string{
+		"PATH=/usr/bin:/bin",
+	}
+
 	cfg := PluginConfig{
 		Env: map[string]string{
 			"A": "1",
@@ -271,7 +275,7 @@ func TestBuildSecureConfig(t *testing.T) {
 // ─────────────────────────────────────────────
 //
 
-func TestInitPlugin_Failure(t *testing.T) {
+func TestInitPluginFailure(t *testing.T) {
 	t.Parallel()
 
 	_, err := initPlugin(
@@ -293,7 +297,7 @@ func TestInitPlugin_Failure(t *testing.T) {
 // ─────────────────────────────────────────────
 //
 
-func TestNewPlugin_InitFailure(t *testing.T) {
+func TestNewPluginInitFailure(t *testing.T) {
 	t.Parallel()
 
 	_, err := newPlugin(
@@ -316,7 +320,7 @@ func TestNewPlugin_InitFailure(t *testing.T) {
 // ─────────────────────────────────────────────
 //
 
-func TestLoadPlugin_InvalidChecksum(t *testing.T) {
+func TestLoadPluginInvalidChecksum(t *testing.T) {
 	t.Parallel()
 
 	cfg := PluginConfig{
