@@ -4,7 +4,7 @@ import "testing"
 
 func TestMakeConfigurer(t *testing.T) {
 	// Arrange
-	plugin := &Plugin{}
+	plugin := &pluginStruct{}
 	pluginConfig := PluginConfig{Name: "test"}
 
 	// Act
