@@ -3,7 +3,7 @@ package notification
 import "context"
 
 type Notification interface {
-	SendNotification(ctx context.Context, req *SendNotificationRequest) (*SendNotificationResponse, error)
+	Send(ctx context.Context, req *SendNotificationRequest) (*SendNotificationResponse, error)
 }
 
 type Type int32

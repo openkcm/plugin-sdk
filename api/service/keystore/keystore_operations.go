@@ -21,9 +21,9 @@ type KeyAlgorithm int32
 
 const (
 	UnspecifiedKeyAlgorithm KeyAlgorithm = iota
-	AES256KeyAlgorithm
-	RSA3072KeyAlgorithm
-	RSA4096KeyAlgorithm
+	AES256K
+	RSA3072
+	RSA4096
 )
 
 type KeyType int32

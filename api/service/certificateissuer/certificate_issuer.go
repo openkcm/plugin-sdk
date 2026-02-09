@@ -5,7 +5,7 @@ import (
 )
 
 type CertificateIssuer interface {
-	GetCertificate(ctx context.Context, req *GetCertificateRequest) (*GetCertificateResponse, error)
+	IssueCertificate(ctx context.Context, req *IssueCertificateRequest) (*IssueCertificateResponse, error)
 }
 
 type ValidityType int32
@@ -17,7 +17,7 @@ const (
 	Years
 )
 
-type GetCertificateRequest struct {
+type IssueCertificateRequest struct {
 	// V1 Fields
 	CommonName string
 	Localities []string
@@ -25,7 +25,7 @@ type GetCertificateRequest struct {
 	PrivateKey *CertificatePrivateKey
 }
 
-type GetCertificateResponse struct {
+type IssueCertificateResponse struct {
 	// V1 Fields
 	ChainPem string
 }

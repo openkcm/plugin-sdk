@@ -22,7 +22,7 @@ func NewCertificateIssuerV1Plugin(plugin catalog.Plugin) certificateissuer.Certi
 	}
 }
 
-func (h *hashicorpCertificateIssuerV1Plugin) GetCertificate(ctx context.Context, req *certificateissuer.GetCertificateRequest) (*certificateissuer.GetCertificateResponse, error) {
+func (h *hashicorpCertificateIssuerV1Plugin) IssueCertificate(ctx context.Context, req *certificateissuer.IssueCertificateRequest) (*certificateissuer.IssueCertificateResponse, error) {
 	in := &certificate_issuerv1.GetCertificateRequest{
 		CommonName: req.CommonName,
 		Locality:   req.Localities,
@@ -33,7 +33,7 @@ func (h *hashicorpCertificateIssuerV1Plugin) GetCertificate(ctx context.Context,
 	if err != nil {
 		return nil, err
 	}
-	return &certificateissuer.GetCertificateResponse{
+	return &certificateissuer.IssueCertificateResponse{
 		ChainPem: grpcResp.CertificateChain,
 	}, nil
 }

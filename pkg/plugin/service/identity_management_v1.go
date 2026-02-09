@@ -36,7 +36,7 @@ func (h *hashicorpIdentityManagementV1Plugin) GetGroup(ctx context.Context, req 
 	}, nil
 }
 
-func (h *hashicorpIdentityManagementV1Plugin) GetAllGroups(ctx context.Context, req *identitymanagement.GetAllGroupsRequest) (*identitymanagement.GetAllGroupsResponse, error) {
+func (h *hashicorpIdentityManagementV1Plugin) ListGroups(ctx context.Context, req *identitymanagement.ListGroupsRequest) (*identitymanagement.ListGroupsResponse, error) {
 	in := &identity_managementv1.GetAllGroupsRequest{
 		AuthContext: AuthContextToGRPC(&req.AuthContext),
 	}
@@ -44,12 +44,12 @@ func (h *hashicorpIdentityManagementV1Plugin) GetAllGroups(ctx context.Context, 
 	if err != nil {
 		return nil, err
 	}
-	return &identitymanagement.GetAllGroupsResponse{
+	return &identitymanagement.ListGroupsResponse{
 		Groups: FromGRPCGroups(grpcResp.GetGroups()),
 	}, nil
 }
 
-func (h *hashicorpIdentityManagementV1Plugin) GetUsersForGroup(ctx context.Context, req *identitymanagement.GetUsersForGroupRequest) (*identitymanagement.GetUsersForGroupResponse, error) {
+func (h *hashicorpIdentityManagementV1Plugin) ListGroupUsers(ctx context.Context, req *identitymanagement.ListGroupUsersRequest) (*identitymanagement.ListGroupUsersResponse, error) {
 	in := &identity_managementv1.GetUsersForGroupRequest{
 		GroupId:     req.GroupID,
 		AuthContext: AuthContextToGRPC(&req.AuthContext),
@@ -58,12 +58,12 @@ func (h *hashicorpIdentityManagementV1Plugin) GetUsersForGroup(ctx context.Conte
 	if err != nil {
 		return nil, err
 	}
-	return &identitymanagement.GetUsersForGroupResponse{
+	return &identitymanagement.ListGroupUsersResponse{
 		Users: FromGRPCUsers(grpcResp.GetUsers()),
 	}, nil
 }
 
-func (h *hashicorpIdentityManagementV1Plugin) GetGroupsForUser(ctx context.Context, req *identitymanagement.GetGroupsForUserRequest) (*identitymanagement.GetGroupsForUserResponse, error) {
+func (h *hashicorpIdentityManagementV1Plugin) LetUserGroups(ctx context.Context, req *identitymanagement.LetUserGroupsRequest) (*identitymanagement.LetUserGroupsResponse, error) {
 	in := &identity_managementv1.GetGroupsForUserRequest{
 		UserId:      req.UserID,
 		AuthContext: AuthContextToGRPC(&req.AuthContext),
@@ -72,7 +72,7 @@ func (h *hashicorpIdentityManagementV1Plugin) GetGroupsForUser(ctx context.Conte
 	if err != nil {
 		return nil, err
 	}
-	return &identitymanagement.GetGroupsForUserResponse{
+	return &identitymanagement.LetUserGroupsResponse{
 		Groups: FromGRPCGroups(grpcResp.GetGroups()),
 	}, nil
 }

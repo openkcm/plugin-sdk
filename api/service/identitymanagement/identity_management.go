@@ -6,9 +6,9 @@ import (
 
 type IdentityManagement interface {
 	GetGroup(ctx context.Context, req *GetGroupRequest) (*GetGroupResponse, error)
-	GetAllGroups(ctx context.Context, req *GetAllGroupsRequest) (*GetAllGroupsResponse, error)
-	GetUsersForGroup(ctx context.Context, req *GetUsersForGroupRequest) (*GetUsersForGroupResponse, error)
-	GetGroupsForUser(ctx context.Context, req *GetGroupsForUserRequest) (*GetGroupsForUserResponse, error)
+	ListGroups(ctx context.Context, req *ListGroupsRequest) (*ListGroupsResponse, error)
+	ListGroupUsers(ctx context.Context, req *ListGroupUsersRequest) (*ListGroupUsersResponse, error)
+	LetUserGroups(ctx context.Context, req *LetUserGroupsRequest) (*LetUserGroupsResponse, error)
 }
 
 type AuthContext struct {
@@ -27,23 +27,23 @@ type GetGroupResponse struct {
 	Group Group
 }
 
-type GetAllGroupsRequest struct {
+type ListGroupsRequest struct {
 	// V1 Fields
 	AuthContext AuthContext
 }
 
-type GetAllGroupsResponse struct {
+type ListGroupsResponse struct {
 	// V1 Fields
 	Groups []Group
 }
 
-type GetUsersForGroupRequest struct {
+type ListGroupUsersRequest struct {
 	// V1 Fields
 	GroupID     string
 	AuthContext AuthContext
 }
 
-type GetUsersForGroupResponse struct {
+type ListGroupUsersResponse struct {
 	// V1 Fields
 	Users []User
 }
@@ -55,13 +55,13 @@ type User struct {
 	Email string
 }
 
-type GetGroupsForUserRequest struct {
+type LetUserGroupsRequest struct {
 	// V1 Fields
 	UserID      string
 	AuthContext AuthContext
 }
 
-type GetGroupsForUserResponse struct {
+type LetUserGroupsResponse struct {
 	// V1 Fields
 	Groups []Group
 }

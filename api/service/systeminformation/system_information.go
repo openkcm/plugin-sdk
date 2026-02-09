@@ -3,7 +3,7 @@ package systeminformation
 import "context"
 
 type SystemInformation interface {
-	Get(ctx context.Context, req *GetSystemInformationRequest) (*GetSystemInformationResponse, error)
+	GetSystemInfo(ctx context.Context, req *GetSystemInfoRequest) (*GetSystemInfoResponse, error)
 }
 
 type RequestType int32
@@ -14,13 +14,13 @@ const (
 	Subaccount
 )
 
-type GetSystemInformationRequest struct {
+type GetSystemInfoRequest struct {
 	// V1 Fields
 	ID   string
 	Type RequestType
 }
 
-type GetSystemInformationResponse struct {
+type GetSystemInfoResponse struct {
 	// V1 Fields
 	Metadata map[string]string
 }

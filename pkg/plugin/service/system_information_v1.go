@@ -22,7 +22,7 @@ func NewSystemInformationV1Plugin(plugin catalog.Plugin) systeminformation.Syste
 	}
 }
 
-func (h *hashicorpSystemInformationV1Plugin) Get(ctx context.Context, req *systeminformation.GetSystemInformationRequest) (*systeminformation.GetSystemInformationResponse, error) {
+func (h *hashicorpSystemInformationV1Plugin) GetSystemInfo(ctx context.Context, req *systeminformation.GetSystemInfoRequest) (*systeminformation.GetSystemInfoResponse, error) {
 	in := &systeminformationv1.GetRequest{
 		Id:   req.ID,
 		Type: systeminformationv1.RequestType(req.Type),
@@ -31,7 +31,7 @@ func (h *hashicorpSystemInformationV1Plugin) Get(ctx context.Context, req *syste
 	if err != nil {
 		return nil, err
 	}
-	return &systeminformation.GetSystemInformationResponse{
+	return &systeminformation.GetSystemInfoResponse{
 		Metadata: grpcResp.GetMetadata(),
 	}, nil
 }

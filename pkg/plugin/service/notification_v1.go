@@ -22,7 +22,7 @@ func NewNotificationV1Plugin(plugin catalog.Plugin) notification.Notification {
 	}
 }
 
-func (h *hashicorpNotificationV1Plugin) SendNotification(ctx context.Context, req *notification.SendNotificationRequest) (*notification.SendNotificationResponse, error) {
+func (h *hashicorpNotificationV1Plugin) Send(ctx context.Context, req *notification.SendNotificationRequest) (*notification.SendNotificationResponse, error) {
 	in := &notificationv1.SendNotificationRequest{
 		NotificationType: notificationv1.NotificationType(req.Type),
 		Recipients:       req.Recipients,
