@@ -37,8 +37,8 @@ func (c *Catalog) Close() error {
 	return c.closers.Close()
 }
 
-func (c *Catalog) LookupByType(pluginType string) []*Plugin {
-	var plugins []*Plugin
+func (c *Catalog) LookupByType(pluginType string) []Plugin {
+	var plugins []Plugin
 	for _, cfgr := range c.configurers {
 		if cfgr.plugin.Info().Type() == pluginType {
 			plugins = append(plugins, cfgr.plugin)
@@ -47,7 +47,7 @@ func (c *Catalog) LookupByType(pluginType string) []*Plugin {
 	return plugins
 }
 
-func (c *Catalog) LookupByTypeAndName(pluginType, pluginName string) *Plugin {
+func (c *Catalog) LookupByTypeAndName(pluginType, pluginName string) Plugin {
 	for _, cfgr := range c.configurers {
 		if cfgr.plugin.Info().Type() == pluginType && cfgr.plugin.Info().Name() == pluginName {
 			return cfgr.plugin
@@ -64,7 +64,7 @@ func (c *Catalog) ListPluginInfo() []PluginInfo {
 	return plugins
 }
 
-func Load(ctx context.Context, config Config, builtIns ...BuiltIn) (catalog *Catalog, err error) {
+func Load(ctx context.Context, config Config, builtIns ...BuiltInPlugin) (catalog *Catalog, err error) {
 	closers := make(closerGroup, 0)
 	defer func() {
 		// If loading fails, clear out the catalog and close down all plugins
@@ -113,7 +113,7 @@ func Load(ctx context.Context, config Config, builtIns ...BuiltIn) (catalog *Cat
 	}, nil
 }
 
-func loadPluginAs(ctx context.Context, logger *slog.Logger, pluginConfig PluginConfig, builtIns ...BuiltIn) (*Plugin, error) {
+func loadPluginAs(ctx context.Context, logger *slog.Logger, pluginConfig PluginConfig, builtIns ...BuiltInPlugin) (Plugin, error) {
 	if pluginConfig.IsExternal() {
 		plugin, err := loadPluginAsExternal(ctx, logger, pluginConfig)
 		if err != nil {
@@ -129,7 +129,7 @@ func loadPluginAs(ctx context.Context, logger *slog.Logger, pluginConfig PluginC
 	return plugin, nil
 }
 
-func loadPluginAsExternal(ctx context.Context, logger *slog.Logger, pluginConfig PluginConfig) (*Plugin, error) {
+func loadPluginAsExternal(ctx context.Context, logger *slog.Logger, pluginConfig PluginConfig) (Plugin, error) {
 	if pluginConfig.Name == "" {
 		return nil, fmt.Errorf("failed to load external plugin, missing name")
 	}
@@ -146,20 +146,20 @@ func loadPluginAsExternal(ctx context.Context, logger *slog.Logger, pluginConfig
 	return loadPlugin(ctx, pluginConfig)
 }
 
-func loadPluginAsBuiltIn(ctx context.Context, logger *slog.Logger, pluginConfig PluginConfig, builtIns ...BuiltIn) (*Plugin, error) {
+func loadPluginAsBuiltIn(ctx context.Context, logger *slog.Logger, pluginConfig PluginConfig, builtIns ...BuiltInPlugin) (Plugin, error) {
 	if pluginConfig.Name == "" {
 		return nil, fmt.Errorf("failed to load builtin plugin, missing name")
 	}
 
 	for _, builtin := range builtIns {
-		if builtin.Name == pluginConfig.Name {
+		if builtin.Name() == pluginConfig.Name {
 			pluginConfig.Logger = logger.With(
 				Name, pluginConfig.Name,
-				Type, builtin.Plugin.Type(),
+				Type, builtin.Type(),
 			)
 
-			return loadBuiltIn(ctx, builtin, pluginConfig)
+			return loadBuiltInPlugin(ctx, builtin, pluginConfig)
 		}
 	}
-	return nil, fmt.Errorf("builtin plugin %q not found", pluginConfig.Name)
+	return loadPluginAsExternal(ctx, logger, pluginConfig)
 }

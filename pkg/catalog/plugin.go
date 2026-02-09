@@ -58,7 +58,7 @@ func (c *PluginConfig) IsExternal() bool {
 	return c.Path != ""
 }
 
-func (c PluginConfig) IsEnabled() bool {
+func (c *PluginConfig) IsEnabled() bool {
 	return !c.Disabled
 }
 
@@ -81,7 +81,16 @@ type PluginInfo interface {
 	Build() string
 }
 
-type Plugin struct {
+type Plugin interface {
+	io.Closer
+
+	ClientConnection() grpc.ClientConnInterface
+	Info() PluginInfo
+	Logger() *slog.Logger
+	GrpcServiceNames() []string
+}
+
+type pluginStruct struct {
 	closerGroup
 
 	conn             grpc.ClientConnInterface
@@ -90,20 +99,23 @@ type Plugin struct {
 	grpcServiceNames []string
 }
 
-func (p *Plugin) ClientConnection() grpc.ClientConnInterface {
+func (p *pluginStruct) Close() error {
+	return p.closerGroup.Close()
+}
+func (p *pluginStruct) ClientConnection() grpc.ClientConnInterface {
 	return p.conn
 }
-func (p *Plugin) Info() PluginInfo {
+func (p *pluginStruct) Info() PluginInfo {
 	return p.info
 }
-func (p *Plugin) Logger() *slog.Logger {
+func (p *pluginStruct) Logger() *slog.Logger {
 	return p.logger
 }
-func (p *Plugin) GrpcServiceNames() []string {
+func (p *pluginStruct) GrpcServiceNames() []string {
 	return p.grpcServiceNames
 }
 
-func loadPlugin(ctx context.Context, config PluginConfig) (*Plugin, error) {
+func loadPlugin(ctx context.Context, config PluginConfig) (Plugin, error) {
 	config.Logger.InfoContext(ctx, "Loading plugin", "name", config.Name, "path", config.Path)
 
 	cmd := pluginCmd(config.Path, config.Args...)
@@ -233,7 +245,7 @@ func buildSecureConfig(checksum string) (*goplugin.SecureConfig, error) {
 	}, nil
 }
 
-func newPlugin(ctx context.Context, conn grpc.ClientConnInterface, info PluginInfo, logger *slog.Logger, closers closerGroup, hostServices []api.ServiceServer) (*Plugin, error) {
+func newPlugin(ctx context.Context, conn grpc.ClientConnInterface, info PluginInfo, logger *slog.Logger, closers closerGroup, hostServices []api.ServiceServer) (Plugin, error) {
 	grpcServiceNames, err := initPlugin(ctx, conn, hostServices)
 	if err != nil {
 		return nil, err
@@ -249,7 +261,7 @@ func newPlugin(ctx context.Context, conn grpc.ClientConnInterface, info PluginIn
 		}
 	}))
 
-	return &Plugin{
+	return &pluginStruct{
 		closerGroup: closers,
 
 		conn:             conn,

@@ -17,7 +17,22 @@
       "hidden": false
     },
     {
+      "type": "feature",
+      "section": "🚀 Features",
+      "hidden": false
+    },
+    {
+      "type": "enhancement",
+      "section": "🚀 Features",
+      "hidden": false
+    },
+    {
       "type": "fix",
+      "section": "🐛 Bug Fixes",
+      "hidden": false
+    },
+    {
+      "type": "bug",
       "section": "🐛 Bug Fixes",
       "hidden": false
     },
@@ -71,7 +86,15 @@
   "release-search-depth": 400,
   "packages": {
     ".": {
-      "release-type": "go"
+      "release-type": "go",
+      "pull-request-header": "I have created a release for you",
+      "versioning": "always-bump-patch",
+      "bump-minor-pre-major": true,
+      "bump-patch-for-minor-pre-major": true
     }
+  },
+  "changelog": {
+    "template": "## Changelog\n\n{{#each commits}}\n- {{this.message}} (#{{this.pullRequestNumber}})\n{{/each}}",
+    "include-vcs-changes": true
   }
 }

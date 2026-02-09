@@ -16,24 +16,62 @@ import (
 	"github.com/openkcm/plugin-sdk/internal/slog2hclog"
 )
 
-type BuiltIn struct {
-	Name     string
-	Tags     []string
-	Plugin   api.PluginServer
-	Services []api.ServiceServer
+type BuiltInPlugin interface {
+	PluginInfo
+
+	Plugin() api.PluginServer
+	Services() []api.ServiceServer
 }
 
-func MakeBuiltIn(name string, pluginServer api.PluginServer, serviceServers ...api.ServiceServer) BuiltIn {
-	return BuiltIn{
-		Name:     name,
-		Plugin:   pluginServer,
-		Services: serviceServers,
+type builtInPluginStruct struct {
+	name      string
+	tags      []string
+	plugin    api.PluginServer
+	services  []api.ServiceServer
+	buildInfo string
+}
+
+func (p *builtInPluginStruct) Name() string {
+	return p.name
+}
+
+func (p *builtInPluginStruct) Tags() []string {
+	return p.tags
+}
+
+func (p *builtInPluginStruct) Plugin() api.PluginServer {
+	return p.plugin
+}
+
+func (p *builtInPluginStruct) Services() []api.ServiceServer {
+	return p.services
+}
+
+func (p *builtInPluginStruct) Build() string {
+	return p.buildInfo
+}
+
+func (p *builtInPluginStruct) Type() string {
+	return p.plugin.Type()
+}
+
+func (p *builtInPluginStruct) SetValue(value string) {
+	p.buildInfo = value
+}
+
+var _ BuiltInPlugin = (*builtInPluginStruct)(nil)
+
+func AsBuiltIn(name string, pluginServer api.PluginServer, serviceServers ...api.ServiceServer) BuiltInPlugin {
+	return &builtInPluginStruct{
+		name:     name,
+		plugin:   pluginServer,
+		services: serviceServers,
 	}
 }
 
-func loadBuiltIn(ctx context.Context, builtIn BuiltIn, pluginConfig PluginConfig) (_ *Plugin, err error) {
+func loadBuiltInPlugin(ctx context.Context, builtIn BuiltInPlugin, pluginConfig PluginConfig) (_ Plugin, err error) {
 	dialer := &builtinDialer{
-		pluginName:   builtIn.Name,
+		pluginName:   builtIn.Name(),
 		log:          pluginConfig.Logger,
 		hostServices: pluginConfig.HostServices,
 	}
@@ -49,7 +87,7 @@ func loadBuiltIn(ctx context.Context, builtIn BuiltIn, pluginConfig PluginConfig
 	builtinServer, serverCloser := newBuiltInServer(pluginConfig.Logger)
 	closers = append(closers, serverCloser)
 
-	pluginServers := append([]api.ServiceServer{builtIn.Plugin}, builtIn.Services...)
+	pluginServers := append([]api.ServiceServer{builtIn.Plugin()}, builtIn.Services()...)
 
 	log := slog2hclog.NewWithLevel(pluginConfig.Logger, pluginConfig.LogLevel)
 	bootstrap.Register(builtinServer, pluginServers, log, dialer)
@@ -61,12 +99,13 @@ func loadBuiltIn(ctx context.Context, builtIn BuiltIn, pluginConfig PluginConfig
 	closers = append(closers, builtinConn)
 
 	info := &pluginInfo{
-		name: builtIn.Name,
-		typ:  builtIn.Plugin.Type(),
-		tags: builtIn.Tags,
+		name: builtIn.Name(),
+		typ:  builtIn.Type(),
+		tags: builtIn.Tags(),
 	}
 
-	return newPlugin(ctx, builtinConn, info, pluginConfig.Logger, closers, pluginConfig.HostServices)
+	p, err := newPlugin(ctx, builtinConn, info, pluginConfig.Logger, closers, pluginConfig.HostServices)
+	return p, err
 }
 
 func newBuiltInServer(log *slog.Logger) (*grpc.Server, io.Closer) {
