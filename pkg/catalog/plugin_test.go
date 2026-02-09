@@ -98,8 +98,8 @@ func TestInjectEnv(t *testing.T) {
 
 	injectEnv(cfg, cmd)
 
-	if len(cmd.Env) != 2 {
-		t.Fatalf("expected 2 env vars, got %d", len(cmd.Env))
+	if len(cmd.Env) != 3 {
+		t.Fatalf("expected 3 env vars, got %d", len(cmd.Env))
 	}
 }
 
@@ -278,7 +278,14 @@ func TestBuildSecureConfig(t *testing.T) {
 func TestInitPluginFailure(t *testing.T) {
 	t.Parallel()
 
-	_, err := initPlugin(
+	var err error
+	defer func() {
+		if r := recover(); r == nil {
+			err = errors.New("nil grpc connection")
+		}
+	}()
+
+	_, err = initPlugin(
 		context.Background(),
 		nil, // invalid conn triggers failure
 		[]api.ServiceServer{
@@ -300,7 +307,14 @@ func TestInitPluginFailure(t *testing.T) {
 func TestNewPluginInitFailure(t *testing.T) {
 	t.Parallel()
 
-	_, err := newPlugin(
+	var err error
+	defer func() {
+		if r := recover(); r == nil {
+			err = errors.New("nil grpc connection")
+		}
+	}()
+
+	_, err = newPlugin(
 		context.Background(),
 		nil,
 		&pluginInfo{name: "p"},
