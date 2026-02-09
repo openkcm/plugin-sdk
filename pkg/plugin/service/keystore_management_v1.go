@@ -40,7 +40,7 @@ func (h *hashicorpKeystoreManagementV1Plugin) CreateKeystore(ctx context.Context
 		return nil, err
 	}
 	resp := &keystore.CreateKeystoreResponse{
-		Config: keystore.KeystoreInstanceConfig{
+		Config: keystore.InstanceConfig{
 			Values: nil,
 		},
 	}

@@ -37,7 +37,7 @@ const (
 
 type RequestParameters struct {
 	// V1 Fields
-	Config KeystoreInstanceConfig
+	Config InstanceConfig
 	KeyID  string
 }
 
@@ -57,7 +57,7 @@ type GetKeyResponse struct {
 // CreateKeyRequest contains parameters for key creation
 type CreateKeyRequest struct {
 	// V1 Fields
-	Config       KeystoreInstanceConfig
+	Config       InstanceConfig
 	KeyAlgorithm KeyAlgorithm
 	ID           *string
 	Region       string

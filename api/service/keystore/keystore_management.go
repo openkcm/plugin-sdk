@@ -16,12 +16,12 @@ type CreateKeystoreRequest struct {
 
 type CreateKeystoreResponse struct {
 	// V1 Fields
-	Config KeystoreInstanceConfig
+	Config InstanceConfig
 }
 
 type DeleteKeystoreRequest struct {
 	// V1 Fields
-	Config KeystoreInstanceConfig
+	Config InstanceConfig
 }
 
 type DeleteKeystoreResponse struct{}
