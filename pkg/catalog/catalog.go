@@ -168,6 +168,15 @@ func load(ctx context.Context, config Config, repo Repository, builtIns ...Built
 		pluginCounts[pluginConfig.Type]++
 	}
 
+	impl := &catalogImpl{
+		closers:     closers,
+		configurers: reconfigurers,
+	}
+
+	if config.DisabledConstraints {
+		return impl, nil
+	}
+
 	// Make sure all plugin constraints are satisfied
 	for pluginType, pluginRepo := range pluginRepos {
 		if err := pluginRepo.Constraints().Check(pluginCounts[pluginType]); err != nil {
@@ -175,10 +184,7 @@ func load(ctx context.Context, config Config, repo Repository, builtIns ...Built
 		}
 	}
 
-	return &catalogImpl{
-		closers:     closers,
-		configurers: reconfigurers,
-	}, nil
+	return impl, nil
 }
 
 func loadPluginAs(ctx context.Context, logger *slog.Logger, pluginConfig PluginConfig, builtIns ...BuiltInPlugin) (*pluginImpl, error) {

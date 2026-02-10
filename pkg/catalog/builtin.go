@@ -17,7 +17,7 @@ import (
 )
 
 type BuiltInPlugin interface {
-	api.PluginInfo
+	api.Info
 
 	Plugin() api.PluginServer
 	Services() []api.ServiceServer
@@ -29,7 +29,7 @@ type builtInPluginStruct struct {
 	plugin    api.PluginServer
 	services  []api.ServiceServer
 	buildInfo string
-	version   uint32
+	version   uint
 }
 
 func (p *builtInPluginStruct) Name() string {
@@ -56,7 +56,7 @@ func (p *builtInPluginStruct) Type() string {
 	return p.plugin.Type()
 }
 
-func (p *builtInPluginStruct) Version() uint32 {
+func (p *builtInPluginStruct) Version() uint {
 	return p.version
 }
 
@@ -104,9 +104,9 @@ func loadBuiltInPlugin(ctx context.Context, builtIn BuiltInPlugin, pluginConfig 
 	}
 	closers = append(closers, builtinConn)
 
-	var version uint32 = 1
+	var version uint = 1
 	if pluginConfig.Version > 1 {
-		version = pluginConfig.Version
+		version = uint(pluginConfig.Version)
 	}
 	info := &pluginInfo{
 		name:      builtIn.Name(),

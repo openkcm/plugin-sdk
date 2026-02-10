@@ -57,6 +57,8 @@ type ServiceRepo interface {
 }
 
 type Config struct {
+	DisabledConstraints bool
+
 	// Logger is the logger. It is used for general purpose logging and also
 	// provided to the plugins.
 	Logger *slog.Logger

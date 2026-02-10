@@ -2,9 +2,13 @@ package keystore
 
 import (
 	"context"
+
+	"github.com/openkcm/plugin-sdk/api"
 )
 
 type KeystoreManagement interface {
+	ServiceInfo() api.Info
+
 	CreateKeystore(ctx context.Context, req *CreateKeystoreRequest) (*CreateKeystoreResponse, error)
 	DeleteKeystore(ctx context.Context, req *DeleteKeystoreRequest) (*DeleteKeystoreResponse, error)
 }

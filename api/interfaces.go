@@ -91,17 +91,17 @@ type Facade interface {
 
 	// InitInfo is used to initialize the facade with information for the
 	// loaded plugin providing the service server.
-	InitInfo(info PluginInfo)
+	InitInfo(info Info)
 
 	// InitLog initializes the facade with the logger for the loaded plugin
 	// that provides the service server.
 	InitLog(log *slog.Logger)
 
-	Version() uint32
+	Version() uint
 }
 
-// PluginInfo provides the information for the loaded plugin.
-type PluginInfo interface {
+// Info provides the information for the loaded plugin.
+type Info interface {
 	// The name of the plugin
 	Name() string
 
@@ -115,7 +115,7 @@ type PluginInfo interface {
 	Build() string
 
 	// Version of the plugin
-	Version() uint32
+	Version() uint
 }
 
 // Version represents a plugin or service version. It is used to instantiate

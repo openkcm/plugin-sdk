@@ -2,9 +2,13 @@ package certificateissuer
 
 import (
 	"context"
+
+	"github.com/openkcm/plugin-sdk/api"
 )
 
 type CertificateIssuer interface {
+	ServiceInfo() api.Info
+
 	IssueCertificate(ctx context.Context, req *IssueCertificateRequest) (*IssueCertificateResponse, error)
 }
 

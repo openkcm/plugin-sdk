@@ -6,6 +6,7 @@ import (
 
 	"google.golang.org/protobuf/types/known/structpb"
 
+	"github.com/openkcm/plugin-sdk/api"
 	"github.com/openkcm/plugin-sdk/api/service/keystore"
 	"github.com/openkcm/plugin-sdk/pkg/plugin"
 	commonv1 "github.com/openkcm/plugin-sdk/proto/plugin/keystore/common/v1"
@@ -17,8 +18,12 @@ type V1 struct {
 	managementv1.KeystoreProviderPluginClient
 }
 
-func (v1 *V1) Version() uint32 {
+func (v1 *V1) Version() uint {
 	return 1
+}
+
+func (v1 *V1) ServiceInfo() api.Info {
+	return v1.Info
 }
 
 func (v1 *V1) CreateKeystore(ctx context.Context, req *keystore.CreateKeystoreRequest) (*keystore.CreateKeystoreResponse, error) {

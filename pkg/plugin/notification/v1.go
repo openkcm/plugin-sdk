@@ -3,6 +3,7 @@ package notification
 import (
 	"context"
 
+	"github.com/openkcm/plugin-sdk/api"
 	"github.com/openkcm/plugin-sdk/api/service/notification"
 	"github.com/openkcm/plugin-sdk/pkg/plugin"
 	notification1 "github.com/openkcm/plugin-sdk/proto/plugin/notification/v1"
@@ -13,8 +14,12 @@ type V1 struct {
 	notification1.NotificationServicePluginClient
 }
 
-func (v1 *V1) Version() uint32 {
+func (v1 *V1) Version() uint {
 	return 1
+}
+
+func (v1 *V1) ServiceInfo() api.Info {
+	return v1.Info
 }
 
 func (v1 *V1) Send(ctx context.Context, req *notification.SendNotificationRequest) (*notification.SendNotificationResponse, error) {

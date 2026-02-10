@@ -1,8 +1,14 @@
 package notification
 
-import "context"
+import (
+	"context"
+
+	"github.com/openkcm/plugin-sdk/api"
+)
 
 type Notification interface {
+	ServiceInfo() api.Info
+
 	Send(ctx context.Context, req *SendNotificationRequest) (*SendNotificationResponse, error)
 }
 

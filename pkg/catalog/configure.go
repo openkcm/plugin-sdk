@@ -151,13 +151,13 @@ type configurerV1 struct {
 
 var _ Configurer = (*configurerV1)(nil)
 
-func (v1 *configurerV1) InitInfo(api.PluginInfo) {
+func (v1 *configurerV1) InitInfo(api.Info) {
 }
 
 func (v1 *configurerV1) InitLog(*slog.Logger) {
 }
 
-func (v1 *configurerV1) Version() uint32 {
+func (v1 *configurerV1) Version() uint {
 	return 1
 }
 

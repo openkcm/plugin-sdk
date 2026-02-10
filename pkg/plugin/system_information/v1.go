@@ -3,6 +3,7 @@ package system_information
 import (
 	"context"
 
+	"github.com/openkcm/plugin-sdk/api"
 	"github.com/openkcm/plugin-sdk/api/service/systeminformation"
 	"github.com/openkcm/plugin-sdk/pkg/plugin"
 	systeminformationv1 "github.com/openkcm/plugin-sdk/proto/plugin/systeminformation/v1"
@@ -13,8 +14,12 @@ type V1 struct {
 	systeminformationv1.SystemInformationServicePluginClient
 }
 
-func (v1 *V1) Version() uint32 {
+func (v1 *V1) Version() uint {
 	return 1
+}
+
+func (v1 *V1) ServiceInfo() api.Info {
+	return v1.Info
 }
 
 func (v1 *V1) GetSystemInfo(ctx context.Context, req *systeminformation.GetSystemInfoRequest) (*systeminformation.GetSystemInfoResponse, error) {

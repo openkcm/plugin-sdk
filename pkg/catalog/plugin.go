@@ -105,7 +105,7 @@ type Plugin interface {
 	io.Closer
 
 	ClientConnection() grpc.ClientConnInterface
-	Info() api.PluginInfo
+	Info() api.Info
 	Logger() *slog.Logger
 	GrpcServiceNames() []string
 }
@@ -114,7 +114,7 @@ type pluginImpl struct {
 	closerGroup
 
 	conn             grpc.ClientConnInterface
-	info             api.PluginInfo
+	info             api.Info
 	logger           *slog.Logger
 	grpcServiceNames []string
 }
@@ -125,7 +125,7 @@ func (p *pluginImpl) Close() error {
 func (p *pluginImpl) ClientConnection() grpc.ClientConnInterface {
 	return p.conn
 }
-func (p *pluginImpl) Info() api.PluginInfo {
+func (p *pluginImpl) Info() api.Info {
 	return p.info
 }
 func (p *pluginImpl) Logger() *slog.Logger {
@@ -187,9 +187,9 @@ func loadPlugin(ctx context.Context, config PluginConfig) (*pluginImpl, error) {
 	// killed when the plugin is closed.
 	plugin.closers = append(plugin.closers, closerFunc(pluginClient.Kill))
 
-	var version uint32 = 1
+	var version uint = 1
 	if config.Version > 1 {
-		version = config.Version
+		version = uint(config.Version)
 	}
 	info := &pluginInfo{
 		name:    config.Name,
@@ -216,7 +216,7 @@ type pluginInfo struct {
 	typ       string
 	buildInfo string
 	tags      []string
-	version   uint32
+	version   uint
 }
 
 func (info *pluginInfo) Name() string {
@@ -231,7 +231,7 @@ func (info *pluginInfo) Tags() []string { return info.tags }
 
 func (info *pluginInfo) Build() string { return info.buildInfo }
 
-func (info *pluginInfo) Version() uint32 {
+func (info *pluginInfo) Version() uint {
 	return info.version
 }
 
@@ -276,7 +276,7 @@ func buildSecureConfig(checksum string) (*goplugin.SecureConfig, error) {
 	}, nil
 }
 
-func newPlugin(ctx context.Context, conn grpc.ClientConnInterface, info api.PluginInfo, logger *slog.Logger, closers closerGroup, hostServices []api.ServiceServer) (*pluginImpl, error) {
+func newPlugin(ctx context.Context, conn grpc.ClientConnInterface, info api.Info, logger *slog.Logger, closers closerGroup, hostServices []api.ServiceServer) (*pluginImpl, error) {
 	grpcServiceNames, err := initPlugin(ctx, conn, hostServices)
 	if err != nil {
 		return nil, err

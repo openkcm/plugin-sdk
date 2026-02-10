@@ -12,17 +12,17 @@ import (
 
 // PrefixMessage prefixes the given message with plugin information. The prefix
 // is only applied if it is not already applied.
-func PrefixMessage(pluginInfo api.PluginInfo, message string) string {
+func PrefixMessage(pluginInfo api.Info, message string) string {
 	message, _ = prefixMessage(pluginInfo, message)
 	return message
 }
 
 // Facade is embedded by plugin interface facade implementations as a
-// convenient way to embed PluginInfo but also provide a set of convenient
+// convenient way to embed Info but also provide a set of convenient
 // functions for embellishing and generating errors that have the plugin
 // name prefixed.
 type Facade struct {
-	api.PluginInfo
+	api.Info
 	Log *slog.Logger
 }
 
@@ -30,7 +30,7 @@ type Facade struct {
 // not the product of a loaded plugin.
 func FixedFacade(pluginName, pluginType string, log *slog.Logger) Facade {
 	return Facade{
-		PluginInfo: pluginFacadeInfo{
+		Info: pluginFacadeInfo{
 			pluginName: pluginName,
 			pluginType: pluginType,
 		},
@@ -39,8 +39,8 @@ func FixedFacade(pluginName, pluginType string, log *slog.Logger) Facade {
 }
 
 // InitInfo partially satisfies the catalog.Facade interface
-func (f *Facade) InitInfo(pluginInfo api.PluginInfo) {
-	f.PluginInfo = pluginInfo
+func (f *Facade) InitInfo(pluginInfo api.Info) {
+	f.Info = pluginInfo
 }
 
 // InitLog partially satisfies the catalog.Facade interface
@@ -90,7 +90,7 @@ func (f *Facade) Errorf(code codes.Code, format string, args ...any) error {
 	return status.Errorf(code, messagePrefix(f)+format, args...)
 }
 
-func prefixMessage(pluginInfo api.PluginInfo, message string) (string, bool) {
+func prefixMessage(pluginInfo api.Info, message string) (string, bool) {
 	prefix := messagePrefix(pluginInfo)
 
 	if strings.HasPrefix(message, prefix) {
@@ -101,7 +101,7 @@ func prefixMessage(pluginInfo api.PluginInfo, message string) (string, bool) {
 	return prefix + strings.TrimPrefix(message, oldPrefix), true
 }
 
-func messagePrefix(pluginInfo api.PluginInfo) string {
+func messagePrefix(pluginInfo api.Info) string {
 	return strings.ToLower(pluginInfo.Type()) + "(" + pluginInfo.Name() + "): "
 }
 
@@ -123,7 +123,7 @@ type pluginFacadeInfo struct {
 	pluginType string
 	pluginTags []string
 	buildInfo  string
-	version    uint32
+	version    uint
 }
 
 func (info pluginFacadeInfo) Name() string {
@@ -142,6 +142,6 @@ func (info pluginFacadeInfo) Build() string {
 	return info.buildInfo
 }
 
-func (info pluginFacadeInfo) Version() uint32 {
+func (info pluginFacadeInfo) Version() uint {
 	return info.version
 }

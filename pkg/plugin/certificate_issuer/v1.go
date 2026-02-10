@@ -3,6 +3,7 @@ package certificate_issuer
 import (
 	"context"
 
+	"github.com/openkcm/plugin-sdk/api"
 	"github.com/openkcm/plugin-sdk/api/service/certificateissuer"
 	"github.com/openkcm/plugin-sdk/pkg/plugin"
 	certificate_issuerv1 "github.com/openkcm/plugin-sdk/proto/plugin/certificate_issuer/v1"
@@ -13,8 +14,12 @@ type V1 struct {
 	certificate_issuerv1.CertificateIssuerServicePluginClient
 }
 
-func (v1 *V1) Version() uint32 {
+func (v1 *V1) Version() uint {
 	return 1
+}
+
+func (v1 *V1) ServiceInfo() api.Info {
+	return v1.Info
 }
 
 func (v1 *V1) IssueCertificate(ctx context.Context, req *certificateissuer.IssueCertificateRequest) (*certificateissuer.IssueCertificateResponse, error) {
