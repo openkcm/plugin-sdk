@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.9.2](https://github.com/openkcm/plugin-sdk/compare/v0.9.1...v0.9.2) (2026-02-09)
+
+
+### Bug Fixes
+
+* add missing builtin plugins registry  ([#86](https://github.com/openkcm/plugin-sdk/issues/86)) ([a4b4e44](https://github.com/openkcm/plugin-sdk/commit/a4b4e4493739c6a3de3d5073df7f3b6e0bb7e32e))
+* include the build information for the BuiltIn plugin ([#90](https://github.com/openkcm/plugin-sdk/issues/90)) ([3032ddd](https://github.com/openkcm/plugin-sdk/commit/3032ddd211f0df73b674157965e6ad596ae948b9))
+* introduce interface for built in plugins ([#88](https://github.com/openkcm/plugin-sdk/issues/88)) ([fc81d63](https://github.com/openkcm/plugin-sdk/commit/fc81d6305b8dcc13b6c1e63c0465019d5b278050))
+* transform the plugin struct to interface ([#91](https://github.com/openkcm/plugin-sdk/issues/91)) ([843d1ea](https://github.com/openkcm/plugin-sdk/commit/843d1eaa10615a8d31678af5f6e9acc3bc036acc))
+* use string request type for systeminformation ([#85](https://github.com/openkcm/plugin-sdk/issues/85)) ([5843a3d](https://github.com/openkcm/plugin-sdk/commit/5843a3d33a3f8c9a006d2c314f354fa1fe850b33))
+
 ## [0.9.1](https://github.com/openkcm/plugin-sdk/compare/v0.9.0...v0.9.1) (2025-11-24)
 
 
