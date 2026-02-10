@@ -3,7 +3,6 @@ package catalog
 import (
 	"github.com/openkcm/plugin-sdk/api"
 	"github.com/openkcm/plugin-sdk/pkg/plugin/keystore_management"
-	"github.com/openkcm/plugin-sdk/pkg/plugin/system_information"
 )
 
 type keystoreManagementRepository struct {
@@ -28,5 +27,5 @@ func (repo *keystoreManagementRepository) BuiltIns() []BuiltInPlugin {
 
 type keystoreManagementV1 struct{}
 
-func (keystoreManagementV1) New() api.Facade  { return new(system_information.V1) }
+func (keystoreManagementV1) New() api.Facade  { return new(keystore_management.V1) }
 func (keystoreManagementV1) Deprecated() bool { return false }

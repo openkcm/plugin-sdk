@@ -47,15 +47,17 @@ func (repo *mainRepository) Reconfigure(ctx context.Context) {
 	repo.catalog.Reconfigure(ctx)
 }
 
-func (repo *mainRepository) Close() {
-	if repo.catalog != nil {
-		repo.log.Debug("Closing catalog")
-		if err := repo.catalog.Close(); err == nil {
-			repo.log.Info("Catalog closed")
-		} else {
-			repo.log.Error("Failed to close catalog", "error", err)
-		}
+func (repo *mainRepository) Close() error {
+	if repo.catalog == nil {
+		return nil
 	}
+
+	err := repo.catalog.Close()
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func Load(ctx context.Context, config Config, builtIns ...BuiltInPlugin) (_ serviceapi.Catalog, err error) {
@@ -64,7 +66,7 @@ func Load(ctx context.Context, config Config, builtIns ...BuiltInPlugin) (_ serv
 	}
 	defer func() {
 		if err != nil {
-			repo.Close()
+			_ = repo.Close()
 		}
 	}()
 

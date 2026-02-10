@@ -2,7 +2,6 @@ package catalog
 
 import (
 	"github.com/openkcm/plugin-sdk/api"
-	"github.com/openkcm/plugin-sdk/pkg/plugin/certificate_issuer"
 	"github.com/openkcm/plugin-sdk/pkg/plugin/notification"
 )
 
@@ -28,5 +27,5 @@ func (repo *notificationRepository) BuiltIns() []BuiltInPlugin {
 
 type notificationV1 struct{}
 
-func (notificationV1) New() api.Facade  { return new(certificate_issuer.V1) }
+func (notificationV1) New() api.Facade  { return new(notification.V1) }
 func (notificationV1) Deprecated() bool { return false }
