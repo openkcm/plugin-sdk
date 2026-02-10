@@ -157,6 +157,10 @@ func (v1 *configurerV1) InitInfo(api.PluginInfo) {
 func (v1 *configurerV1) InitLog(*slog.Logger) {
 }
 
+func (v1 *configurerV1) Version() uint32 {
+	return 1
+}
+
 func (v1 *configurerV1) Configure(ctx context.Context, yamlConfiguration string) error {
 	_, err := v1.ConfigServiceClient.Configure(ctx, &configv1.ConfigureRequest{
 		YamlConfiguration: yamlConfiguration,
