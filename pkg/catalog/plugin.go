@@ -351,9 +351,6 @@ func (p *pluginImpl) bindRepo(repo bindableServiceRepo, grpcServiceNames map[str
 	var impl any
 	for _, version := range versions {
 		facade := version.New()
-		if facade.Version() != p.info.Version() {
-			continue
-		}
 
 		if _, ok := grpcServiceNames[facade.GRPCServiceName()]; ok {
 			delete(grpcServiceNames, facade.GRPCServiceName())
@@ -366,6 +363,11 @@ func (p *pluginImpl) bindRepo(repo bindableServiceRepo, grpcServiceNames map[str
 			}
 			warnIfDeprecated(p.logger, version, versions[0])
 			impl = p.bindFacade(repo, facade)
+
+			if facade.Version() != p.info.Version() {
+				impl = nil
+				continue
+			}
 		}
 	}
 
