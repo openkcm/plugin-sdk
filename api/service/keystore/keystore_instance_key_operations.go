@@ -4,7 +4,7 @@ import (
 	"context"
 )
 
-type KeystoreOperations interface {
+type KeystoreInstanceKeyOperations interface {
 	GetKey(ctx context.Context, req *GetKeyRequest) (*GetKeyResponse, error)
 	CreateKey(ctx context.Context, req *CreateKeyRequest) (*CreateKeyResponse, error)
 	DeleteKey(ctx context.Context, req *DeleteKeyRequest) (*DeleteKeyResponse, error)

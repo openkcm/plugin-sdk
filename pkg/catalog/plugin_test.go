@@ -136,7 +136,7 @@ func TestPluginInfo(t *testing.T) {
 
 //
 // ─────────────────────────────────────────────
-// pluginStruct
+// pluginImpl
 // ─────────────────────────────────────────────
 //
 
@@ -147,7 +147,7 @@ func TestPluginStruct(t *testing.T) {
 	var cg closerGroup
 	cg = append(cg, closer)
 
-	p := &pluginStruct{
+	p := &pluginImpl{
 		closerGroup:      cg,
 		conn:             nil,
 		info:             &pluginInfo{name: "p"},

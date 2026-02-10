@@ -1,4 +1,4 @@
-package service
+package keystore_instance_key_operations
 
 import (
 	"context"
@@ -7,26 +7,17 @@ import (
 	"google.golang.org/protobuf/types/known/structpb"
 
 	"github.com/openkcm/plugin-sdk/api/service/keystore"
-	"github.com/openkcm/plugin-sdk/pkg/catalog"
+	"github.com/openkcm/plugin-sdk/pkg/plugin"
 	commonv1 "github.com/openkcm/plugin-sdk/proto/plugin/keystore/common/v1"
 	operationsv1 "github.com/openkcm/plugin-sdk/proto/plugin/keystore/operations/v1"
 )
 
-var _ keystore.KeystoreOperations = (*hashicorpKeystoreOperationsV1Plugin)(nil)
-
-type hashicorpKeystoreOperationsV1Plugin struct {
-	plugin     catalog.Plugin
-	grpcClient operationsv1.KeystoreInstanceKeyOperationClient
+type V1 struct {
+	plugin.Facade
+	operationsv1.KeystoreInstanceKeyOperationPluginClient
 }
 
-func NewKeystoreOperationsV1Plugin(plugin catalog.Plugin) keystore.KeystoreOperations {
-	return &hashicorpKeystoreOperationsV1Plugin{
-		plugin:     plugin,
-		grpcClient: operationsv1.NewKeystoreInstanceKeyOperationClient(plugin.ClientConnection()),
-	}
-}
-
-func (h *hashicorpKeystoreOperationsV1Plugin) GetKey(ctx context.Context, req *keystore.GetKeyRequest) (*keystore.GetKeyResponse, error) {
+func (v1 *V1) GetKey(ctx context.Context, req *keystore.GetKeyRequest) (*keystore.GetKeyResponse, error) {
 	value, err := structpb.NewStruct(req.Parameters.Config.Values)
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse values: %v", err)
@@ -40,7 +31,7 @@ func (h *hashicorpKeystoreOperationsV1Plugin) GetKey(ctx context.Context, req *k
 			KeyId: req.Parameters.KeyID,
 		},
 	}
-	grpcResp, err := h.grpcClient.GetKey(ctx, in)
+	grpcResp, err := v1.KeystoreInstanceKeyOperationPluginClient.GetKey(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -53,7 +44,7 @@ func (h *hashicorpKeystoreOperationsV1Plugin) GetKey(ctx context.Context, req *k
 	}, nil
 }
 
-func (h *hashicorpKeystoreOperationsV1Plugin) CreateKey(ctx context.Context, req *keystore.CreateKeyRequest) (*keystore.CreateKeyResponse, error) {
+func (v1 *V1) CreateKey(ctx context.Context, req *keystore.CreateKeyRequest) (*keystore.CreateKeyResponse, error) {
 	value, err := structpb.NewStruct(req.Config.Values)
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse values: %v", err)
@@ -68,7 +59,7 @@ func (h *hashicorpKeystoreOperationsV1Plugin) CreateKey(ctx context.Context, req
 		Region:    req.Region,
 		KeyType:   operationsv1.KeyType(req.KeyType),
 	}
-	grpcResp, err := h.grpcClient.CreateKey(ctx, in)
+	grpcResp, err := v1.KeystoreInstanceKeyOperationPluginClient.CreateKey(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -79,7 +70,7 @@ func (h *hashicorpKeystoreOperationsV1Plugin) CreateKey(ctx context.Context, req
 	}, nil
 }
 
-func (h *hashicorpKeystoreOperationsV1Plugin) DeleteKey(ctx context.Context, req *keystore.DeleteKeyRequest) (*keystore.DeleteKeyResponse, error) {
+func (v1 *V1) DeleteKey(ctx context.Context, req *keystore.DeleteKeyRequest) (*keystore.DeleteKeyResponse, error) {
 	value, err := structpb.NewStruct(req.Parameters.Config.Values)
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse values: %v", err)
@@ -94,7 +85,7 @@ func (h *hashicorpKeystoreOperationsV1Plugin) DeleteKey(ctx context.Context, req
 		},
 		Window: req.Window,
 	}
-	_, err = h.grpcClient.DeleteKey(ctx, in)
+	_, err = v1.KeystoreInstanceKeyOperationPluginClient.DeleteKey(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -102,7 +93,7 @@ func (h *hashicorpKeystoreOperationsV1Plugin) DeleteKey(ctx context.Context, req
 	return &keystore.DeleteKeyResponse{}, nil
 }
 
-func (h *hashicorpKeystoreOperationsV1Plugin) EnableKey(ctx context.Context, req *keystore.EnableKeyRequest) (*keystore.EnableKeyResponse, error) {
+func (v1 *V1) EnableKey(ctx context.Context, req *keystore.EnableKeyRequest) (*keystore.EnableKeyResponse, error) {
 	value, err := structpb.NewStruct(req.Parameters.Config.Values)
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse values: %v", err)
@@ -116,7 +107,7 @@ func (h *hashicorpKeystoreOperationsV1Plugin) EnableKey(ctx context.Context, req
 			KeyId: req.Parameters.KeyID,
 		},
 	}
-	_, err = h.grpcClient.EnableKey(ctx, in)
+	_, err = v1.KeystoreInstanceKeyOperationPluginClient.EnableKey(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -124,7 +115,7 @@ func (h *hashicorpKeystoreOperationsV1Plugin) EnableKey(ctx context.Context, req
 	return &keystore.EnableKeyResponse{}, nil
 }
 
-func (h *hashicorpKeystoreOperationsV1Plugin) GetImportParameters(ctx context.Context, req *keystore.GetImportParametersRequest) (*keystore.GetImportParametersResponse, error) {
+func (v1 *V1) GetImportParameters(ctx context.Context, req *keystore.GetImportParametersRequest) (*keystore.GetImportParametersResponse, error) {
 	value, err := structpb.NewStruct(req.Parameters.Config.Values)
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse values: %v", err)
@@ -139,7 +130,7 @@ func (h *hashicorpKeystoreOperationsV1Plugin) GetImportParameters(ctx context.Co
 		},
 		Algorithm: operationsv1.KeyAlgorithm(req.KeyAlgorithm),
 	}
-	grpcResp, err := h.grpcClient.GetImportParameters(ctx, in)
+	grpcResp, err := v1.KeystoreInstanceKeyOperationPluginClient.GetImportParameters(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -150,7 +141,7 @@ func (h *hashicorpKeystoreOperationsV1Plugin) GetImportParameters(ctx context.Co
 	}, nil
 }
 
-func (h *hashicorpKeystoreOperationsV1Plugin) ImportKeyMaterial(ctx context.Context, req *keystore.ImportKeyMaterialRequest) (*keystore.ImportKeyMaterialResponse, error) {
+func (v1 *V1) ImportKeyMaterial(ctx context.Context, req *keystore.ImportKeyMaterialRequest) (*keystore.ImportKeyMaterialResponse, error) {
 	value, err := structpb.NewStruct(req.Parameters.Config.Values)
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse values: %v", err)
@@ -170,7 +161,7 @@ func (h *hashicorpKeystoreOperationsV1Plugin) ImportKeyMaterial(ctx context.Cont
 		},
 		ImportParameters: importParams,
 	}
-	_, err = h.grpcClient.ImportKeyMaterial(ctx, in)
+	_, err = v1.KeystoreInstanceKeyOperationPluginClient.ImportKeyMaterial(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -178,14 +169,14 @@ func (h *hashicorpKeystoreOperationsV1Plugin) ImportKeyMaterial(ctx context.Cont
 	return &keystore.ImportKeyMaterialResponse{}, nil
 }
 
-func (h *hashicorpKeystoreOperationsV1Plugin) ValidateKey(ctx context.Context, req *keystore.ValidateKeyRequest) (*keystore.ValidateKeyResponse, error) {
+func (v1 *V1) ValidateKey(ctx context.Context, req *keystore.ValidateKeyRequest) (*keystore.ValidateKeyResponse, error) {
 	in := &operationsv1.ValidateKeyRequest{
 		KeyType:     operationsv1.KeyType(req.KeyType),
 		Algorithm:   operationsv1.KeyAlgorithm(req.KeyAlgorithm),
 		Region:      req.Region,
 		NativeKeyId: req.NativeKeyID,
 	}
-	grpcResp, err := h.grpcClient.ValidateKey(ctx, in)
+	grpcResp, err := v1.KeystoreInstanceKeyOperationPluginClient.ValidateKey(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -196,7 +187,7 @@ func (h *hashicorpKeystoreOperationsV1Plugin) ValidateKey(ctx context.Context, r
 	}, nil
 }
 
-func (h *hashicorpKeystoreOperationsV1Plugin) ValidateKeyAccessData(ctx context.Context, req *keystore.ValidateKeyAccessDataRequest) (*keystore.ValidateKeyAccessDataResponse, error) {
+func (v1 *V1) ValidateKeyAccessData(ctx context.Context, req *keystore.ValidateKeyAccessDataRequest) (*keystore.ValidateKeyAccessDataResponse, error) {
 	management, err := structpb.NewStruct(req.Management)
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse values: %v", err)
@@ -210,7 +201,7 @@ func (h *hashicorpKeystoreOperationsV1Plugin) ValidateKeyAccessData(ctx context.
 		Management: management,
 		Crypto:     crypto,
 	}
-	grpcResp, err := h.grpcClient.ValidateKeyAccessData(ctx, in)
+	grpcResp, err := v1.KeystoreInstanceKeyOperationPluginClient.ValidateKeyAccessData(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -221,12 +212,12 @@ func (h *hashicorpKeystoreOperationsV1Plugin) ValidateKeyAccessData(ctx context.
 	}, nil
 }
 
-func (h *hashicorpKeystoreOperationsV1Plugin) TransformCryptoAccessData(ctx context.Context, req *keystore.TransformCryptoAccessDataRequest) (*keystore.TransformCryptoAccessDataResponse, error) {
+func (v1 *V1) TransformCryptoAccessData(ctx context.Context, req *keystore.TransformCryptoAccessDataRequest) (*keystore.TransformCryptoAccessDataResponse, error) {
 	in := &operationsv1.TransformCryptoAccessDataRequest{
 		NativeKeyId: req.NativeKeyID,
 		AccessData:  req.AccessData,
 	}
-	grpcResp, err := h.grpcClient.TransformCryptoAccessData(ctx, in)
+	grpcResp, err := v1.KeystoreInstanceKeyOperationPluginClient.TransformCryptoAccessData(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -236,7 +227,7 @@ func (h *hashicorpKeystoreOperationsV1Plugin) TransformCryptoAccessData(ctx cont
 	}, nil
 }
 
-func (h *hashicorpKeystoreOperationsV1Plugin) ExtractKeyRegion(ctx context.Context, req *keystore.ExtractKeyRegionRequest) (*keystore.ExtractKeyRegionResponse, error) {
+func (v1 *V1) ExtractKeyRegion(ctx context.Context, req *keystore.ExtractKeyRegionRequest) (*keystore.ExtractKeyRegionResponse, error) {
 	management, err := structpb.NewStruct(req.ManagementAccessData)
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse values: %v", err)
@@ -246,7 +237,7 @@ func (h *hashicorpKeystoreOperationsV1Plugin) ExtractKeyRegion(ctx context.Conte
 		NativeKeyId:          req.NativeKeyID,
 		ManagementAccessData: management,
 	}
-	grpcResp, err := h.grpcClient.ExtractKeyRegion(ctx, in)
+	grpcResp, err := v1.KeystoreInstanceKeyOperationPluginClient.ExtractKeyRegion(ctx, in)
 	if err != nil {
 		return nil, err
 	}

@@ -1,4 +1,4 @@
-package service
+package keystore_management
 
 import (
 	"context"
@@ -7,26 +7,17 @@ import (
 	"google.golang.org/protobuf/types/known/structpb"
 
 	"github.com/openkcm/plugin-sdk/api/service/keystore"
-	"github.com/openkcm/plugin-sdk/pkg/catalog"
+	"github.com/openkcm/plugin-sdk/pkg/plugin"
 	commonv1 "github.com/openkcm/plugin-sdk/proto/plugin/keystore/common/v1"
 	managementv1 "github.com/openkcm/plugin-sdk/proto/plugin/keystore/management/v1"
 )
 
-var _ keystore.KeystoreManagement = (*hashicorpKeystoreManagementV1Plugin)(nil)
-
-type hashicorpKeystoreManagementV1Plugin struct {
-	plugin     catalog.Plugin
-	grpcClient managementv1.KeystoreProviderClient
+type V1 struct {
+	plugin.Facade
+	managementv1.KeystoreProviderPluginClient
 }
 
-func NewKeystoreManagementV1Plugin(plugin catalog.Plugin) keystore.KeystoreManagement {
-	return &hashicorpKeystoreManagementV1Plugin{
-		plugin:     plugin,
-		grpcClient: managementv1.NewKeystoreProviderClient(plugin.ClientConnection()),
-	}
-}
-
-func (h *hashicorpKeystoreManagementV1Plugin) CreateKeystore(ctx context.Context, req *keystore.CreateKeystoreRequest) (*keystore.CreateKeystoreResponse, error) {
+func (v1 *V1) CreateKeystore(ctx context.Context, req *keystore.CreateKeystoreRequest) (*keystore.CreateKeystoreResponse, error) {
 	value, err := structpb.NewStruct(req.Values)
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse values: %v", err)
@@ -35,7 +26,7 @@ func (h *hashicorpKeystoreManagementV1Plugin) CreateKeystore(ctx context.Context
 	in := &managementv1.CreateKeystoreRequest{
 		Values: value,
 	}
-	grpcResp, err := h.grpcClient.CreateKeystore(ctx, in)
+	grpcResp, err := v1.KeystoreProviderPluginClient.CreateKeystore(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -50,7 +41,7 @@ func (h *hashicorpKeystoreManagementV1Plugin) CreateKeystore(ctx context.Context
 	return resp, nil
 }
 
-func (h *hashicorpKeystoreManagementV1Plugin) DeleteKeystore(ctx context.Context, req *keystore.DeleteKeystoreRequest) (*keystore.DeleteKeystoreResponse, error) {
+func (v1 *V1) DeleteKeystore(ctx context.Context, req *keystore.DeleteKeystoreRequest) (*keystore.DeleteKeystoreResponse, error) {
 	value, err := structpb.NewStruct(req.Config.Values)
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse values: %v", err)
@@ -60,7 +51,7 @@ func (h *hashicorpKeystoreManagementV1Plugin) DeleteKeystore(ctx context.Context
 			Values: value,
 		},
 	}
-	_, err = h.grpcClient.DeleteKeystore(ctx, in)
+	_, err = v1.KeystoreProviderPluginClient.DeleteKeystore(ctx, in)
 	if err != nil {
 		return nil, err
 	}

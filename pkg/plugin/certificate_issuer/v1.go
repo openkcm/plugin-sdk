@@ -1,35 +1,26 @@
-package service
+package certificate_issuer
 
 import (
 	"context"
 
 	"github.com/openkcm/plugin-sdk/api/service/certificateissuer"
-	"github.com/openkcm/plugin-sdk/pkg/catalog"
+	"github.com/openkcm/plugin-sdk/pkg/plugin"
 	certificate_issuerv1 "github.com/openkcm/plugin-sdk/proto/plugin/certificate_issuer/v1"
 )
 
-var _ certificateissuer.CertificateIssuer = (*hashicorpCertificateIssuerV1Plugin)(nil)
-
-type hashicorpCertificateIssuerV1Plugin struct {
-	plugin     catalog.Plugin
-	grpcClient certificate_issuerv1.CertificateIssuerServiceClient
+type V1 struct {
+	plugin.Facade
+	certificate_issuerv1.CertificateIssuerServicePluginClient
 }
 
-func NewCertificateIssuerV1Plugin(plugin catalog.Plugin) certificateissuer.CertificateIssuer {
-	return &hashicorpCertificateIssuerV1Plugin{
-		plugin:     plugin,
-		grpcClient: certificate_issuerv1.NewCertificateIssuerServiceClient(plugin.ClientConnection()),
-	}
-}
-
-func (h *hashicorpCertificateIssuerV1Plugin) IssueCertificate(ctx context.Context, req *certificateissuer.IssueCertificateRequest) (*certificateissuer.IssueCertificateResponse, error) {
+func (v1 *V1) IssueCertificate(ctx context.Context, req *certificateissuer.IssueCertificateRequest) (*certificateissuer.IssueCertificateResponse, error) {
 	in := &certificate_issuerv1.GetCertificateRequest{
 		CommonName: req.CommonName,
 		Locality:   req.Localities,
 		Validity:   CertificateValidityToGRPC(req.Validity),
 		PrivateKey: CertificatePrivateKeyToGRPC(req.PrivateKey),
 	}
-	grpcResp, err := h.grpcClient.GetCertificate(ctx, in)
+	grpcResp, err := v1.GetCertificate(ctx, in)
 	if err != nil {
 		return nil, err
 	}
