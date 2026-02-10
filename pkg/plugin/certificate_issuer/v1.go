@@ -13,6 +13,10 @@ type V1 struct {
 	certificate_issuerv1.CertificateIssuerServicePluginClient
 }
 
+func (v1 *V1) Version() uint32 {
+	return 1
+}
+
 func (v1 *V1) IssueCertificate(ctx context.Context, req *certificateissuer.IssueCertificateRequest) (*certificateissuer.IssueCertificateResponse, error) {
 	in := &certificate_issuerv1.GetCertificateRequest{
 		CommonName: req.CommonName,

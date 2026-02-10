@@ -13,6 +13,10 @@ type V1 struct {
 	systeminformationv1.SystemInformationServicePluginClient
 }
 
+func (v1 *V1) Version() uint32 {
+	return 1
+}
+
 func (v1 *V1) GetSystemInfo(ctx context.Context, req *systeminformation.GetSystemInfoRequest) (*systeminformation.GetSystemInfoResponse, error) {
 	in := &systeminformationv1.GetRequest{
 		Id:   req.ID,

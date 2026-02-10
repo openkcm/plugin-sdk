@@ -13,6 +13,10 @@ type V1 struct {
 	notification1.NotificationServicePluginClient
 }
 
+func (v1 *V1) Version() uint32 {
+	return 1
+}
+
 func (v1 *V1) Send(ctx context.Context, req *notification.SendNotificationRequest) (*notification.SendNotificationResponse, error) {
 	in := &notification1.SendNotificationRequest{
 		NotificationType: notification1.NotificationType(req.Type),

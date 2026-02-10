@@ -17,6 +17,10 @@ type V1 struct {
 	managementv1.KeystoreProviderPluginClient
 }
 
+func (v1 *V1) Version() uint32 {
+	return 1
+}
+
 func (v1 *V1) CreateKeystore(ctx context.Context, req *keystore.CreateKeystoreRequest) (*keystore.CreateKeystoreResponse, error) {
 	value, err := structpb.NewStruct(req.Values)
 	if err != nil {

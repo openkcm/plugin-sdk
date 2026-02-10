@@ -17,6 +17,10 @@ type V1 struct {
 	operationsv1.KeystoreInstanceKeyOperationPluginClient
 }
 
+func (v1 *V1) Version() uint32 {
+	return 1
+}
+
 func (v1 *V1) GetKey(ctx context.Context, req *keystore.GetKeyRequest) (*keystore.GetKeyResponse, error) {
 	value, err := structpb.NewStruct(req.Parameters.Config.Values)
 	if err != nil {
