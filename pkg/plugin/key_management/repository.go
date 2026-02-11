@@ -5,25 +5,25 @@ import (
 )
 
 type Repository struct {
-	KeyManagers map[string]keymanagement.KeyManagement
+	KeyManagements map[string]keymanagement.KeyManagement
 }
 
-func (repo *Repository) GetKeystoreKeyManagers() map[string]keymanagement.KeyManagement {
-	return repo.KeyManagers
+func (repo *Repository) GetKeyManagements() map[string]keymanagement.KeyManagement {
+	return repo.KeyManagements
 }
 
-func (repo *Repository) ListKeystoreKeyManager() []keymanagement.KeyManagement {
-	list := make([]keymanagement.KeyManagement, 0, len(repo.KeyManagers))
-	for _, manager := range repo.KeyManagers {
+func (repo *Repository) ListKeyManagement() []keymanagement.KeyManagement {
+	list := make([]keymanagement.KeyManagement, 0, len(repo.KeyManagements))
+	for _, manager := range repo.KeyManagements {
 		list = append(list, manager)
 	}
 	return list
 }
 
-func (repo *Repository) AddKeystoreKeyManager(instance keymanagement.KeyManagement) {
-	repo.KeyManagers[instance.ServiceInfo().Name()] = instance
+func (repo *Repository) AddKeyManagement(instance keymanagement.KeyManagement) {
+	repo.KeyManagements[instance.ServiceInfo().Name()] = instance
 }
 
 func (repo *Repository) Clear() {
-	repo.KeyManagers = nil
+	repo.KeyManagements = nil
 }
