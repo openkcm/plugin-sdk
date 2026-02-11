@@ -22,11 +22,8 @@ const (
 	identityManagementType        = "IdentityManagement"
 	identityManagementServiceType = "IdentityManagementService"
 
-	keystoreManagementType        = "KeystoreManagement"
-	keystoreManagementServiceType = "KeystoreManagementService"
-
-	keystoreInstanceKeyOperationsType        = "KeystoreInstanceKeyOperations"
-	keystoreInstanceKeyOperationsServiceType = "KeystoreInstanceKeyOperationsService"
+	keystoreManagementType           = "KeystoreProvider"
+	keystoreInstanceKeyOperationType = "KeystoreInstanceKeyOperation"
 )
 
 type PluginRepository struct {
@@ -35,7 +32,7 @@ type PluginRepository struct {
 	notificationRepository
 	systemInformationRepository
 	keystoreManagementRepository
-	keystoreInstanceKeyOperationsRepository
+	keystoreKeyManagerRepository
 
 	log     *slog.Logger
 	catalog *Catalog
@@ -43,18 +40,16 @@ type PluginRepository struct {
 
 func (repo *PluginRepository) Plugins() map[string]PluginRepo {
 	return map[string]PluginRepo{
-		identityManagementType:                   &repo.identityManagementRepository,
-		identityManagementServiceType:            &repo.identityManagementRepository,
-		certificateIssuerType:                    &repo.certificateIssuerRepository,
-		certificateIssuerServiceType:             &repo.certificateIssuerRepository,
-		notificationType:                         &repo.notificationRepository,
-		notificationServiceType:                  &repo.notificationRepository,
-		systemInformationType:                    &repo.systemInformationRepository,
-		systemInformationServiceType:             &repo.systemInformationRepository,
-		keystoreManagementType:                   &repo.systemInformationRepository,
-		keystoreManagementServiceType:            &repo.systemInformationRepository,
-		keystoreInstanceKeyOperationsType:        &repo.keystoreInstanceKeyOperationsRepository,
-		keystoreInstanceKeyOperationsServiceType: &repo.keystoreInstanceKeyOperationsRepository,
+		identityManagementType:           &repo.identityManagementRepository,
+		identityManagementServiceType:    &repo.identityManagementRepository,
+		certificateIssuerType:            &repo.certificateIssuerRepository,
+		certificateIssuerServiceType:     &repo.certificateIssuerRepository,
+		notificationType:                 &repo.notificationRepository,
+		notificationServiceType:          &repo.notificationRepository,
+		systemInformationType:            &repo.systemInformationRepository,
+		systemInformationServiceType:     &repo.systemInformationRepository,
+		keystoreManagementType:           &repo.keystoreManagementRepository,
+		keystoreInstanceKeyOperationType: &repo.keystoreKeyManagerRepository,
 	}
 }
 

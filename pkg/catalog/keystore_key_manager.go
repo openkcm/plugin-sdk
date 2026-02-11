@@ -5,23 +5,23 @@ import (
 	"github.com/openkcm/plugin-sdk/pkg/plugin/keystore_key_manager"
 )
 
-type keystoreInstanceKeyOperationsRepository struct {
+type keystoreKeyManagerRepository struct {
 	keystore_key_manager.Repository
 }
 
-func (repo *keystoreInstanceKeyOperationsRepository) Binder() any {
+func (repo *keystoreKeyManagerRepository) Binder() any {
 	return repo.AddKeystoreKeyManager
 }
 
-func (repo *keystoreInstanceKeyOperationsRepository) Constraints() Constraints {
+func (repo *keystoreKeyManagerRepository) Constraints() Constraints {
 	return ExactlyOne()
 }
 
-func (repo *keystoreInstanceKeyOperationsRepository) Versions() []api.Version {
+func (repo *keystoreKeyManagerRepository) Versions() []api.Version {
 	return []api.Version{keystoreKeyManagerV1{}}
 }
 
-func (repo *keystoreInstanceKeyOperationsRepository) BuiltIns() []BuiltInPlugin {
+func (repo *keystoreKeyManagerRepository) BuiltIns() []BuiltInPlugin {
 	return []BuiltInPlugin{}
 }
 
