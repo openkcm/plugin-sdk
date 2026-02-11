@@ -1,11 +1,12 @@
-package service
+package serviceapi
 
 import (
 	"io"
 
 	"github.com/openkcm/plugin-sdk/api/service/certificateissuer"
 	"github.com/openkcm/plugin-sdk/api/service/identitymanagement"
-	"github.com/openkcm/plugin-sdk/api/service/keystore"
+	"github.com/openkcm/plugin-sdk/api/service/keymanagement"
+	"github.com/openkcm/plugin-sdk/api/service/keystoremanagement"
 	"github.com/openkcm/plugin-sdk/api/service/notification"
 	"github.com/openkcm/plugin-sdk/api/service/systeminformation"
 )
@@ -18,9 +19,9 @@ type Registry interface {
 	GetSystemInformation() systeminformation.SystemInformation
 	GetIdentityManagement() identitymanagement.IdentityManagement
 
-	GetKeystoreManagements() map[string]keystore.KeystoreManagement
-	ListKeystoreManagement() []keystore.KeystoreManagement
+	GetKeystoreManagements() map[string]keystoremanagement.KeystoreManagement
+	ListKeystoreManagement() []keystoremanagement.KeystoreManagement
 
-	GetKeystoreKeyManagers() map[string]keystore.KeyManager
-	ListKeystoreKeyManager() []keystore.KeyManager
+	GetKeystoreKeyManagers() map[string]keymanagement.KeyManagement
+	ListKeystoreKeyManager() []keymanagement.KeyManagement
 }

@@ -1,9 +1,10 @@
-package keystore
+package keystoremanagement
 
 import (
 	"context"
 
 	"github.com/openkcm/plugin-sdk/api"
+	"github.com/openkcm/plugin-sdk/api/service/common"
 )
 
 type KeystoreManagement interface {
@@ -20,12 +21,12 @@ type CreateKeystoreRequest struct {
 
 type CreateKeystoreResponse struct {
 	// V1 Fields
-	Config InstanceConfig
+	Config common.KeystoreConfig
 }
 
 type DeleteKeystoreRequest struct {
 	// V1 Fields
-	Config InstanceConfig
+	Config common.KeystoreConfig
 }
 
 type DeleteKeystoreResponse struct{}

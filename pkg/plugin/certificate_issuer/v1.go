@@ -6,12 +6,12 @@ import (
 	"github.com/openkcm/plugin-sdk/api"
 	"github.com/openkcm/plugin-sdk/api/service/certificateissuer"
 	"github.com/openkcm/plugin-sdk/pkg/plugin"
-	certificate_issuerv1 "github.com/openkcm/plugin-sdk/proto/plugin/certificate_issuer/v1"
+	grpccertificateissuerv1 "github.com/openkcm/plugin-sdk/proto/plugin/certificate_issuer/v1"
 )
 
 type V1 struct {
 	plugin.Facade
-	certificate_issuerv1.CertificateIssuerServicePluginClient
+	grpccertificateissuerv1.CertificateIssuerServicePluginClient
 }
 
 func (v1 *V1) Version() uint {
@@ -23,7 +23,7 @@ func (v1 *V1) ServiceInfo() api.Info {
 }
 
 func (v1 *V1) IssueCertificate(ctx context.Context, req *certificateissuer.IssueCertificateRequest) (*certificateissuer.IssueCertificateResponse, error) {
-	in := &certificate_issuerv1.GetCertificateRequest{
+	in := &grpccertificateissuerv1.GetCertificateRequest{
 		CommonName: req.CommonName,
 		Locality:   req.Localities,
 		Validity:   CertificateValidityToGRPC(req.Validity),
@@ -38,21 +38,21 @@ func (v1 *V1) IssueCertificate(ctx context.Context, req *certificateissuer.Issue
 	}, nil
 }
 
-func CertificateValidityToGRPC(v *certificateissuer.CertificateValidity) *certificate_issuerv1.GetCertificateValidity {
+func CertificateValidityToGRPC(v *certificateissuer.CertificateValidity) *grpccertificateissuerv1.GetCertificateValidity {
 	if v == nil {
 		return nil
 	}
-	return &certificate_issuerv1.GetCertificateValidity{
+	return &grpccertificateissuerv1.GetCertificateValidity{
 		Value: v.Value,
-		Type:  certificate_issuerv1.ValidityType(v.Type),
+		Type:  grpccertificateissuerv1.ValidityType(v.Type),
 	}
 }
 
-func CertificatePrivateKeyToGRPC(pk *certificateissuer.CertificatePrivateKey) *certificate_issuerv1.PrivateKey {
+func CertificatePrivateKeyToGRPC(pk *certificateissuer.CertificatePrivateKey) *grpccertificateissuerv1.PrivateKey {
 	if pk == nil {
 		return nil
 	}
-	return &certificate_issuerv1.PrivateKey{
+	return &grpccertificateissuerv1.PrivateKey{
 		Data: pk.Data,
 	}
 }

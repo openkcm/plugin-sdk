@@ -1,12 +1,13 @@
-package keystore
+package keymanagement
 
 import (
 	"context"
 
 	"github.com/openkcm/plugin-sdk/api"
+	"github.com/openkcm/plugin-sdk/api/service/common"
 )
 
-type KeyManager interface {
+type KeyManagement interface {
 	ServiceInfo() api.Info
 
 	GetKey(ctx context.Context, req *GetKeyRequest) (*GetKeyResponse, error)
@@ -41,7 +42,7 @@ const (
 
 type RequestParameters struct {
 	// V1 Fields
-	Config InstanceConfig
+	Config common.KeystoreConfig
 	KeyID  string
 }
 
@@ -61,7 +62,7 @@ type GetKeyResponse struct {
 // CreateKeyRequest contains parameters for key creation
 type CreateKeyRequest struct {
 	// V1 Fields
-	Config       InstanceConfig
+	Config       common.KeystoreConfig
 	KeyAlgorithm KeyAlgorithm
 	ID           *string
 	Region       string

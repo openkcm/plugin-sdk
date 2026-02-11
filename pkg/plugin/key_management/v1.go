@@ -1,4 +1,4 @@
-package keystore_key_manager
+package key_management
 
 import (
 	"context"
@@ -7,15 +7,15 @@ import (
 	"google.golang.org/protobuf/types/known/structpb"
 
 	"github.com/openkcm/plugin-sdk/api"
-	"github.com/openkcm/plugin-sdk/api/service/keystore"
+	"github.com/openkcm/plugin-sdk/api/service/keymanagement"
 	"github.com/openkcm/plugin-sdk/pkg/plugin"
-	commonv1 "github.com/openkcm/plugin-sdk/proto/plugin/keystore/common/v1"
-	operationsv1 "github.com/openkcm/plugin-sdk/proto/plugin/keystore/operations/v1"
+	grpccommonv1 "github.com/openkcm/plugin-sdk/proto/plugin/keystore/common/v1"
+	grpckeymanagerv1 "github.com/openkcm/plugin-sdk/proto/plugin/keystore/operations/v1"
 )
 
 type V1 struct {
 	plugin.Facade
-	operationsv1.KeystoreInstanceKeyOperationPluginClient
+	grpckeymanagerv1.KeystoreInstanceKeyOperationPluginClient
 }
 
 func (v1 *V1) Version() uint {
@@ -26,15 +26,15 @@ func (v1 *V1) ServiceInfo() api.Info {
 	return v1.Info
 }
 
-func (v1 *V1) GetKey(ctx context.Context, req *keystore.GetKeyRequest) (*keystore.GetKeyResponse, error) {
+func (v1 *V1) GetKey(ctx context.Context, req *keymanagement.GetKeyRequest) (*keymanagement.GetKeyResponse, error) {
 	value, err := structpb.NewStruct(req.Parameters.Config.Values)
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse values: %v", err)
 	}
 
-	in := &operationsv1.GetKeyRequest{
-		Parameters: &operationsv1.RequestParameters{
-			Config: &commonv1.KeystoreInstanceConfig{
+	in := &grpckeymanagerv1.GetKeyRequest{
+		Parameters: &grpckeymanagerv1.RequestParameters{
+			Config: &grpccommonv1.KeystoreInstanceConfig{
 				Values: value,
 			},
 			KeyId: req.Parameters.KeyID,
@@ -45,49 +45,49 @@ func (v1 *V1) GetKey(ctx context.Context, req *keystore.GetKeyRequest) (*keystor
 		return nil, err
 	}
 
-	return &keystore.GetKeyResponse{
+	return &keymanagement.GetKeyResponse{
 		KeyID:        grpcResp.GetKeyId(),
-		KeyAlgorithm: keystore.KeyAlgorithm(grpcResp.GetAlgorithm()),
+		KeyAlgorithm: keymanagement.KeyAlgorithm(grpcResp.GetAlgorithm()),
 		Status:       grpcResp.GetStatus(),
 		Usage:        grpcResp.GetUsage(),
 	}, nil
 }
 
-func (v1 *V1) CreateKey(ctx context.Context, req *keystore.CreateKeyRequest) (*keystore.CreateKeyResponse, error) {
+func (v1 *V1) CreateKey(ctx context.Context, req *keymanagement.CreateKeyRequest) (*keymanagement.CreateKeyResponse, error) {
 	value, err := structpb.NewStruct(req.Config.Values)
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse values: %v", err)
 	}
 
-	in := &operationsv1.CreateKeyRequest{
-		Config: &commonv1.KeystoreInstanceConfig{
+	in := &grpckeymanagerv1.CreateKeyRequest{
+		Config: &grpccommonv1.KeystoreInstanceConfig{
 			Values: value,
 		},
-		Algorithm: operationsv1.KeyAlgorithm(req.KeyAlgorithm),
+		Algorithm: grpckeymanagerv1.KeyAlgorithm(req.KeyAlgorithm),
 		Id:        req.ID,
 		Region:    req.Region,
-		KeyType:   operationsv1.KeyType(req.KeyType),
+		KeyType:   grpckeymanagerv1.KeyType(req.KeyType),
 	}
 	grpcResp, err := v1.KeystoreInstanceKeyOperationPluginClient.CreateKey(ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	return &keystore.CreateKeyResponse{
+	return &keymanagement.CreateKeyResponse{
 		KeyID:  grpcResp.GetKeyId(),
 		Status: grpcResp.GetStatus(),
 	}, nil
 }
 
-func (v1 *V1) DeleteKey(ctx context.Context, req *keystore.DeleteKeyRequest) (*keystore.DeleteKeyResponse, error) {
+func (v1 *V1) DeleteKey(ctx context.Context, req *keymanagement.DeleteKeyRequest) (*keymanagement.DeleteKeyResponse, error) {
 	value, err := structpb.NewStruct(req.Parameters.Config.Values)
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse values: %v", err)
 	}
 
-	in := &operationsv1.DeleteKeyRequest{
-		Parameters: &operationsv1.RequestParameters{
-			Config: &commonv1.KeystoreInstanceConfig{
+	in := &grpckeymanagerv1.DeleteKeyRequest{
+		Parameters: &grpckeymanagerv1.RequestParameters{
+			Config: &grpccommonv1.KeystoreInstanceConfig{
 				Values: value,
 			},
 			KeyId: req.Parameters.KeyID,
@@ -99,18 +99,18 @@ func (v1 *V1) DeleteKey(ctx context.Context, req *keystore.DeleteKeyRequest) (*k
 		return nil, err
 	}
 
-	return &keystore.DeleteKeyResponse{}, nil
+	return &keymanagement.DeleteKeyResponse{}, nil
 }
 
-func (v1 *V1) EnableKey(ctx context.Context, req *keystore.EnableKeyRequest) (*keystore.EnableKeyResponse, error) {
+func (v1 *V1) EnableKey(ctx context.Context, req *keymanagement.EnableKeyRequest) (*keymanagement.EnableKeyResponse, error) {
 	value, err := structpb.NewStruct(req.Parameters.Config.Values)
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse values: %v", err)
 	}
 
-	in := &operationsv1.EnableKeyRequest{
-		Parameters: &operationsv1.RequestParameters{
-			Config: &commonv1.KeystoreInstanceConfig{
+	in := &grpckeymanagerv1.EnableKeyRequest{
+		Parameters: &grpckeymanagerv1.RequestParameters{
+			Config: &grpccommonv1.KeystoreInstanceConfig{
 				Values: value,
 			},
 			KeyId: req.Parameters.KeyID,
@@ -121,36 +121,36 @@ func (v1 *V1) EnableKey(ctx context.Context, req *keystore.EnableKeyRequest) (*k
 		return nil, err
 	}
 
-	return &keystore.EnableKeyResponse{}, nil
+	return &keymanagement.EnableKeyResponse{}, nil
 }
 
-func (v1 *V1) GetImportParameters(ctx context.Context, req *keystore.GetImportParametersRequest) (*keystore.GetImportParametersResponse, error) {
+func (v1 *V1) GetImportParameters(ctx context.Context, req *keymanagement.GetImportParametersRequest) (*keymanagement.GetImportParametersResponse, error) {
 	value, err := structpb.NewStruct(req.Parameters.Config.Values)
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse values: %v", err)
 	}
 
-	in := &operationsv1.GetImportParametersRequest{
-		Parameters: &operationsv1.RequestParameters{
-			Config: &commonv1.KeystoreInstanceConfig{
+	in := &grpckeymanagerv1.GetImportParametersRequest{
+		Parameters: &grpckeymanagerv1.RequestParameters{
+			Config: &grpccommonv1.KeystoreInstanceConfig{
 				Values: value,
 			},
 			KeyId: req.Parameters.KeyID,
 		},
-		Algorithm: operationsv1.KeyAlgorithm(req.KeyAlgorithm),
+		Algorithm: grpckeymanagerv1.KeyAlgorithm(req.KeyAlgorithm),
 	}
 	grpcResp, err := v1.KeystoreInstanceKeyOperationPluginClient.GetImportParameters(ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	return &keystore.GetImportParametersResponse{
+	return &keymanagement.GetImportParametersResponse{
 		KeyID:            grpcResp.GetKeyId(),
 		ImportParameters: grpcResp.GetImportParameters().AsMap(),
 	}, nil
 }
 
-func (v1 *V1) ImportKeyMaterial(ctx context.Context, req *keystore.ImportKeyMaterialRequest) (*keystore.ImportKeyMaterialResponse, error) {
+func (v1 *V1) ImportKeyMaterial(ctx context.Context, req *keymanagement.ImportKeyMaterialRequest) (*keymanagement.ImportKeyMaterialResponse, error) {
 	value, err := structpb.NewStruct(req.Parameters.Config.Values)
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse values: %v", err)
@@ -161,9 +161,9 @@ func (v1 *V1) ImportKeyMaterial(ctx context.Context, req *keystore.ImportKeyMate
 		return nil, fmt.Errorf("failed to parse values: %v", err)
 	}
 
-	in := &operationsv1.ImportKeyMaterialRequest{
-		Parameters: &operationsv1.RequestParameters{
-			Config: &commonv1.KeystoreInstanceConfig{
+	in := &grpckeymanagerv1.ImportKeyMaterialRequest{
+		Parameters: &grpckeymanagerv1.RequestParameters{
+			Config: &grpccommonv1.KeystoreInstanceConfig{
 				Values: value,
 			},
 			KeyId: req.Parameters.KeyID,
@@ -175,13 +175,13 @@ func (v1 *V1) ImportKeyMaterial(ctx context.Context, req *keystore.ImportKeyMate
 		return nil, err
 	}
 
-	return &keystore.ImportKeyMaterialResponse{}, nil
+	return &keymanagement.ImportKeyMaterialResponse{}, nil
 }
 
-func (v1 *V1) ValidateKey(ctx context.Context, req *keystore.ValidateKeyRequest) (*keystore.ValidateKeyResponse, error) {
-	in := &operationsv1.ValidateKeyRequest{
-		KeyType:     operationsv1.KeyType(req.KeyType),
-		Algorithm:   operationsv1.KeyAlgorithm(req.KeyAlgorithm),
+func (v1 *V1) ValidateKey(ctx context.Context, req *keymanagement.ValidateKeyRequest) (*keymanagement.ValidateKeyResponse, error) {
+	in := &grpckeymanagerv1.ValidateKeyRequest{
+		KeyType:     grpckeymanagerv1.KeyType(req.KeyType),
+		Algorithm:   grpckeymanagerv1.KeyAlgorithm(req.KeyAlgorithm),
 		Region:      req.Region,
 		NativeKeyId: req.NativeKeyID,
 	}
@@ -190,13 +190,13 @@ func (v1 *V1) ValidateKey(ctx context.Context, req *keystore.ValidateKeyRequest)
 		return nil, err
 	}
 
-	return &keystore.ValidateKeyResponse{
+	return &keymanagement.ValidateKeyResponse{
 		IsValid: grpcResp.GetIsValid(),
 		Message: grpcResp.GetMessage(),
 	}, nil
 }
 
-func (v1 *V1) ValidateKeyAccessData(ctx context.Context, req *keystore.ValidateKeyAccessDataRequest) (*keystore.ValidateKeyAccessDataResponse, error) {
+func (v1 *V1) ValidateKeyAccessData(ctx context.Context, req *keymanagement.ValidateKeyAccessDataRequest) (*keymanagement.ValidateKeyAccessDataResponse, error) {
 	management, err := structpb.NewStruct(req.Management)
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse values: %v", err)
@@ -206,7 +206,7 @@ func (v1 *V1) ValidateKeyAccessData(ctx context.Context, req *keystore.ValidateK
 		return nil, fmt.Errorf("failed to parse values: %v", err)
 	}
 
-	in := &operationsv1.ValidateKeyAccessDataRequest{
+	in := &grpckeymanagerv1.ValidateKeyAccessDataRequest{
 		Management: management,
 		Crypto:     crypto,
 	}
@@ -215,14 +215,14 @@ func (v1 *V1) ValidateKeyAccessData(ctx context.Context, req *keystore.ValidateK
 		return nil, err
 	}
 
-	return &keystore.ValidateKeyAccessDataResponse{
+	return &keymanagement.ValidateKeyAccessDataResponse{
 		IsValid: grpcResp.GetIsValid(),
 		Message: grpcResp.GetMessage(),
 	}, nil
 }
 
-func (v1 *V1) TransformCryptoAccessData(ctx context.Context, req *keystore.TransformCryptoAccessDataRequest) (*keystore.TransformCryptoAccessDataResponse, error) {
-	in := &operationsv1.TransformCryptoAccessDataRequest{
+func (v1 *V1) TransformCryptoAccessData(ctx context.Context, req *keymanagement.TransformCryptoAccessDataRequest) (*keymanagement.TransformCryptoAccessDataResponse, error) {
+	in := &grpckeymanagerv1.TransformCryptoAccessDataRequest{
 		NativeKeyId: req.NativeKeyID,
 		AccessData:  req.AccessData,
 	}
@@ -231,18 +231,18 @@ func (v1 *V1) TransformCryptoAccessData(ctx context.Context, req *keystore.Trans
 		return nil, err
 	}
 
-	return &keystore.TransformCryptoAccessDataResponse{
+	return &keymanagement.TransformCryptoAccessDataResponse{
 		TransformedAccessData: grpcResp.GetTransformedAccessData(),
 	}, nil
 }
 
-func (v1 *V1) ExtractKeyRegion(ctx context.Context, req *keystore.ExtractKeyRegionRequest) (*keystore.ExtractKeyRegionResponse, error) {
+func (v1 *V1) ExtractKeyRegion(ctx context.Context, req *keymanagement.ExtractKeyRegionRequest) (*keymanagement.ExtractKeyRegionResponse, error) {
 	management, err := structpb.NewStruct(req.ManagementAccessData)
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse values: %v", err)
 	}
 
-	in := &operationsv1.ExtractKeyRegionRequest{
+	in := &grpckeymanagerv1.ExtractKeyRegionRequest{
 		NativeKeyId:          req.NativeKeyID,
 		ManagementAccessData: management,
 	}
@@ -251,7 +251,7 @@ func (v1 *V1) ExtractKeyRegion(ctx context.Context, req *keystore.ExtractKeyRegi
 		return nil, err
 	}
 
-	return &keystore.ExtractKeyRegionResponse{
+	return &keymanagement.ExtractKeyRegionResponse{
 		Region: grpcResp.GetRegion(),
 	}, nil
 }
