@@ -1,11 +1,11 @@
 package catalog
 
-type builtInPluginRetriever interface {
-	retrieve() []BuiltInPlugin
+type BuiltInPluginRetriever interface {
+	Retrieve() []BuiltInPlugin
 }
 
 type BuiltInPluginRegistry interface {
-	builtInPluginRetriever
+	BuiltInPluginRetriever
 
 	Register(plugin BuiltInPlugin)
 }
@@ -24,6 +24,8 @@ func (r *buildInRegistry) Register(plugin BuiltInPlugin) {
 	r.plugins = append(r.plugins, plugin)
 }
 
-func (r *buildInRegistry) retrieve() []BuiltInPlugin {
+func (r *buildInRegistry) Retrieve() []BuiltInPlugin {
+	plugins := make([]BuiltInPlugin, 0, len(r.plugins))
+	plugins = append(plugins, r.plugins...)
 	return r.plugins
 }

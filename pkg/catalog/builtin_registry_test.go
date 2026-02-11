@@ -13,7 +13,7 @@ func TestBuiltInRegistry(t *testing.T) {
 
 		reg := CreateBuiltInPluginRegistry()
 
-		if got := len(reg.retrieve()); got != 0 {
+		if got := len(reg.Retrieve()); got != 0 {
 			t.Fatalf("expected empty registry, got %d plugins", got)
 		}
 	})
@@ -29,7 +29,7 @@ func TestBuiltInRegistry(t *testing.T) {
 		reg.Register(p1)
 		reg.Register(p2)
 
-		got := reg.retrieve()
+		got := reg.Retrieve()
 		want := []BuiltInPlugin{p1, p2}
 
 		if !reflect.DeepEqual(got, want) {
@@ -45,10 +45,10 @@ func TestBuiltInRegistry(t *testing.T) {
 		p1 := &builtInPluginStruct{name: "plugin-1"}
 		reg.Register(p1)
 
-		plugins := reg.retrieve()
+		plugins := reg.Retrieve()
 		plugins[0] = &builtInPluginStruct{name: "mutated"}
 
-		got := reg.retrieve()
+		got := reg.Retrieve()
 		if got[0].Name() != p1.Name() {
 			t.Fatalf(
 				"registry was mutated via Get(); want %+v, got %+v",

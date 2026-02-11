@@ -92,7 +92,7 @@ func (repo *PluginRepository) ListPluginInfo() []api.Info {
 	return plugins
 }
 
-func CreateRegistry(ctx context.Context, config Config, registry BuiltInPluginRegistry) (_ *PluginRepository, err error) {
+func CreateRegistry(ctx context.Context, config Config, builtInPlugins ...BuiltInPlugin) (_ *PluginRepository, err error) {
 	repo := &PluginRepository{
 		log: config.Logger,
 	}
@@ -104,11 +104,6 @@ func CreateRegistry(ctx context.Context, config Config, registry BuiltInPluginRe
 
 	if len(config.HostServices) == 0 {
 		config.HostServices = make([]api.ServiceServer, 0)
-	}
-
-	var builtInPlugins []BuiltInPlugin
-	if registry != nil {
-		builtInPlugins = registry.retrieve()
 	}
 
 	repo.catalog, err = load(ctx, config, repo, builtInPlugins...)
