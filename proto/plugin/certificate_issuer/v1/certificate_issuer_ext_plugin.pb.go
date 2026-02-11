@@ -8,48 +8,48 @@ import (
 )
 
 const (
-	Type                = "CertificateIssuerService"
-	GRPCServiceFullName = "plugin.certificate_issuer.v1.CertificateIssuerService"
+	Type                = "CertificateIssuer"
+	GRPCServiceFullName = "plugin.certificate_issuer.v1.CertificateIssuer"
 )
 
-func CertificateIssuerServicePluginServer(server CertificateIssuerServiceServer) api.PluginServer {
-	return certificateIssuerServicePluginServer{CertificateIssuerServiceServer: server}
+func CertificateIssuerPluginServer(server CertificateIssuerServer) api.PluginServer {
+	return certificateIssuerPluginServer{CertificateIssuerServer: server}
 }
 
-type certificateIssuerServicePluginServer struct {
-	CertificateIssuerServiceServer
+type certificateIssuerPluginServer struct {
+	CertificateIssuerServer
 }
 
-func (s certificateIssuerServicePluginServer) Type() string {
+func (s certificateIssuerPluginServer) Type() string {
 	return Type
 }
 
-func (s certificateIssuerServicePluginServer) GRPCServiceName() string {
+func (s certificateIssuerPluginServer) GRPCServiceName() string {
 	return GRPCServiceFullName
 }
 
-func (s certificateIssuerServicePluginServer) RegisterServer(server *grpc.Server) any {
-	RegisterCertificateIssuerServiceServer(server, s.CertificateIssuerServiceServer)
-	return s.CertificateIssuerServiceServer
+func (s certificateIssuerPluginServer) RegisterServer(server *grpc.Server) any {
+	RegisterCertificateIssuerServer(server, s.CertificateIssuerServer)
+	return s.CertificateIssuerServer
 }
 
-type CertificateIssuerServicePluginClient struct {
-	CertificateIssuerServiceClient
+type CertificateIssuerPluginClient struct {
+	CertificateIssuerClient
 }
 
-func (s CertificateIssuerServicePluginClient) Type() string {
+func (s CertificateIssuerPluginClient) Type() string {
 	return Type
 }
 
-func (c *CertificateIssuerServicePluginClient) IsInitialized() bool {
-	return c.CertificateIssuerServiceClient != nil
+func (c *CertificateIssuerPluginClient) IsInitialized() bool {
+	return c.CertificateIssuerClient != nil
 }
 
-func (c *CertificateIssuerServicePluginClient) GRPCServiceName() string {
+func (c *CertificateIssuerPluginClient) GRPCServiceName() string {
 	return GRPCServiceFullName
 }
 
-func (c *CertificateIssuerServicePluginClient) InitClient(conn grpc.ClientConnInterface) any {
-	c.CertificateIssuerServiceClient = NewCertificateIssuerServiceClient(conn)
-	return c.CertificateIssuerServiceClient
+func (c *CertificateIssuerPluginClient) InitClient(conn grpc.ClientConnInterface) any {
+	c.CertificateIssuerClient = NewCertificateIssuerClient(conn)
+	return c.CertificateIssuerClient
 }

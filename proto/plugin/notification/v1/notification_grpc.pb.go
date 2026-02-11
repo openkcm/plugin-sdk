@@ -19,91 +19,91 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	NotificationService_SendNotification_FullMethodName = "/plugin.notification.v1.NotificationService/SendNotification"
+	Notification_Send_FullMethodName = "/plugin.notification.v1.Notification/Send"
 )
 
-// NotificationServiceClient is the client API for NotificationService service.
+// NotificationClient is the client API for Notification service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type NotificationServiceClient interface {
+type NotificationClient interface {
 	// SendNotification sends a notification to the specified recipients
-	SendNotification(ctx context.Context, in *SendNotificationRequest, opts ...grpc.CallOption) (*SendNotificationResponse, error)
+	Send(ctx context.Context, in *SendRequest, opts ...grpc.CallOption) (*SendResponse, error)
 }
 
-type notificationServiceClient struct {
+type notificationClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewNotificationServiceClient(cc grpc.ClientConnInterface) NotificationServiceClient {
-	return &notificationServiceClient{cc}
+func NewNotificationClient(cc grpc.ClientConnInterface) NotificationClient {
+	return &notificationClient{cc}
 }
 
-func (c *notificationServiceClient) SendNotification(ctx context.Context, in *SendNotificationRequest, opts ...grpc.CallOption) (*SendNotificationResponse, error) {
-	out := new(SendNotificationResponse)
-	err := c.cc.Invoke(ctx, NotificationService_SendNotification_FullMethodName, in, out, opts...)
+func (c *notificationClient) Send(ctx context.Context, in *SendRequest, opts ...grpc.CallOption) (*SendResponse, error) {
+	out := new(SendResponse)
+	err := c.cc.Invoke(ctx, Notification_Send_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// NotificationServiceServer is the server API for NotificationService service.
-// All implementations must embed UnimplementedNotificationServiceServer
+// NotificationServer is the server API for Notification service.
+// All implementations must embed UnimplementedNotificationServer
 // for forward compatibility
-type NotificationServiceServer interface {
+type NotificationServer interface {
 	// SendNotification sends a notification to the specified recipients
-	SendNotification(context.Context, *SendNotificationRequest) (*SendNotificationResponse, error)
-	mustEmbedUnimplementedNotificationServiceServer()
+	Send(context.Context, *SendRequest) (*SendResponse, error)
+	mustEmbedUnimplementedNotificationServer()
 }
 
-// UnimplementedNotificationServiceServer must be embedded to have forward compatible implementations.
-type UnimplementedNotificationServiceServer struct {
+// UnimplementedNotificationServer must be embedded to have forward compatible implementations.
+type UnimplementedNotificationServer struct {
 }
 
-func (UnimplementedNotificationServiceServer) SendNotification(context.Context, *SendNotificationRequest) (*SendNotificationResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SendNotification not implemented")
+func (UnimplementedNotificationServer) Send(context.Context, *SendRequest) (*SendResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Send not implemented")
 }
-func (UnimplementedNotificationServiceServer) mustEmbedUnimplementedNotificationServiceServer() {}
+func (UnimplementedNotificationServer) mustEmbedUnimplementedNotificationServer() {}
 
-// UnsafeNotificationServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to NotificationServiceServer will
+// UnsafeNotificationServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to NotificationServer will
 // result in compilation errors.
-type UnsafeNotificationServiceServer interface {
-	mustEmbedUnimplementedNotificationServiceServer()
+type UnsafeNotificationServer interface {
+	mustEmbedUnimplementedNotificationServer()
 }
 
-func RegisterNotificationServiceServer(s grpc.ServiceRegistrar, srv NotificationServiceServer) {
-	s.RegisterService(&NotificationService_ServiceDesc, srv)
+func RegisterNotificationServer(s grpc.ServiceRegistrar, srv NotificationServer) {
+	s.RegisterService(&Notification_ServiceDesc, srv)
 }
 
-func _NotificationService_SendNotification_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SendNotificationRequest)
+func _Notification_Send_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SendRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(NotificationServiceServer).SendNotification(ctx, in)
+		return srv.(NotificationServer).Send(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: NotificationService_SendNotification_FullMethodName,
+		FullMethod: Notification_Send_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(NotificationServiceServer).SendNotification(ctx, req.(*SendNotificationRequest))
+		return srv.(NotificationServer).Send(ctx, req.(*SendRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// NotificationService_ServiceDesc is the grpc.ServiceDesc for NotificationService service.
+// Notification_ServiceDesc is the grpc.ServiceDesc for Notification service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var NotificationService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "plugin.notification.v1.NotificationService",
-	HandlerType: (*NotificationServiceServer)(nil),
+var Notification_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "plugin.notification.v1.Notification",
+	HandlerType: (*NotificationServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "SendNotification",
-			Handler:    _NotificationService_SendNotification_Handler,
+			MethodName: "Send",
+			Handler:    _Notification_Send_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

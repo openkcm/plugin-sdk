@@ -1,26 +1,26 @@
 package keystore_management
 
 import (
-	keystoreapi "github.com/openkcm/plugin-sdk/api/service/keystore"
+	keystoremanagementapi "github.com/openkcm/plugin-sdk/api/service/keystoremanagement"
 )
 
 type Repository struct {
-	KeystoreManagements map[string]keystoreapi.KeystoreManagement
+	KeystoreManagements map[string]keystoremanagementapi.KeystoreManagement
 }
 
-func (repo *Repository) GetKeystoreManagements() map[string]keystoreapi.KeystoreManagement {
+func (repo *Repository) GetKeystoreManagements() map[string]keystoremanagementapi.KeystoreManagement {
 	return repo.KeystoreManagements
 }
 
-func (repo *Repository) ListKeystoreManagement() []keystoreapi.KeystoreManagement {
-	list := make([]keystoreapi.KeystoreManagement, 0, len(repo.KeystoreManagements))
+func (repo *Repository) ListKeystoreManagement() []keystoremanagementapi.KeystoreManagement {
+	list := make([]keystoremanagementapi.KeystoreManagement, 0, len(repo.KeystoreManagements))
 	for _, management := range repo.KeystoreManagements {
 		list = append(list, management)
 	}
 	return list
 }
 
-func (repo *Repository) AddKeystoreManagement(instance keystoreapi.KeystoreManagement) {
+func (repo *Repository) AddKeystoreManagement(instance keystoremanagementapi.KeystoreManagement) {
 	repo.KeystoreManagements[instance.ServiceInfo().Name()] = instance
 }
 

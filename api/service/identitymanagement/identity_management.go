@@ -12,7 +12,7 @@ type IdentityManagement interface {
 	GetGroup(ctx context.Context, req *GetGroupRequest) (*GetGroupResponse, error)
 	ListGroups(ctx context.Context, req *ListGroupsRequest) (*ListGroupsResponse, error)
 	ListGroupUsers(ctx context.Context, req *ListGroupUsersRequest) (*ListGroupUsersResponse, error)
-	LetUserGroups(ctx context.Context, req *LetUserGroupsRequest) (*LetUserGroupsResponse, error)
+	ListUserGroups(ctx context.Context, req *ListUserGroupsRequest) (*ListUserGroupsResponse, error)
 }
 
 type AuthContext struct {
@@ -59,13 +59,13 @@ type User struct {
 	Email string
 }
 
-type LetUserGroupsRequest struct {
+type ListUserGroupsRequest struct {
 	// V1 Fields
 	UserID      string
 	AuthContext AuthContext
 }
 
-type LetUserGroupsResponse struct {
+type ListUserGroupsResponse struct {
 	// V1 Fields
 	Groups []Group
 }

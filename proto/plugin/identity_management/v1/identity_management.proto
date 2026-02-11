@@ -1,11 +1,11 @@
 syntax = "proto3";
 package plugin.identity_management.v1;
 
-service IdentityManagementService {
+service IdentityManagement {
   rpc GetGroup(GetGroupRequest) returns (GetGroupResponse);
-  rpc GetAllGroups(GetAllGroupsRequest) returns (GetAllGroupsResponse);
-  rpc GetUsersForGroup(GetUsersForGroupRequest) returns (GetUsersForGroupResponse);
-  rpc GetGroupsForUser(GetGroupsForUserRequest) returns (GetGroupsForUserResponse);
+  rpc ListGroups(ListGroupsRequest) returns (ListGroupsResponse);
+  rpc ListGroupUsers(ListGroupUsersRequest) returns (ListGroupUsersResponse);
+  rpc ListUserGroups(ListUserGroupsRequest) returns (ListUserGroupsResponse);
 }
 
 message AuthContext {
@@ -21,20 +21,20 @@ message GetGroupResponse {
   Group group = 1;
 }
 
-message GetAllGroupsRequest {
+message ListGroupsRequest {
   AuthContext auth_context = 99;
 }
 
-message GetAllGroupsResponse {
+message ListGroupsResponse {
   repeated Group groups = 1;
 }
 
-message GetUsersForGroupRequest {
+message ListGroupUsersRequest {
   string group_id = 1;
   AuthContext auth_context = 99;
 }
 
-message GetUsersForGroupResponse {
+message ListGroupUsersResponse {
   repeated User users = 1;
 }
 
@@ -44,12 +44,12 @@ message User {
   string email = 3;
 }
 
-message GetGroupsForUserRequest {
+message ListUserGroupsRequest {
   string user_id = 1;
   AuthContext auth_context = 99;
 }
 
-message GetGroupsForUserResponse {
+message ListUserGroupsResponse {
   repeated Group groups = 1;
 }
 

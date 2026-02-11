@@ -8,48 +8,48 @@ import (
 )
 
 const (
-	Type                = "NotificationService"
-	GRPCServiceFullName = "plugin.notification.v1.NotificationService"
+	Type                = "Notification"
+	GRPCServiceFullName = "plugin.notification.v1.Notification"
 )
 
-func NotificationServicePluginServer(server NotificationServiceServer) api.PluginServer {
-	return notificationServicePluginServer{NotificationServiceServer: server}
+func NotificationPluginServer(server NotificationServer) api.PluginServer {
+	return notificationPluginServer{NotificationServer: server}
 }
 
-type notificationServicePluginServer struct {
-	NotificationServiceServer
+type notificationPluginServer struct {
+	NotificationServer
 }
 
-func (s notificationServicePluginServer) Type() string {
+func (s notificationPluginServer) Type() string {
 	return Type
 }
 
-func (s notificationServicePluginServer) GRPCServiceName() string {
+func (s notificationPluginServer) GRPCServiceName() string {
 	return GRPCServiceFullName
 }
 
-func (s notificationServicePluginServer) RegisterServer(server *grpc.Server) any {
-	RegisterNotificationServiceServer(server, s.NotificationServiceServer)
-	return s.NotificationServiceServer
+func (s notificationPluginServer) RegisterServer(server *grpc.Server) any {
+	RegisterNotificationServer(server, s.NotificationServer)
+	return s.NotificationServer
 }
 
-type NotificationServicePluginClient struct {
-	NotificationServiceClient
+type NotificationPluginClient struct {
+	NotificationClient
 }
 
-func (s NotificationServicePluginClient) Type() string {
+func (s NotificationPluginClient) Type() string {
 	return Type
 }
 
-func (c *NotificationServicePluginClient) IsInitialized() bool {
-	return c.NotificationServiceClient != nil
+func (c *NotificationPluginClient) IsInitialized() bool {
+	return c.NotificationClient != nil
 }
 
-func (c *NotificationServicePluginClient) GRPCServiceName() string {
+func (c *NotificationPluginClient) GRPCServiceName() string {
 	return GRPCServiceFullName
 }
 
-func (c *NotificationServicePluginClient) InitClient(conn grpc.ClientConnInterface) any {
-	c.NotificationServiceClient = NewNotificationServiceClient(conn)
-	return c.NotificationServiceClient
+func (c *NotificationPluginClient) InitClient(conn grpc.ClientConnInterface) any {
+	c.NotificationClient = NewNotificationClient(conn)
+	return c.NotificationClient
 }

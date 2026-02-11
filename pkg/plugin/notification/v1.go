@@ -11,7 +11,7 @@ import (
 
 type V1 struct {
 	plugin.Facade
-	notification1.NotificationServicePluginClient
+	notification1.NotificationPluginClient
 }
 
 func (v1 *V1) Version() uint {
@@ -23,13 +23,13 @@ func (v1 *V1) ServiceInfo() api.Info {
 }
 
 func (v1 *V1) Send(ctx context.Context, req *notification.SendNotificationRequest) (*notification.SendNotificationResponse, error) {
-	in := &notification1.SendNotificationRequest{
+	in := &notification1.SendRequest{
 		NotificationType: notification1.NotificationType(req.Type),
 		Recipients:       req.Recipients,
 		Subject:          req.Subject,
 		Body:             req.Body,
 	}
-	grpcResp, err := v1.SendNotification(ctx, in)
+	grpcResp, err := v1.NotificationPluginClient.Send(ctx, in)
 	if err != nil {
 		return nil, err
 	}

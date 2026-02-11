@@ -19,90 +19,89 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	CertificateIssuerService_GetCertificate_FullMethodName = "/plugin.certificate_issuer.v1.CertificateIssuerService/GetCertificate"
+	CertificateIssuer_IssueCertificate_FullMethodName = "/plugin.certificate_issuer.v1.CertificateIssuer/IssueCertificate"
 )
 
-// CertificateIssuerServiceClient is the client API for CertificateIssuerService service.
+// CertificateIssuerClient is the client API for CertificateIssuer service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type CertificateIssuerServiceClient interface {
-	GetCertificate(ctx context.Context, in *GetCertificateRequest, opts ...grpc.CallOption) (*GetCertificateResponse, error)
+type CertificateIssuerClient interface {
+	IssueCertificate(ctx context.Context, in *IssueCertificateRequest, opts ...grpc.CallOption) (*IssueCertificateResponse, error)
 }
 
-type certificateIssuerServiceClient struct {
+type certificateIssuerClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewCertificateIssuerServiceClient(cc grpc.ClientConnInterface) CertificateIssuerServiceClient {
-	return &certificateIssuerServiceClient{cc}
+func NewCertificateIssuerClient(cc grpc.ClientConnInterface) CertificateIssuerClient {
+	return &certificateIssuerClient{cc}
 }
 
-func (c *certificateIssuerServiceClient) GetCertificate(ctx context.Context, in *GetCertificateRequest, opts ...grpc.CallOption) (*GetCertificateResponse, error) {
-	out := new(GetCertificateResponse)
-	err := c.cc.Invoke(ctx, CertificateIssuerService_GetCertificate_FullMethodName, in, out, opts...)
+func (c *certificateIssuerClient) IssueCertificate(ctx context.Context, in *IssueCertificateRequest, opts ...grpc.CallOption) (*IssueCertificateResponse, error) {
+	out := new(IssueCertificateResponse)
+	err := c.cc.Invoke(ctx, CertificateIssuer_IssueCertificate_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// CertificateIssuerServiceServer is the server API for CertificateIssuerService service.
-// All implementations must embed UnimplementedCertificateIssuerServiceServer
+// CertificateIssuerServer is the server API for CertificateIssuer service.
+// All implementations must embed UnimplementedCertificateIssuerServer
 // for forward compatibility
-type CertificateIssuerServiceServer interface {
-	GetCertificate(context.Context, *GetCertificateRequest) (*GetCertificateResponse, error)
-	mustEmbedUnimplementedCertificateIssuerServiceServer()
+type CertificateIssuerServer interface {
+	IssueCertificate(context.Context, *IssueCertificateRequest) (*IssueCertificateResponse, error)
+	mustEmbedUnimplementedCertificateIssuerServer()
 }
 
-// UnimplementedCertificateIssuerServiceServer must be embedded to have forward compatible implementations.
-type UnimplementedCertificateIssuerServiceServer struct {
+// UnimplementedCertificateIssuerServer must be embedded to have forward compatible implementations.
+type UnimplementedCertificateIssuerServer struct {
 }
 
-func (UnimplementedCertificateIssuerServiceServer) GetCertificate(context.Context, *GetCertificateRequest) (*GetCertificateResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetCertificate not implemented")
+func (UnimplementedCertificateIssuerServer) IssueCertificate(context.Context, *IssueCertificateRequest) (*IssueCertificateResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method IssueCertificate not implemented")
 }
-func (UnimplementedCertificateIssuerServiceServer) mustEmbedUnimplementedCertificateIssuerServiceServer() {
-}
+func (UnimplementedCertificateIssuerServer) mustEmbedUnimplementedCertificateIssuerServer() {}
 
-// UnsafeCertificateIssuerServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to CertificateIssuerServiceServer will
+// UnsafeCertificateIssuerServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to CertificateIssuerServer will
 // result in compilation errors.
-type UnsafeCertificateIssuerServiceServer interface {
-	mustEmbedUnimplementedCertificateIssuerServiceServer()
+type UnsafeCertificateIssuerServer interface {
+	mustEmbedUnimplementedCertificateIssuerServer()
 }
 
-func RegisterCertificateIssuerServiceServer(s grpc.ServiceRegistrar, srv CertificateIssuerServiceServer) {
-	s.RegisterService(&CertificateIssuerService_ServiceDesc, srv)
+func RegisterCertificateIssuerServer(s grpc.ServiceRegistrar, srv CertificateIssuerServer) {
+	s.RegisterService(&CertificateIssuer_ServiceDesc, srv)
 }
 
-func _CertificateIssuerService_GetCertificate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetCertificateRequest)
+func _CertificateIssuer_IssueCertificate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IssueCertificateRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(CertificateIssuerServiceServer).GetCertificate(ctx, in)
+		return srv.(CertificateIssuerServer).IssueCertificate(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: CertificateIssuerService_GetCertificate_FullMethodName,
+		FullMethod: CertificateIssuer_IssueCertificate_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CertificateIssuerServiceServer).GetCertificate(ctx, req.(*GetCertificateRequest))
+		return srv.(CertificateIssuerServer).IssueCertificate(ctx, req.(*IssueCertificateRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// CertificateIssuerService_ServiceDesc is the grpc.ServiceDesc for CertificateIssuerService service.
+// CertificateIssuer_ServiceDesc is the grpc.ServiceDesc for CertificateIssuer service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var CertificateIssuerService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "plugin.certificate_issuer.v1.CertificateIssuerService",
-	HandlerType: (*CertificateIssuerServiceServer)(nil),
+var CertificateIssuer_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "plugin.certificate_issuer.v1.CertificateIssuer",
+	HandlerType: (*CertificateIssuerServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "GetCertificate",
-			Handler:    _CertificateIssuerService_GetCertificate_Handler,
+			MethodName: "IssueCertificate",
+			Handler:    _CertificateIssuer_IssueCertificate_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

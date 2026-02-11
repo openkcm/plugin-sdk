@@ -8,48 +8,48 @@ import (
 )
 
 const (
-	Type                = "IdentityManagementService"
-	GRPCServiceFullName = "plugin.identity_management.v1.IdentityManagementService"
+	Type                = "IdentityManagement"
+	GRPCServiceFullName = "plugin.identity_management.v1.IdentityManagement"
 )
 
-func IdentityManagementServicePluginServer(server IdentityManagementServiceServer) api.PluginServer {
-	return identityManagementServicePluginServer{IdentityManagementServiceServer: server}
+func IdentityManagementPluginServer(server IdentityManagementServer) api.PluginServer {
+	return identityManagementPluginServer{IdentityManagementServer: server}
 }
 
-type identityManagementServicePluginServer struct {
-	IdentityManagementServiceServer
+type identityManagementPluginServer struct {
+	IdentityManagementServer
 }
 
-func (s identityManagementServicePluginServer) Type() string {
+func (s identityManagementPluginServer) Type() string {
 	return Type
 }
 
-func (s identityManagementServicePluginServer) GRPCServiceName() string {
+func (s identityManagementPluginServer) GRPCServiceName() string {
 	return GRPCServiceFullName
 }
 
-func (s identityManagementServicePluginServer) RegisterServer(server *grpc.Server) any {
-	RegisterIdentityManagementServiceServer(server, s.IdentityManagementServiceServer)
-	return s.IdentityManagementServiceServer
+func (s identityManagementPluginServer) RegisterServer(server *grpc.Server) any {
+	RegisterIdentityManagementServer(server, s.IdentityManagementServer)
+	return s.IdentityManagementServer
 }
 
-type IdentityManagementServicePluginClient struct {
-	IdentityManagementServiceClient
+type IdentityManagementPluginClient struct {
+	IdentityManagementClient
 }
 
-func (s IdentityManagementServicePluginClient) Type() string {
+func (s IdentityManagementPluginClient) Type() string {
 	return Type
 }
 
-func (c *IdentityManagementServicePluginClient) IsInitialized() bool {
-	return c.IdentityManagementServiceClient != nil
+func (c *IdentityManagementPluginClient) IsInitialized() bool {
+	return c.IdentityManagementClient != nil
 }
 
-func (c *IdentityManagementServicePluginClient) GRPCServiceName() string {
+func (c *IdentityManagementPluginClient) GRPCServiceName() string {
 	return GRPCServiceFullName
 }
 
-func (c *IdentityManagementServicePluginClient) InitClient(conn grpc.ClientConnInterface) any {
-	c.IdentityManagementServiceClient = NewIdentityManagementServiceClient(conn)
-	return c.IdentityManagementServiceClient
+func (c *IdentityManagementPluginClient) InitClient(conn grpc.ClientConnInterface) any {
+	c.IdentityManagementClient = NewIdentityManagementClient(conn)
+	return c.IdentityManagementClient
 }
