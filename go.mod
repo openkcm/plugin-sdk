@@ -1,6 +1,6 @@
 module github.com/openkcm/plugin-sdk
 
-go 1.24.2
+go 1.25.4
 
 require (
 	github.com/hashicorp/go-hclog v1.6.3
