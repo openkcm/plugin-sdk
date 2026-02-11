@@ -21,10 +21,6 @@ func (repo *notificationRepository) Versions() []api.Version {
 	return []api.Version{notificationV1{}}
 }
 
-func (repo *notificationRepository) BuiltIns() []BuiltInPlugin {
-	return []BuiltInPlugin{}
-}
-
 type notificationV1 struct{}
 
 func (notificationV1) New() api.Facade  { return new(notification.V1) }

@@ -21,10 +21,6 @@ func (repo *keystoreManagementRepository) Versions() []api.Version {
 	return []api.Version{keystoreManagementV1{}}
 }
 
-func (repo *keystoreManagementRepository) BuiltIns() []BuiltInPlugin {
-	return []BuiltInPlugin{}
-}
-
 type keystoreManagementV1 struct{}
 
 func (keystoreManagementV1) New() api.Facade  { return new(keystore_management.V1) }

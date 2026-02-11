@@ -21,10 +21,6 @@ func (repo *certificateIssuerRepository) Versions() []api.Version {
 	return []api.Version{certificateIssuerV1{}}
 }
 
-func (repo *certificateIssuerRepository) BuiltIns() []BuiltInPlugin {
-	return []BuiltInPlugin{}
-}
-
 type certificateIssuerV1 struct{}
 
 func (certificateIssuerV1) New() api.Facade  { return new(certificate_issuer.V1) }

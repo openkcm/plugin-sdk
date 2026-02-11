@@ -92,7 +92,7 @@ func (repo *PluginRepository) ListPluginInfo() []api.Info {
 	return plugins
 }
 
-func CreateRegistry(ctx context.Context, config Config, builtIns ...BuiltInPlugin) (_ *PluginRepository, err error) {
+func CreateRegistry(ctx context.Context, config Config, registry BuiltInPluginRegistry) (_ *PluginRepository, err error) {
 	repo := &PluginRepository{
 		log: config.Logger,
 	}
@@ -106,7 +106,12 @@ func CreateRegistry(ctx context.Context, config Config, builtIns ...BuiltInPlugi
 		config.HostServices = make([]api.ServiceServer, 0)
 	}
 
-	repo.catalog, err = load(ctx, config, repo, builtIns...)
+	var builtInPlugins []BuiltInPlugin
+	if registry != nil {
+		builtInPlugins = registry.retrieve()
+	}
+
+	repo.catalog, err = load(ctx, config, repo, builtInPlugins...)
 	if err != nil {
 		return nil, err
 	}
@@ -233,11 +238,7 @@ func load(ctx context.Context, config Config, repo Repository, builtIns ...Built
 			return nil, fmt.Errorf("unsupported plugin type %q", pluginConfig.Type)
 		}
 
-		builtInPlugins := make([]BuiltInPlugin, 0, len(builtIns))
-		builtInPlugins = append(builtInPlugins, builtIns...)
-		builtInPlugins = append(builtInPlugins, pluginRepo.BuiltIns()...)
-
-		plugin, err := loadPluginAs(ctx, config.Logger, pluginConfig, builtInPlugins...)
+		plugin, err := loadPluginAs(ctx, config.Logger, pluginConfig, builtIns...)
 		if err != nil {
 			return nil, err
 		}

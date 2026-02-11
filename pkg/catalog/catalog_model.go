@@ -29,10 +29,6 @@ type PluginRepo interface {
 	// The Load function will ensure that these constraints are satisfied before
 	// returning successfully.
 	Constraints() Constraints
-
-	// BuiltIns provides the list of built ins that are available for the
-	// given plugin repository.
-	BuiltIns() []BuiltInPlugin
 }
 
 // ServiceRepo is a repository for service facades for a given service.
