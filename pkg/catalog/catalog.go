@@ -261,8 +261,10 @@ func load(ctx context.Context, config Config, repo Repository, builtIns ...Built
 
 	// Make sure all plugin constraints are satisfied
 	for pluginType, pluginRepo := range pluginRepos {
-		if err := pluginRepo.Constraints().Check(requiringCheck[pluginType]); err != nil {
-			return nil, fmt.Errorf("plugin type %q constraint not satisfied: %w", pluginType, err)
+		if inter, ok := requiringCheck[pluginType]; ok {
+			if err := pluginRepo.Constraints().Check(inter); err != nil {
+				return nil, fmt.Errorf("plugin type %q constraint not satisfied: %w", pluginType, err)
+			}
 		}
 	}
 
