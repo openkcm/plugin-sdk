@@ -22,6 +22,6 @@ type Registry interface {
 	GetKeystoreManagements() map[string]keystoremanagement.KeystoreManagement
 	ListKeystoreManagement() []keystoremanagement.KeystoreManagement
 
-	GetKeystoreKeyManagers() map[string]keymanagement.KeyManagement
-	ListKeystoreKeyManager() []keymanagement.KeyManagement
+	GetKeyManagements() map[string]keymanagement.KeyManagement
+	ListKeyManagement() []keymanagement.KeyManagement
 }
