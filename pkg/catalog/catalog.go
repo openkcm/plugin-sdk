@@ -247,24 +247,14 @@ func load(ctx context.Context, config Config, repo Repository, builtIns ...Built
 		configurers: reconfigurers,
 	}
 
-	requiringCheck := make(map[string]int)
-	if len(config.RequiredPlugins) == 0 {
-		requiringCheck = pluginCounts
-	}
-	for _, item := range config.RequiredPlugins {
-		if v, ok := pluginCounts[item]; ok {
-			requiringCheck[item] = v
-		} else {
-			requiringCheck[item] = 0
-		}
-	}
-
 	// Make sure all plugin constraints are satisfied
 	for pluginType, pluginRepo := range pluginRepos {
-		if inter, ok := requiringCheck[pluginType]; ok {
-			if err := pluginRepo.Constraints().Check(inter); err != nil {
-				return nil, fmt.Errorf("plugin type %q constraint not satisfied: %w", pluginType, err)
-			}
+		if _, ok := pluginCounts[pluginType]; !ok {
+			continue
+		}
+
+		if err := pluginRepo.Constraints().Check(pluginCounts[pluginType]); err != nil {
+			return nil, fmt.Errorf("plugin type %q constraint not satisfied: %w", pluginType, err)
 		}
 	}
 

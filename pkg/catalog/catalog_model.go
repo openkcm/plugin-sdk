@@ -67,6 +67,4 @@ type Config struct {
 	// HostServices are the servers for host services provided by SPIRE to
 	// plugins.
 	HostServices []api.ServiceServer
-
-	RequiredPlugins []string
 }
