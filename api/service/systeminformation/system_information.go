@@ -2,10 +2,12 @@ package systeminformation
 
 import (
 	"context"
+
+	"github.com/openkcm/plugin-sdk/api"
 )
 
 type SystemInformation interface {
-	//ServiceInfo() api.Info
+	ServiceInfo() api.Info
 
 	GetSystemInfo(ctx context.Context, req *GetSystemInfoRequest) (*GetSystemInfoResponse, error)
 }

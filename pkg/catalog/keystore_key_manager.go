@@ -2,15 +2,15 @@ package catalog
 
 import (
 	"github.com/openkcm/plugin-sdk/api"
-	"github.com/openkcm/plugin-sdk/pkg/plugin/keystore_instance_key_operations"
+	"github.com/openkcm/plugin-sdk/pkg/plugin/keystore_key_manager"
 )
 
 type keystoreInstanceKeyOperationsRepository struct {
-	keystore_instance_key_operations.Repository
+	keystore_key_manager.Repository
 }
 
 func (repo *keystoreInstanceKeyOperationsRepository) Binder() any {
-	return repo.SetKeystoreInstanceKeyOperations
+	return repo.AddKeystoreKeyManager
 }
 
 func (repo *keystoreInstanceKeyOperationsRepository) Constraints() Constraints {
@@ -18,16 +18,16 @@ func (repo *keystoreInstanceKeyOperationsRepository) Constraints() Constraints {
 }
 
 func (repo *keystoreInstanceKeyOperationsRepository) Versions() []api.Version {
-	return []api.Version{keystoreInstanceKeyOperationsV1{}}
+	return []api.Version{keystoreKeyManagerV1{}}
 }
 
 func (repo *keystoreInstanceKeyOperationsRepository) BuiltIns() []BuiltInPlugin {
 	return []BuiltInPlugin{}
 }
 
-type keystoreInstanceKeyOperationsV1 struct{}
+type keystoreKeyManagerV1 struct{}
 
-func (keystoreInstanceKeyOperationsV1) New() api.Facade {
-	return new(keystore_instance_key_operations.V1)
+func (keystoreKeyManagerV1) New() api.Facade {
+	return new(keystore_key_manager.V1)
 }
-func (keystoreInstanceKeyOperationsV1) Deprecated() bool { return false }
+func (keystoreKeyManagerV1) Deprecated() bool { return false }

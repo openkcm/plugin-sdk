@@ -2,10 +2,12 @@ package identitymanagement
 
 import (
 	"context"
+
+	"github.com/openkcm/plugin-sdk/api"
 )
 
 type IdentityManagement interface {
-	//ServiceInfo() api.Info
+	ServiceInfo() api.Info
 
 	GetGroup(ctx context.Context, req *GetGroupRequest) (*GetGroupResponse, error)
 	ListGroups(ctx context.Context, req *ListGroupsRequest) (*ListGroupsResponse, error)

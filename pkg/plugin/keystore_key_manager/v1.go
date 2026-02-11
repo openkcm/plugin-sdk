@@ -1,4 +1,4 @@
-package keystore_instance_key_operations
+package keystore_key_manager
 
 import (
 	"context"

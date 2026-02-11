@@ -10,7 +10,7 @@ type keystoreManagementRepository struct {
 }
 
 func (repo *keystoreManagementRepository) Binder() any {
-	return repo.SetKeystoreManagement
+	return repo.AddKeystoreManagement
 }
 
 func (repo *keystoreManagementRepository) Constraints() Constraints {

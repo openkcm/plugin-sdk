@@ -10,14 +10,27 @@ import (
 )
 
 const (
-	certificateIssuerType             = "CertificateIssuer"
-	notificationType                  = "Notification"
-	systemInformationType             = "SystemInformation"
-	keystoreManagementType            = "KeystoreManagement"
-	keystoreInstanceKeyOperationsType = "KeystoreInstanceKeyOperations"
+	certificateIssuerType        = "CertificateIssuer"
+	certificateIssuerServiceType = "CertificateIssuerService"
+
+	notificationType        = "Notification"
+	notificationServiceType = "NotificationService"
+
+	systemInformationType        = "SystemInformation"
+	systemInformationServiceType = "SystemInformationService"
+
+	identityManagementType        = "IdentityManagement"
+	identityManagementServiceType = "IdentityManagementService"
+
+	keystoreManagementType        = "KeystoreManagement"
+	keystoreManagementServiceType = "KeystoreManagementService"
+
+	keystoreInstanceKeyOperationsType        = "KeystoreInstanceKeyOperations"
+	keystoreInstanceKeyOperationsServiceType = "KeystoreInstanceKeyOperationsService"
 )
 
 type PluginRepository struct {
+	identityManagementRepository
 	certificateIssuerRepository
 	notificationRepository
 	systemInformationRepository
@@ -30,11 +43,18 @@ type PluginRepository struct {
 
 func (repo *PluginRepository) Plugins() map[string]PluginRepo {
 	return map[string]PluginRepo{
-		certificateIssuerType:             &repo.certificateIssuerRepository,
-		notificationType:                  &repo.notificationRepository,
-		systemInformationType:             &repo.systemInformationRepository,
-		keystoreManagementType:            &repo.systemInformationRepository,
-		keystoreInstanceKeyOperationsType: &repo.keystoreInstanceKeyOperationsRepository,
+		identityManagementType:                   &repo.identityManagementRepository,
+		identityManagementServiceType:            &repo.identityManagementRepository,
+		certificateIssuerType:                    &repo.certificateIssuerRepository,
+		certificateIssuerServiceType:             &repo.certificateIssuerRepository,
+		notificationType:                         &repo.notificationRepository,
+		notificationServiceType:                  &repo.notificationRepository,
+		systemInformationType:                    &repo.systemInformationRepository,
+		systemInformationServiceType:             &repo.systemInformationRepository,
+		keystoreManagementType:                   &repo.systemInformationRepository,
+		keystoreManagementServiceType:            &repo.systemInformationRepository,
+		keystoreInstanceKeyOperationsType:        &repo.keystoreInstanceKeyOperationsRepository,
+		keystoreInstanceKeyOperationsServiceType: &repo.keystoreInstanceKeyOperationsRepository,
 	}
 }
 
