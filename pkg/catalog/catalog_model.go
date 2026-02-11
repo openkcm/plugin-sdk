@@ -57,8 +57,6 @@ type ServiceRepo interface {
 }
 
 type Config struct {
-	DisabledConstraints bool
-
 	// Logger is the logger. It is used for general purpose logging and also
 	// provided to the plugins.
 	Logger *slog.Logger
@@ -69,4 +67,6 @@ type Config struct {
 	// HostServices are the servers for host services provided by SPIRE to
 	// plugins.
 	HostServices []api.ServiceServer
+
+	RequiredPlugins []string
 }

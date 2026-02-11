@@ -48,7 +48,6 @@ func ReconfigureTask(log *slog.Logger, reconfigurer Reconfigurer) func(context.C
 
 type Reconfigurer interface {
 	Reconfigure(ctx context.Context)
-	GetConfigurer() Configurer
 }
 
 type Reconfigurers []Reconfigurer
@@ -75,10 +74,6 @@ func (r *Reconfigurable) Reconfigure(ctx context.Context) {
 		r.Log.With("old_hash", r.LastHash).With("new_hash", dataHash).Info("Plugin reconfigured")
 		r.LastHash = dataHash
 	}
-}
-
-func (r *Reconfigurable) GetConfigurer() Configurer {
-	return r.Configurer
 }
 
 func configurePlugin(ctx context.Context, pluginLog *slog.Logger, configurer Configurer, dataSource DataSource) (Reconfigurer, error) {

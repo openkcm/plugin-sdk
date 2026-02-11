@@ -7,7 +7,6 @@ import (
 	"log/slog"
 
 	"github.com/openkcm/plugin-sdk/api"
-	serviceapi "github.com/openkcm/plugin-sdk/api/service"
 )
 
 const (
@@ -18,7 +17,7 @@ const (
 	keystoreInstanceKeyOperationsType = "KeystoreInstanceKeyOperations"
 )
 
-type mainRepository struct {
+type PluginRepository struct {
 	certificateIssuerRepository
 	notificationRepository
 	systemInformationRepository
@@ -26,10 +25,10 @@ type mainRepository struct {
 	keystoreInstanceKeyOperationsRepository
 
 	log     *slog.Logger
-	catalog *catalogImpl
+	catalog *Catalog
 }
 
-func (repo *mainRepository) Plugins() map[string]PluginRepo {
+func (repo *PluginRepository) Plugins() map[string]PluginRepo {
 	return map[string]PluginRepo{
 		certificateIssuerType:             &repo.certificateIssuerRepository,
 		notificationType:                  &repo.notificationRepository,
@@ -39,15 +38,15 @@ func (repo *mainRepository) Plugins() map[string]PluginRepo {
 	}
 }
 
-func (repo *mainRepository) Services() []ServiceRepo {
+func (repo *PluginRepository) Services() []ServiceRepo {
 	return nil
 }
 
-func (repo *mainRepository) Reconfigure(ctx context.Context) {
+func (repo *PluginRepository) Reconfigure(ctx context.Context) {
 	repo.catalog.Reconfigure(ctx)
 }
 
-func (repo *mainRepository) Close() error {
+func (repo *PluginRepository) Close() error {
 	if repo.catalog == nil {
 		return nil
 	}
@@ -60,8 +59,20 @@ func (repo *mainRepository) Close() error {
 	return nil
 }
 
-func Load(ctx context.Context, config Config, builtIns ...BuiltInPlugin) (_ serviceapi.Catalog, err error) {
-	repo := &mainRepository{
+func (repo *PluginRepository) ListPluginInfo() []api.Info {
+	var plugins []api.Info
+
+	closerGr := repo.catalog.closers.(closerGroup)
+	for _, cfger := range closerGr {
+		pluginClose := cfger.(pluginCloser)
+		plugin := pluginClose.plugin.(Plugin)
+		plugins = append(plugins, plugin.Info())
+	}
+	return plugins
+}
+
+func CreateRegistry(ctx context.Context, config Config, builtIns ...BuiltInPlugin) (_ *PluginRepository, err error) {
+	repo := &PluginRepository{
 		log: config.Logger,
 	}
 	defer func() {
@@ -82,20 +93,83 @@ func Load(ctx context.Context, config Config, builtIns ...BuiltInPlugin) (_ serv
 	return repo, nil
 }
 
-type catalogImpl struct {
+type Catalog struct {
 	closers     io.Closer
 	configurers Reconfigurers
 }
 
-func (c *catalogImpl) Close() error {
+func (c *Catalog) Close() error {
 	return c.closers.Close()
 }
 
-func (c *catalogImpl) Reconfigure(ctx context.Context) {
+func (c *Catalog) Reconfigure(ctx context.Context) {
 	c.configurers.Reconfigure(ctx)
 }
 
-func load(ctx context.Context, config Config, repo Repository, builtIns ...BuiltInPlugin) (_ *catalogImpl, err error) {
+// Deprecated: [will be removed once switched to CreateRegistry function]
+func (c *Catalog) LookupByType(pluginType string) []Plugin {
+	var plugins []Plugin
+	closerGr := c.closers.(closerGroup)
+	for _, cfger := range closerGr {
+		pluginClose := cfger.(pluginCloser)
+		plugin := pluginClose.plugin.(Plugin)
+		if plugin.Info().Type() == pluginType {
+			plugins = append(plugins, plugin)
+		}
+	}
+	return plugins
+}
+
+// Deprecated: [will be removed once switched to CreateRegistry function]
+func (c *Catalog) LookupByTypeAndName(pluginType, pluginName string) Plugin {
+	closerGr := c.closers.(closerGroup)
+	for _, cfger := range closerGr {
+		pluginClose := cfger.(pluginCloser)
+		plugin := pluginClose.plugin.(Plugin)
+		if plugin.Info().Type() == pluginType && plugin.Info().Name() == pluginName {
+			return plugin
+		}
+	}
+	return nil
+}
+
+// Deprecated: [will be removed once switched to CreateRegistry function]
+func (c *Catalog) ListPluginInfo() []api.Info {
+	var plugins []api.Info
+
+	closerGr := c.closers.(closerGroup)
+	for _, cfger := range closerGr {
+		pluginClose := cfger.(pluginCloser)
+		plugin := pluginClose.plugin.(Plugin)
+		plugins = append(plugins, plugin.Info())
+	}
+	return plugins
+}
+
+// Deprecated: [CreateRegistry function to be used instead]
+func Load(ctx context.Context, config Config, builtIns ...BuiltInPlugin) (_ *Catalog, err error) {
+	repo := &PluginRepository{
+		log: config.Logger,
+	}
+	defer func() {
+		if err != nil {
+			_ = repo.Close()
+		}
+	}()
+
+	if len(config.HostServices) == 0 {
+		config.HostServices = make([]api.ServiceServer, 0)
+	}
+
+	repo.catalog, err = load(ctx, config, repo, builtIns...)
+	if err != nil {
+		return nil, err
+	}
+
+	return repo.catalog, nil
+}
+
+func load(ctx context.Context, config Config, repo Repository, builtIns ...BuiltInPlugin) (_ *Catalog, err error) {
 	closers := make(closerGroup, 0)
 	defer func() {
 		// If loading fails, clear out the catalog and close down all plugins
@@ -168,18 +242,26 @@ func load(ctx context.Context, config Config, repo Repository, builtIns ...Built
 		pluginCounts[pluginConfig.Type]++
 	}
 
-	impl := &catalogImpl{
+	impl := &Catalog{
 		closers:     closers,
 		configurers: reconfigurers,
 	}
 
-	if config.DisabledConstraints {
-		return impl, nil
+	requiringCheck := make(map[string]int)
+	if len(config.RequiredPlugins) == 0 {
+		requiringCheck = pluginCounts
+	}
+	for _, item := range config.RequiredPlugins {
+		if v, ok := pluginCounts[item]; ok {
+			requiringCheck[item] = v
+		} else {
+			requiringCheck[item] = 0
+		}
 	}
 
 	// Make sure all plugin constraints are satisfied
 	for pluginType, pluginRepo := range pluginRepos {
-		if err := pluginRepo.Constraints().Check(pluginCounts[pluginType]); err != nil {
+		if err := pluginRepo.Constraints().Check(requiringCheck[pluginType]); err != nil {
 			return nil, fmt.Errorf("plugin type %q constraint not satisfied: %w", pluginType, err)
 		}
 	}

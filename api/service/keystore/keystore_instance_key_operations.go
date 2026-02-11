@@ -2,12 +2,10 @@ package keystore
 
 import (
 	"context"
-
-	"github.com/openkcm/plugin-sdk/api"
 )
 
 type KeystoreInstanceKeyOperations interface {
-	ServiceInfo() api.Info
+	//ServiceInfo() api.Info
 
 	GetKey(ctx context.Context, req *GetKeyRequest) (*GetKeyResponse, error)
 	CreateKey(ctx context.Context, req *CreateKeyRequest) (*CreateKeyResponse, error)

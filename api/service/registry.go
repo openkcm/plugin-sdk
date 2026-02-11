@@ -9,7 +9,7 @@ import (
 	"github.com/openkcm/plugin-sdk/api/service/systeminformation"
 )
 
-type Catalog interface {
+type Registry interface {
 	io.Closer
 
 	GetCertificateIssuer() certificateissuer.CertificateIssuer
