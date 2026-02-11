@@ -1,18 +1,18 @@
 package notification
 
 import (
-	notificationapi "github.com/openkcm/plugin-sdk/api/service/notification"
+	"github.com/openkcm/plugin-sdk/api/service/notification"
 )
 
 type Repository struct {
-	Notification notificationapi.Notification
+	Notification notification.Notification
 }
 
-func (repo *Repository) GetNotification() notificationapi.Notification {
+func (repo *Repository) GetNotification() notification.Notification {
 	return repo.Notification
 }
 
-func (repo *Repository) SetNotification(instance notificationapi.Notification) {
+func (repo *Repository) SetNotification(instance notification.Notification) {
 	repo.Notification = instance
 }
 

@@ -9,13 +9,13 @@ import (
 	"github.com/openkcm/plugin-sdk/api"
 	"github.com/openkcm/plugin-sdk/api/service/keymanagement"
 	"github.com/openkcm/plugin-sdk/pkg/plugin"
-	commonv1 "github.com/openkcm/plugin-sdk/proto/plugin/common/v1"
-	key_managementv1 "github.com/openkcm/plugin-sdk/proto/plugin/key_management/v1"
+	grpccommonv1 "github.com/openkcm/plugin-sdk/proto/plugin/common/v1"
+	grpckeymanagementv1 "github.com/openkcm/plugin-sdk/proto/plugin/key_management/v1"
 )
 
 type V1 struct {
 	plugin.Facade
-	key_managementv1.KeyManagementPluginClient
+	grpckeymanagementv1.KeyManagementPluginClient
 }
 
 func (v1 *V1) Version() uint {
@@ -32,9 +32,9 @@ func (v1 *V1) GetKey(ctx context.Context, req *keymanagement.GetKeyRequest) (*ke
 		return nil, fmt.Errorf("failed to parse values: %v", err)
 	}
 
-	in := &key_managementv1.GetKeyRequest{
-		Parameters: &key_managementv1.RequestParameters{
-			Config: &commonv1.KeystoreInstanceConfig{
+	in := &grpckeymanagementv1.GetKeyRequest{
+		Parameters: &grpckeymanagementv1.RequestParameters{
+			Config: &grpccommonv1.KeystoreInstanceConfig{
 				Values: value,
 			},
 			KeyId: req.Parameters.KeyID,
@@ -59,14 +59,14 @@ func (v1 *V1) CreateKey(ctx context.Context, req *keymanagement.CreateKeyRequest
 		return nil, fmt.Errorf("failed to parse values: %v", err)
 	}
 
-	in := &key_managementv1.CreateKeyRequest{
-		Config: &commonv1.KeystoreInstanceConfig{
+	in := &grpckeymanagementv1.CreateKeyRequest{
+		Config: &grpccommonv1.KeystoreInstanceConfig{
 			Values: value,
 		},
-		Algorithm: key_managementv1.Algorithm(req.KeyAlgorithm),
+		Algorithm: grpckeymanagementv1.Algorithm(req.KeyAlgorithm),
 		Id:        req.ID,
 		Region:    req.Region,
-		KeyType:   key_managementv1.KeyType(req.KeyType),
+		KeyType:   grpckeymanagementv1.KeyType(req.KeyType),
 	}
 	grpcResp, err := v1.KeyManagementPluginClient.CreateKey(ctx, in)
 	if err != nil {
@@ -85,9 +85,9 @@ func (v1 *V1) DeleteKey(ctx context.Context, req *keymanagement.DeleteKeyRequest
 		return nil, fmt.Errorf("failed to parse values: %v", err)
 	}
 
-	in := &key_managementv1.DeleteKeyRequest{
-		Parameters: &key_managementv1.RequestParameters{
-			Config: &commonv1.KeystoreInstanceConfig{
+	in := &grpckeymanagementv1.DeleteKeyRequest{
+		Parameters: &grpckeymanagementv1.RequestParameters{
+			Config: &grpccommonv1.KeystoreInstanceConfig{
 				Values: value,
 			},
 			KeyId: req.Parameters.KeyID,
@@ -108,9 +108,9 @@ func (v1 *V1) EnableKey(ctx context.Context, req *keymanagement.EnableKeyRequest
 		return nil, fmt.Errorf("failed to parse values: %v", err)
 	}
 
-	in := &key_managementv1.EnableKeyRequest{
-		Parameters: &key_managementv1.RequestParameters{
-			Config: &commonv1.KeystoreInstanceConfig{
+	in := &grpckeymanagementv1.EnableKeyRequest{
+		Parameters: &grpckeymanagementv1.RequestParameters{
+			Config: &grpccommonv1.KeystoreInstanceConfig{
 				Values: value,
 			},
 			KeyId: req.Parameters.KeyID,
@@ -130,14 +130,14 @@ func (v1 *V1) GetImportParameters(ctx context.Context, req *keymanagement.GetImp
 		return nil, fmt.Errorf("failed to parse values: %v", err)
 	}
 
-	in := &key_managementv1.GetImportParametersRequest{
-		Parameters: &key_managementv1.RequestParameters{
-			Config: &commonv1.KeystoreInstanceConfig{
+	in := &grpckeymanagementv1.GetImportParametersRequest{
+		Parameters: &grpckeymanagementv1.RequestParameters{
+			Config: &grpccommonv1.KeystoreInstanceConfig{
 				Values: value,
 			},
 			KeyId: req.Parameters.KeyID,
 		},
-		Algorithm: key_managementv1.Algorithm(req.KeyAlgorithm),
+		Algorithm: grpckeymanagementv1.Algorithm(req.KeyAlgorithm),
 	}
 	grpcResp, err := v1.KeyManagementPluginClient.GetImportParameters(ctx, in)
 	if err != nil {
@@ -161,9 +161,9 @@ func (v1 *V1) ImportKeyMaterial(ctx context.Context, req *keymanagement.ImportKe
 		return nil, fmt.Errorf("failed to parse values: %v", err)
 	}
 
-	in := &key_managementv1.ImportKeyMaterialRequest{
-		Parameters: &key_managementv1.RequestParameters{
-			Config: &commonv1.KeystoreInstanceConfig{
+	in := &grpckeymanagementv1.ImportKeyMaterialRequest{
+		Parameters: &grpckeymanagementv1.RequestParameters{
+			Config: &grpccommonv1.KeystoreInstanceConfig{
 				Values: value,
 			},
 			KeyId: req.Parameters.KeyID,
@@ -179,9 +179,9 @@ func (v1 *V1) ImportKeyMaterial(ctx context.Context, req *keymanagement.ImportKe
 }
 
 func (v1 *V1) ValidateKey(ctx context.Context, req *keymanagement.ValidateKeyRequest) (*keymanagement.ValidateKeyResponse, error) {
-	in := &key_managementv1.ValidateKeyRequest{
-		KeyType:     key_managementv1.KeyType(req.KeyType),
-		Algorithm:   key_managementv1.Algorithm(req.KeyAlgorithm),
+	in := &grpckeymanagementv1.ValidateKeyRequest{
+		KeyType:     grpckeymanagementv1.KeyType(req.KeyType),
+		Algorithm:   grpckeymanagementv1.Algorithm(req.KeyAlgorithm),
 		Region:      req.Region,
 		NativeKeyId: req.NativeKeyID,
 	}
@@ -206,7 +206,7 @@ func (v1 *V1) ValidateKeyAccessData(ctx context.Context, req *keymanagement.Vali
 		return nil, fmt.Errorf("failed to parse values: %v", err)
 	}
 
-	in := &key_managementv1.ValidateKeyAccessDataRequest{
+	in := &grpckeymanagementv1.ValidateKeyAccessDataRequest{
 		Management: management,
 		Crypto:     crypto,
 	}
@@ -222,7 +222,7 @@ func (v1 *V1) ValidateKeyAccessData(ctx context.Context, req *keymanagement.Vali
 }
 
 func (v1 *V1) TransformCryptoAccessData(ctx context.Context, req *keymanagement.TransformCryptoAccessDataRequest) (*keymanagement.TransformCryptoAccessDataResponse, error) {
-	in := &key_managementv1.TransformCryptoAccessDataRequest{
+	in := &grpckeymanagementv1.TransformCryptoAccessDataRequest{
 		NativeKeyId: req.NativeKeyID,
 		AccessData:  req.AccessData,
 	}
@@ -242,7 +242,7 @@ func (v1 *V1) ExtractKeyRegion(ctx context.Context, req *keymanagement.ExtractKe
 		return nil, fmt.Errorf("failed to parse values: %v", err)
 	}
 
-	in := &key_managementv1.ExtractKeyRegionRequest{
+	in := &grpckeymanagementv1.ExtractKeyRegionRequest{
 		NativeKeyId:          req.NativeKeyID,
 		ManagementAccessData: management,
 	}

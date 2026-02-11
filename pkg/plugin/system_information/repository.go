@@ -1,18 +1,18 @@
 package system_information
 
 import (
-	systeminformationapi "github.com/openkcm/plugin-sdk/api/service/systeminformation"
+	"github.com/openkcm/plugin-sdk/api/service/systeminformation"
 )
 
 type Repository struct {
-	SystemInformation systeminformationapi.SystemInformation
+	SystemInformation systeminformation.SystemInformation
 }
 
-func (repo *Repository) GetSystemInformation() systeminformationapi.SystemInformation {
+func (repo *Repository) GetSystemInformation() systeminformation.SystemInformation {
 	return repo.SystemInformation
 }
 
-func (repo *Repository) SetSystemInformation(sysinfo systeminformationapi.SystemInformation) {
+func (repo *Repository) SetSystemInformation(sysinfo systeminformation.SystemInformation) {
 	repo.SystemInformation = sysinfo
 }
 

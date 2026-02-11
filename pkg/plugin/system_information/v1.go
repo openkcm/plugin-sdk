@@ -6,12 +6,12 @@ import (
 	"github.com/openkcm/plugin-sdk/api"
 	"github.com/openkcm/plugin-sdk/api/service/systeminformation"
 	"github.com/openkcm/plugin-sdk/pkg/plugin"
-	system_informationv1 "github.com/openkcm/plugin-sdk/proto/plugin/system_information/v1"
+	grpcsysteminformationv1 "github.com/openkcm/plugin-sdk/proto/plugin/system_information/v1"
 )
 
 type V1 struct {
 	plugin.Facade
-	system_informationv1.SystemInformationPluginClient
+	grpcsysteminformationv1.SystemInformationPluginClient
 }
 
 func (v1 *V1) Version() uint {
@@ -23,7 +23,7 @@ func (v1 *V1) ServiceInfo() api.Info {
 }
 
 func (v1 *V1) GetSystemInfo(ctx context.Context, req *systeminformation.GetSystemInfoRequest) (*systeminformation.GetSystemInfoResponse, error) {
-	in := &system_informationv1.GetInfoRequest{
+	in := &grpcsysteminformationv1.GetInfoRequest{
 		Id: req.ID,
 	}
 	setTypeValue(in, req.Type)
@@ -37,17 +37,17 @@ func (v1 *V1) GetSystemInfo(ctx context.Context, req *systeminformation.GetSyste
 	}, nil
 }
 
-func setTypeValue(req *system_informationv1.GetInfoRequest, requestType systeminformation.Type) {
+func setTypeValue(req *grpcsysteminformationv1.GetInfoRequest, requestType systeminformation.Type) {
 	switch requestType {
 	case systeminformation.UnspecifiedType:
-		req.TypeValue = &system_informationv1.GetInfoRequest_Unspecified{}
+		req.TypeValue = &grpcsysteminformationv1.GetInfoRequest_Unspecified{}
 	case systeminformation.SystemType:
-		req.TypeValue = &system_informationv1.GetInfoRequest_System{}
+		req.TypeValue = &grpcsysteminformationv1.GetInfoRequest_System{}
 	case systeminformation.SubaccountType:
-		req.TypeValue = &system_informationv1.GetInfoRequest_Subaccount{}
+		req.TypeValue = &grpcsysteminformationv1.GetInfoRequest_Subaccount{}
 	case systeminformation.AccountType:
-		req.TypeValue = &system_informationv1.GetInfoRequest_Account{}
+		req.TypeValue = &grpcsysteminformationv1.GetInfoRequest_Account{}
 	}
 
-	req.TypeValue = &system_informationv1.GetInfoRequest_Unspecified{}
+	req.TypeValue = &grpcsysteminformationv1.GetInfoRequest_Unspecified{}
 }

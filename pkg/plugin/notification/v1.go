@@ -6,12 +6,12 @@ import (
 	"github.com/openkcm/plugin-sdk/api"
 	"github.com/openkcm/plugin-sdk/api/service/notification"
 	"github.com/openkcm/plugin-sdk/pkg/plugin"
-	notification1 "github.com/openkcm/plugin-sdk/proto/plugin/notification/v1"
+	grpcnotification1 "github.com/openkcm/plugin-sdk/proto/plugin/notification/v1"
 )
 
 type V1 struct {
 	plugin.Facade
-	notification1.NotificationPluginClient
+	grpcnotification1.NotificationPluginClient
 }
 
 func (v1 *V1) Version() uint {
@@ -23,8 +23,8 @@ func (v1 *V1) ServiceInfo() api.Info {
 }
 
 func (v1 *V1) Send(ctx context.Context, req *notification.SendNotificationRequest) (*notification.SendNotificationResponse, error) {
-	in := &notification1.SendRequest{
-		NotificationType: notification1.NotificationType(req.Type),
+	in := &grpcnotification1.SendRequest{
+		NotificationType: grpcnotification1.NotificationType(req.Type),
 		Recipients:       req.Recipients,
 		Subject:          req.Subject,
 		Body:             req.Body,

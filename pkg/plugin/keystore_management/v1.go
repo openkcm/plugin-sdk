@@ -10,13 +10,13 @@ import (
 	"github.com/openkcm/plugin-sdk/api/service/common"
 	"github.com/openkcm/plugin-sdk/api/service/keystoremanagement"
 	"github.com/openkcm/plugin-sdk/pkg/plugin"
-	commonv1 "github.com/openkcm/plugin-sdk/proto/plugin/common/v1"
-	keystore_managementv1 "github.com/openkcm/plugin-sdk/proto/plugin/keystore_management/v1"
+	grpccommonv1 "github.com/openkcm/plugin-sdk/proto/plugin/common/v1"
+	grpckeystoremanagementv1 "github.com/openkcm/plugin-sdk/proto/plugin/keystore_management/v1"
 )
 
 type V1 struct {
 	plugin.Facade
-	keystore_managementv1.KeystoreManagementPluginClient
+	grpckeystoremanagementv1.KeystoreManagementPluginClient
 }
 
 func (v1 *V1) Version() uint {
@@ -33,7 +33,7 @@ func (v1 *V1) CreateKeystore(ctx context.Context, req *keystoremanagement.Create
 		return nil, fmt.Errorf("failed to parse values: %v", err)
 	}
 
-	in := &keystore_managementv1.CreateKeystoreRequest{
+	in := &grpckeystoremanagementv1.CreateKeystoreRequest{
 		Values: value,
 	}
 	grpcResp, err := v1.KeystoreManagementPluginClient.CreateKeystore(ctx, in)
@@ -56,8 +56,8 @@ func (v1 *V1) DeleteKeystore(ctx context.Context, req *keystoremanagement.Delete
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse values: %v", err)
 	}
-	in := &keystore_managementv1.DeleteKeystoreRequest{
-		Config: &commonv1.KeystoreInstanceConfig{
+	in := &grpckeystoremanagementv1.DeleteKeystoreRequest{
+		Config: &grpccommonv1.KeystoreInstanceConfig{
 			Values: value,
 		},
 	}
