@@ -25,7 +25,7 @@ func (v1 *V1) ServiceInfo() api.Info {
 func (v1 *V1) GetSystemInfo(ctx context.Context, req *systeminformation.GetSystemInfoRequest) (*systeminformation.GetSystemInfoResponse, error) {
 	in := &systeminformationv1.GetRequest{
 		Id:   req.ID,
-		Type: rt(req.Type),
+		Type: systeminformationv1.RequestType(req.Type),
 	}
 	grpcResp, err := v1.Get(ctx, in)
 	if err != nil {
@@ -34,16 +34,4 @@ func (v1 *V1) GetSystemInfo(ctx context.Context, req *systeminformation.GetSyste
 	return &systeminformation.GetSystemInfoResponse{
 		Metadata: grpcResp.GetMetadata(),
 	}, nil
-}
-
-func rt(requestType systeminformation.RequestType) systeminformationv1.RequestType {
-	switch requestType {
-	case systeminformation.Unspecified:
-		return systeminformationv1.RequestType_REQUEST_TYPE_UNSPECIFIED
-	case systeminformation.System:
-		return systeminformationv1.RequestType_REQUEST_TYPE_SYSTEM
-	case systeminformation.Subaccount:
-		return systeminformationv1.RequestType_REQUEST_TYPE_SUBACCOUNT
-	}
-	return systeminformationv1.RequestType_REQUEST_TYPE_UNSPECIFIED
 }
