@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 
+	"buf.build/go/protovalidate"
 	"google.golang.org/protobuf/types/known/structpb"
 
 	"github.com/openkcm/plugin-sdk/api"
@@ -68,6 +69,10 @@ func (v1 *V1) CreateKey(ctx context.Context, req *keymanagement.CreateKeyRequest
 		Region:    req.Region,
 		KeyType:   grpckeymanagerv1.KeyType(req.KeyType),
 	}
+	if err := protovalidate.Validate(in); err != nil {
+		return nil, fmt.Errorf("failed validation: %v", err)
+	}
+
 	grpcResp, err := v1.KeystoreInstanceKeyOperationPluginClient.CreateKey(ctx, in)
 	if err != nil {
 		return nil, err
@@ -94,6 +99,10 @@ func (v1 *V1) DeleteKey(ctx context.Context, req *keymanagement.DeleteKeyRequest
 		},
 		Window: req.Window,
 	}
+	if err := protovalidate.Validate(in); err != nil {
+		return nil, fmt.Errorf("failed validation: %v", err)
+	}
+
 	_, err = v1.KeystoreInstanceKeyOperationPluginClient.DeleteKey(ctx, in)
 	if err != nil {
 		return nil, err
@@ -116,6 +125,10 @@ func (v1 *V1) EnableKey(ctx context.Context, req *keymanagement.EnableKeyRequest
 			KeyId: req.Parameters.KeyID,
 		},
 	}
+	if err := protovalidate.Validate(in); err != nil {
+		return nil, fmt.Errorf("failed validation: %v", err)
+	}
+
 	_, err = v1.KeystoreInstanceKeyOperationPluginClient.EnableKey(ctx, in)
 	if err != nil {
 		return nil, err
@@ -139,6 +152,10 @@ func (v1 *V1) GetImportParameters(ctx context.Context, req *keymanagement.GetImp
 		},
 		Algorithm: grpckeymanagerv1.KeyAlgorithm(req.KeyAlgorithm),
 	}
+	if err := protovalidate.Validate(in); err != nil {
+		return nil, fmt.Errorf("failed validation: %v", err)
+	}
+
 	grpcResp, err := v1.KeystoreInstanceKeyOperationPluginClient.GetImportParameters(ctx, in)
 	if err != nil {
 		return nil, err
@@ -170,6 +187,10 @@ func (v1 *V1) ImportKeyMaterial(ctx context.Context, req *keymanagement.ImportKe
 		},
 		ImportParameters: importParams,
 	}
+	if err := protovalidate.Validate(in); err != nil {
+		return nil, fmt.Errorf("failed validation: %v", err)
+	}
+
 	_, err = v1.KeystoreInstanceKeyOperationPluginClient.ImportKeyMaterial(ctx, in)
 	if err != nil {
 		return nil, err
@@ -185,6 +206,10 @@ func (v1 *V1) ValidateKey(ctx context.Context, req *keymanagement.ValidateKeyReq
 		Region:      req.Region,
 		NativeKeyId: req.NativeKeyID,
 	}
+	if err := protovalidate.Validate(in); err != nil {
+		return nil, fmt.Errorf("failed validation: %v", err)
+	}
+
 	grpcResp, err := v1.KeystoreInstanceKeyOperationPluginClient.ValidateKey(ctx, in)
 	if err != nil {
 		return nil, err
@@ -210,6 +235,10 @@ func (v1 *V1) ValidateKeyAccessData(ctx context.Context, req *keymanagement.Vali
 		Management: management,
 		Crypto:     crypto,
 	}
+	if err := protovalidate.Validate(in); err != nil {
+		return nil, fmt.Errorf("failed validation: %v", err)
+	}
+
 	grpcResp, err := v1.KeystoreInstanceKeyOperationPluginClient.ValidateKeyAccessData(ctx, in)
 	if err != nil {
 		return nil, err
@@ -226,6 +255,10 @@ func (v1 *V1) TransformCryptoAccessData(ctx context.Context, req *keymanagement.
 		NativeKeyId: req.NativeKeyID,
 		AccessData:  req.AccessData,
 	}
+	if err := protovalidate.Validate(in); err != nil {
+		return nil, fmt.Errorf("failed validation: %v", err)
+	}
+
 	grpcResp, err := v1.KeystoreInstanceKeyOperationPluginClient.TransformCryptoAccessData(ctx, in)
 	if err != nil {
 		return nil, err
@@ -246,6 +279,10 @@ func (v1 *V1) ExtractKeyRegion(ctx context.Context, req *keymanagement.ExtractKe
 		NativeKeyId:          req.NativeKeyID,
 		ManagementAccessData: management,
 	}
+	if err := protovalidate.Validate(in); err != nil {
+		return nil, fmt.Errorf("failed validation: %v", err)
+	}
+
 	grpcResp, err := v1.KeystoreInstanceKeyOperationPluginClient.ExtractKeyRegion(ctx, in)
 	if err != nil {
 		return nil, err

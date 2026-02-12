@@ -2,6 +2,7 @@ package system_information
 
 import (
 	"context"
+	"fmt"
 
 	"buf.build/go/protovalidate"
 
@@ -25,26 +26,12 @@ func (v1 *V1) ServiceInfo() api.Info {
 }
 
 func (v1 *V1) GetSystemInfo(ctx context.Context, req *systeminformation.GetSystemInfoRequest) (*systeminformation.GetSystemInfoResponse, error) {
-	// Convert your API request type to the gRPC enum
-	var grpcType string
-
-	switch req.Type {
-	case systeminformation.SystemType:
-		grpcType = "system"
-	case systeminformation.SubaccountType:
-		grpcType = "subaccount"
-	case systeminformation.AccountType:
-		grpcType = "account"
-	default:
-		grpcType = "system"
-	}
-
 	in := &systeminformationv1.GetRequest{
 		Id:   req.ID,
-		Type: grpcType,
+		Type: req.Type,
 	}
 	if err := protovalidate.Validate(in); err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed validation: %v", err)
 	}
 
 	grpcResp, err := v1.Get(ctx, in)

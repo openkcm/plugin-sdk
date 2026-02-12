@@ -2,6 +2,9 @@ package notification
 
 import (
 	"context"
+	"fmt"
+
+	"buf.build/go/protovalidate"
 
 	"github.com/openkcm/plugin-sdk/api"
 	"github.com/openkcm/plugin-sdk/api/service/notification"
@@ -29,6 +32,10 @@ func (v1 *V1) Send(ctx context.Context, req *notification.SendNotificationReques
 		Subject:          req.Subject,
 		Body:             req.Body,
 	}
+	if err := protovalidate.Validate(in); err != nil {
+		return nil, fmt.Errorf("failed validation: %v", err)
+	}
+
 	grpcResp, err := v1.SendNotification(ctx, in)
 	if err != nil {
 		return nil, err

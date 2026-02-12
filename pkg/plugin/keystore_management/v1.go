@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 
+	"buf.build/go/protovalidate"
 	"google.golang.org/protobuf/types/known/structpb"
 
 	"github.com/openkcm/plugin-sdk/api"
@@ -36,6 +37,10 @@ func (v1 *V1) CreateKeystore(ctx context.Context, req *keystoremanagement.Create
 	in := &grpckeystoremanagementv1.CreateKeystoreRequest{
 		Values: value,
 	}
+	if err := protovalidate.Validate(in); err != nil {
+		return nil, fmt.Errorf("failed validation: %v", err)
+	}
+
 	grpcResp, err := v1.KeystoreProviderPluginClient.CreateKeystore(ctx, in)
 	if err != nil {
 		return nil, err
@@ -61,6 +66,10 @@ func (v1 *V1) DeleteKeystore(ctx context.Context, req *keystoremanagement.Delete
 			Values: value,
 		},
 	}
+	if err := protovalidate.Validate(in); err != nil {
+		return nil, fmt.Errorf("failed validation: %v", err)
+	}
+
 	_, err = v1.KeystoreProviderPluginClient.DeleteKeystore(ctx, in)
 	if err != nil {
 		return nil, err
