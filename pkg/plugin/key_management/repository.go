@@ -1,6 +1,8 @@
 package key_management
 
 import (
+	"log/slog"
+
 	keymanagementapi "github.com/openkcm/plugin-sdk/api/service/keymanagement"
 )
 
@@ -21,6 +23,11 @@ func (repo *Repository) ListKeyManagement() []keymanagementapi.KeyManagement {
 }
 
 func (repo *Repository) AddKeyManagement(instance keymanagementapi.KeyManagement) {
+	if instance.ServiceInfo() == nil {
+		slog.Error("KeyManagement service info is nil")
+		return
+	}
+
 	repo.KeyManagements[instance.ServiceInfo().Name()] = instance
 }
 
