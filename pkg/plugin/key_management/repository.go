@@ -27,12 +27,13 @@ func (repo *Repository) AddKeyManagement(instance keymanagementapi.KeyManagement
 		repo.KeyManagements = make(map[string]keymanagementapi.KeyManagement)
 	}
 
-	if instance.ServiceInfo() == nil {
-		slog.Error("KeyManagement service info is nil")
+	info := instance.ServiceInfo()
+	if info == nil {
+		slog.Error("FATAL:Service info of KeyManagement is required!")
 		return
 	}
 
-	repo.KeyManagements[instance.ServiceInfo().Name()] = instance
+	repo.KeyManagements[info.Name()] = instance
 }
 
 func (repo *Repository) Clear() {
