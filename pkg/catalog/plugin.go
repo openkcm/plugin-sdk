@@ -364,10 +364,8 @@ func (p *pluginImpl) bindRepo(repo bindableServiceRepo, grpcServiceNames map[str
 			warnIfDeprecated(p.logger, version, versions[0])
 			impl = p.bindFacade(repo, facade)
 
-			if facade.Version() == p.info.Version() {
+			if facade.Version() == p.info.Version() && impl != nil {
 				break
-			} else {
-				impl = nil
 			}
 		}
 	}
