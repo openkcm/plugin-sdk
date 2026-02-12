@@ -22,6 +22,55 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type RequestType int32
+
+const (
+	RequestType_REQUEST_TYPE_UNSPECIFIED RequestType = 0
+	RequestType_REQUEST_TYPE_SYSTEM      RequestType = 1
+	RequestType_REQUEST_TYPE_SUBACCOUNT  RequestType = 2
+)
+
+// Enum value maps for RequestType.
+var (
+	RequestType_name = map[int32]string{
+		0: "REQUEST_TYPE_UNSPECIFIED",
+		1: "REQUEST_TYPE_SYSTEM",
+		2: "REQUEST_TYPE_SUBACCOUNT",
+	}
+	RequestType_value = map[string]int32{
+		"REQUEST_TYPE_UNSPECIFIED": 0,
+		"REQUEST_TYPE_SYSTEM":      1,
+		"REQUEST_TYPE_SUBACCOUNT":  2,
+	}
+)
+
+func (x RequestType) Enum() *RequestType {
+	p := new(RequestType)
+	*p = x
+	return p
+}
+
+func (x RequestType) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (RequestType) Descriptor() protoreflect.EnumDescriptor {
+	return file_plugin_systeminformation_v1_systeminformation_proto_enumTypes[0].Descriptor()
+}
+
+func (RequestType) Type() protoreflect.EnumType {
+	return &file_plugin_systeminformation_v1_systeminformation_proto_enumTypes[0]
+}
+
+func (x RequestType) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use RequestType.Descriptor instead.
+func (RequestType) EnumDescriptor() ([]byte, []int) {
+	return file_plugin_systeminformation_v1_systeminformation_proto_rawDescGZIP(), []int{0}
+}
+
 type GetRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -67,11 +116,11 @@ func (x *GetRequest) GetId() string {
 	return ""
 }
 
-func (x *GetRequest) GetType() string {
+func (x *GetRequest) GetType() RequestType {
 	if x != nil {
 		return x.Type
 	}
-	return ""
+	return RequestType_REQUEST_TYPE_UNSPECIFIED
 }
 
 type GetResponse struct {
@@ -152,21 +201,24 @@ func file_plugin_systeminformation_v1_systeminformation_proto_rawDescGZIP() []by
 	return file_plugin_systeminformation_v1_systeminformation_proto_rawDescData
 }
 
+var file_plugin_systeminformation_v1_systeminformation_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_plugin_systeminformation_v1_systeminformation_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_plugin_systeminformation_v1_systeminformation_proto_goTypes = []any{
-	(*GetRequest)(nil),  // 0: plugin.systeminformation.v1.GetRequest
-	(*GetResponse)(nil), // 1: plugin.systeminformation.v1.GetResponse
-	nil,                 // 2: plugin.systeminformation.v1.GetResponse.MetadataEntry
+	(RequestType)(0),    // 0: plugin.systeminformation.v1.RequestType
+	(*GetRequest)(nil),  // 1: plugin.systeminformation.v1.GetRequest
+	(*GetResponse)(nil), // 2: plugin.systeminformation.v1.GetResponse
+	nil,                 // 3: plugin.systeminformation.v1.GetResponse.MetadataEntry
 }
 var file_plugin_systeminformation_v1_systeminformation_proto_depIdxs = []int32{
-	2, // 0: plugin.systeminformation.v1.GetResponse.metadata:type_name -> plugin.systeminformation.v1.GetResponse.MetadataEntry
-	0, // 1: plugin.systeminformation.v1.SystemInformationService.Get:input_type -> plugin.systeminformation.v1.GetRequest
-	1, // 2: plugin.systeminformation.v1.SystemInformationService.Get:output_type -> plugin.systeminformation.v1.GetResponse
-	2, // [2:3] is the sub-list for method output_type
-	1, // [1:2] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	0, // 0: plugin.systeminformation.v1.GetRequest.type:type_name -> plugin.systeminformation.v1.RequestType
+	3, // 1: plugin.systeminformation.v1.GetResponse.metadata:type_name -> plugin.systeminformation.v1.GetResponse.MetadataEntry
+	1, // 2: plugin.systeminformation.v1.SystemInformationService.Get:input_type -> plugin.systeminformation.v1.GetRequest
+	2, // 3: plugin.systeminformation.v1.SystemInformationService.Get:output_type -> plugin.systeminformation.v1.GetResponse
+	3, // [3:4] is the sub-list for method output_type
+	2, // [2:3] is the sub-list for method input_type
+	2, // [2:2] is the sub-list for extension type_name
+	2, // [2:2] is the sub-list for extension extendee
+	0, // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_plugin_systeminformation_v1_systeminformation_proto_init() }
@@ -186,6 +238,7 @@ func file_plugin_systeminformation_v1_systeminformation_proto_init() {
 		},
 		GoTypes:           file_plugin_systeminformation_v1_systeminformation_proto_goTypes,
 		DependencyIndexes: file_plugin_systeminformation_v1_systeminformation_proto_depIdxs,
+		EnumInfos:         file_plugin_systeminformation_v1_systeminformation_proto_enumTypes,
 		MessageInfos:      file_plugin_systeminformation_v1_systeminformation_proto_msgTypes,
 	}.Build()
 	File_plugin_systeminformation_v1_systeminformation_proto = out.File

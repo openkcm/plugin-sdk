@@ -15,3 +15,9 @@ message GetRequest {
 message GetResponse {
   map<string, string> metadata = 1;
 }
+
+enum RequestType {
+  REQUEST_TYPE_UNSPECIFIED = 0;
+  REQUEST_TYPE_SYSTEM = 1;
+  REQUEST_TYPE_SUBACCOUNT = 2;
+}
