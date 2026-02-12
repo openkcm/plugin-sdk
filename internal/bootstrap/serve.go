@@ -44,7 +44,7 @@ func Serve(
 
 		validator, err := protovalidate.New()
 		if err != nil {
-			slog.Error("failed to initialize validator", "error", err)
+			slog.Warn("failed to initialize plugin proto validator", "error", err)
 		} else {
 			cfg.ServerOptions = append(cfg.ServerOptions, grpc.UnaryInterceptor(
 				ValidationUnaryInterceptor(validator, cfg.ValidateInput, cfg.ValidateOutput),
