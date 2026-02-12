@@ -7,13 +7,15 @@
 package operationsv1
 
 import (
-	v1 "github.com/openkcm/plugin-sdk/proto/plugin/keystore/common/v1"
-	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
-	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	structpb "google.golang.org/protobuf/types/known/structpb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
+
+	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
+	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	structpb "google.golang.org/protobuf/types/known/structpb"
+
+	v1 "github.com/openkcm/plugin-sdk/proto/plugin/keystore/common/v1"
 )
 
 const (

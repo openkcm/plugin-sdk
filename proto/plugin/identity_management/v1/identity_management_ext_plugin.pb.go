@@ -3,8 +3,9 @@
 package identity_managementv1
 
 import (
-	api "github.com/openkcm/plugin-sdk/api"
 	grpc "google.golang.org/grpc"
+
+	api "github.com/openkcm/plugin-sdk/api"
 )
 
 const (
