@@ -22,59 +22,10 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type RequestType int32
-
-const (
-	RequestType_REQUEST_TYPE_UNSPECIFIED RequestType = 0
-	RequestType_REQUEST_TYPE_SYSTEM      RequestType = 1
-	RequestType_REQUEST_TYPE_SUBACCOUNT  RequestType = 2
-)
-
-// Enum value maps for RequestType.
-var (
-	RequestType_name = map[int32]string{
-		0: "REQUEST_TYPE_UNSPECIFIED",
-		1: "REQUEST_TYPE_SYSTEM",
-		2: "REQUEST_TYPE_SUBACCOUNT",
-	}
-	RequestType_value = map[string]int32{
-		"REQUEST_TYPE_UNSPECIFIED": 0,
-		"REQUEST_TYPE_SYSTEM":      1,
-		"REQUEST_TYPE_SUBACCOUNT":  2,
-	}
-)
-
-func (x RequestType) Enum() *RequestType {
-	p := new(RequestType)
-	*p = x
-	return p
-}
-
-func (x RequestType) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (RequestType) Descriptor() protoreflect.EnumDescriptor {
-	return file_plugin_systeminformation_v1_systeminformation_proto_enumTypes[0].Descriptor()
-}
-
-func (RequestType) Type() protoreflect.EnumType {
-	return &file_plugin_systeminformation_v1_systeminformation_proto_enumTypes[0]
-}
-
-func (x RequestType) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use RequestType.Descriptor instead.
-func (RequestType) EnumDescriptor() ([]byte, []int) {
-	return file_plugin_systeminformation_v1_systeminformation_proto_rawDescGZIP(), []int{0}
-}
-
 type GetRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Type          RequestType            `protobuf:"varint,2,opt,name=type,proto3,enum=plugin.systeminformation.v1.RequestType" json:"type,omitempty"`
+	Type          string                 `protobuf:"bytes,2,opt,name=type,proto3" json:"type,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -116,11 +67,11 @@ func (x *GetRequest) GetId() string {
 	return ""
 }
 
-func (x *GetRequest) GetType() RequestType {
+func (x *GetRequest) GetType() string {
 	if x != nil {
 		return x.Type
 	}
-	return RequestType_REQUEST_TYPE_UNSPECIFIED
+	return ""
 }
 
 type GetResponse struct {
@@ -171,20 +122,17 @@ var File_plugin_systeminformation_v1_systeminformation_proto protoreflect.FileDe
 
 const file_plugin_systeminformation_v1_systeminformation_proto_rawDesc = "" +
 	"\n" +
-	"3plugin/systeminformation/v1/systeminformation.proto\x12\x1bplugin.systeminformation.v1\x1a\x1bbuf/validate/validate.proto\"b\n" +
+	"3plugin/systeminformation/v1/systeminformation.proto\x12\x1bplugin.systeminformation.v1\x1a\x1bbuf/validate/validate.proto\"_\n" +
 	"\n" +
 	"GetRequest\x12\x16\n" +
-	"\x02id\x18\x01 \x01(\tB\x06\xbaH\x03\xc8\x01\x01R\x02id\x12<\n" +
-	"\x04type\x18\x02 \x01(\x0e2(.plugin.systeminformation.v1.RequestTypeR\x04type\"\x9e\x01\n" +
+	"\x02id\x18\x01 \x01(\tB\x06\xbaH\x03\xc8\x01\x01R\x02id\x129\n" +
+	"\x04type\x18\x02 \x01(\tB%\xbaH\"\xc8\x01\x01r\x1dR\x06systemR\n" +
+	"subaccountR\aaccountR\x04type\"\x9e\x01\n" +
 	"\vGetResponse\x12R\n" +
 	"\bmetadata\x18\x01 \x03(\v26.plugin.systeminformation.v1.GetResponse.MetadataEntryR\bmetadata\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01*a\n" +
-	"\vRequestType\x12\x1c\n" +
-	"\x18REQUEST_TYPE_UNSPECIFIED\x10\x00\x12\x17\n" +
-	"\x13REQUEST_TYPE_SYSTEM\x10\x01\x12\x1b\n" +
-	"\x17REQUEST_TYPE_SUBACCOUNT\x10\x022t\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x012t\n" +
 	"\x18SystemInformationService\x12X\n" +
 	"\x03Get\x12'.plugin.systeminformation.v1.GetRequest\x1a(.plugin.systeminformation.v1.GetResponseB\x9c\x02\n" +
 	"\x1fcom.plugin.systeminformation.v1B\x16SysteminformationProtoP\x01ZSgithub.com/openkcm/plugin-sdk/proto/plugin/systeminformation/v1;systeminformationv1\xa2\x02\x03PSX\xaa\x02\x1bPlugin.Systeminformation.V1\xca\x02\x1bPlugin\\Systeminformation\\V1\xe2\x02'Plugin\\Systeminformation\\V1\\GPBMetadata\xea\x02\x1dPlugin::Systeminformation::V1b\x06proto3"
@@ -201,24 +149,21 @@ func file_plugin_systeminformation_v1_systeminformation_proto_rawDescGZIP() []by
 	return file_plugin_systeminformation_v1_systeminformation_proto_rawDescData
 }
 
-var file_plugin_systeminformation_v1_systeminformation_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_plugin_systeminformation_v1_systeminformation_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_plugin_systeminformation_v1_systeminformation_proto_goTypes = []any{
-	(RequestType)(0),    // 0: plugin.systeminformation.v1.RequestType
-	(*GetRequest)(nil),  // 1: plugin.systeminformation.v1.GetRequest
-	(*GetResponse)(nil), // 2: plugin.systeminformation.v1.GetResponse
-	nil,                 // 3: plugin.systeminformation.v1.GetResponse.MetadataEntry
+	(*GetRequest)(nil),  // 0: plugin.systeminformation.v1.GetRequest
+	(*GetResponse)(nil), // 1: plugin.systeminformation.v1.GetResponse
+	nil,                 // 2: plugin.systeminformation.v1.GetResponse.MetadataEntry
 }
 var file_plugin_systeminformation_v1_systeminformation_proto_depIdxs = []int32{
-	0, // 0: plugin.systeminformation.v1.GetRequest.type:type_name -> plugin.systeminformation.v1.RequestType
-	3, // 1: plugin.systeminformation.v1.GetResponse.metadata:type_name -> plugin.systeminformation.v1.GetResponse.MetadataEntry
-	1, // 2: plugin.systeminformation.v1.SystemInformationService.Get:input_type -> plugin.systeminformation.v1.GetRequest
-	2, // 3: plugin.systeminformation.v1.SystemInformationService.Get:output_type -> plugin.systeminformation.v1.GetResponse
-	3, // [3:4] is the sub-list for method output_type
-	2, // [2:3] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	2, // 0: plugin.systeminformation.v1.GetResponse.metadata:type_name -> plugin.systeminformation.v1.GetResponse.MetadataEntry
+	0, // 1: plugin.systeminformation.v1.SystemInformationService.Get:input_type -> plugin.systeminformation.v1.GetRequest
+	1, // 2: plugin.systeminformation.v1.SystemInformationService.Get:output_type -> plugin.systeminformation.v1.GetResponse
+	2, // [2:3] is the sub-list for method output_type
+	1, // [1:2] is the sub-list for method input_type
+	1, // [1:1] is the sub-list for extension type_name
+	1, // [1:1] is the sub-list for extension extendee
+	0, // [0:1] is the sub-list for field type_name
 }
 
 func init() { file_plugin_systeminformation_v1_systeminformation_proto_init() }
@@ -231,14 +176,13 @@ func file_plugin_systeminformation_v1_systeminformation_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_plugin_systeminformation_v1_systeminformation_proto_rawDesc), len(file_plugin_systeminformation_v1_systeminformation_proto_rawDesc)),
-			NumEnums:      1,
+			NumEnums:      0,
 			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
 		GoTypes:           file_plugin_systeminformation_v1_systeminformation_proto_goTypes,
 		DependencyIndexes: file_plugin_systeminformation_v1_systeminformation_proto_depIdxs,
-		EnumInfos:         file_plugin_systeminformation_v1_systeminformation_proto_enumTypes,
 		MessageInfos:      file_plugin_systeminformation_v1_systeminformation_proto_msgTypes,
 	}.Build()
 	File_plugin_systeminformation_v1_systeminformation_proto = out.File

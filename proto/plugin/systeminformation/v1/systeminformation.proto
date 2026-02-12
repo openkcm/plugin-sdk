@@ -8,16 +8,18 @@ service SystemInformationService {
 }
 
 message GetRequest {
-  string id = 1 [(buf.validate.field).required = true];
-  RequestType type = 2;
+  string id = 1 [
+    (buf.validate.field).required = true
+  ];
+
+  string type = 2 [
+    (buf.validate.field).required = true,
+    (buf.validate.field).string.in = "system",
+    (buf.validate.field).string.in = "subaccount",
+    (buf.validate.field).string.in = "account"
+  ];
 }
 
 message GetResponse {
   map<string, string> metadata = 1;
-}
-
-enum RequestType {
-  REQUEST_TYPE_UNSPECIFIED = 0;
-  REQUEST_TYPE_SYSTEM = 1;
-  REQUEST_TYPE_SUBACCOUNT = 2;
 }
