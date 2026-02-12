@@ -370,13 +370,6 @@ func (p *pluginImpl) bindRepo(repo bindableServiceRepo, grpcServiceNames map[str
 		}
 	}
 
-	if impl == nil {
-		return nil, fmt.Errorf("requested `%d` version of plugin type `%s` wrapper binding implementation not found",
-			p.info.Version(),
-			p.info.Type(),
-		)
-	}
-
 	return impl, nil
 }
 
