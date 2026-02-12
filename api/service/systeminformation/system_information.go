@@ -15,8 +15,7 @@ type SystemInformation interface {
 type Type int32
 
 const (
-	UnspecifiedType Type = iota
-	SystemType
+	SystemType Type = iota
 	SubaccountType
 	AccountType
 )

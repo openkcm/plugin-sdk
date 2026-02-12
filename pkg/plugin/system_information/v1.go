@@ -24,15 +24,17 @@ func (v1 *V1) ServiceInfo() api.Info {
 
 func (v1 *V1) GetSystemInfo(ctx context.Context, req *systeminformation.GetSystemInfoRequest) (*systeminformation.GetSystemInfoResponse, error) {
 	// Convert your API request type to the gRPC enum
-	var grpcType systeminformationv1.RequestType
+	var grpcType string
 
 	switch req.Type {
-	case systeminformation.UnspecifiedType:
-		grpcType = systeminformationv1.RequestType_REQUEST_TYPE_SYSTEM
+	case systeminformation.SystemType:
+		grpcType = "system"
 	case systeminformation.SubaccountType:
-		grpcType = systeminformationv1.RequestType_REQUEST_TYPE_SUBACCOUNT
+		grpcType = "subaccount"
+	case systeminformation.AccountType:
+		grpcType = "account"
 	default:
-		grpcType = systeminformationv1.RequestType_REQUEST_TYPE_UNSPECIFIED
+		grpcType = "system"
 	}
 
 	in := &systeminformationv1.GetRequest{
