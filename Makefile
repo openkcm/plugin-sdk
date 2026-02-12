@@ -27,6 +27,9 @@ lint-install:
 lint:
 	golangci-lint run -v --fix
 
+goimports:
+	find . -name \*.go -not -path '.git/*' -exec goimports -local github.com/openkcm/plugin-sdk -w {} \;
+
 .PHONY: test
 test:
 	go test -race -coverprofile cover.out ./...

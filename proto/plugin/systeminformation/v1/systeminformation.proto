@@ -1,12 +1,14 @@
 syntax = "proto3";
 package plugin.systeminformation.v1;
 
+import "buf/validate/validate.proto";
+
 service SystemInformationService {
   rpc Get(GetRequest) returns (GetResponse);
 }
 
 message GetRequest {
-  string id = 1;
+  string id = 1 [(buf.validate.field).required = true];
   RequestType type = 2;
 }
 

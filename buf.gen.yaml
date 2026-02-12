@@ -19,19 +19,19 @@ plugins:
       - module=github.com/openkcm/plugin-sdk/proto
       - submodule=github.com/openkcm/plugin-sdk/proto/plugin
       - kind=plugin
-  - remote: buf.build/protocolbuffers/go:v1.35.2
+  - remote: buf.build/protocolbuffers/go:v1.36.11
     out: proto
     opt:
       - paths=source_relative
-  - remote: buf.build/grpc/go:v1.3.0
+  - remote: buf.build/grpc/go:v1.6.1
     out: proto
     opt:
       - paths=source_relative
-  - remote: buf.build/bufbuild/validate-go:v1.1.0
+  - remote: buf.build/bufbuild/validate-go:v1.3.0
     out: proto
     opt:
       - paths=source_relative
-  - remote: buf.build/grpc-ecosystem/gateway:v2.23.0
+  - remote: buf.build/grpc-ecosystem/gateway:v2.27.7
     out: proto
     opt:
       - paths=source_relative

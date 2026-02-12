@@ -27,5 +27,5 @@ func (r *buildInRegistry) Register(plugin BuiltInPlugin) {
 func (r *buildInRegistry) Retrieve() []BuiltInPlugin {
 	plugins := make([]BuiltInPlugin, 0, len(r.plugins))
 	plugins = append(plugins, r.plugins...)
-	return r.plugins
+	return plugins
 }
