@@ -8,9 +8,7 @@ service SystemInformationService {
 }
 
 message GetRequest {
-  string id = 1 [
-    (buf.validate.field).required = true
-  ];
+  string id = 1 [(buf.validate.field).required = true];
 
   string type = 2 [
     (buf.validate.field).required = true,
