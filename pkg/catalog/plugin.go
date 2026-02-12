@@ -157,7 +157,7 @@ func loadPlugin(ctx context.Context, config PluginConfig) (*pluginImpl, error) {
 			MagicCookieKey:   config.Type,
 			MagicCookieValue: config.Type,
 		},
-		AutoMTLS:         false,
+		AutoMTLS:         true,
 		Plugins:          map[string]goplugin.Plugin{config.Name: &HCRPCPlugin{config: config}},
 		Cmd:              cmd,
 		AllowedProtocols: []goplugin.Protocol{goplugin.ProtocolGRPC},

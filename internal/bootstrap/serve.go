@@ -3,27 +3,66 @@ package bootstrap
 import (
 	"context"
 	"errors"
+	"log/slog"
 
+	"buf.build/go/protovalidate"
 	"github.com/hashicorp/go-hclog"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
+	"google.golang.org/protobuf/proto"
 
 	goplugin "github.com/hashicorp/go-plugin"
 
 	"github.com/openkcm/plugin-sdk/api"
+	pluginerrors "github.com/openkcm/plugin-sdk/api/plugin-errors"
+	pluginoption "github.com/openkcm/plugin-sdk/api/plugin-option"
 	"github.com/openkcm/plugin-sdk/internal/consts"
 )
 
 // Serve serves the plugin with the given loggers and plugin/service servers and an optional test configuration.
-func Serve(serverLogger, pluginLogger hclog.Logger, pluginServer api.PluginServer, serviceServers []api.ServiceServer, testConfig *goplugin.ServeTestConfig) {
+func Serve(
+	opts ...pluginoption.ServerOption,
+) error {
+	cfg := &pluginoption.ServerConfiguration{}
+	for _, opt := range opts {
+		opt(cfg)
+	}
+
+	if cfg.PluginServer == nil {
+		return pluginerrors.ErrServerRequired
+	}
+
+	if cfg.Logger == nil {
+		cfg.Logger = NewLogger()
+	}
+
+	if cfg.ValidateInput || cfg.ValidateOutput {
+		if len(cfg.ServerOptions) == 0 {
+			cfg.ServerOptions = make([]grpc.ServerOption, 0)
+		}
+
+		validator, err := protovalidate.New()
+		if err != nil {
+			slog.Error("failed to initialize validator", "error", err)
+		} else {
+			cfg.ServerOptions = append(cfg.ServerOptions, grpc.UnaryInterceptor(
+				ValidationUnaryInterceptor(validator, cfg.ValidateInput, cfg.ValidateOutput),
+			))
+		}
+	}
+
 	goplugin.Serve(&goplugin.ServeConfig{
-		HandshakeConfig: ServerHandshakeConfig(pluginServer),
+		HandshakeConfig: ServerHandshakeConfig(cfg.PluginServer),
 		Plugins: map[string]goplugin.Plugin{
-			pluginServer.Type(): newHCPlugin(serverLogger, pluginServer, serviceServers),
+			cfg.PluginServer.Type(): newHCPlugin(cfg.Logger, cfg.PluginServer, cfg.ServiceServers),
 		},
-		Logger:     pluginLogger,
-		GRPCServer: goplugin.DefaultGRPCServer,
-		Test:       testConfig,
+		Logger:     cfg.Logger,
+		GRPCServer: customGRPCServer(cfg.ServerOptions),
+		Test:       cfg.TestConfig,
 	})
+
+	return nil
 }
 
 type hcServer struct {
@@ -64,4 +103,50 @@ func (d *hcDialer) DialHost(ctx context.Context) (grpc.ClientConnInterface, erro
 	}
 	d.conn = conn
 	return conn, nil
+}
+
+func customGRPCServer(
+	base []grpc.ServerOption,
+) func([]grpc.ServerOption) *grpc.Server {
+	return func(opts []grpc.ServerOption) *grpc.Server {
+		all := append(append([]grpc.ServerOption{}, opts...), base...)
+		return grpc.NewServer(all...)
+	}
+}
+
+func ValidationUnaryInterceptor(v protovalidate.Validator, request, response bool) grpc.UnaryServerInterceptor {
+	return func(
+		ctx context.Context,
+		req interface{},
+		info *grpc.UnaryServerInfo,
+		handler grpc.UnaryHandler,
+	) (interface{}, error) {
+
+		if msg, ok := req.(proto.Message); request && ok {
+			if err := v.Validate(msg); err != nil {
+				return nil, status.Errorf(
+					codes.InvalidArgument,
+					"request validation failed: %v",
+					err,
+				)
+			}
+		}
+
+		resp, err := handler(ctx, req)
+		if err != nil {
+			return nil, err
+		}
+
+		if msg, ok := resp.(proto.Message); response && ok {
+			if err := v.Validate(msg); err != nil {
+				return nil, status.Errorf(
+					codes.Internal,
+					"response validation failed: %v",
+					err,
+				)
+			}
+		}
+
+		return resp, nil
+	}
 }
