@@ -6,12 +6,12 @@ import (
 	"github.com/openkcm/plugin-sdk/api"
 	"github.com/openkcm/plugin-sdk/api/service/systeminformation"
 	"github.com/openkcm/plugin-sdk/pkg/plugin"
-	systeminformationv1 "github.com/openkcm/plugin-sdk/proto/plugin/systeminformation/v1"
+	pb "github.com/openkcm/plugin-sdk/proto/plugin/systeminformation/v1"
 )
 
 type V1 struct {
 	plugin.Facade
-	systeminformationv1.SystemInformationServicePluginClient
+	pb.SystemInformationServicePluginClient
 }
 
 func (v1 *V1) Version() uint {
@@ -23,7 +23,7 @@ func (v1 *V1) ServiceInfo() api.Info {
 }
 
 func (v1 *V1) GetSystemInfo(ctx context.Context, req *systeminformation.GetSystemInfoRequest) (*systeminformation.GetSystemInfoResponse, error) {
-	in := &systeminformationv1.GetRequest{
+	in := &pb.GetRequest{
 		Id:   req.ID,
 		Type: toGRPCType(req.Type),
 	}
@@ -36,13 +36,13 @@ func (v1 *V1) GetSystemInfo(ctx context.Context, req *systeminformation.GetSyste
 	}, nil
 }
 
-func toGRPCType(t systeminformation.Type) systeminformationv1.RequestType {
+func toGRPCType(t systeminformation.Type) pb.RequestType {
 	switch t {
 	case systeminformation.SystemType:
-		return systeminformationv1.RequestType_REQUEST_TYPE_SYSTEM
+		return pb.RequestType_REQUEST_TYPE_SYSTEM
 	case systeminformation.SubaccountType:
-		return systeminformationv1.RequestType_REQUEST_TYPE_SUBACCOUNT
+		return pb.RequestType_REQUEST_TYPE_SUBACCOUNT
 	default:
-		return systeminformationv1.RequestType_REQUEST_TYPE_UNSPECIFIED
+		return pb.RequestType_REQUEST_TYPE_UNSPECIFIED
 	}
 }
