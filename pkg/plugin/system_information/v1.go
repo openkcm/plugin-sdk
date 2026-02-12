@@ -3,6 +3,8 @@ package system_information
 import (
 	"context"
 
+	"buf.build/go/protovalidate"
+
 	"github.com/openkcm/plugin-sdk/api"
 	"github.com/openkcm/plugin-sdk/api/service/systeminformation"
 	"github.com/openkcm/plugin-sdk/pkg/plugin"
@@ -41,6 +43,10 @@ func (v1 *V1) GetSystemInfo(ctx context.Context, req *systeminformation.GetSyste
 		Id:   req.ID,
 		Type: grpcType,
 	}
+	if err := protovalidate.Validate(in); err != nil {
+		return nil, err
+	}
+
 	grpcResp, err := v1.Get(ctx, in)
 	if err != nil {
 		return nil, err
