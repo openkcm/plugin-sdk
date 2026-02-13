@@ -123,12 +123,13 @@ var File_plugin_systeminformation_v1_systeminformation_proto protoreflect.FileDe
 
 const file_plugin_systeminformation_v1_systeminformation_proto_rawDesc = "" +
 	"\n" +
-	"3plugin/systeminformation/v1/systeminformation.proto\x12\x1bplugin.systeminformation.v1\x1a\x1bbuf/validate/validate.proto\"_\n" +
+	"3plugin/systeminformation/v1/systeminformation.proto\x12\x1bplugin.systeminformation.v1\x1a\x1bbuf/validate/validate.proto\"H\n" +
 	"\n" +
-	"GetRequest\x12\x16\n" +
-	"\x02id\x18\x01 \x01(\tB\x06\xbaH\x03\xc8\x01\x01R\x02id\x129\n" +
-	"\x04type\x18\x02 \x01(\tB%\xbaH\"\xc8\x01\x01r\x1dR\x06systemR\n" +
-	"subaccountR\aaccountR\x04type\"\x9e\x01\n" +
+	"GetRequest\x12\x1a\n" +
+	"\x02id\x18\x01 \x01(\tB\n" +
+	"\xbaH\a\xc8\x01\x01r\x02\x10\x03R\x02id\x12\x1e\n" +
+	"\x04type\x18\x02 \x01(\tB\n" +
+	"\xbaH\a\xc8\x01\x01r\x02\x10\x03R\x04type\"\x9e\x01\n" +
 	"\vGetResponse\x12R\n" +
 	"\bmetadata\x18\x01 \x03(\v26.plugin.systeminformation.v1.GetResponse.MetadataEntryR\bmetadata\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +

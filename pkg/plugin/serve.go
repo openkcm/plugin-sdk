@@ -19,7 +19,7 @@ func Serve(pluginServer api.PluginServer, serviceServers ...api.ServiceServer) {
 	}
 }
 
-func ServeWithOptions(options ...pluginoption.ServerOption) error {
+func ServeOptions(options ...pluginoption.ServerOption) error {
 	opts := make([]pluginoption.ServerOption, 0, len(options))
 	opts = append(opts, options...)
 

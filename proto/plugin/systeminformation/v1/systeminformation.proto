@@ -8,13 +8,14 @@ service SystemInformationService {
 }
 
 message GetRequest {
-  string id = 1 [(buf.validate.field).required = true];
+  string id = 1 [
+    (buf.validate.field).required = true,
+    (buf.validate.field).string.min_len = 3
+  ];
 
   string type = 2 [
     (buf.validate.field).required = true,
-    (buf.validate.field).string.in = "system",
-    (buf.validate.field).string.in = "subaccount",
-    (buf.validate.field).string.in = "account"
+    (buf.validate.field).string.min_len = 3
   ];
 }
 
