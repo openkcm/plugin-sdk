@@ -14,15 +14,15 @@ import (
 	grpckeymanagementv1 "github.com/openkcm/plugin-sdk/proto/plugin/key_management/v1"
 )
 
-type V1 struct {
-	plugin.Facade
-	grpckeymanagementv1.KeyManagementPluginClient
-}
-
 const (
 	msgFailedValidation = "failed to validate request object"
 	msgFailedParseValue = "failed to parse values"
 )
+
+type V1 struct {
+	plugin.Facade
+	grpckeymanagementv1.KeyManagementPluginClient
+}
 
 func (v1 *V1) Version() uint {
 	return 1
