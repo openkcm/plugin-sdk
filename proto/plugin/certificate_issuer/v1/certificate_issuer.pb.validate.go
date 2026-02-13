@@ -131,7 +131,7 @@ type IssueCertificateRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m IssueCertificateRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -237,7 +237,7 @@ type CertificateValidityMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m CertificateValidityMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -340,7 +340,7 @@ type PrivateKeyMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m PrivateKeyMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -442,7 +442,7 @@ type IssueCertificateResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m IssueCertificateResponseMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}

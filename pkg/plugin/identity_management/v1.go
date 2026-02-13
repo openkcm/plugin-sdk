@@ -2,6 +2,9 @@ package identity_management
 
 import (
 	"context"
+	"fmt"
+
+	"buf.build/go/protovalidate"
 
 	"github.com/openkcm/plugin-sdk/api"
 	"github.com/openkcm/plugin-sdk/api/service/identitymanagement"
@@ -27,6 +30,9 @@ func (v1 *V1) GetGroup(ctx context.Context, req *identitymanagement.GetGroupRequ
 		GroupName:   req.GroupName,
 		AuthContext: AuthContextToGRPC(&req.AuthContext),
 	}
+	if err := protovalidate.Validate(in); err != nil {
+		return nil, fmt.Errorf("failed validation: %v", err)
+	}
 	grpcResp, err := v1.IdentityManagementPluginClient.GetGroup(ctx, in)
 	if err != nil {
 		return nil, err
@@ -39,6 +45,9 @@ func (v1 *V1) GetGroup(ctx context.Context, req *identitymanagement.GetGroupRequ
 func (v1 *V1) ListGroups(ctx context.Context, req *identitymanagement.ListGroupsRequest) (*identitymanagement.ListGroupsResponse, error) {
 	in := &grpcidentitymanagementv1.ListGroupsRequest{
 		AuthContext: AuthContextToGRPC(&req.AuthContext),
+	}
+	if err := protovalidate.Validate(in); err != nil {
+		return nil, fmt.Errorf("failed validation: %v", err)
 	}
 	grpcResp, err := v1.IdentityManagementPluginClient.ListGroups(ctx, in)
 	if err != nil {
@@ -54,6 +63,9 @@ func (v1 *V1) ListGroupUsers(ctx context.Context, req *identitymanagement.ListGr
 		GroupId:     req.GroupID,
 		AuthContext: AuthContextToGRPC(&req.AuthContext),
 	}
+	if err := protovalidate.Validate(in); err != nil {
+		return nil, fmt.Errorf("failed validation: %v", err)
+	}
 	grpcResp, err := v1.IdentityManagementPluginClient.ListGroupUsers(ctx, in)
 	if err != nil {
 		return nil, err
@@ -67,6 +79,9 @@ func (v1 *V1) ListUserGroups(ctx context.Context, req *identitymanagement.ListUs
 	in := &grpcidentitymanagementv1.ListUserGroupsRequest{
 		UserId:      req.UserID,
 		AuthContext: AuthContextToGRPC(&req.AuthContext),
+	}
+	if err := protovalidate.Validate(in); err != nil {
+		return nil, fmt.Errorf("failed validation: %v", err)
 	}
 	grpcResp, err := v1.IdentityManagementPluginClient.ListUserGroups(ctx, in)
 	if err != nil {

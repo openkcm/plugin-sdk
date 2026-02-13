@@ -12,19 +12,10 @@ type SystemInformation interface {
 	GetSystemInfo(ctx context.Context, req *GetSystemInfoRequest) (*GetSystemInfoResponse, error)
 }
 
-type Type int32
-
-const (
-	UnspecifiedType Type = iota
-	SystemType
-	SubaccountType
-	AccountType
-)
-
 type GetSystemInfoRequest struct {
 	// V1 Fields
 	ID   string
-	Type Type
+	Type string
 }
 
 type GetSystemInfoResponse struct {

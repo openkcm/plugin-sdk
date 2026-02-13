@@ -1,5 +1,5 @@
 package common
 
-type InstanceConfig struct {
+type KeystoreConfig struct {
 	Values map[string]any
 }

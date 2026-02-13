@@ -1,43 +1,25 @@
 syntax = "proto3";
 package plugin.system_information.v1;
 
+import "buf/validate/validate.proto";
+
 service SystemInformation {
   rpc GetInfo(GetInfoRequest) returns (GetInfoResponse);
 }
 
 message GetInfoRequest {
-  string id = 1;
+  string id = 1 [
+    (buf.validate.field).required = true,
+    (buf.validate.field).string.min_len = 3
+  ];
 
-  oneof type_value {
-    UnspecifiedType unspecified = 2;
-    SystemType system = 3;
-    SubAccountType subaccount = 4;
-    AccountType account = 5;
-  }
+  string type = 2 [
+    (buf.validate.field).required = true,
+    (buf.validate.field).string.min_len = 3
+  ];
 }
 
 message GetInfoResponse {
   map<string, string> metadata = 1;
-}
-
-// Represents a not set-level request
-message UnspecifiedType {
-  // empty for now
-}
-
-
-// Represents a system-level request
-message SystemType {
-  // empty for now
-}
-
-// Represents a subaccount-level request
-message SubAccountType {
-  optional string subaccount_id = 1;
-}
-
-// Represents an account-level request
-message AccountType {
-  optional string account_id = 1;
 }
 

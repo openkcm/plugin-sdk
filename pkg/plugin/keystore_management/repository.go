@@ -1,6 +1,8 @@
 package keystore_management
 
 import (
+	"log/slog"
+
 	"github.com/openkcm/plugin-sdk/api/service/keystoremanagement"
 )
 
@@ -21,7 +23,17 @@ func (repo *Repository) ListKeystoreManagement() []keystoremanagement.KeystoreMa
 }
 
 func (repo *Repository) AddKeystoreManagement(instance keystoremanagement.KeystoreManagement) {
-	repo.KeystoreManagements[instance.ServiceInfo().Name()] = instance
+	if repo.KeystoreManagements == nil {
+		repo.KeystoreManagements = make(map[string]keystoremanagement.KeystoreManagement)
+	}
+
+	info := instance.ServiceInfo()
+	if info == nil {
+		slog.Error("FATAL:Service info of KeystoreManagement is required!")
+		return
+	}
+
+	repo.KeystoreManagements[info.Name()] = instance
 }
 
 func (repo *Repository) Clear() {

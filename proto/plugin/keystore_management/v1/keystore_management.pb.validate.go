@@ -100,7 +100,7 @@ type CreateKeystoreRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m CreateKeystoreRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -231,7 +231,7 @@ type CreateKeystoreResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m CreateKeystoreResponseMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -362,7 +362,7 @@ type DeleteKeystoreRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m DeleteKeystoreRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -464,7 +464,7 @@ type DeleteKeystoreResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m DeleteKeystoreResponseMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}

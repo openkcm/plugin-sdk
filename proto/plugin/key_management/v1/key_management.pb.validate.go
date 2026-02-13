@@ -102,7 +102,7 @@ type RequestParametersMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m RequestParametersMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -233,7 +233,7 @@ type GetKeyRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m GetKeyRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -341,7 +341,7 @@ type GetKeyResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m GetKeyResponseMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -480,7 +480,7 @@ type CreateKeyRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m CreateKeyRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -584,7 +584,7 @@ type CreateKeyResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m CreateKeyResponseMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -719,7 +719,7 @@ type DeleteKeyRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m DeleteKeyRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -819,7 +819,7 @@ type DeleteKeyResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m DeleteKeyResponseMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -950,7 +950,7 @@ type EnableKeyRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m EnableKeyRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -1050,7 +1050,7 @@ type EnableKeyResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m EnableKeyResponseMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -1181,7 +1181,7 @@ type DisableKeyRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m DisableKeyRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -1283,7 +1283,7 @@ type DisableKeyResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m DisableKeyResponseMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -1416,7 +1416,7 @@ type GetImportParametersRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m GetImportParametersRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -1549,7 +1549,7 @@ type GetImportParametersResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m GetImportParametersResponseMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -1712,7 +1712,7 @@ type ImportKeyMaterialRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m ImportKeyMaterialRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -1814,7 +1814,7 @@ type ImportKeyMaterialResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m ImportKeyMaterialResponseMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -1924,7 +1924,7 @@ type ValidateKeyRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m ValidateKeyRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -2030,7 +2030,7 @@ type ValidateKeyResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m ValidateKeyResponseMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -2190,7 +2190,7 @@ type ValidateKeyAccessDataRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m ValidateKeyAccessDataRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -2297,7 +2297,7 @@ type ValidateKeyAccessDataResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m ValidateKeyAccessDataResponseMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -2406,7 +2406,7 @@ type TransformCryptoAccessDataRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m TransformCryptoAccessDataRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -2513,7 +2513,7 @@ type TransformCryptoAccessDataResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m TransformCryptoAccessDataResponseMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -2647,7 +2647,7 @@ type ExtractKeyRegionRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m ExtractKeyRegionRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -2751,7 +2751,7 @@ type ExtractKeyRegionResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m ExtractKeyRegionResponseMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}

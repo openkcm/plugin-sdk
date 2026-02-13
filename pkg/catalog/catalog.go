@@ -112,6 +112,14 @@ func (c *Catalog) Reconfigure(ctx context.Context) {
 // Deprecated: [will be removed once switched to CreateRegistry function]
 func (c *Catalog) LookupByType(pluginType string) []Plugin {
 	var plugins []Plugin
+
+	defer func() {
+		if err := recover(); err != nil {
+			slog.Error("Panic: Plugin lookup failed with plugin type",
+				"pluginType", pluginType, "error", err)
+		}
+	}()
+
 	closerGr := c.closers.(closerGroup)
 	for _, cfger := range closerGr {
 		pluginClose := cfger.(pluginCloser)
@@ -125,6 +133,13 @@ func (c *Catalog) LookupByType(pluginType string) []Plugin {
 
 // Deprecated: [will be removed once switched to CreateRegistry function]
 func (c *Catalog) LookupByTypeAndName(pluginType, pluginName string) Plugin {
+	defer func() {
+		if err := recover(); err != nil {
+			slog.Error("Panic: Plugin lookup failed with plugin type",
+				"pluginType", pluginType, "pluginName", pluginName, "error", err)
+		}
+	}()
+
 	closerGr := c.closers.(closerGroup)
 	for _, cfger := range closerGr {
 		pluginClose := cfger.(pluginCloser)
@@ -139,6 +154,12 @@ func (c *Catalog) LookupByTypeAndName(pluginType, pluginName string) Plugin {
 // Deprecated: [will be removed once switched to CreateRegistry function]
 func (c *Catalog) ListPluginInfo() []api.Info {
 	var plugins []api.Info
+
+	defer func() {
+		if err := recover(); err != nil {
+			slog.Error("Panic: List plugin info", "error", err)
+		}
+	}()
 
 	closerGr := c.closers.(closerGroup)
 	for _, cfger := range closerGr {
@@ -215,11 +236,7 @@ func load(ctx context.Context, config Config, repo Repository, builtIns ...Built
 			return nil, fmt.Errorf("unsupported plugin type %q", pluginConfig.Type)
 		}
 
-		builtInPlugins := make([]BuiltInPlugin, 0, len(builtIns))
-		builtInPlugins = append(builtInPlugins, builtIns...)
-		builtInPlugins = append(builtInPlugins, pluginRepo.BuiltIns()...)
-
-		plugin, err := loadPluginAs(ctx, config.Logger, pluginConfig, builtInPlugins...)
+		plugin, err := loadPluginAs(ctx, config.Logger, pluginConfig, builtIns...)
 		if err != nil {
 			return nil, err
 		}

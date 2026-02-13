@@ -2,6 +2,9 @@ package system_information
 
 import (
 	"context"
+	"fmt"
+
+	"buf.build/go/protovalidate"
 
 	"github.com/openkcm/plugin-sdk/api"
 	"github.com/openkcm/plugin-sdk/api/service/systeminformation"
@@ -24,9 +27,12 @@ func (v1 *V1) ServiceInfo() api.Info {
 
 func (v1 *V1) GetSystemInfo(ctx context.Context, req *systeminformation.GetSystemInfoRequest) (*systeminformation.GetSystemInfoResponse, error) {
 	in := &grpcsysteminformationv1.GetInfoRequest{
-		Id: req.ID,
+		Id:   req.ID,
+		Type: req.Type,
 	}
-	setTypeValue(in, req.Type)
+	if err := protovalidate.Validate(in); err != nil {
+		return nil, fmt.Errorf("failed validation: %v", err)
+	}
 
 	grpcResp, err := v1.GetInfo(ctx, in)
 	if err != nil {
@@ -35,19 +41,4 @@ func (v1 *V1) GetSystemInfo(ctx context.Context, req *systeminformation.GetSyste
 	return &systeminformation.GetSystemInfoResponse{
 		Metadata: grpcResp.GetMetadata(),
 	}, nil
-}
-
-func setTypeValue(req *grpcsysteminformationv1.GetInfoRequest, requestType systeminformation.Type) {
-	switch requestType {
-	case systeminformation.UnspecifiedType:
-		req.TypeValue = &grpcsysteminformationv1.GetInfoRequest_Unspecified{}
-	case systeminformation.SystemType:
-		req.TypeValue = &grpcsysteminformationv1.GetInfoRequest_System{}
-	case systeminformation.SubaccountType:
-		req.TypeValue = &grpcsysteminformationv1.GetInfoRequest_Subaccount{}
-	case systeminformation.AccountType:
-		req.TypeValue = &grpcsysteminformationv1.GetInfoRequest_Account{}
-	}
-
-	req.TypeValue = &grpcsysteminformationv1.GetInfoRequest_Unspecified{}
 }

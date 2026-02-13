@@ -21,12 +21,12 @@ type CreateKeystoreRequest struct {
 
 type CreateKeystoreResponse struct {
 	// V1 Fields
-	Config common.InstanceConfig
+	Config common.KeystoreConfig
 }
 
 type DeleteKeystoreRequest struct {
 	// V1 Fields
-	Config common.InstanceConfig
+	Config common.KeystoreConfig
 }
 
 type DeleteKeystoreResponse struct{}

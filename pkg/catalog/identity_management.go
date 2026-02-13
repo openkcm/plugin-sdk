@@ -21,10 +21,6 @@ func (repo *identityManagementRepository) Versions() []api.Version {
 	return []api.Version{identityManagementV1{}}
 }
 
-func (repo *identityManagementRepository) BuiltIns() []BuiltInPlugin {
-	return []BuiltInPlugin{}
-}
-
 type identityManagementV1 struct{}
 
 func (identityManagementV1) New() api.Facade  { return new(identity_management.V1) }

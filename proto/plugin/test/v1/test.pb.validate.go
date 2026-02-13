@@ -72,7 +72,7 @@ type TestRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m TestRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -173,7 +173,7 @@ type TestResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m TestResponseMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}

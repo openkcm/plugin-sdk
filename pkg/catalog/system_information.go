@@ -21,10 +21,6 @@ func (repo *systemInformationRepository) Versions() []api.Version {
 	return []api.Version{systemInformationV1{}}
 }
 
-func (repo *systemInformationRepository) BuiltIns() []BuiltInPlugin {
-	return []BuiltInPlugin{}
-}
-
 type systemInformationV1 struct{}
 
 func (systemInformationV1) New() api.Facade  { return new(system_information.V1) }

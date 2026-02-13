@@ -2,7 +2,7 @@ syntax = "proto3";
 package plugin.notification.v1;
 
 service Notification {
-  // SendNotification sends a notification to the specified recipients
+  // Send sends a notification to the specified recipients
   rpc Send(SendRequest) returns (SendResponse);
 }
 

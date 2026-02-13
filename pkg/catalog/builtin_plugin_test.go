@@ -61,12 +61,6 @@ type discardWriter struct{}
 
 func (discardWriter) Write(p []byte) (int, error) { return len(p), nil }
 
-//
-// ─────────────────────────────────────────────
-// BuiltInPlugin struct
-// ─────────────────────────────────────────────
-//
-
 func TestBuiltInPluginStruct(t *testing.T) {
 	t.Parallel()
 
@@ -110,13 +104,7 @@ func TestBuiltInPluginStruct(t *testing.T) {
 	})
 }
 
-//
-// ─────────────────────────────────────────────
-// AsBuiltIn
-// ─────────────────────────────────────────────
-//
-
-func TestAsBuiltIn(t *testing.T) {
+func TestMakeBuiltIn(t *testing.T) {
 	t.Parallel()
 
 	t.Run("creates builtin plugin wrapper", func(t *testing.T) {
@@ -126,7 +114,7 @@ func TestAsBuiltIn(t *testing.T) {
 		s1 := &fakeServiceServer{}
 		s2 := &fakeServiceServer{}
 
-		b := AsBuiltIn("plugin", plugin, s1, s2)
+		b := MakeBuiltIn("plugin", plugin, s1, s2)
 
 		if got := b.Name(); got != "plugin" {
 			t.Fatalf("Name(): want %q, got %q", "plugin", got)
@@ -139,12 +127,6 @@ func TestAsBuiltIn(t *testing.T) {
 		}
 	})
 }
-
-//
-// ─────────────────────────────────────────────
-// builtinDialer
-// ─────────────────────────────────────────────
-//
 
 func TestBuiltinDialer(t *testing.T) {
 	t.Parallel()
@@ -189,12 +171,6 @@ func TestBuiltinDialer(t *testing.T) {
 	})
 }
 
-//
-// ─────────────────────────────────────────────
-// newBuiltInServer
-// ─────────────────────────────────────────────
-//
-
 func TestNewBuiltInServer(t *testing.T) {
 	t.Parallel()
 
@@ -209,12 +185,6 @@ func TestNewBuiltInServer(t *testing.T) {
 		t.Fatalf("Close(): %v", err)
 	}
 }
-
-//
-// ─────────────────────────────────────────────
-// startPipeServer
-// ─────────────────────────────────────────────
-//
 
 func TestStartPipeServer(t *testing.T) {
 	t.Parallel()
@@ -235,12 +205,6 @@ func TestStartPipeServer(t *testing.T) {
 		t.Fatalf("Close(): %v", err)
 	}
 }
-
-//
-// ─────────────────────────────────────────────
-// drainHandlers
-// ─────────────────────────────────────────────
-//
 
 func TestDrainHandlers(t *testing.T) {
 	t.Parallel()
@@ -285,12 +249,6 @@ func TestDrainHandlers(t *testing.T) {
 		d.Wait()
 	})
 }
-
-//
-// ─────────────────────────────────────────────
-// closerGroup
-// ─────────────────────────────────────────────
-//
 
 func TestCloserGroup(t *testing.T) {
 	t.Parallel()

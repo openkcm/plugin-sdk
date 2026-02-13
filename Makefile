@@ -13,6 +13,7 @@ init-git-hooks:
 buf-gen: init-git-hooks
 	buf dep update
 	./buf.gen.yaml
+	find . -name \*.go -not -path '.git/*' -exec goimports -local github.com/openkcm/plugin-sdk -w {} \;
 
 internal-buf-gen:
 	buf dep update
@@ -26,6 +27,9 @@ lint-install:
 
 lint:
 	golangci-lint run -v --fix
+
+goimports:
+	find . -name \*.go -not -path '.git/*' -exec goimports -local github.com/openkcm/plugin-sdk -w {} \;
 
 .PHONY: test
 test:

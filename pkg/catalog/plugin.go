@@ -157,7 +157,7 @@ func loadPlugin(ctx context.Context, config PluginConfig) (*pluginImpl, error) {
 			MagicCookieKey:   config.Type,
 			MagicCookieValue: config.Type,
 		},
-		AutoMTLS:         false,
+		AutoMTLS:         true,
 		Plugins:          map[string]goplugin.Plugin{config.Name: &HCRPCPlugin{config: config}},
 		Cmd:              cmd,
 		AllowedProtocols: []goplugin.Protocol{goplugin.ProtocolGRPC},
@@ -337,7 +337,7 @@ func (p *pluginImpl) makeConfigurer(grpcServiceNames map[string]struct{}) (Confi
 		return nil, err
 	}
 
-	_, err = p.bindRepo(bindable, grpcServiceNames)
+	_, err = p.bindRepo(bindable, grpcServiceNames, false)
 	if err != nil {
 		return nil, err
 	}
@@ -345,7 +345,7 @@ func (p *pluginImpl) makeConfigurer(grpcServiceNames map[string]struct{}) (Confi
 	return repo.configurer, nil
 }
 
-func (p *pluginImpl) bindRepo(repo bindableServiceRepo, grpcServiceNames map[string]struct{}) (any, error) {
+func (p *pluginImpl) bindRepo(repo bindableServiceRepo, grpcServiceNames map[string]struct{}, failOnNotFound bool) (any, error) {
 	versions := repo.Versions()
 
 	var impl any
@@ -363,19 +363,17 @@ func (p *pluginImpl) bindRepo(repo bindableServiceRepo, grpcServiceNames map[str
 			}
 			warnIfDeprecated(p.logger, version, versions[0])
 			impl = p.bindFacade(repo, facade)
+		}
 
-			if facade.Version() == p.info.Version() {
-				break
-			} else {
-				impl = nil
-			}
+		if impl != nil && facade.Version() == p.info.Version() {
+			break
 		}
 	}
 
-	if impl == nil {
-		return nil, fmt.Errorf("requested `%d` version of plugin type `%s` wrapper binding implementation not found",
-			p.info.Version(),
+	if impl == nil && failOnNotFound {
+		return nil, fmt.Errorf("requested plugin `%s` of version `%d` implementation not found",
 			p.info.Type(),
+			p.info.Version(),
 		)
 	}
 
@@ -391,12 +389,12 @@ func (p *pluginImpl) bindFacade(repo bindable, facade api.Facade) any {
 func (p *pluginImpl) bindRepos(pluginRepo bindablePluginRepo, serviceRepos []bindableServiceRepo) (Configurer, error) {
 	grpcServiceNames := grpcServiceNameSet(p.grpcServiceNames)
 
-	impl, err := p.bindRepo(pluginRepo, grpcServiceNames)
+	impl, err := p.bindRepo(pluginRepo, grpcServiceNames, true)
 	if err != nil {
 		return nil, err
 	}
 	for _, serviceRepo := range serviceRepos {
-		_, err := p.bindRepo(serviceRepo, grpcServiceNames)
+		_, err := p.bindRepo(serviceRepo, grpcServiceNames, false)
 		if err != nil {
 			return nil, err
 		}
