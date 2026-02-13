@@ -1,12 +1,12 @@
 syntax = "proto3";
 package plugin.notification.v1;
 
-service NotificationService {
-  // SendNotification sends a notification to the specified recipients
-  rpc SendNotification(SendNotificationRequest) returns (SendNotificationResponse);
+service Notification {
+  // Send sends a notification to the specified recipients
+  rpc Send(SendRequest) returns (SendResponse);
 }
 
-message SendNotificationRequest {
+message SendRequest {
   NotificationType notification_type = 1; // Type of notification (e.g., Email, Text, Web)
   repeated string recipients = 2; // List of recipient addresses
   string subject = 3; // Subject of the notification
@@ -14,13 +14,13 @@ message SendNotificationRequest {
 }
 
 enum NotificationType {
-  NOTIFICATION_TYPE_UNSPECIFIED = 0; // Unspecified notification type
-  NOTIFICATION_TYPE_EMAIL = 1; // Email notification
-  NOTIFICATION_TYPE_TEXT = 2; // Text message notification
-  NOTIFICATION_TYPE_WEB = 3; // Web notification
+  UNSPECIFIED = 0; // Unspecified notification type
+  EMAIL = 1; // Email notification
+  TEXT = 2; // Text message notification
+  WEB = 3; // Web notification
 }
 
-message SendNotificationResponse {
+message SendResponse {
   bool success = 1; // Indicates if the notification was sent successfully
   string message = 2; // Additional message or error details
 }

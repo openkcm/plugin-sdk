@@ -2,9 +2,9 @@
 // versions:
 // 	protoc-gen-go v1.36.11
 // 	protoc        (unknown)
-// source: plugin/keystore/operations/v1/operations.proto
+// source: plugin/key_management/v1/key_management.proto
 
-package operationsv1
+package key_managementv1
 
 import (
 	reflect "reflect"
@@ -15,7 +15,7 @@ import (
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	structpb "google.golang.org/protobuf/types/known/structpb"
 
-	v1 "github.com/openkcm/plugin-sdk/proto/plugin/keystore/common/v1"
+	v1 "github.com/openkcm/plugin-sdk/proto/plugin/common/v1"
 )
 
 const (
@@ -25,81 +25,81 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// KeyAlgorithm defines the supported key algorithms across all operations
-type KeyAlgorithm int32
+// Algorithm defines the supported key algorithms across all operations
+type Algorithm int32
 
 const (
-	KeyAlgorithm_KEY_ALGORITHM_UNSPECIFIED KeyAlgorithm = 0
-	KeyAlgorithm_KEY_ALGORITHM_AES256      KeyAlgorithm = 1
-	KeyAlgorithm_KEY_ALGORITHM_RSA3072     KeyAlgorithm = 2
-	KeyAlgorithm_KEY_ALGORITHM_RSA4096     KeyAlgorithm = 3
+	Algorithm_UNKNOWN Algorithm = 0
+	Algorithm_AES256  Algorithm = 1
+	Algorithm_RSA3072 Algorithm = 2
+	Algorithm_RSA4096 Algorithm = 3
 )
 
-// Enum value maps for KeyAlgorithm.
+// Enum value maps for Algorithm.
 var (
-	KeyAlgorithm_name = map[int32]string{
-		0: "KEY_ALGORITHM_UNSPECIFIED",
-		1: "KEY_ALGORITHM_AES256",
-		2: "KEY_ALGORITHM_RSA3072",
-		3: "KEY_ALGORITHM_RSA4096",
+	Algorithm_name = map[int32]string{
+		0: "UNKNOWN",
+		1: "AES256",
+		2: "RSA3072",
+		3: "RSA4096",
 	}
-	KeyAlgorithm_value = map[string]int32{
-		"KEY_ALGORITHM_UNSPECIFIED": 0,
-		"KEY_ALGORITHM_AES256":      1,
-		"KEY_ALGORITHM_RSA3072":     2,
-		"KEY_ALGORITHM_RSA4096":     3,
+	Algorithm_value = map[string]int32{
+		"UNKNOWN": 0,
+		"AES256":  1,
+		"RSA3072": 2,
+		"RSA4096": 3,
 	}
 )
 
-func (x KeyAlgorithm) Enum() *KeyAlgorithm {
-	p := new(KeyAlgorithm)
+func (x Algorithm) Enum() *Algorithm {
+	p := new(Algorithm)
 	*p = x
 	return p
 }
 
-func (x KeyAlgorithm) String() string {
+func (x Algorithm) String() string {
 	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
 }
 
-func (KeyAlgorithm) Descriptor() protoreflect.EnumDescriptor {
-	return file_plugin_keystore_operations_v1_operations_proto_enumTypes[0].Descriptor()
+func (Algorithm) Descriptor() protoreflect.EnumDescriptor {
+	return file_plugin_key_management_v1_key_management_proto_enumTypes[0].Descriptor()
 }
 
-func (KeyAlgorithm) Type() protoreflect.EnumType {
-	return &file_plugin_keystore_operations_v1_operations_proto_enumTypes[0]
+func (Algorithm) Type() protoreflect.EnumType {
+	return &file_plugin_key_management_v1_key_management_proto_enumTypes[0]
 }
 
-func (x KeyAlgorithm) Number() protoreflect.EnumNumber {
+func (x Algorithm) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use KeyAlgorithm.Descriptor instead.
-func (KeyAlgorithm) EnumDescriptor() ([]byte, []int) {
-	return file_plugin_keystore_operations_v1_operations_proto_rawDescGZIP(), []int{0}
+// Deprecated: Use Algorithm.Descriptor instead.
+func (Algorithm) EnumDescriptor() ([]byte, []int) {
+	return file_plugin_key_management_v1_key_management_proto_rawDescGZIP(), []int{0}
 }
 
 type KeyType int32
 
 const (
-	KeyType_KEY_TYPE_UNSPECIFIED    KeyType = 0
-	KeyType_KEY_TYPE_SYSTEM_MANAGED KeyType = 1 // System-managed key
-	KeyType_KEY_TYPE_BYOK           KeyType = 2 // Bring Your Own Key
-	KeyType_KEY_TYPE_HYOK           KeyType = 3 // Hold Your Own Key
+	KeyType_UNSPECIFIED    KeyType = 0
+	KeyType_SYSTEM_MANAGED KeyType = 1 // System-managed key
+	KeyType_BYOK           KeyType = 2 // Bring Your Own Key
+	KeyType_HYOK           KeyType = 3 // Hold Your Own Key
 )
 
 // Enum value maps for KeyType.
 var (
 	KeyType_name = map[int32]string{
-		0: "KEY_TYPE_UNSPECIFIED",
-		1: "KEY_TYPE_SYSTEM_MANAGED",
-		2: "KEY_TYPE_BYOK",
-		3: "KEY_TYPE_HYOK",
+		0: "UNSPECIFIED",
+		1: "SYSTEM_MANAGED",
+		2: "BYOK",
+		3: "HYOK",
 	}
 	KeyType_value = map[string]int32{
-		"KEY_TYPE_UNSPECIFIED":    0,
-		"KEY_TYPE_SYSTEM_MANAGED": 1,
-		"KEY_TYPE_BYOK":           2,
-		"KEY_TYPE_HYOK":           3,
+		"UNSPECIFIED":    0,
+		"SYSTEM_MANAGED": 1,
+		"BYOK":           2,
+		"HYOK":           3,
 	}
 )
 
@@ -114,11 +114,11 @@ func (x KeyType) String() string {
 }
 
 func (KeyType) Descriptor() protoreflect.EnumDescriptor {
-	return file_plugin_keystore_operations_v1_operations_proto_enumTypes[1].Descriptor()
+	return file_plugin_key_management_v1_key_management_proto_enumTypes[1].Descriptor()
 }
 
 func (KeyType) Type() protoreflect.EnumType {
-	return &file_plugin_keystore_operations_v1_operations_proto_enumTypes[1]
+	return &file_plugin_key_management_v1_key_management_proto_enumTypes[1]
 }
 
 func (x KeyType) Number() protoreflect.EnumNumber {
@@ -127,7 +127,7 @@ func (x KeyType) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use KeyType.Descriptor instead.
 func (KeyType) EnumDescriptor() ([]byte, []int) {
-	return file_plugin_keystore_operations_v1_operations_proto_rawDescGZIP(), []int{1}
+	return file_plugin_key_management_v1_key_management_proto_rawDescGZIP(), []int{1}
 }
 
 // RequestParameters contains the common fields needed for most key operations
@@ -141,7 +141,7 @@ type RequestParameters struct {
 
 func (x *RequestParameters) Reset() {
 	*x = RequestParameters{}
-	mi := &file_plugin_keystore_operations_v1_operations_proto_msgTypes[0]
+	mi := &file_plugin_key_management_v1_key_management_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -153,7 +153,7 @@ func (x *RequestParameters) String() string {
 func (*RequestParameters) ProtoMessage() {}
 
 func (x *RequestParameters) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_keystore_operations_v1_operations_proto_msgTypes[0]
+	mi := &file_plugin_key_management_v1_key_management_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -166,7 +166,7 @@ func (x *RequestParameters) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RequestParameters.ProtoReflect.Descriptor instead.
 func (*RequestParameters) Descriptor() ([]byte, []int) {
-	return file_plugin_keystore_operations_v1_operations_proto_rawDescGZIP(), []int{0}
+	return file_plugin_key_management_v1_key_management_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *RequestParameters) GetConfig() *v1.KeystoreInstanceConfig {
@@ -193,7 +193,7 @@ type GetKeyRequest struct {
 
 func (x *GetKeyRequest) Reset() {
 	*x = GetKeyRequest{}
-	mi := &file_plugin_keystore_operations_v1_operations_proto_msgTypes[1]
+	mi := &file_plugin_key_management_v1_key_management_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -205,7 +205,7 @@ func (x *GetKeyRequest) String() string {
 func (*GetKeyRequest) ProtoMessage() {}
 
 func (x *GetKeyRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_keystore_operations_v1_operations_proto_msgTypes[1]
+	mi := &file_plugin_key_management_v1_key_management_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -218,7 +218,7 @@ func (x *GetKeyRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetKeyRequest.ProtoReflect.Descriptor instead.
 func (*GetKeyRequest) Descriptor() ([]byte, []int) {
-	return file_plugin_keystore_operations_v1_operations_proto_rawDescGZIP(), []int{1}
+	return file_plugin_key_management_v1_key_management_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *GetKeyRequest) GetParameters() *RequestParameters {
@@ -230,17 +230,17 @@ func (x *GetKeyRequest) GetParameters() *RequestParameters {
 
 type GetKeyResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	KeyId         string                 `protobuf:"bytes,1,opt,name=key_id,json=keyId,proto3" json:"key_id,omitempty"`                                             // The ID of the retrieved key
-	Algorithm     KeyAlgorithm           `protobuf:"varint,2,opt,name=algorithm,proto3,enum=plugin.keystore.operations.v1.KeyAlgorithm" json:"algorithm,omitempty"` // The algorithm used for the key
-	Status        string                 `protobuf:"bytes,3,opt,name=status,proto3" json:"status,omitempty"`                                                        // The current status of the key (e.g., enabled, disabled)
-	Usage         string                 `protobuf:"bytes,4,opt,name=usage,proto3" json:"usage,omitempty"`                                                          // The intended usage of the key (e.g., encryption, signing)
+	KeyId         string                 `protobuf:"bytes,1,opt,name=key_id,json=keyId,proto3" json:"key_id,omitempty"`                                     // The ID of the retrieved key
+	Algorithm     Algorithm              `protobuf:"varint,2,opt,name=algorithm,proto3,enum=plugin.key_management.v1.Algorithm" json:"algorithm,omitempty"` // The algorithm used for the key
+	Status        string                 `protobuf:"bytes,3,opt,name=status,proto3" json:"status,omitempty"`                                                // The current status of the key (e.g., enabled, disabled)
+	Usage         string                 `protobuf:"bytes,4,opt,name=usage,proto3" json:"usage,omitempty"`                                                  // The intended usage of the key (e.g., encryption, signing)
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *GetKeyResponse) Reset() {
 	*x = GetKeyResponse{}
-	mi := &file_plugin_keystore_operations_v1_operations_proto_msgTypes[2]
+	mi := &file_plugin_key_management_v1_key_management_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -252,7 +252,7 @@ func (x *GetKeyResponse) String() string {
 func (*GetKeyResponse) ProtoMessage() {}
 
 func (x *GetKeyResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_keystore_operations_v1_operations_proto_msgTypes[2]
+	mi := &file_plugin_key_management_v1_key_management_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -265,7 +265,7 @@ func (x *GetKeyResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetKeyResponse.ProtoReflect.Descriptor instead.
 func (*GetKeyResponse) Descriptor() ([]byte, []int) {
-	return file_plugin_keystore_operations_v1_operations_proto_rawDescGZIP(), []int{2}
+	return file_plugin_key_management_v1_key_management_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *GetKeyResponse) GetKeyId() string {
@@ -275,11 +275,11 @@ func (x *GetKeyResponse) GetKeyId() string {
 	return ""
 }
 
-func (x *GetKeyResponse) GetAlgorithm() KeyAlgorithm {
+func (x *GetKeyResponse) GetAlgorithm() Algorithm {
 	if x != nil {
 		return x.Algorithm
 	}
-	return KeyAlgorithm_KEY_ALGORITHM_UNSPECIFIED
+	return Algorithm_UNKNOWN
 }
 
 func (x *GetKeyResponse) GetStatus() string {
@@ -300,17 +300,17 @@ func (x *GetKeyResponse) GetUsage() string {
 type CreateKeyRequest struct {
 	state         protoimpl.MessageState     `protogen:"open.v1"`
 	Config        *v1.KeystoreInstanceConfig `protobuf:"bytes,1,opt,name=config,proto3" json:"config,omitempty"`
-	Algorithm     KeyAlgorithm               `protobuf:"varint,2,opt,name=algorithm,proto3,enum=plugin.keystore.operations.v1.KeyAlgorithm" json:"algorithm,omitempty"`
-	Id            *string                    `protobuf:"bytes,3,opt,name=id,proto3,oneof" json:"id,omitempty"`                                                                // Optional predefined key ID
-	Region        string                     `protobuf:"bytes,4,opt,name=region,proto3" json:"region,omitempty"`                                                              // The region in which to create the key
-	KeyType       KeyType                    `protobuf:"varint,5,opt,name=key_type,json=keyType,proto3,enum=plugin.keystore.operations.v1.KeyType" json:"key_type,omitempty"` // Key type (system-managed or BYOK)
+	Algorithm     Algorithm                  `protobuf:"varint,2,opt,name=algorithm,proto3,enum=plugin.key_management.v1.Algorithm" json:"algorithm,omitempty"`
+	Id            *string                    `protobuf:"bytes,3,opt,name=id,proto3,oneof" json:"id,omitempty"`                                                           // Optional predefined key ID
+	Region        string                     `protobuf:"bytes,4,opt,name=region,proto3" json:"region,omitempty"`                                                         // The region in which to create the key
+	KeyType       KeyType                    `protobuf:"varint,5,opt,name=key_type,json=keyType,proto3,enum=plugin.key_management.v1.KeyType" json:"key_type,omitempty"` // Key type (system-managed or BYOK)
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *CreateKeyRequest) Reset() {
 	*x = CreateKeyRequest{}
-	mi := &file_plugin_keystore_operations_v1_operations_proto_msgTypes[3]
+	mi := &file_plugin_key_management_v1_key_management_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -322,7 +322,7 @@ func (x *CreateKeyRequest) String() string {
 func (*CreateKeyRequest) ProtoMessage() {}
 
 func (x *CreateKeyRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_keystore_operations_v1_operations_proto_msgTypes[3]
+	mi := &file_plugin_key_management_v1_key_management_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -335,7 +335,7 @@ func (x *CreateKeyRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateKeyRequest.ProtoReflect.Descriptor instead.
 func (*CreateKeyRequest) Descriptor() ([]byte, []int) {
-	return file_plugin_keystore_operations_v1_operations_proto_rawDescGZIP(), []int{3}
+	return file_plugin_key_management_v1_key_management_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *CreateKeyRequest) GetConfig() *v1.KeystoreInstanceConfig {
@@ -345,11 +345,11 @@ func (x *CreateKeyRequest) GetConfig() *v1.KeystoreInstanceConfig {
 	return nil
 }
 
-func (x *CreateKeyRequest) GetAlgorithm() KeyAlgorithm {
+func (x *CreateKeyRequest) GetAlgorithm() Algorithm {
 	if x != nil {
 		return x.Algorithm
 	}
-	return KeyAlgorithm_KEY_ALGORITHM_UNSPECIFIED
+	return Algorithm_UNKNOWN
 }
 
 func (x *CreateKeyRequest) GetId() string {
@@ -370,7 +370,7 @@ func (x *CreateKeyRequest) GetKeyType() KeyType {
 	if x != nil {
 		return x.KeyType
 	}
-	return KeyType_KEY_TYPE_UNSPECIFIED
+	return KeyType_UNSPECIFIED
 }
 
 type CreateKeyResponse struct {
@@ -383,7 +383,7 @@ type CreateKeyResponse struct {
 
 func (x *CreateKeyResponse) Reset() {
 	*x = CreateKeyResponse{}
-	mi := &file_plugin_keystore_operations_v1_operations_proto_msgTypes[4]
+	mi := &file_plugin_key_management_v1_key_management_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -395,7 +395,7 @@ func (x *CreateKeyResponse) String() string {
 func (*CreateKeyResponse) ProtoMessage() {}
 
 func (x *CreateKeyResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_keystore_operations_v1_operations_proto_msgTypes[4]
+	mi := &file_plugin_key_management_v1_key_management_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -408,7 +408,7 @@ func (x *CreateKeyResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateKeyResponse.ProtoReflect.Descriptor instead.
 func (*CreateKeyResponse) Descriptor() ([]byte, []int) {
-	return file_plugin_keystore_operations_v1_operations_proto_rawDescGZIP(), []int{4}
+	return file_plugin_key_management_v1_key_management_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *CreateKeyResponse) GetKeyId() string {
@@ -436,7 +436,7 @@ type DeleteKeyRequest struct {
 
 func (x *DeleteKeyRequest) Reset() {
 	*x = DeleteKeyRequest{}
-	mi := &file_plugin_keystore_operations_v1_operations_proto_msgTypes[5]
+	mi := &file_plugin_key_management_v1_key_management_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -448,7 +448,7 @@ func (x *DeleteKeyRequest) String() string {
 func (*DeleteKeyRequest) ProtoMessage() {}
 
 func (x *DeleteKeyRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_keystore_operations_v1_operations_proto_msgTypes[5]
+	mi := &file_plugin_key_management_v1_key_management_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -461,7 +461,7 @@ func (x *DeleteKeyRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteKeyRequest.ProtoReflect.Descriptor instead.
 func (*DeleteKeyRequest) Descriptor() ([]byte, []int) {
-	return file_plugin_keystore_operations_v1_operations_proto_rawDescGZIP(), []int{5}
+	return file_plugin_key_management_v1_key_management_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *DeleteKeyRequest) GetParameters() *RequestParameters {
@@ -486,7 +486,7 @@ type DeleteKeyResponse struct {
 
 func (x *DeleteKeyResponse) Reset() {
 	*x = DeleteKeyResponse{}
-	mi := &file_plugin_keystore_operations_v1_operations_proto_msgTypes[6]
+	mi := &file_plugin_key_management_v1_key_management_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -498,7 +498,7 @@ func (x *DeleteKeyResponse) String() string {
 func (*DeleteKeyResponse) ProtoMessage() {}
 
 func (x *DeleteKeyResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_keystore_operations_v1_operations_proto_msgTypes[6]
+	mi := &file_plugin_key_management_v1_key_management_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -511,7 +511,7 @@ func (x *DeleteKeyResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteKeyResponse.ProtoReflect.Descriptor instead.
 func (*DeleteKeyResponse) Descriptor() ([]byte, []int) {
-	return file_plugin_keystore_operations_v1_operations_proto_rawDescGZIP(), []int{6}
+	return file_plugin_key_management_v1_key_management_proto_rawDescGZIP(), []int{6}
 }
 
 // EnableKeyRequest contains parameters for key enablement
@@ -524,7 +524,7 @@ type EnableKeyRequest struct {
 
 func (x *EnableKeyRequest) Reset() {
 	*x = EnableKeyRequest{}
-	mi := &file_plugin_keystore_operations_v1_operations_proto_msgTypes[7]
+	mi := &file_plugin_key_management_v1_key_management_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -536,7 +536,7 @@ func (x *EnableKeyRequest) String() string {
 func (*EnableKeyRequest) ProtoMessage() {}
 
 func (x *EnableKeyRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_keystore_operations_v1_operations_proto_msgTypes[7]
+	mi := &file_plugin_key_management_v1_key_management_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -549,7 +549,7 @@ func (x *EnableKeyRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use EnableKeyRequest.ProtoReflect.Descriptor instead.
 func (*EnableKeyRequest) Descriptor() ([]byte, []int) {
-	return file_plugin_keystore_operations_v1_operations_proto_rawDescGZIP(), []int{7}
+	return file_plugin_key_management_v1_key_management_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *EnableKeyRequest) GetParameters() *RequestParameters {
@@ -567,7 +567,7 @@ type EnableKeyResponse struct {
 
 func (x *EnableKeyResponse) Reset() {
 	*x = EnableKeyResponse{}
-	mi := &file_plugin_keystore_operations_v1_operations_proto_msgTypes[8]
+	mi := &file_plugin_key_management_v1_key_management_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -579,7 +579,7 @@ func (x *EnableKeyResponse) String() string {
 func (*EnableKeyResponse) ProtoMessage() {}
 
 func (x *EnableKeyResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_keystore_operations_v1_operations_proto_msgTypes[8]
+	mi := &file_plugin_key_management_v1_key_management_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -592,7 +592,7 @@ func (x *EnableKeyResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use EnableKeyResponse.ProtoReflect.Descriptor instead.
 func (*EnableKeyResponse) Descriptor() ([]byte, []int) {
-	return file_plugin_keystore_operations_v1_operations_proto_rawDescGZIP(), []int{8}
+	return file_plugin_key_management_v1_key_management_proto_rawDescGZIP(), []int{8}
 }
 
 // DisableKeyRequest contains parameters for key disablement
@@ -605,7 +605,7 @@ type DisableKeyRequest struct {
 
 func (x *DisableKeyRequest) Reset() {
 	*x = DisableKeyRequest{}
-	mi := &file_plugin_keystore_operations_v1_operations_proto_msgTypes[9]
+	mi := &file_plugin_key_management_v1_key_management_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -617,7 +617,7 @@ func (x *DisableKeyRequest) String() string {
 func (*DisableKeyRequest) ProtoMessage() {}
 
 func (x *DisableKeyRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_keystore_operations_v1_operations_proto_msgTypes[9]
+	mi := &file_plugin_key_management_v1_key_management_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -630,7 +630,7 @@ func (x *DisableKeyRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DisableKeyRequest.ProtoReflect.Descriptor instead.
 func (*DisableKeyRequest) Descriptor() ([]byte, []int) {
-	return file_plugin_keystore_operations_v1_operations_proto_rawDescGZIP(), []int{9}
+	return file_plugin_key_management_v1_key_management_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *DisableKeyRequest) GetParameters() *RequestParameters {
@@ -648,7 +648,7 @@ type DisableKeyResponse struct {
 
 func (x *DisableKeyResponse) Reset() {
 	*x = DisableKeyResponse{}
-	mi := &file_plugin_keystore_operations_v1_operations_proto_msgTypes[10]
+	mi := &file_plugin_key_management_v1_key_management_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -660,7 +660,7 @@ func (x *DisableKeyResponse) String() string {
 func (*DisableKeyResponse) ProtoMessage() {}
 
 func (x *DisableKeyResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_keystore_operations_v1_operations_proto_msgTypes[10]
+	mi := &file_plugin_key_management_v1_key_management_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -673,21 +673,21 @@ func (x *DisableKeyResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DisableKeyResponse.ProtoReflect.Descriptor instead.
 func (*DisableKeyResponse) Descriptor() ([]byte, []int) {
-	return file_plugin_keystore_operations_v1_operations_proto_rawDescGZIP(), []int{10}
+	return file_plugin_key_management_v1_key_management_proto_rawDescGZIP(), []int{10}
 }
 
 // GetImportParametersRequest contains parameters for retrieving import parameters
 type GetImportParametersRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Parameters    *RequestParameters     `protobuf:"bytes,1,opt,name=parameters,proto3" json:"parameters,omitempty"`
-	Algorithm     KeyAlgorithm           `protobuf:"varint,2,opt,name=algorithm,proto3,enum=plugin.keystore.operations.v1.KeyAlgorithm" json:"algorithm,omitempty"`
+	Algorithm     Algorithm              `protobuf:"varint,2,opt,name=algorithm,proto3,enum=plugin.key_management.v1.Algorithm" json:"algorithm,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *GetImportParametersRequest) Reset() {
 	*x = GetImportParametersRequest{}
-	mi := &file_plugin_keystore_operations_v1_operations_proto_msgTypes[11]
+	mi := &file_plugin_key_management_v1_key_management_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -699,7 +699,7 @@ func (x *GetImportParametersRequest) String() string {
 func (*GetImportParametersRequest) ProtoMessage() {}
 
 func (x *GetImportParametersRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_keystore_operations_v1_operations_proto_msgTypes[11]
+	mi := &file_plugin_key_management_v1_key_management_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -712,7 +712,7 @@ func (x *GetImportParametersRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetImportParametersRequest.ProtoReflect.Descriptor instead.
 func (*GetImportParametersRequest) Descriptor() ([]byte, []int) {
-	return file_plugin_keystore_operations_v1_operations_proto_rawDescGZIP(), []int{11}
+	return file_plugin_key_management_v1_key_management_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *GetImportParametersRequest) GetParameters() *RequestParameters {
@@ -722,11 +722,11 @@ func (x *GetImportParametersRequest) GetParameters() *RequestParameters {
 	return nil
 }
 
-func (x *GetImportParametersRequest) GetAlgorithm() KeyAlgorithm {
+func (x *GetImportParametersRequest) GetAlgorithm() Algorithm {
 	if x != nil {
 		return x.Algorithm
 	}
-	return KeyAlgorithm_KEY_ALGORITHM_UNSPECIFIED
+	return Algorithm_UNKNOWN
 }
 
 // ImportKeyMaterialRequest contains parameters for importing key material
@@ -740,7 +740,7 @@ type GetImportParametersResponse struct {
 
 func (x *GetImportParametersResponse) Reset() {
 	*x = GetImportParametersResponse{}
-	mi := &file_plugin_keystore_operations_v1_operations_proto_msgTypes[12]
+	mi := &file_plugin_key_management_v1_key_management_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -752,7 +752,7 @@ func (x *GetImportParametersResponse) String() string {
 func (*GetImportParametersResponse) ProtoMessage() {}
 
 func (x *GetImportParametersResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_keystore_operations_v1_operations_proto_msgTypes[12]
+	mi := &file_plugin_key_management_v1_key_management_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -765,7 +765,7 @@ func (x *GetImportParametersResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetImportParametersResponse.ProtoReflect.Descriptor instead.
 func (*GetImportParametersResponse) Descriptor() ([]byte, []int) {
-	return file_plugin_keystore_operations_v1_operations_proto_rawDescGZIP(), []int{12}
+	return file_plugin_key_management_v1_key_management_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *GetImportParametersResponse) GetKeyId() string {
@@ -794,7 +794,7 @@ type ImportKeyMaterialRequest struct {
 
 func (x *ImportKeyMaterialRequest) Reset() {
 	*x = ImportKeyMaterialRequest{}
-	mi := &file_plugin_keystore_operations_v1_operations_proto_msgTypes[13]
+	mi := &file_plugin_key_management_v1_key_management_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -806,7 +806,7 @@ func (x *ImportKeyMaterialRequest) String() string {
 func (*ImportKeyMaterialRequest) ProtoMessage() {}
 
 func (x *ImportKeyMaterialRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_keystore_operations_v1_operations_proto_msgTypes[13]
+	mi := &file_plugin_key_management_v1_key_management_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -819,7 +819,7 @@ func (x *ImportKeyMaterialRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ImportKeyMaterialRequest.ProtoReflect.Descriptor instead.
 func (*ImportKeyMaterialRequest) Descriptor() ([]byte, []int) {
-	return file_plugin_keystore_operations_v1_operations_proto_rawDescGZIP(), []int{13}
+	return file_plugin_key_management_v1_key_management_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *ImportKeyMaterialRequest) GetParameters() *RequestParameters {
@@ -852,7 +852,7 @@ type ImportKeyMaterialResponse struct {
 
 func (x *ImportKeyMaterialResponse) Reset() {
 	*x = ImportKeyMaterialResponse{}
-	mi := &file_plugin_keystore_operations_v1_operations_proto_msgTypes[14]
+	mi := &file_plugin_key_management_v1_key_management_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -864,7 +864,7 @@ func (x *ImportKeyMaterialResponse) String() string {
 func (*ImportKeyMaterialResponse) ProtoMessage() {}
 
 func (x *ImportKeyMaterialResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_keystore_operations_v1_operations_proto_msgTypes[14]
+	mi := &file_plugin_key_management_v1_key_management_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -877,14 +877,14 @@ func (x *ImportKeyMaterialResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ImportKeyMaterialResponse.ProtoReflect.Descriptor instead.
 func (*ImportKeyMaterialResponse) Descriptor() ([]byte, []int) {
-	return file_plugin_keystore_operations_v1_operations_proto_rawDescGZIP(), []int{14}
+	return file_plugin_key_management_v1_key_management_proto_rawDescGZIP(), []int{14}
 }
 
 // ValidateKeyRequest contains parameters for validating key attributes
 type ValidateKeyRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	KeyType       KeyType                `protobuf:"varint,1,opt,name=key_type,json=keyType,proto3,enum=plugin.keystore.operations.v1.KeyType" json:"key_type,omitempty"`
-	Algorithm     KeyAlgorithm           `protobuf:"varint,2,opt,name=algorithm,proto3,enum=plugin.keystore.operations.v1.KeyAlgorithm" json:"algorithm,omitempty"`
+	KeyType       KeyType                `protobuf:"varint,1,opt,name=key_type,json=keyType,proto3,enum=plugin.key_management.v1.KeyType" json:"key_type,omitempty"`
+	Algorithm     Algorithm              `protobuf:"varint,2,opt,name=algorithm,proto3,enum=plugin.key_management.v1.Algorithm" json:"algorithm,omitempty"`
 	Region        string                 `protobuf:"bytes,3,opt,name=region,proto3" json:"region,omitempty"`                                // The region in which the key is to be validated
 	NativeKeyId   string                 `protobuf:"bytes,4,opt,name=native_key_id,json=nativeKeyId,proto3" json:"native_key_id,omitempty"` // The native key ID if applicable
 	unknownFields protoimpl.UnknownFields
@@ -893,7 +893,7 @@ type ValidateKeyRequest struct {
 
 func (x *ValidateKeyRequest) Reset() {
 	*x = ValidateKeyRequest{}
-	mi := &file_plugin_keystore_operations_v1_operations_proto_msgTypes[15]
+	mi := &file_plugin_key_management_v1_key_management_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -905,7 +905,7 @@ func (x *ValidateKeyRequest) String() string {
 func (*ValidateKeyRequest) ProtoMessage() {}
 
 func (x *ValidateKeyRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_keystore_operations_v1_operations_proto_msgTypes[15]
+	mi := &file_plugin_key_management_v1_key_management_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -918,21 +918,21 @@ func (x *ValidateKeyRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ValidateKeyRequest.ProtoReflect.Descriptor instead.
 func (*ValidateKeyRequest) Descriptor() ([]byte, []int) {
-	return file_plugin_keystore_operations_v1_operations_proto_rawDescGZIP(), []int{15}
+	return file_plugin_key_management_v1_key_management_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *ValidateKeyRequest) GetKeyType() KeyType {
 	if x != nil {
 		return x.KeyType
 	}
-	return KeyType_KEY_TYPE_UNSPECIFIED
+	return KeyType_UNSPECIFIED
 }
 
-func (x *ValidateKeyRequest) GetAlgorithm() KeyAlgorithm {
+func (x *ValidateKeyRequest) GetAlgorithm() Algorithm {
 	if x != nil {
 		return x.Algorithm
 	}
-	return KeyAlgorithm_KEY_ALGORITHM_UNSPECIFIED
+	return Algorithm_UNKNOWN
 }
 
 func (x *ValidateKeyRequest) GetRegion() string {
@@ -960,7 +960,7 @@ type ValidateKeyResponse struct {
 
 func (x *ValidateKeyResponse) Reset() {
 	*x = ValidateKeyResponse{}
-	mi := &file_plugin_keystore_operations_v1_operations_proto_msgTypes[16]
+	mi := &file_plugin_key_management_v1_key_management_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -972,7 +972,7 @@ func (x *ValidateKeyResponse) String() string {
 func (*ValidateKeyResponse) ProtoMessage() {}
 
 func (x *ValidateKeyResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_keystore_operations_v1_operations_proto_msgTypes[16]
+	mi := &file_plugin_key_management_v1_key_management_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -985,7 +985,7 @@ func (x *ValidateKeyResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ValidateKeyResponse.ProtoReflect.Descriptor instead.
 func (*ValidateKeyResponse) Descriptor() ([]byte, []int) {
-	return file_plugin_keystore_operations_v1_operations_proto_rawDescGZIP(), []int{16}
+	return file_plugin_key_management_v1_key_management_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *ValidateKeyResponse) GetIsValid() bool {
@@ -1013,7 +1013,7 @@ type ValidateKeyAccessDataRequest struct {
 
 func (x *ValidateKeyAccessDataRequest) Reset() {
 	*x = ValidateKeyAccessDataRequest{}
-	mi := &file_plugin_keystore_operations_v1_operations_proto_msgTypes[17]
+	mi := &file_plugin_key_management_v1_key_management_proto_msgTypes[17]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1025,7 +1025,7 @@ func (x *ValidateKeyAccessDataRequest) String() string {
 func (*ValidateKeyAccessDataRequest) ProtoMessage() {}
 
 func (x *ValidateKeyAccessDataRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_keystore_operations_v1_operations_proto_msgTypes[17]
+	mi := &file_plugin_key_management_v1_key_management_proto_msgTypes[17]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1038,7 +1038,7 @@ func (x *ValidateKeyAccessDataRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ValidateKeyAccessDataRequest.ProtoReflect.Descriptor instead.
 func (*ValidateKeyAccessDataRequest) Descriptor() ([]byte, []int) {
-	return file_plugin_keystore_operations_v1_operations_proto_rawDescGZIP(), []int{17}
+	return file_plugin_key_management_v1_key_management_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *ValidateKeyAccessDataRequest) GetManagement() *structpb.Struct {
@@ -1066,7 +1066,7 @@ type ValidateKeyAccessDataResponse struct {
 
 func (x *ValidateKeyAccessDataResponse) Reset() {
 	*x = ValidateKeyAccessDataResponse{}
-	mi := &file_plugin_keystore_operations_v1_operations_proto_msgTypes[18]
+	mi := &file_plugin_key_management_v1_key_management_proto_msgTypes[18]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1078,7 +1078,7 @@ func (x *ValidateKeyAccessDataResponse) String() string {
 func (*ValidateKeyAccessDataResponse) ProtoMessage() {}
 
 func (x *ValidateKeyAccessDataResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_keystore_operations_v1_operations_proto_msgTypes[18]
+	mi := &file_plugin_key_management_v1_key_management_proto_msgTypes[18]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1091,7 +1091,7 @@ func (x *ValidateKeyAccessDataResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ValidateKeyAccessDataResponse.ProtoReflect.Descriptor instead.
 func (*ValidateKeyAccessDataResponse) Descriptor() ([]byte, []int) {
-	return file_plugin_keystore_operations_v1_operations_proto_rawDescGZIP(), []int{18}
+	return file_plugin_key_management_v1_key_management_proto_rawDescGZIP(), []int{18}
 }
 
 func (x *ValidateKeyAccessDataResponse) GetIsValid() bool {
@@ -1119,7 +1119,7 @@ type TransformCryptoAccessDataRequest struct {
 
 func (x *TransformCryptoAccessDataRequest) Reset() {
 	*x = TransformCryptoAccessDataRequest{}
-	mi := &file_plugin_keystore_operations_v1_operations_proto_msgTypes[19]
+	mi := &file_plugin_key_management_v1_key_management_proto_msgTypes[19]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1131,7 +1131,7 @@ func (x *TransformCryptoAccessDataRequest) String() string {
 func (*TransformCryptoAccessDataRequest) ProtoMessage() {}
 
 func (x *TransformCryptoAccessDataRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_keystore_operations_v1_operations_proto_msgTypes[19]
+	mi := &file_plugin_key_management_v1_key_management_proto_msgTypes[19]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1144,7 +1144,7 @@ func (x *TransformCryptoAccessDataRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TransformCryptoAccessDataRequest.ProtoReflect.Descriptor instead.
 func (*TransformCryptoAccessDataRequest) Descriptor() ([]byte, []int) {
-	return file_plugin_keystore_operations_v1_operations_proto_rawDescGZIP(), []int{19}
+	return file_plugin_key_management_v1_key_management_proto_rawDescGZIP(), []int{19}
 }
 
 func (x *TransformCryptoAccessDataRequest) GetNativeKeyId() string {
@@ -1171,7 +1171,7 @@ type TransformCryptoAccessDataResponse struct {
 
 func (x *TransformCryptoAccessDataResponse) Reset() {
 	*x = TransformCryptoAccessDataResponse{}
-	mi := &file_plugin_keystore_operations_v1_operations_proto_msgTypes[20]
+	mi := &file_plugin_key_management_v1_key_management_proto_msgTypes[20]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1183,7 +1183,7 @@ func (x *TransformCryptoAccessDataResponse) String() string {
 func (*TransformCryptoAccessDataResponse) ProtoMessage() {}
 
 func (x *TransformCryptoAccessDataResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_keystore_operations_v1_operations_proto_msgTypes[20]
+	mi := &file_plugin_key_management_v1_key_management_proto_msgTypes[20]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1196,7 +1196,7 @@ func (x *TransformCryptoAccessDataResponse) ProtoReflect() protoreflect.Message 
 
 // Deprecated: Use TransformCryptoAccessDataResponse.ProtoReflect.Descriptor instead.
 func (*TransformCryptoAccessDataResponse) Descriptor() ([]byte, []int) {
-	return file_plugin_keystore_operations_v1_operations_proto_rawDescGZIP(), []int{20}
+	return file_plugin_key_management_v1_key_management_proto_rawDescGZIP(), []int{20}
 }
 
 func (x *TransformCryptoAccessDataResponse) GetTransformedAccessData() map[string][]byte {
@@ -1217,7 +1217,7 @@ type ExtractKeyRegionRequest struct {
 
 func (x *ExtractKeyRegionRequest) Reset() {
 	*x = ExtractKeyRegionRequest{}
-	mi := &file_plugin_keystore_operations_v1_operations_proto_msgTypes[21]
+	mi := &file_plugin_key_management_v1_key_management_proto_msgTypes[21]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1229,7 +1229,7 @@ func (x *ExtractKeyRegionRequest) String() string {
 func (*ExtractKeyRegionRequest) ProtoMessage() {}
 
 func (x *ExtractKeyRegionRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_keystore_operations_v1_operations_proto_msgTypes[21]
+	mi := &file_plugin_key_management_v1_key_management_proto_msgTypes[21]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1242,7 +1242,7 @@ func (x *ExtractKeyRegionRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ExtractKeyRegionRequest.ProtoReflect.Descriptor instead.
 func (*ExtractKeyRegionRequest) Descriptor() ([]byte, []int) {
-	return file_plugin_keystore_operations_v1_operations_proto_rawDescGZIP(), []int{21}
+	return file_plugin_key_management_v1_key_management_proto_rawDescGZIP(), []int{21}
 }
 
 func (x *ExtractKeyRegionRequest) GetNativeKeyId() string {
@@ -1269,7 +1269,7 @@ type ExtractKeyRegionResponse struct {
 
 func (x *ExtractKeyRegionResponse) Reset() {
 	*x = ExtractKeyRegionResponse{}
-	mi := &file_plugin_keystore_operations_v1_operations_proto_msgTypes[22]
+	mi := &file_plugin_key_management_v1_key_management_proto_msgTypes[22]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1281,7 +1281,7 @@ func (x *ExtractKeyRegionResponse) String() string {
 func (*ExtractKeyRegionResponse) ProtoMessage() {}
 
 func (x *ExtractKeyRegionResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_keystore_operations_v1_operations_proto_msgTypes[22]
+	mi := &file_plugin_key_management_v1_key_management_proto_msgTypes[22]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1294,7 +1294,7 @@ func (x *ExtractKeyRegionResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ExtractKeyRegionResponse.ProtoReflect.Descriptor instead.
 func (*ExtractKeyRegionResponse) Descriptor() ([]byte, []int) {
-	return file_plugin_keystore_operations_v1_operations_proto_rawDescGZIP(), []int{22}
+	return file_plugin_key_management_v1_key_management_proto_rawDescGZIP(), []int{22}
 }
 
 func (x *ExtractKeyRegionResponse) GetRegion() string {
@@ -1304,68 +1304,68 @@ func (x *ExtractKeyRegionResponse) GetRegion() string {
 	return ""
 }
 
-var File_plugin_keystore_operations_v1_operations_proto protoreflect.FileDescriptor
+var File_plugin_key_management_v1_key_management_proto protoreflect.FileDescriptor
 
-const file_plugin_keystore_operations_v1_operations_proto_rawDesc = "" +
+const file_plugin_key_management_v1_key_management_proto_rawDesc = "" +
 	"\n" +
-	".plugin/keystore/operations/v1/operations.proto\x12\x1dplugin.keystore.operations.v1\x1a\x1cgoogle/protobuf/struct.proto\x1a&plugin/keystore/common/v1/common.proto\"u\n" +
-	"\x11RequestParameters\x12I\n" +
-	"\x06config\x18\x01 \x01(\v21.plugin.keystore.common.v1.KeystoreInstanceConfigR\x06config\x12\x15\n" +
-	"\x06key_id\x18\x02 \x01(\tR\x05keyId\"a\n" +
-	"\rGetKeyRequest\x12P\n" +
+	"-plugin/key_management/v1/key_management.proto\x12\x18plugin.key_management.v1\x1a\x1cgoogle/protobuf/struct.proto\x1a\x1dplugin/common/v1/common.proto\"l\n" +
+	"\x11RequestParameters\x12@\n" +
+	"\x06config\x18\x01 \x01(\v2(.plugin.common.v1.KeystoreInstanceConfigR\x06config\x12\x15\n" +
+	"\x06key_id\x18\x02 \x01(\tR\x05keyId\"\\\n" +
+	"\rGetKeyRequest\x12K\n" +
 	"\n" +
-	"parameters\x18\x01 \x01(\v20.plugin.keystore.operations.v1.RequestParametersR\n" +
-	"parameters\"\xa0\x01\n" +
+	"parameters\x18\x01 \x01(\v2+.plugin.key_management.v1.RequestParametersR\n" +
+	"parameters\"\x98\x01\n" +
 	"\x0eGetKeyResponse\x12\x15\n" +
-	"\x06key_id\x18\x01 \x01(\tR\x05keyId\x12I\n" +
-	"\talgorithm\x18\x02 \x01(\x0e2+.plugin.keystore.operations.v1.KeyAlgorithmR\talgorithm\x12\x16\n" +
+	"\x06key_id\x18\x01 \x01(\tR\x05keyId\x12A\n" +
+	"\talgorithm\x18\x02 \x01(\x0e2#.plugin.key_management.v1.AlgorithmR\talgorithm\x12\x16\n" +
 	"\x06status\x18\x03 \x01(\tR\x06status\x12\x14\n" +
-	"\x05usage\x18\x04 \x01(\tR\x05usage\"\x9f\x02\n" +
-	"\x10CreateKeyRequest\x12I\n" +
-	"\x06config\x18\x01 \x01(\v21.plugin.keystore.common.v1.KeystoreInstanceConfigR\x06config\x12I\n" +
-	"\talgorithm\x18\x02 \x01(\x0e2+.plugin.keystore.operations.v1.KeyAlgorithmR\talgorithm\x12\x13\n" +
+	"\x05usage\x18\x04 \x01(\tR\x05usage\"\x89\x02\n" +
+	"\x10CreateKeyRequest\x12@\n" +
+	"\x06config\x18\x01 \x01(\v2(.plugin.common.v1.KeystoreInstanceConfigR\x06config\x12A\n" +
+	"\talgorithm\x18\x02 \x01(\x0e2#.plugin.key_management.v1.AlgorithmR\talgorithm\x12\x13\n" +
 	"\x02id\x18\x03 \x01(\tH\x00R\x02id\x88\x01\x01\x12\x16\n" +
-	"\x06region\x18\x04 \x01(\tR\x06region\x12A\n" +
-	"\bkey_type\x18\x05 \x01(\x0e2&.plugin.keystore.operations.v1.KeyTypeR\akeyTypeB\x05\n" +
+	"\x06region\x18\x04 \x01(\tR\x06region\x12<\n" +
+	"\bkey_type\x18\x05 \x01(\x0e2!.plugin.key_management.v1.KeyTypeR\akeyTypeB\x05\n" +
 	"\x03_id\"B\n" +
 	"\x11CreateKeyResponse\x12\x15\n" +
 	"\x06key_id\x18\x01 \x01(\tR\x05keyId\x12\x16\n" +
-	"\x06status\x18\x02 \x01(\tR\x06status\"\x8c\x01\n" +
-	"\x10DeleteKeyRequest\x12P\n" +
+	"\x06status\x18\x02 \x01(\tR\x06status\"\x87\x01\n" +
+	"\x10DeleteKeyRequest\x12K\n" +
 	"\n" +
-	"parameters\x18\x01 \x01(\v20.plugin.keystore.operations.v1.RequestParametersR\n" +
+	"parameters\x18\x01 \x01(\v2+.plugin.key_management.v1.RequestParametersR\n" +
 	"parameters\x12\x1b\n" +
 	"\x06window\x18\x02 \x01(\x05H\x00R\x06window\x88\x01\x01B\t\n" +
 	"\a_window\"\x13\n" +
-	"\x11DeleteKeyResponse\"d\n" +
-	"\x10EnableKeyRequest\x12P\n" +
+	"\x11DeleteKeyResponse\"_\n" +
+	"\x10EnableKeyRequest\x12K\n" +
 	"\n" +
-	"parameters\x18\x01 \x01(\v20.plugin.keystore.operations.v1.RequestParametersR\n" +
+	"parameters\x18\x01 \x01(\v2+.plugin.key_management.v1.RequestParametersR\n" +
 	"parameters\"\x13\n" +
-	"\x11EnableKeyResponse\"e\n" +
-	"\x11DisableKeyRequest\x12P\n" +
+	"\x11EnableKeyResponse\"`\n" +
+	"\x11DisableKeyRequest\x12K\n" +
 	"\n" +
-	"parameters\x18\x01 \x01(\v20.plugin.keystore.operations.v1.RequestParametersR\n" +
+	"parameters\x18\x01 \x01(\v2+.plugin.key_management.v1.RequestParametersR\n" +
 	"parameters\"\x14\n" +
-	"\x12DisableKeyResponse\"\xb9\x01\n" +
-	"\x1aGetImportParametersRequest\x12P\n" +
+	"\x12DisableKeyResponse\"\xac\x01\n" +
+	"\x1aGetImportParametersRequest\x12K\n" +
 	"\n" +
-	"parameters\x18\x01 \x01(\v20.plugin.keystore.operations.v1.RequestParametersR\n" +
-	"parameters\x12I\n" +
-	"\talgorithm\x18\x02 \x01(\x0e2+.plugin.keystore.operations.v1.KeyAlgorithmR\talgorithm\"z\n" +
+	"parameters\x18\x01 \x01(\v2+.plugin.key_management.v1.RequestParametersR\n" +
+	"parameters\x12A\n" +
+	"\talgorithm\x18\x02 \x01(\x0e2#.plugin.key_management.v1.AlgorithmR\talgorithm\"z\n" +
 	"\x1bGetImportParametersResponse\x12\x15\n" +
 	"\x06key_id\x18\x01 \x01(\tR\x05keyId\x12D\n" +
-	"\x11import_parameters\x18\x02 \x01(\v2\x17.google.protobuf.StructR\x10importParameters\"\xe8\x01\n" +
-	"\x18ImportKeyMaterialRequest\x12P\n" +
+	"\x11import_parameters\x18\x02 \x01(\v2\x17.google.protobuf.StructR\x10importParameters\"\xe3\x01\n" +
+	"\x18ImportKeyMaterialRequest\x12K\n" +
 	"\n" +
-	"parameters\x18\x01 \x01(\v20.plugin.keystore.operations.v1.RequestParametersR\n" +
+	"parameters\x18\x01 \x01(\v2+.plugin.key_management.v1.RequestParametersR\n" +
 	"parameters\x12D\n" +
 	"\x11import_parameters\x18\x02 \x01(\v2\x17.google.protobuf.StructR\x10importParameters\x124\n" +
 	"\x16encrypted_key_material\x18\x03 \x01(\tR\x14encryptedKeyMaterial\"\x1b\n" +
-	"\x19ImportKeyMaterialResponse\"\xde\x01\n" +
-	"\x12ValidateKeyRequest\x12A\n" +
-	"\bkey_type\x18\x01 \x01(\x0e2&.plugin.keystore.operations.v1.KeyTypeR\akeyType\x12I\n" +
-	"\talgorithm\x18\x02 \x01(\x0e2+.plugin.keystore.operations.v1.KeyAlgorithmR\talgorithm\x12\x16\n" +
+	"\x19ImportKeyMaterialResponse\"\xd1\x01\n" +
+	"\x12ValidateKeyRequest\x12<\n" +
+	"\bkey_type\x18\x01 \x01(\x0e2!.plugin.key_management.v1.KeyTypeR\akeyType\x12A\n" +
+	"\talgorithm\x18\x02 \x01(\x0e2#.plugin.key_management.v1.AlgorithmR\talgorithm\x12\x16\n" +
 	"\x06region\x18\x03 \x01(\tR\x06region\x12\"\n" +
 	"\rnative_key_id\x18\x04 \x01(\tR\vnativeKeyId\"J\n" +
 	"\x13ValidateKeyResponse\x12\x19\n" +
@@ -1382,9 +1382,9 @@ const file_plugin_keystore_operations_v1_operations_proto_rawDesc = "" +
 	" TransformCryptoAccessDataRequest\x12\"\n" +
 	"\rnative_key_id\x18\x01 \x01(\tR\vnativeKeyId\x12\x1f\n" +
 	"\vaccess_data\x18\x02 \x01(\fR\n" +
-	"accessData\"\x83\x02\n" +
-	"!TransformCryptoAccessDataResponse\x12\x93\x01\n" +
-	"\x17transformed_access_data\x18\x01 \x03(\v2[.plugin.keystore.operations.v1.TransformCryptoAccessDataResponse.TransformedAccessDataEntryR\x15transformedAccessData\x1aH\n" +
+	"accessData\"\xfe\x01\n" +
+	"!TransformCryptoAccessDataResponse\x12\x8e\x01\n" +
+	"\x17transformed_access_data\x18\x01 \x03(\v2V.plugin.key_management.v1.TransformCryptoAccessDataResponse.TransformedAccessDataEntryR\x15transformedAccessData\x1aH\n" +
 	"\x1aTransformedAccessDataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\fR\x05value:\x028\x01\"\x8c\x01\n" +
@@ -1392,119 +1392,121 @@ const file_plugin_keystore_operations_v1_operations_proto_rawDesc = "" +
 	"\rnative_key_id\x18\x01 \x01(\tR\vnativeKeyId\x12M\n" +
 	"\x16management_access_data\x18\x02 \x01(\v2\x17.google.protobuf.StructR\x14managementAccessData\"2\n" +
 	"\x18ExtractKeyRegionResponse\x12\x16\n" +
-	"\x06region\x18\x01 \x01(\tR\x06region*}\n" +
-	"\fKeyAlgorithm\x12\x1d\n" +
-	"\x19KEY_ALGORITHM_UNSPECIFIED\x10\x00\x12\x18\n" +
-	"\x14KEY_ALGORITHM_AES256\x10\x01\x12\x19\n" +
-	"\x15KEY_ALGORITHM_RSA3072\x10\x02\x12\x19\n" +
-	"\x15KEY_ALGORITHM_RSA4096\x10\x03*f\n" +
-	"\aKeyType\x12\x18\n" +
-	"\x14KEY_TYPE_UNSPECIFIED\x10\x00\x12\x1b\n" +
-	"\x17KEY_TYPE_SYSTEM_MANAGED\x10\x01\x12\x11\n" +
-	"\rKEY_TYPE_BYOK\x10\x02\x12\x11\n" +
-	"\rKEY_TYPE_HYOK\x10\x032\x92\v\n" +
-	"\x1cKeystoreInstanceKeyOperation\x12e\n" +
-	"\x06GetKey\x12,.plugin.keystore.operations.v1.GetKeyRequest\x1a-.plugin.keystore.operations.v1.GetKeyResponse\x12n\n" +
-	"\tCreateKey\x12/.plugin.keystore.operations.v1.CreateKeyRequest\x1a0.plugin.keystore.operations.v1.CreateKeyResponse\x12n\n" +
-	"\tDeleteKey\x12/.plugin.keystore.operations.v1.DeleteKeyRequest\x1a0.plugin.keystore.operations.v1.DeleteKeyResponse\x12n\n" +
-	"\tEnableKey\x12/.plugin.keystore.operations.v1.EnableKeyRequest\x1a0.plugin.keystore.operations.v1.EnableKeyResponse\x12q\n" +
+	"\x06region\x18\x01 \x01(\tR\x06region*>\n" +
+	"\tAlgorithm\x12\v\n" +
+	"\aUNKNOWN\x10\x00\x12\n" +
 	"\n" +
-	"DisableKey\x120.plugin.keystore.operations.v1.DisableKeyRequest\x1a1.plugin.keystore.operations.v1.DisableKeyResponse\x12\x8c\x01\n" +
-	"\x13GetImportParameters\x129.plugin.keystore.operations.v1.GetImportParametersRequest\x1a:.plugin.keystore.operations.v1.GetImportParametersResponse\x12\x86\x01\n" +
-	"\x11ImportKeyMaterial\x127.plugin.keystore.operations.v1.ImportKeyMaterialRequest\x1a8.plugin.keystore.operations.v1.ImportKeyMaterialResponse\x12t\n" +
-	"\vValidateKey\x121.plugin.keystore.operations.v1.ValidateKeyRequest\x1a2.plugin.keystore.operations.v1.ValidateKeyResponse\x12\x92\x01\n" +
-	"\x15ValidateKeyAccessData\x12;.plugin.keystore.operations.v1.ValidateKeyAccessDataRequest\x1a<.plugin.keystore.operations.v1.ValidateKeyAccessDataResponse\x12\x9e\x01\n" +
-	"\x19TransformCryptoAccessData\x12?.plugin.keystore.operations.v1.TransformCryptoAccessDataRequest\x1a@.plugin.keystore.operations.v1.TransformCryptoAccessDataResponse\x12\x83\x01\n" +
-	"\x10ExtractKeyRegion\x126.plugin.keystore.operations.v1.ExtractKeyRegionRequest\x1a7.plugin.keystore.operations.v1.ExtractKeyRegionResponseB\x9b\x02\n" +
-	"!com.plugin.keystore.operations.v1B\x0fOperationsProtoP\x01ZNgithub.com/openkcm/plugin-sdk/proto/plugin/keystore/operations/v1;operationsv1\xa2\x02\x03PKO\xaa\x02\x1dPlugin.Keystore.Operations.V1\xca\x02\x1dPlugin\\Keystore\\Operations\\V1\xe2\x02)Plugin\\Keystore\\Operations\\V1\\GPBMetadata\xea\x02 Plugin::Keystore::Operations::V1b\x06proto3"
+	"\x06AES256\x10\x01\x12\v\n" +
+	"\aRSA3072\x10\x02\x12\v\n" +
+	"\aRSA4096\x10\x03*B\n" +
+	"\aKeyType\x12\x0f\n" +
+	"\vUNSPECIFIED\x10\x00\x12\x12\n" +
+	"\x0eSYSTEM_MANAGED\x10\x01\x12\b\n" +
+	"\x04BYOK\x10\x02\x12\b\n" +
+	"\x04HYOK\x10\x032\x93\n" +
+	"\n" +
+	"\rKeyManagement\x12[\n" +
+	"\x06GetKey\x12'.plugin.key_management.v1.GetKeyRequest\x1a(.plugin.key_management.v1.GetKeyResponse\x12d\n" +
+	"\tCreateKey\x12*.plugin.key_management.v1.CreateKeyRequest\x1a+.plugin.key_management.v1.CreateKeyResponse\x12d\n" +
+	"\tDeleteKey\x12*.plugin.key_management.v1.DeleteKeyRequest\x1a+.plugin.key_management.v1.DeleteKeyResponse\x12d\n" +
+	"\tEnableKey\x12*.plugin.key_management.v1.EnableKeyRequest\x1a+.plugin.key_management.v1.EnableKeyResponse\x12g\n" +
+	"\n" +
+	"DisableKey\x12+.plugin.key_management.v1.DisableKeyRequest\x1a,.plugin.key_management.v1.DisableKeyResponse\x12\x82\x01\n" +
+	"\x13GetImportParameters\x124.plugin.key_management.v1.GetImportParametersRequest\x1a5.plugin.key_management.v1.GetImportParametersResponse\x12|\n" +
+	"\x11ImportKeyMaterial\x122.plugin.key_management.v1.ImportKeyMaterialRequest\x1a3.plugin.key_management.v1.ImportKeyMaterialResponse\x12j\n" +
+	"\vValidateKey\x12,.plugin.key_management.v1.ValidateKeyRequest\x1a-.plugin.key_management.v1.ValidateKeyResponse\x12\x88\x01\n" +
+	"\x15ValidateKeyAccessData\x126.plugin.key_management.v1.ValidateKeyAccessDataRequest\x1a7.plugin.key_management.v1.ValidateKeyAccessDataResponse\x12\x94\x01\n" +
+	"\x19TransformCryptoAccessData\x12:.plugin.key_management.v1.TransformCryptoAccessDataRequest\x1a;.plugin.key_management.v1.TransformCryptoAccessDataResponse\x12y\n" +
+	"\x10ExtractKeyRegion\x121.plugin.key_management.v1.ExtractKeyRegionRequest\x1a2.plugin.key_management.v1.ExtractKeyRegionResponseB\xff\x01\n" +
+	"\x1ccom.plugin.key_management.v1B\x12KeyManagementProtoP\x01ZMgithub.com/openkcm/plugin-sdk/proto/plugin/key_management/v1;key_managementv1\xa2\x02\x03PKX\xaa\x02\x17Plugin.KeyManagement.V1\xca\x02\x17Plugin\\KeyManagement\\V1\xe2\x02#Plugin\\KeyManagement\\V1\\GPBMetadata\xea\x02\x19Plugin::KeyManagement::V1b\x06proto3"
 
 var (
-	file_plugin_keystore_operations_v1_operations_proto_rawDescOnce sync.Once
-	file_plugin_keystore_operations_v1_operations_proto_rawDescData []byte
+	file_plugin_key_management_v1_key_management_proto_rawDescOnce sync.Once
+	file_plugin_key_management_v1_key_management_proto_rawDescData []byte
 )
 
-func file_plugin_keystore_operations_v1_operations_proto_rawDescGZIP() []byte {
-	file_plugin_keystore_operations_v1_operations_proto_rawDescOnce.Do(func() {
-		file_plugin_keystore_operations_v1_operations_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_plugin_keystore_operations_v1_operations_proto_rawDesc), len(file_plugin_keystore_operations_v1_operations_proto_rawDesc)))
+func file_plugin_key_management_v1_key_management_proto_rawDescGZIP() []byte {
+	file_plugin_key_management_v1_key_management_proto_rawDescOnce.Do(func() {
+		file_plugin_key_management_v1_key_management_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_plugin_key_management_v1_key_management_proto_rawDesc), len(file_plugin_key_management_v1_key_management_proto_rawDesc)))
 	})
-	return file_plugin_keystore_operations_v1_operations_proto_rawDescData
+	return file_plugin_key_management_v1_key_management_proto_rawDescData
 }
 
-var file_plugin_keystore_operations_v1_operations_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_plugin_keystore_operations_v1_operations_proto_msgTypes = make([]protoimpl.MessageInfo, 24)
-var file_plugin_keystore_operations_v1_operations_proto_goTypes = []any{
-	(KeyAlgorithm)(0),                         // 0: plugin.keystore.operations.v1.KeyAlgorithm
-	(KeyType)(0),                              // 1: plugin.keystore.operations.v1.KeyType
-	(*RequestParameters)(nil),                 // 2: plugin.keystore.operations.v1.RequestParameters
-	(*GetKeyRequest)(nil),                     // 3: plugin.keystore.operations.v1.GetKeyRequest
-	(*GetKeyResponse)(nil),                    // 4: plugin.keystore.operations.v1.GetKeyResponse
-	(*CreateKeyRequest)(nil),                  // 5: plugin.keystore.operations.v1.CreateKeyRequest
-	(*CreateKeyResponse)(nil),                 // 6: plugin.keystore.operations.v1.CreateKeyResponse
-	(*DeleteKeyRequest)(nil),                  // 7: plugin.keystore.operations.v1.DeleteKeyRequest
-	(*DeleteKeyResponse)(nil),                 // 8: plugin.keystore.operations.v1.DeleteKeyResponse
-	(*EnableKeyRequest)(nil),                  // 9: plugin.keystore.operations.v1.EnableKeyRequest
-	(*EnableKeyResponse)(nil),                 // 10: plugin.keystore.operations.v1.EnableKeyResponse
-	(*DisableKeyRequest)(nil),                 // 11: plugin.keystore.operations.v1.DisableKeyRequest
-	(*DisableKeyResponse)(nil),                // 12: plugin.keystore.operations.v1.DisableKeyResponse
-	(*GetImportParametersRequest)(nil),        // 13: plugin.keystore.operations.v1.GetImportParametersRequest
-	(*GetImportParametersResponse)(nil),       // 14: plugin.keystore.operations.v1.GetImportParametersResponse
-	(*ImportKeyMaterialRequest)(nil),          // 15: plugin.keystore.operations.v1.ImportKeyMaterialRequest
-	(*ImportKeyMaterialResponse)(nil),         // 16: plugin.keystore.operations.v1.ImportKeyMaterialResponse
-	(*ValidateKeyRequest)(nil),                // 17: plugin.keystore.operations.v1.ValidateKeyRequest
-	(*ValidateKeyResponse)(nil),               // 18: plugin.keystore.operations.v1.ValidateKeyResponse
-	(*ValidateKeyAccessDataRequest)(nil),      // 19: plugin.keystore.operations.v1.ValidateKeyAccessDataRequest
-	(*ValidateKeyAccessDataResponse)(nil),     // 20: plugin.keystore.operations.v1.ValidateKeyAccessDataResponse
-	(*TransformCryptoAccessDataRequest)(nil),  // 21: plugin.keystore.operations.v1.TransformCryptoAccessDataRequest
-	(*TransformCryptoAccessDataResponse)(nil), // 22: plugin.keystore.operations.v1.TransformCryptoAccessDataResponse
-	(*ExtractKeyRegionRequest)(nil),           // 23: plugin.keystore.operations.v1.ExtractKeyRegionRequest
-	(*ExtractKeyRegionResponse)(nil),          // 24: plugin.keystore.operations.v1.ExtractKeyRegionResponse
-	nil,                                       // 25: plugin.keystore.operations.v1.TransformCryptoAccessDataResponse.TransformedAccessDataEntry
-	(*v1.KeystoreInstanceConfig)(nil),         // 26: plugin.keystore.common.v1.KeystoreInstanceConfig
+var file_plugin_key_management_v1_key_management_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_plugin_key_management_v1_key_management_proto_msgTypes = make([]protoimpl.MessageInfo, 24)
+var file_plugin_key_management_v1_key_management_proto_goTypes = []any{
+	(Algorithm)(0),                            // 0: plugin.key_management.v1.Algorithm
+	(KeyType)(0),                              // 1: plugin.key_management.v1.KeyType
+	(*RequestParameters)(nil),                 // 2: plugin.key_management.v1.RequestParameters
+	(*GetKeyRequest)(nil),                     // 3: plugin.key_management.v1.GetKeyRequest
+	(*GetKeyResponse)(nil),                    // 4: plugin.key_management.v1.GetKeyResponse
+	(*CreateKeyRequest)(nil),                  // 5: plugin.key_management.v1.CreateKeyRequest
+	(*CreateKeyResponse)(nil),                 // 6: plugin.key_management.v1.CreateKeyResponse
+	(*DeleteKeyRequest)(nil),                  // 7: plugin.key_management.v1.DeleteKeyRequest
+	(*DeleteKeyResponse)(nil),                 // 8: plugin.key_management.v1.DeleteKeyResponse
+	(*EnableKeyRequest)(nil),                  // 9: plugin.key_management.v1.EnableKeyRequest
+	(*EnableKeyResponse)(nil),                 // 10: plugin.key_management.v1.EnableKeyResponse
+	(*DisableKeyRequest)(nil),                 // 11: plugin.key_management.v1.DisableKeyRequest
+	(*DisableKeyResponse)(nil),                // 12: plugin.key_management.v1.DisableKeyResponse
+	(*GetImportParametersRequest)(nil),        // 13: plugin.key_management.v1.GetImportParametersRequest
+	(*GetImportParametersResponse)(nil),       // 14: plugin.key_management.v1.GetImportParametersResponse
+	(*ImportKeyMaterialRequest)(nil),          // 15: plugin.key_management.v1.ImportKeyMaterialRequest
+	(*ImportKeyMaterialResponse)(nil),         // 16: plugin.key_management.v1.ImportKeyMaterialResponse
+	(*ValidateKeyRequest)(nil),                // 17: plugin.key_management.v1.ValidateKeyRequest
+	(*ValidateKeyResponse)(nil),               // 18: plugin.key_management.v1.ValidateKeyResponse
+	(*ValidateKeyAccessDataRequest)(nil),      // 19: plugin.key_management.v1.ValidateKeyAccessDataRequest
+	(*ValidateKeyAccessDataResponse)(nil),     // 20: plugin.key_management.v1.ValidateKeyAccessDataResponse
+	(*TransformCryptoAccessDataRequest)(nil),  // 21: plugin.key_management.v1.TransformCryptoAccessDataRequest
+	(*TransformCryptoAccessDataResponse)(nil), // 22: plugin.key_management.v1.TransformCryptoAccessDataResponse
+	(*ExtractKeyRegionRequest)(nil),           // 23: plugin.key_management.v1.ExtractKeyRegionRequest
+	(*ExtractKeyRegionResponse)(nil),          // 24: plugin.key_management.v1.ExtractKeyRegionResponse
+	nil,                                       // 25: plugin.key_management.v1.TransformCryptoAccessDataResponse.TransformedAccessDataEntry
+	(*v1.KeystoreInstanceConfig)(nil),         // 26: plugin.common.v1.KeystoreInstanceConfig
 	(*structpb.Struct)(nil),                   // 27: google.protobuf.Struct
 }
-var file_plugin_keystore_operations_v1_operations_proto_depIdxs = []int32{
-	26, // 0: plugin.keystore.operations.v1.RequestParameters.config:type_name -> plugin.keystore.common.v1.KeystoreInstanceConfig
-	2,  // 1: plugin.keystore.operations.v1.GetKeyRequest.parameters:type_name -> plugin.keystore.operations.v1.RequestParameters
-	0,  // 2: plugin.keystore.operations.v1.GetKeyResponse.algorithm:type_name -> plugin.keystore.operations.v1.KeyAlgorithm
-	26, // 3: plugin.keystore.operations.v1.CreateKeyRequest.config:type_name -> plugin.keystore.common.v1.KeystoreInstanceConfig
-	0,  // 4: plugin.keystore.operations.v1.CreateKeyRequest.algorithm:type_name -> plugin.keystore.operations.v1.KeyAlgorithm
-	1,  // 5: plugin.keystore.operations.v1.CreateKeyRequest.key_type:type_name -> plugin.keystore.operations.v1.KeyType
-	2,  // 6: plugin.keystore.operations.v1.DeleteKeyRequest.parameters:type_name -> plugin.keystore.operations.v1.RequestParameters
-	2,  // 7: plugin.keystore.operations.v1.EnableKeyRequest.parameters:type_name -> plugin.keystore.operations.v1.RequestParameters
-	2,  // 8: plugin.keystore.operations.v1.DisableKeyRequest.parameters:type_name -> plugin.keystore.operations.v1.RequestParameters
-	2,  // 9: plugin.keystore.operations.v1.GetImportParametersRequest.parameters:type_name -> plugin.keystore.operations.v1.RequestParameters
-	0,  // 10: plugin.keystore.operations.v1.GetImportParametersRequest.algorithm:type_name -> plugin.keystore.operations.v1.KeyAlgorithm
-	27, // 11: plugin.keystore.operations.v1.GetImportParametersResponse.import_parameters:type_name -> google.protobuf.Struct
-	2,  // 12: plugin.keystore.operations.v1.ImportKeyMaterialRequest.parameters:type_name -> plugin.keystore.operations.v1.RequestParameters
-	27, // 13: plugin.keystore.operations.v1.ImportKeyMaterialRequest.import_parameters:type_name -> google.protobuf.Struct
-	1,  // 14: plugin.keystore.operations.v1.ValidateKeyRequest.key_type:type_name -> plugin.keystore.operations.v1.KeyType
-	0,  // 15: plugin.keystore.operations.v1.ValidateKeyRequest.algorithm:type_name -> plugin.keystore.operations.v1.KeyAlgorithm
-	27, // 16: plugin.keystore.operations.v1.ValidateKeyAccessDataRequest.management:type_name -> google.protobuf.Struct
-	27, // 17: plugin.keystore.operations.v1.ValidateKeyAccessDataRequest.crypto:type_name -> google.protobuf.Struct
-	25, // 18: plugin.keystore.operations.v1.TransformCryptoAccessDataResponse.transformed_access_data:type_name -> plugin.keystore.operations.v1.TransformCryptoAccessDataResponse.TransformedAccessDataEntry
-	27, // 19: plugin.keystore.operations.v1.ExtractKeyRegionRequest.management_access_data:type_name -> google.protobuf.Struct
-	3,  // 20: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.GetKey:input_type -> plugin.keystore.operations.v1.GetKeyRequest
-	5,  // 21: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.CreateKey:input_type -> plugin.keystore.operations.v1.CreateKeyRequest
-	7,  // 22: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.DeleteKey:input_type -> plugin.keystore.operations.v1.DeleteKeyRequest
-	9,  // 23: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.EnableKey:input_type -> plugin.keystore.operations.v1.EnableKeyRequest
-	11, // 24: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.DisableKey:input_type -> plugin.keystore.operations.v1.DisableKeyRequest
-	13, // 25: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.GetImportParameters:input_type -> plugin.keystore.operations.v1.GetImportParametersRequest
-	15, // 26: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.ImportKeyMaterial:input_type -> plugin.keystore.operations.v1.ImportKeyMaterialRequest
-	17, // 27: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.ValidateKey:input_type -> plugin.keystore.operations.v1.ValidateKeyRequest
-	19, // 28: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.ValidateKeyAccessData:input_type -> plugin.keystore.operations.v1.ValidateKeyAccessDataRequest
-	21, // 29: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.TransformCryptoAccessData:input_type -> plugin.keystore.operations.v1.TransformCryptoAccessDataRequest
-	23, // 30: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.ExtractKeyRegion:input_type -> plugin.keystore.operations.v1.ExtractKeyRegionRequest
-	4,  // 31: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.GetKey:output_type -> plugin.keystore.operations.v1.GetKeyResponse
-	6,  // 32: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.CreateKey:output_type -> plugin.keystore.operations.v1.CreateKeyResponse
-	8,  // 33: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.DeleteKey:output_type -> plugin.keystore.operations.v1.DeleteKeyResponse
-	10, // 34: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.EnableKey:output_type -> plugin.keystore.operations.v1.EnableKeyResponse
-	12, // 35: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.DisableKey:output_type -> plugin.keystore.operations.v1.DisableKeyResponse
-	14, // 36: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.GetImportParameters:output_type -> plugin.keystore.operations.v1.GetImportParametersResponse
-	16, // 37: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.ImportKeyMaterial:output_type -> plugin.keystore.operations.v1.ImportKeyMaterialResponse
-	18, // 38: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.ValidateKey:output_type -> plugin.keystore.operations.v1.ValidateKeyResponse
-	20, // 39: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.ValidateKeyAccessData:output_type -> plugin.keystore.operations.v1.ValidateKeyAccessDataResponse
-	22, // 40: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.TransformCryptoAccessData:output_type -> plugin.keystore.operations.v1.TransformCryptoAccessDataResponse
-	24, // 41: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.ExtractKeyRegion:output_type -> plugin.keystore.operations.v1.ExtractKeyRegionResponse
+var file_plugin_key_management_v1_key_management_proto_depIdxs = []int32{
+	26, // 0: plugin.key_management.v1.RequestParameters.config:type_name -> plugin.common.v1.KeystoreInstanceConfig
+	2,  // 1: plugin.key_management.v1.GetKeyRequest.parameters:type_name -> plugin.key_management.v1.RequestParameters
+	0,  // 2: plugin.key_management.v1.GetKeyResponse.algorithm:type_name -> plugin.key_management.v1.Algorithm
+	26, // 3: plugin.key_management.v1.CreateKeyRequest.config:type_name -> plugin.common.v1.KeystoreInstanceConfig
+	0,  // 4: plugin.key_management.v1.CreateKeyRequest.algorithm:type_name -> plugin.key_management.v1.Algorithm
+	1,  // 5: plugin.key_management.v1.CreateKeyRequest.key_type:type_name -> plugin.key_management.v1.KeyType
+	2,  // 6: plugin.key_management.v1.DeleteKeyRequest.parameters:type_name -> plugin.key_management.v1.RequestParameters
+	2,  // 7: plugin.key_management.v1.EnableKeyRequest.parameters:type_name -> plugin.key_management.v1.RequestParameters
+	2,  // 8: plugin.key_management.v1.DisableKeyRequest.parameters:type_name -> plugin.key_management.v1.RequestParameters
+	2,  // 9: plugin.key_management.v1.GetImportParametersRequest.parameters:type_name -> plugin.key_management.v1.RequestParameters
+	0,  // 10: plugin.key_management.v1.GetImportParametersRequest.algorithm:type_name -> plugin.key_management.v1.Algorithm
+	27, // 11: plugin.key_management.v1.GetImportParametersResponse.import_parameters:type_name -> google.protobuf.Struct
+	2,  // 12: plugin.key_management.v1.ImportKeyMaterialRequest.parameters:type_name -> plugin.key_management.v1.RequestParameters
+	27, // 13: plugin.key_management.v1.ImportKeyMaterialRequest.import_parameters:type_name -> google.protobuf.Struct
+	1,  // 14: plugin.key_management.v1.ValidateKeyRequest.key_type:type_name -> plugin.key_management.v1.KeyType
+	0,  // 15: plugin.key_management.v1.ValidateKeyRequest.algorithm:type_name -> plugin.key_management.v1.Algorithm
+	27, // 16: plugin.key_management.v1.ValidateKeyAccessDataRequest.management:type_name -> google.protobuf.Struct
+	27, // 17: plugin.key_management.v1.ValidateKeyAccessDataRequest.crypto:type_name -> google.protobuf.Struct
+	25, // 18: plugin.key_management.v1.TransformCryptoAccessDataResponse.transformed_access_data:type_name -> plugin.key_management.v1.TransformCryptoAccessDataResponse.TransformedAccessDataEntry
+	27, // 19: plugin.key_management.v1.ExtractKeyRegionRequest.management_access_data:type_name -> google.protobuf.Struct
+	3,  // 20: plugin.key_management.v1.KeyManagement.GetKey:input_type -> plugin.key_management.v1.GetKeyRequest
+	5,  // 21: plugin.key_management.v1.KeyManagement.CreateKey:input_type -> plugin.key_management.v1.CreateKeyRequest
+	7,  // 22: plugin.key_management.v1.KeyManagement.DeleteKey:input_type -> plugin.key_management.v1.DeleteKeyRequest
+	9,  // 23: plugin.key_management.v1.KeyManagement.EnableKey:input_type -> plugin.key_management.v1.EnableKeyRequest
+	11, // 24: plugin.key_management.v1.KeyManagement.DisableKey:input_type -> plugin.key_management.v1.DisableKeyRequest
+	13, // 25: plugin.key_management.v1.KeyManagement.GetImportParameters:input_type -> plugin.key_management.v1.GetImportParametersRequest
+	15, // 26: plugin.key_management.v1.KeyManagement.ImportKeyMaterial:input_type -> plugin.key_management.v1.ImportKeyMaterialRequest
+	17, // 27: plugin.key_management.v1.KeyManagement.ValidateKey:input_type -> plugin.key_management.v1.ValidateKeyRequest
+	19, // 28: plugin.key_management.v1.KeyManagement.ValidateKeyAccessData:input_type -> plugin.key_management.v1.ValidateKeyAccessDataRequest
+	21, // 29: plugin.key_management.v1.KeyManagement.TransformCryptoAccessData:input_type -> plugin.key_management.v1.TransformCryptoAccessDataRequest
+	23, // 30: plugin.key_management.v1.KeyManagement.ExtractKeyRegion:input_type -> plugin.key_management.v1.ExtractKeyRegionRequest
+	4,  // 31: plugin.key_management.v1.KeyManagement.GetKey:output_type -> plugin.key_management.v1.GetKeyResponse
+	6,  // 32: plugin.key_management.v1.KeyManagement.CreateKey:output_type -> plugin.key_management.v1.CreateKeyResponse
+	8,  // 33: plugin.key_management.v1.KeyManagement.DeleteKey:output_type -> plugin.key_management.v1.DeleteKeyResponse
+	10, // 34: plugin.key_management.v1.KeyManagement.EnableKey:output_type -> plugin.key_management.v1.EnableKeyResponse
+	12, // 35: plugin.key_management.v1.KeyManagement.DisableKey:output_type -> plugin.key_management.v1.DisableKeyResponse
+	14, // 36: plugin.key_management.v1.KeyManagement.GetImportParameters:output_type -> plugin.key_management.v1.GetImportParametersResponse
+	16, // 37: plugin.key_management.v1.KeyManagement.ImportKeyMaterial:output_type -> plugin.key_management.v1.ImportKeyMaterialResponse
+	18, // 38: plugin.key_management.v1.KeyManagement.ValidateKey:output_type -> plugin.key_management.v1.ValidateKeyResponse
+	20, // 39: plugin.key_management.v1.KeyManagement.ValidateKeyAccessData:output_type -> plugin.key_management.v1.ValidateKeyAccessDataResponse
+	22, // 40: plugin.key_management.v1.KeyManagement.TransformCryptoAccessData:output_type -> plugin.key_management.v1.TransformCryptoAccessDataResponse
+	24, // 41: plugin.key_management.v1.KeyManagement.ExtractKeyRegion:output_type -> plugin.key_management.v1.ExtractKeyRegionResponse
 	31, // [31:42] is the sub-list for method output_type
 	20, // [20:31] is the sub-list for method input_type
 	20, // [20:20] is the sub-list for extension type_name
@@ -1512,29 +1514,29 @@ var file_plugin_keystore_operations_v1_operations_proto_depIdxs = []int32{
 	0,  // [0:20] is the sub-list for field type_name
 }
 
-func init() { file_plugin_keystore_operations_v1_operations_proto_init() }
-func file_plugin_keystore_operations_v1_operations_proto_init() {
-	if File_plugin_keystore_operations_v1_operations_proto != nil {
+func init() { file_plugin_key_management_v1_key_management_proto_init() }
+func file_plugin_key_management_v1_key_management_proto_init() {
+	if File_plugin_key_management_v1_key_management_proto != nil {
 		return
 	}
-	file_plugin_keystore_operations_v1_operations_proto_msgTypes[3].OneofWrappers = []any{}
-	file_plugin_keystore_operations_v1_operations_proto_msgTypes[5].OneofWrappers = []any{}
+	file_plugin_key_management_v1_key_management_proto_msgTypes[3].OneofWrappers = []any{}
+	file_plugin_key_management_v1_key_management_proto_msgTypes[5].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_plugin_keystore_operations_v1_operations_proto_rawDesc), len(file_plugin_keystore_operations_v1_operations_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_plugin_key_management_v1_key_management_proto_rawDesc), len(file_plugin_key_management_v1_key_management_proto_rawDesc)),
 			NumEnums:      2,
 			NumMessages:   24,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_plugin_keystore_operations_v1_operations_proto_goTypes,
-		DependencyIndexes: file_plugin_keystore_operations_v1_operations_proto_depIdxs,
-		EnumInfos:         file_plugin_keystore_operations_v1_operations_proto_enumTypes,
-		MessageInfos:      file_plugin_keystore_operations_v1_operations_proto_msgTypes,
+		GoTypes:           file_plugin_key_management_v1_key_management_proto_goTypes,
+		DependencyIndexes: file_plugin_key_management_v1_key_management_proto_depIdxs,
+		EnumInfos:         file_plugin_key_management_v1_key_management_proto_enumTypes,
+		MessageInfos:      file_plugin_key_management_v1_key_management_proto_msgTypes,
 	}.Build()
-	File_plugin_keystore_operations_v1_operations_proto = out.File
-	file_plugin_keystore_operations_v1_operations_proto_goTypes = nil
-	file_plugin_keystore_operations_v1_operations_proto_depIdxs = nil
+	File_plugin_key_management_v1_key_management_proto = out.File
+	file_plugin_key_management_v1_key_management_proto_goTypes = nil
+	file_plugin_key_management_v1_key_management_proto_depIdxs = nil
 }

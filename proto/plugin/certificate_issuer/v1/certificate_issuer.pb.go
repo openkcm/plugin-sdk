@@ -25,25 +25,25 @@ const (
 type ValidityType int32
 
 const (
-	ValidityType_VALIDITY_TYPE_UNSPECIFIED ValidityType = 0
-	ValidityType_VALIDITY_TYPE_DAYS        ValidityType = 1
-	ValidityType_VALIDITY_TYPE_MONTHS      ValidityType = 2
-	ValidityType_VALIDITY_TYPE_YEARS       ValidityType = 3
+	ValidityType_UNSPECIFIED ValidityType = 0
+	ValidityType_DAYS        ValidityType = 1
+	ValidityType_MONTHS      ValidityType = 2
+	ValidityType_YEARS       ValidityType = 3
 )
 
 // Enum value maps for ValidityType.
 var (
 	ValidityType_name = map[int32]string{
-		0: "VALIDITY_TYPE_UNSPECIFIED",
-		1: "VALIDITY_TYPE_DAYS",
-		2: "VALIDITY_TYPE_MONTHS",
-		3: "VALIDITY_TYPE_YEARS",
+		0: "UNSPECIFIED",
+		1: "DAYS",
+		2: "MONTHS",
+		3: "YEARS",
 	}
 	ValidityType_value = map[string]int32{
-		"VALIDITY_TYPE_UNSPECIFIED": 0,
-		"VALIDITY_TYPE_DAYS":        1,
-		"VALIDITY_TYPE_MONTHS":      2,
-		"VALIDITY_TYPE_YEARS":       3,
+		"UNSPECIFIED": 0,
+		"DAYS":        1,
+		"MONTHS":      2,
+		"YEARS":       3,
 	}
 )
 
@@ -74,30 +74,30 @@ func (ValidityType) EnumDescriptor() ([]byte, []int) {
 	return file_plugin_certificate_issuer_v1_certificate_issuer_proto_rawDescGZIP(), []int{0}
 }
 
-type GetCertificateRequest struct {
-	state         protoimpl.MessageState  `protogen:"open.v1"`
-	CommonName    string                  `protobuf:"bytes,1,opt,name=common_name,json=commonName,proto3" json:"common_name,omitempty"`
-	Locality      []string                `protobuf:"bytes,2,rep,name=locality,proto3" json:"locality,omitempty"`
-	Validity      *GetCertificateValidity `protobuf:"bytes,3,opt,name=validity,proto3" json:"validity,omitempty"`
-	PrivateKey    *PrivateKey             `protobuf:"bytes,4,opt,name=private_key,json=privateKey,proto3" json:"private_key,omitempty"`
+type IssueCertificateRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	CommonName    string                 `protobuf:"bytes,1,opt,name=common_name,json=commonName,proto3" json:"common_name,omitempty"`
+	Locality      []string               `protobuf:"bytes,2,rep,name=locality,proto3" json:"locality,omitempty"`
+	Validity      *CertificateValidity   `protobuf:"bytes,3,opt,name=validity,proto3" json:"validity,omitempty"`
+	PrivateKey    *PrivateKey            `protobuf:"bytes,4,opt,name=private_key,json=privateKey,proto3" json:"private_key,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *GetCertificateRequest) Reset() {
-	*x = GetCertificateRequest{}
+func (x *IssueCertificateRequest) Reset() {
+	*x = IssueCertificateRequest{}
 	mi := &file_plugin_certificate_issuer_v1_certificate_issuer_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *GetCertificateRequest) String() string {
+func (x *IssueCertificateRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetCertificateRequest) ProtoMessage() {}
+func (*IssueCertificateRequest) ProtoMessage() {}
 
-func (x *GetCertificateRequest) ProtoReflect() protoreflect.Message {
+func (x *IssueCertificateRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_plugin_certificate_issuer_v1_certificate_issuer_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -109,40 +109,40 @@ func (x *GetCertificateRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetCertificateRequest.ProtoReflect.Descriptor instead.
-func (*GetCertificateRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use IssueCertificateRequest.ProtoReflect.Descriptor instead.
+func (*IssueCertificateRequest) Descriptor() ([]byte, []int) {
 	return file_plugin_certificate_issuer_v1_certificate_issuer_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *GetCertificateRequest) GetCommonName() string {
+func (x *IssueCertificateRequest) GetCommonName() string {
 	if x != nil {
 		return x.CommonName
 	}
 	return ""
 }
 
-func (x *GetCertificateRequest) GetLocality() []string {
+func (x *IssueCertificateRequest) GetLocality() []string {
 	if x != nil {
 		return x.Locality
 	}
 	return nil
 }
 
-func (x *GetCertificateRequest) GetValidity() *GetCertificateValidity {
+func (x *IssueCertificateRequest) GetValidity() *CertificateValidity {
 	if x != nil {
 		return x.Validity
 	}
 	return nil
 }
 
-func (x *GetCertificateRequest) GetPrivateKey() *PrivateKey {
+func (x *IssueCertificateRequest) GetPrivateKey() *PrivateKey {
 	if x != nil {
 		return x.PrivateKey
 	}
 	return nil
 }
 
-type GetCertificateValidity struct {
+type CertificateValidity struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Value         int64                  `protobuf:"varint,1,opt,name=value,proto3" json:"value,omitempty"`
 	Type          ValidityType           `protobuf:"varint,2,opt,name=type,proto3,enum=plugin.certificate_issuer.v1.ValidityType" json:"type,omitempty"`
@@ -150,20 +150,20 @@ type GetCertificateValidity struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *GetCertificateValidity) Reset() {
-	*x = GetCertificateValidity{}
+func (x *CertificateValidity) Reset() {
+	*x = CertificateValidity{}
 	mi := &file_plugin_certificate_issuer_v1_certificate_issuer_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *GetCertificateValidity) String() string {
+func (x *CertificateValidity) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetCertificateValidity) ProtoMessage() {}
+func (*CertificateValidity) ProtoMessage() {}
 
-func (x *GetCertificateValidity) ProtoReflect() protoreflect.Message {
+func (x *CertificateValidity) ProtoReflect() protoreflect.Message {
 	mi := &file_plugin_certificate_issuer_v1_certificate_issuer_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -175,23 +175,23 @@ func (x *GetCertificateValidity) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetCertificateValidity.ProtoReflect.Descriptor instead.
-func (*GetCertificateValidity) Descriptor() ([]byte, []int) {
+// Deprecated: Use CertificateValidity.ProtoReflect.Descriptor instead.
+func (*CertificateValidity) Descriptor() ([]byte, []int) {
 	return file_plugin_certificate_issuer_v1_certificate_issuer_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *GetCertificateValidity) GetValue() int64 {
+func (x *CertificateValidity) GetValue() int64 {
 	if x != nil {
 		return x.Value
 	}
 	return 0
 }
 
-func (x *GetCertificateValidity) GetType() ValidityType {
+func (x *CertificateValidity) GetType() ValidityType {
 	if x != nil {
 		return x.Type
 	}
-	return ValidityType_VALIDITY_TYPE_UNSPECIFIED
+	return ValidityType_UNSPECIFIED
 }
 
 type PrivateKey struct {
@@ -238,27 +238,27 @@ func (x *PrivateKey) GetData() []byte {
 	return nil
 }
 
-type GetCertificateResponse struct {
-	state            protoimpl.MessageState `protogen:"open.v1"`
-	CertificateChain string                 `protobuf:"bytes,1,opt,name=certificate_chain,json=certificateChain,proto3" json:"certificate_chain,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
+type IssueCertificateResponse struct {
+	state               protoimpl.MessageState `protogen:"open.v1"`
+	CertificateChainPem string                 `protobuf:"bytes,1,opt,name=certificate_chain_pem,json=certificateChainPem,proto3" json:"certificate_chain_pem,omitempty"`
+	unknownFields       protoimpl.UnknownFields
+	sizeCache           protoimpl.SizeCache
 }
 
-func (x *GetCertificateResponse) Reset() {
-	*x = GetCertificateResponse{}
+func (x *IssueCertificateResponse) Reset() {
+	*x = IssueCertificateResponse{}
 	mi := &file_plugin_certificate_issuer_v1_certificate_issuer_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *GetCertificateResponse) String() string {
+func (x *IssueCertificateResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetCertificateResponse) ProtoMessage() {}
+func (*IssueCertificateResponse) ProtoMessage() {}
 
-func (x *GetCertificateResponse) ProtoReflect() protoreflect.Message {
+func (x *IssueCertificateResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_plugin_certificate_issuer_v1_certificate_issuer_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -270,14 +270,14 @@ func (x *GetCertificateResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetCertificateResponse.ProtoReflect.Descriptor instead.
-func (*GetCertificateResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use IssueCertificateResponse.ProtoReflect.Descriptor instead.
+func (*IssueCertificateResponse) Descriptor() ([]byte, []int) {
 	return file_plugin_certificate_issuer_v1_certificate_issuer_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *GetCertificateResponse) GetCertificateChain() string {
+func (x *IssueCertificateResponse) GetCertificateChainPem() string {
 	if x != nil {
-		return x.CertificateChain
+		return x.CertificateChainPem
 	}
 	return ""
 }
@@ -286,29 +286,30 @@ var File_plugin_certificate_issuer_v1_certificate_issuer_proto protoreflect.File
 
 const file_plugin_certificate_issuer_v1_certificate_issuer_proto_rawDesc = "" +
 	"\n" +
-	"5plugin/certificate_issuer/v1/certificate_issuer.proto\x12\x1cplugin.certificate_issuer.v1\"\xf1\x01\n" +
-	"\x15GetCertificateRequest\x12\x1f\n" +
+	"5plugin/certificate_issuer/v1/certificate_issuer.proto\x12\x1cplugin.certificate_issuer.v1\"\xf0\x01\n" +
+	"\x17IssueCertificateRequest\x12\x1f\n" +
 	"\vcommon_name\x18\x01 \x01(\tR\n" +
 	"commonName\x12\x1a\n" +
-	"\blocality\x18\x02 \x03(\tR\blocality\x12P\n" +
-	"\bvalidity\x18\x03 \x01(\v24.plugin.certificate_issuer.v1.GetCertificateValidityR\bvalidity\x12I\n" +
+	"\blocality\x18\x02 \x03(\tR\blocality\x12M\n" +
+	"\bvalidity\x18\x03 \x01(\v21.plugin.certificate_issuer.v1.CertificateValidityR\bvalidity\x12I\n" +
 	"\vprivate_key\x18\x04 \x01(\v2(.plugin.certificate_issuer.v1.PrivateKeyR\n" +
-	"privateKey\"n\n" +
-	"\x16GetCertificateValidity\x12\x14\n" +
+	"privateKey\"k\n" +
+	"\x13CertificateValidity\x12\x14\n" +
 	"\x05value\x18\x01 \x01(\x03R\x05value\x12>\n" +
 	"\x04type\x18\x02 \x01(\x0e2*.plugin.certificate_issuer.v1.ValidityTypeR\x04type\" \n" +
 	"\n" +
 	"PrivateKey\x12\x12\n" +
-	"\x04data\x18\x01 \x01(\fR\x04data\"E\n" +
-	"\x16GetCertificateResponse\x12+\n" +
-	"\x11certificate_chain\x18\x01 \x01(\tR\x10certificateChain*x\n" +
-	"\fValidityType\x12\x1d\n" +
-	"\x19VALIDITY_TYPE_UNSPECIFIED\x10\x00\x12\x16\n" +
-	"\x12VALIDITY_TYPE_DAYS\x10\x01\x12\x18\n" +
-	"\x14VALIDITY_TYPE_MONTHS\x10\x02\x12\x17\n" +
-	"\x13VALIDITY_TYPE_YEARS\x10\x032\x97\x01\n" +
-	"\x18CertificateIssuerService\x12{\n" +
-	"\x0eGetCertificate\x123.plugin.certificate_issuer.v1.GetCertificateRequest\x1a4.plugin.certificate_issuer.v1.GetCertificateResponseB\x9f\x02\n" +
+	"\x04data\x18\x01 \x01(\fR\x04data\"N\n" +
+	"\x18IssueCertificateResponse\x122\n" +
+	"\x15certificate_chain_pem\x18\x01 \x01(\tR\x13certificateChainPem*@\n" +
+	"\fValidityType\x12\x0f\n" +
+	"\vUNSPECIFIED\x10\x00\x12\b\n" +
+	"\x04DAYS\x10\x01\x12\n" +
+	"\n" +
+	"\x06MONTHS\x10\x02\x12\t\n" +
+	"\x05YEARS\x10\x032\x97\x01\n" +
+	"\x11CertificateIssuer\x12\x81\x01\n" +
+	"\x10IssueCertificate\x125.plugin.certificate_issuer.v1.IssueCertificateRequest\x1a6.plugin.certificate_issuer.v1.IssueCertificateResponseB\x9f\x02\n" +
 	" com.plugin.certificate_issuer.v1B\x16CertificateIssuerProtoP\x01ZUgithub.com/openkcm/plugin-sdk/proto/plugin/certificate_issuer/v1;certificate_issuerv1\xa2\x02\x03PCX\xaa\x02\x1bPlugin.CertificateIssuer.V1\xca\x02\x1bPlugin\\CertificateIssuer\\V1\xe2\x02'Plugin\\CertificateIssuer\\V1\\GPBMetadata\xea\x02\x1dPlugin::CertificateIssuer::V1b\x06proto3"
 
 var (
@@ -326,18 +327,18 @@ func file_plugin_certificate_issuer_v1_certificate_issuer_proto_rawDescGZIP() []
 var file_plugin_certificate_issuer_v1_certificate_issuer_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_plugin_certificate_issuer_v1_certificate_issuer_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_plugin_certificate_issuer_v1_certificate_issuer_proto_goTypes = []any{
-	(ValidityType)(0),              // 0: plugin.certificate_issuer.v1.ValidityType
-	(*GetCertificateRequest)(nil),  // 1: plugin.certificate_issuer.v1.GetCertificateRequest
-	(*GetCertificateValidity)(nil), // 2: plugin.certificate_issuer.v1.GetCertificateValidity
-	(*PrivateKey)(nil),             // 3: plugin.certificate_issuer.v1.PrivateKey
-	(*GetCertificateResponse)(nil), // 4: plugin.certificate_issuer.v1.GetCertificateResponse
+	(ValidityType)(0),                // 0: plugin.certificate_issuer.v1.ValidityType
+	(*IssueCertificateRequest)(nil),  // 1: plugin.certificate_issuer.v1.IssueCertificateRequest
+	(*CertificateValidity)(nil),      // 2: plugin.certificate_issuer.v1.CertificateValidity
+	(*PrivateKey)(nil),               // 3: plugin.certificate_issuer.v1.PrivateKey
+	(*IssueCertificateResponse)(nil), // 4: plugin.certificate_issuer.v1.IssueCertificateResponse
 }
 var file_plugin_certificate_issuer_v1_certificate_issuer_proto_depIdxs = []int32{
-	2, // 0: plugin.certificate_issuer.v1.GetCertificateRequest.validity:type_name -> plugin.certificate_issuer.v1.GetCertificateValidity
-	3, // 1: plugin.certificate_issuer.v1.GetCertificateRequest.private_key:type_name -> plugin.certificate_issuer.v1.PrivateKey
-	0, // 2: plugin.certificate_issuer.v1.GetCertificateValidity.type:type_name -> plugin.certificate_issuer.v1.ValidityType
-	1, // 3: plugin.certificate_issuer.v1.CertificateIssuerService.GetCertificate:input_type -> plugin.certificate_issuer.v1.GetCertificateRequest
-	4, // 4: plugin.certificate_issuer.v1.CertificateIssuerService.GetCertificate:output_type -> plugin.certificate_issuer.v1.GetCertificateResponse
+	2, // 0: plugin.certificate_issuer.v1.IssueCertificateRequest.validity:type_name -> plugin.certificate_issuer.v1.CertificateValidity
+	3, // 1: plugin.certificate_issuer.v1.IssueCertificateRequest.private_key:type_name -> plugin.certificate_issuer.v1.PrivateKey
+	0, // 2: plugin.certificate_issuer.v1.CertificateValidity.type:type_name -> plugin.certificate_issuer.v1.ValidityType
+	1, // 3: plugin.certificate_issuer.v1.CertificateIssuer.IssueCertificate:input_type -> plugin.certificate_issuer.v1.IssueCertificateRequest
+	4, // 4: plugin.certificate_issuer.v1.CertificateIssuer.IssueCertificate:output_type -> plugin.certificate_issuer.v1.IssueCertificateResponse
 	4, // [4:5] is the sub-list for method output_type
 	3, // [3:4] is the sub-list for method input_type
 	3, // [3:3] is the sub-list for extension type_name

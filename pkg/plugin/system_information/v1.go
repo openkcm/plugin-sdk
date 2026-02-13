@@ -9,12 +9,12 @@ import (
 	"github.com/openkcm/plugin-sdk/api"
 	"github.com/openkcm/plugin-sdk/api/service/systeminformation"
 	"github.com/openkcm/plugin-sdk/pkg/plugin"
-	systeminformationv1 "github.com/openkcm/plugin-sdk/proto/plugin/systeminformation/v1"
+	grpcsysteminformationv1 "github.com/openkcm/plugin-sdk/proto/plugin/system_information/v1"
 )
 
 type V1 struct {
 	plugin.Facade
-	systeminformationv1.SystemInformationServicePluginClient
+	grpcsysteminformationv1.SystemInformationPluginClient
 }
 
 func (v1 *V1) Version() uint {
@@ -26,7 +26,7 @@ func (v1 *V1) ServiceInfo() api.Info {
 }
 
 func (v1 *V1) GetSystemInfo(ctx context.Context, req *systeminformation.GetSystemInfoRequest) (*systeminformation.GetSystemInfoResponse, error) {
-	in := &systeminformationv1.GetRequest{
+	in := &grpcsysteminformationv1.GetInfoRequest{
 		Id:   req.ID,
 		Type: req.Type,
 	}
@@ -34,7 +34,7 @@ func (v1 *V1) GetSystemInfo(ctx context.Context, req *systeminformation.GetSyste
 		return nil, fmt.Errorf("failed validation: %v", err)
 	}
 
-	grpcResp, err := v1.Get(ctx, in)
+	grpcResp, err := v1.GetInfo(ctx, in)
 	if err != nil {
 		return nil, err
 	}

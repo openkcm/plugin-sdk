@@ -25,25 +25,25 @@ const (
 type NotificationType int32
 
 const (
-	NotificationType_NOTIFICATION_TYPE_UNSPECIFIED NotificationType = 0 // Unspecified notification type
-	NotificationType_NOTIFICATION_TYPE_EMAIL       NotificationType = 1 // Email notification
-	NotificationType_NOTIFICATION_TYPE_TEXT        NotificationType = 2 // Text message notification
-	NotificationType_NOTIFICATION_TYPE_WEB         NotificationType = 3 // Web notification
+	NotificationType_UNSPECIFIED NotificationType = 0 // Unspecified notification type
+	NotificationType_EMAIL       NotificationType = 1 // Email notification
+	NotificationType_TEXT        NotificationType = 2 // Text message notification
+	NotificationType_WEB         NotificationType = 3 // Web notification
 )
 
 // Enum value maps for NotificationType.
 var (
 	NotificationType_name = map[int32]string{
-		0: "NOTIFICATION_TYPE_UNSPECIFIED",
-		1: "NOTIFICATION_TYPE_EMAIL",
-		2: "NOTIFICATION_TYPE_TEXT",
-		3: "NOTIFICATION_TYPE_WEB",
+		0: "UNSPECIFIED",
+		1: "EMAIL",
+		2: "TEXT",
+		3: "WEB",
 	}
 	NotificationType_value = map[string]int32{
-		"NOTIFICATION_TYPE_UNSPECIFIED": 0,
-		"NOTIFICATION_TYPE_EMAIL":       1,
-		"NOTIFICATION_TYPE_TEXT":        2,
-		"NOTIFICATION_TYPE_WEB":         3,
+		"UNSPECIFIED": 0,
+		"EMAIL":       1,
+		"TEXT":        2,
+		"WEB":         3,
 	}
 )
 
@@ -74,7 +74,7 @@ func (NotificationType) EnumDescriptor() ([]byte, []int) {
 	return file_plugin_notification_v1_notification_proto_rawDescGZIP(), []int{0}
 }
 
-type SendNotificationRequest struct {
+type SendRequest struct {
 	state            protoimpl.MessageState `protogen:"open.v1"`
 	NotificationType NotificationType       `protobuf:"varint,1,opt,name=notification_type,json=notificationType,proto3,enum=plugin.notification.v1.NotificationType" json:"notification_type,omitempty"` // Type of notification (e.g., Email, Text, Web)
 	Recipients       []string               `protobuf:"bytes,2,rep,name=recipients,proto3" json:"recipients,omitempty"`                                                                                   // List of recipient addresses
@@ -84,20 +84,20 @@ type SendNotificationRequest struct {
 	sizeCache        protoimpl.SizeCache
 }
 
-func (x *SendNotificationRequest) Reset() {
-	*x = SendNotificationRequest{}
+func (x *SendRequest) Reset() {
+	*x = SendRequest{}
 	mi := &file_plugin_notification_v1_notification_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *SendNotificationRequest) String() string {
+func (x *SendRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*SendNotificationRequest) ProtoMessage() {}
+func (*SendRequest) ProtoMessage() {}
 
-func (x *SendNotificationRequest) ProtoReflect() protoreflect.Message {
+func (x *SendRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_plugin_notification_v1_notification_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -109,40 +109,40 @@ func (x *SendNotificationRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use SendNotificationRequest.ProtoReflect.Descriptor instead.
-func (*SendNotificationRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use SendRequest.ProtoReflect.Descriptor instead.
+func (*SendRequest) Descriptor() ([]byte, []int) {
 	return file_plugin_notification_v1_notification_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *SendNotificationRequest) GetNotificationType() NotificationType {
+func (x *SendRequest) GetNotificationType() NotificationType {
 	if x != nil {
 		return x.NotificationType
 	}
-	return NotificationType_NOTIFICATION_TYPE_UNSPECIFIED
+	return NotificationType_UNSPECIFIED
 }
 
-func (x *SendNotificationRequest) GetRecipients() []string {
+func (x *SendRequest) GetRecipients() []string {
 	if x != nil {
 		return x.Recipients
 	}
 	return nil
 }
 
-func (x *SendNotificationRequest) GetSubject() string {
+func (x *SendRequest) GetSubject() string {
 	if x != nil {
 		return x.Subject
 	}
 	return ""
 }
 
-func (x *SendNotificationRequest) GetBody() string {
+func (x *SendRequest) GetBody() string {
 	if x != nil {
 		return x.Body
 	}
 	return ""
 }
 
-type SendNotificationResponse struct {
+type SendResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"` // Indicates if the notification was sent successfully
 	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`  // Additional message or error details
@@ -150,20 +150,20 @@ type SendNotificationResponse struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *SendNotificationResponse) Reset() {
-	*x = SendNotificationResponse{}
+func (x *SendResponse) Reset() {
+	*x = SendResponse{}
 	mi := &file_plugin_notification_v1_notification_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *SendNotificationResponse) String() string {
+func (x *SendResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*SendNotificationResponse) ProtoMessage() {}
+func (*SendResponse) ProtoMessage() {}
 
-func (x *SendNotificationResponse) ProtoReflect() protoreflect.Message {
+func (x *SendResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_plugin_notification_v1_notification_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -175,19 +175,19 @@ func (x *SendNotificationResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use SendNotificationResponse.ProtoReflect.Descriptor instead.
-func (*SendNotificationResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use SendResponse.ProtoReflect.Descriptor instead.
+func (*SendResponse) Descriptor() ([]byte, []int) {
 	return file_plugin_notification_v1_notification_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *SendNotificationResponse) GetSuccess() bool {
+func (x *SendResponse) GetSuccess() bool {
 	if x != nil {
 		return x.Success
 	}
 	return false
 }
 
-func (x *SendNotificationResponse) GetMessage() string {
+func (x *SendResponse) GetMessage() string {
 	if x != nil {
 		return x.Message
 	}
@@ -198,24 +198,24 @@ var File_plugin_notification_v1_notification_proto protoreflect.FileDescriptor
 
 const file_plugin_notification_v1_notification_proto_rawDesc = "" +
 	"\n" +
-	")plugin/notification/v1/notification.proto\x12\x16plugin.notification.v1\"\xbe\x01\n" +
-	"\x17SendNotificationRequest\x12U\n" +
+	")plugin/notification/v1/notification.proto\x12\x16plugin.notification.v1\"\xb2\x01\n" +
+	"\vSendRequest\x12U\n" +
 	"\x11notification_type\x18\x01 \x01(\x0e2(.plugin.notification.v1.NotificationTypeR\x10notificationType\x12\x1e\n" +
 	"\n" +
 	"recipients\x18\x02 \x03(\tR\n" +
 	"recipients\x12\x18\n" +
 	"\asubject\x18\x03 \x01(\tR\asubject\x12\x12\n" +
-	"\x04body\x18\x04 \x01(\tR\x04body\"N\n" +
-	"\x18SendNotificationResponse\x12\x18\n" +
+	"\x04body\x18\x04 \x01(\tR\x04body\"B\n" +
+	"\fSendResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x18\n" +
-	"\amessage\x18\x02 \x01(\tR\amessage*\x89\x01\n" +
-	"\x10NotificationType\x12!\n" +
-	"\x1dNOTIFICATION_TYPE_UNSPECIFIED\x10\x00\x12\x1b\n" +
-	"\x17NOTIFICATION_TYPE_EMAIL\x10\x01\x12\x1a\n" +
-	"\x16NOTIFICATION_TYPE_TEXT\x10\x02\x12\x19\n" +
-	"\x15NOTIFICATION_TYPE_WEB\x10\x032\x8c\x01\n" +
-	"\x13NotificationService\x12u\n" +
-	"\x10SendNotification\x12/.plugin.notification.v1.SendNotificationRequest\x1a0.plugin.notification.v1.SendNotificationResponseB\xf4\x01\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage*A\n" +
+	"\x10NotificationType\x12\x0f\n" +
+	"\vUNSPECIFIED\x10\x00\x12\t\n" +
+	"\x05EMAIL\x10\x01\x12\b\n" +
+	"\x04TEXT\x10\x02\x12\a\n" +
+	"\x03WEB\x10\x032a\n" +
+	"\fNotification\x12Q\n" +
+	"\x04Send\x12#.plugin.notification.v1.SendRequest\x1a$.plugin.notification.v1.SendResponseB\xf4\x01\n" +
 	"\x1acom.plugin.notification.v1B\x11NotificationProtoP\x01ZIgithub.com/openkcm/plugin-sdk/proto/plugin/notification/v1;notificationv1\xa2\x02\x03PNX\xaa\x02\x16Plugin.Notification.V1\xca\x02\x16Plugin\\Notification\\V1\xe2\x02\"Plugin\\Notification\\V1\\GPBMetadata\xea\x02\x18Plugin::Notification::V1b\x06proto3"
 
 var (
@@ -233,14 +233,14 @@ func file_plugin_notification_v1_notification_proto_rawDescGZIP() []byte {
 var file_plugin_notification_v1_notification_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_plugin_notification_v1_notification_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_plugin_notification_v1_notification_proto_goTypes = []any{
-	(NotificationType)(0),            // 0: plugin.notification.v1.NotificationType
-	(*SendNotificationRequest)(nil),  // 1: plugin.notification.v1.SendNotificationRequest
-	(*SendNotificationResponse)(nil), // 2: plugin.notification.v1.SendNotificationResponse
+	(NotificationType)(0), // 0: plugin.notification.v1.NotificationType
+	(*SendRequest)(nil),   // 1: plugin.notification.v1.SendRequest
+	(*SendResponse)(nil),  // 2: plugin.notification.v1.SendResponse
 }
 var file_plugin_notification_v1_notification_proto_depIdxs = []int32{
-	0, // 0: plugin.notification.v1.SendNotificationRequest.notification_type:type_name -> plugin.notification.v1.NotificationType
-	1, // 1: plugin.notification.v1.NotificationService.SendNotification:input_type -> plugin.notification.v1.SendNotificationRequest
-	2, // 2: plugin.notification.v1.NotificationService.SendNotification:output_type -> plugin.notification.v1.SendNotificationResponse
+	0, // 0: plugin.notification.v1.SendRequest.notification_type:type_name -> plugin.notification.v1.NotificationType
+	1, // 1: plugin.notification.v1.Notification.Send:input_type -> plugin.notification.v1.SendRequest
+	2, // 2: plugin.notification.v1.Notification.Send:output_type -> plugin.notification.v1.SendResponse
 	2, // [2:3] is the sub-list for method output_type
 	1, // [1:2] is the sub-list for method input_type
 	1, // [1:1] is the sub-list for extension type_name

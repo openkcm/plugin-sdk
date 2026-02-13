@@ -14,7 +14,7 @@ import (
 
 type V1 struct {
 	plugin.Facade
-	grpccertificateissuerv1.CertificateIssuerServicePluginClient
+	grpccertificateissuerv1.CertificateIssuerPluginClient
 }
 
 func (v1 *V1) Version() uint {
@@ -26,7 +26,7 @@ func (v1 *V1) ServiceInfo() api.Info {
 }
 
 func (v1 *V1) IssueCertificate(ctx context.Context, req *certificateissuer.IssueCertificateRequest) (*certificateissuer.IssueCertificateResponse, error) {
-	in := &grpccertificateissuerv1.GetCertificateRequest{
+	in := &grpccertificateissuerv1.IssueCertificateRequest{
 		CommonName: req.CommonName,
 		Locality:   req.Localities,
 		Validity:   CertificateValidityToGRPC(req.Validity),
@@ -36,20 +36,20 @@ func (v1 *V1) IssueCertificate(ctx context.Context, req *certificateissuer.Issue
 		return nil, fmt.Errorf("failed validation: %v", err)
 	}
 
-	grpcResp, err := v1.GetCertificate(ctx, in)
+	grpcResp, err := v1.CertificateIssuerPluginClient.IssueCertificate(ctx, in)
 	if err != nil {
 		return nil, err
 	}
 	return &certificateissuer.IssueCertificateResponse{
-		ChainPem: grpcResp.CertificateChain,
+		ChainPem: grpcResp.CertificateChainPem,
 	}, nil
 }
 
-func CertificateValidityToGRPC(v *certificateissuer.CertificateValidity) *grpccertificateissuerv1.GetCertificateValidity {
+func CertificateValidityToGRPC(v *certificateissuer.CertificateValidity) *grpccertificateissuerv1.CertificateValidity {
 	if v == nil {
 		return nil
 	}
-	return &grpccertificateissuerv1.GetCertificateValidity{
+	return &grpccertificateissuerv1.CertificateValidity{
 		Value: v.Value,
 		Type:  grpccertificateissuerv1.ValidityType(v.Type),
 	}

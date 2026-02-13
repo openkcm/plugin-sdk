@@ -396,22 +396,22 @@ var _ interface {
 	ErrorName() string
 } = GetGroupResponseValidationError{}
 
-// Validate checks the field values on GetAllGroupsRequest with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the first error encountered is returned, or nil if there are no violations.
-func (m *GetAllGroupsRequest) Validate() error {
+// Validate checks the field values on ListGroupsRequest with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *ListGroupsRequest) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on GetAllGroupsRequest with the rules
+// ValidateAll checks the field values on ListGroupsRequest with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the result is a list of violation errors wrapped in
-// GetAllGroupsRequestMultiError, or nil if none found.
-func (m *GetAllGroupsRequest) ValidateAll() error {
+// ListGroupsRequestMultiError, or nil if none found.
+func (m *ListGroupsRequest) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *GetAllGroupsRequest) validate(all bool) error {
+func (m *ListGroupsRequest) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -422,7 +422,7 @@ func (m *GetAllGroupsRequest) validate(all bool) error {
 		switch v := interface{}(m.GetAuthContext()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, GetAllGroupsRequestValidationError{
+				errors = append(errors, ListGroupsRequestValidationError{
 					field:  "AuthContext",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -430,7 +430,7 @@ func (m *GetAllGroupsRequest) validate(all bool) error {
 			}
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
-				errors = append(errors, GetAllGroupsRequestValidationError{
+				errors = append(errors, ListGroupsRequestValidationError{
 					field:  "AuthContext",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -439,7 +439,7 @@ func (m *GetAllGroupsRequest) validate(all bool) error {
 		}
 	} else if v, ok := interface{}(m.GetAuthContext()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
-			return GetAllGroupsRequestValidationError{
+			return ListGroupsRequestValidationError{
 				field:  "AuthContext",
 				reason: "embedded message failed validation",
 				cause:  err,
@@ -448,19 +448,19 @@ func (m *GetAllGroupsRequest) validate(all bool) error {
 	}
 
 	if len(errors) > 0 {
-		return GetAllGroupsRequestMultiError(errors)
+		return ListGroupsRequestMultiError(errors)
 	}
 
 	return nil
 }
 
-// GetAllGroupsRequestMultiError is an error wrapping multiple validation
-// errors returned by GetAllGroupsRequest.ValidateAll() if the designated
-// constraints aren't met.
-type GetAllGroupsRequestMultiError []error
+// ListGroupsRequestMultiError is an error wrapping multiple validation errors
+// returned by ListGroupsRequest.ValidateAll() if the designated constraints
+// aren't met.
+type ListGroupsRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m GetAllGroupsRequestMultiError) Error() string {
+func (m ListGroupsRequestMultiError) Error() string {
 	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -469,11 +469,11 @@ func (m GetAllGroupsRequestMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m GetAllGroupsRequestMultiError) AllErrors() []error { return m }
+func (m ListGroupsRequestMultiError) AllErrors() []error { return m }
 
-// GetAllGroupsRequestValidationError is the validation error returned by
-// GetAllGroupsRequest.Validate if the designated constraints aren't met.
-type GetAllGroupsRequestValidationError struct {
+// ListGroupsRequestValidationError is the validation error returned by
+// ListGroupsRequest.Validate if the designated constraints aren't met.
+type ListGroupsRequestValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -481,24 +481,24 @@ type GetAllGroupsRequestValidationError struct {
 }
 
 // Field function returns field value.
-func (e GetAllGroupsRequestValidationError) Field() string { return e.field }
+func (e ListGroupsRequestValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e GetAllGroupsRequestValidationError) Reason() string { return e.reason }
+func (e ListGroupsRequestValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e GetAllGroupsRequestValidationError) Cause() error { return e.cause }
+func (e ListGroupsRequestValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e GetAllGroupsRequestValidationError) Key() bool { return e.key }
+func (e ListGroupsRequestValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e GetAllGroupsRequestValidationError) ErrorName() string {
-	return "GetAllGroupsRequestValidationError"
+func (e ListGroupsRequestValidationError) ErrorName() string {
+	return "ListGroupsRequestValidationError"
 }
 
 // Error satisfies the builtin error interface
-func (e GetAllGroupsRequestValidationError) Error() string {
+func (e ListGroupsRequestValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -510,14 +510,14 @@ func (e GetAllGroupsRequestValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sGetAllGroupsRequest.%s: %s%s",
+		"invalid %sListGroupsRequest.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = GetAllGroupsRequestValidationError{}
+var _ error = ListGroupsRequestValidationError{}
 
 var _ interface {
 	Field() string
@@ -525,24 +525,24 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = GetAllGroupsRequestValidationError{}
+} = ListGroupsRequestValidationError{}
 
-// Validate checks the field values on GetAllGroupsResponse with the rules
+// Validate checks the field values on ListGroupsResponse with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.
-func (m *GetAllGroupsResponse) Validate() error {
+func (m *ListGroupsResponse) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on GetAllGroupsResponse with the rules
+// ValidateAll checks the field values on ListGroupsResponse with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the result is a list of violation errors wrapped in
-// GetAllGroupsResponseMultiError, or nil if none found.
-func (m *GetAllGroupsResponse) ValidateAll() error {
+// ListGroupsResponseMultiError, or nil if none found.
+func (m *ListGroupsResponse) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *GetAllGroupsResponse) validate(all bool) error {
+func (m *ListGroupsResponse) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -556,7 +556,7 @@ func (m *GetAllGroupsResponse) validate(all bool) error {
 			switch v := interface{}(item).(type) {
 			case interface{ ValidateAll() error }:
 				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, GetAllGroupsResponseValidationError{
+					errors = append(errors, ListGroupsResponseValidationError{
 						field:  fmt.Sprintf("Groups[%v]", idx),
 						reason: "embedded message failed validation",
 						cause:  err,
@@ -564,7 +564,7 @@ func (m *GetAllGroupsResponse) validate(all bool) error {
 				}
 			case interface{ Validate() error }:
 				if err := v.Validate(); err != nil {
-					errors = append(errors, GetAllGroupsResponseValidationError{
+					errors = append(errors, ListGroupsResponseValidationError{
 						field:  fmt.Sprintf("Groups[%v]", idx),
 						reason: "embedded message failed validation",
 						cause:  err,
@@ -573,7 +573,7 @@ func (m *GetAllGroupsResponse) validate(all bool) error {
 			}
 		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
-				return GetAllGroupsResponseValidationError{
+				return ListGroupsResponseValidationError{
 					field:  fmt.Sprintf("Groups[%v]", idx),
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -584,19 +584,19 @@ func (m *GetAllGroupsResponse) validate(all bool) error {
 	}
 
 	if len(errors) > 0 {
-		return GetAllGroupsResponseMultiError(errors)
+		return ListGroupsResponseMultiError(errors)
 	}
 
 	return nil
 }
 
-// GetAllGroupsResponseMultiError is an error wrapping multiple validation
-// errors returned by GetAllGroupsResponse.ValidateAll() if the designated
-// constraints aren't met.
-type GetAllGroupsResponseMultiError []error
+// ListGroupsResponseMultiError is an error wrapping multiple validation errors
+// returned by ListGroupsResponse.ValidateAll() if the designated constraints
+// aren't met.
+type ListGroupsResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m GetAllGroupsResponseMultiError) Error() string {
+func (m ListGroupsResponseMultiError) Error() string {
 	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -605,11 +605,11 @@ func (m GetAllGroupsResponseMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m GetAllGroupsResponseMultiError) AllErrors() []error { return m }
+func (m ListGroupsResponseMultiError) AllErrors() []error { return m }
 
-// GetAllGroupsResponseValidationError is the validation error returned by
-// GetAllGroupsResponse.Validate if the designated constraints aren't met.
-type GetAllGroupsResponseValidationError struct {
+// ListGroupsResponseValidationError is the validation error returned by
+// ListGroupsResponse.Validate if the designated constraints aren't met.
+type ListGroupsResponseValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -617,24 +617,24 @@ type GetAllGroupsResponseValidationError struct {
 }
 
 // Field function returns field value.
-func (e GetAllGroupsResponseValidationError) Field() string { return e.field }
+func (e ListGroupsResponseValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e GetAllGroupsResponseValidationError) Reason() string { return e.reason }
+func (e ListGroupsResponseValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e GetAllGroupsResponseValidationError) Cause() error { return e.cause }
+func (e ListGroupsResponseValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e GetAllGroupsResponseValidationError) Key() bool { return e.key }
+func (e ListGroupsResponseValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e GetAllGroupsResponseValidationError) ErrorName() string {
-	return "GetAllGroupsResponseValidationError"
+func (e ListGroupsResponseValidationError) ErrorName() string {
+	return "ListGroupsResponseValidationError"
 }
 
 // Error satisfies the builtin error interface
-func (e GetAllGroupsResponseValidationError) Error() string {
+func (e ListGroupsResponseValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -646,14 +646,14 @@ func (e GetAllGroupsResponseValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sGetAllGroupsResponse.%s: %s%s",
+		"invalid %sListGroupsResponse.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = GetAllGroupsResponseValidationError{}
+var _ error = ListGroupsResponseValidationError{}
 
 var _ interface {
 	Field() string
@@ -661,24 +661,24 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = GetAllGroupsResponseValidationError{}
+} = ListGroupsResponseValidationError{}
 
-// Validate checks the field values on GetUsersForGroupRequest with the rules
+// Validate checks the field values on ListGroupUsersRequest with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.
-func (m *GetUsersForGroupRequest) Validate() error {
+func (m *ListGroupUsersRequest) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on GetUsersForGroupRequest with the
-// rules defined in the proto definition for this message. If any rules are
+// ValidateAll checks the field values on ListGroupUsersRequest with the rules
+// defined in the proto definition for this message. If any rules are
 // violated, the result is a list of violation errors wrapped in
-// GetUsersForGroupRequestMultiError, or nil if none found.
-func (m *GetUsersForGroupRequest) ValidateAll() error {
+// ListGroupUsersRequestMultiError, or nil if none found.
+func (m *ListGroupUsersRequest) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *GetUsersForGroupRequest) validate(all bool) error {
+func (m *ListGroupUsersRequest) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -691,7 +691,7 @@ func (m *GetUsersForGroupRequest) validate(all bool) error {
 		switch v := interface{}(m.GetAuthContext()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, GetUsersForGroupRequestValidationError{
+				errors = append(errors, ListGroupUsersRequestValidationError{
 					field:  "AuthContext",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -699,7 +699,7 @@ func (m *GetUsersForGroupRequest) validate(all bool) error {
 			}
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
-				errors = append(errors, GetUsersForGroupRequestValidationError{
+				errors = append(errors, ListGroupUsersRequestValidationError{
 					field:  "AuthContext",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -708,7 +708,7 @@ func (m *GetUsersForGroupRequest) validate(all bool) error {
 		}
 	} else if v, ok := interface{}(m.GetAuthContext()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
-			return GetUsersForGroupRequestValidationError{
+			return ListGroupUsersRequestValidationError{
 				field:  "AuthContext",
 				reason: "embedded message failed validation",
 				cause:  err,
@@ -717,19 +717,19 @@ func (m *GetUsersForGroupRequest) validate(all bool) error {
 	}
 
 	if len(errors) > 0 {
-		return GetUsersForGroupRequestMultiError(errors)
+		return ListGroupUsersRequestMultiError(errors)
 	}
 
 	return nil
 }
 
-// GetUsersForGroupRequestMultiError is an error wrapping multiple validation
-// errors returned by GetUsersForGroupRequest.ValidateAll() if the designated
+// ListGroupUsersRequestMultiError is an error wrapping multiple validation
+// errors returned by ListGroupUsersRequest.ValidateAll() if the designated
 // constraints aren't met.
-type GetUsersForGroupRequestMultiError []error
+type ListGroupUsersRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m GetUsersForGroupRequestMultiError) Error() string {
+func (m ListGroupUsersRequestMultiError) Error() string {
 	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -738,11 +738,11 @@ func (m GetUsersForGroupRequestMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m GetUsersForGroupRequestMultiError) AllErrors() []error { return m }
+func (m ListGroupUsersRequestMultiError) AllErrors() []error { return m }
 
-// GetUsersForGroupRequestValidationError is the validation error returned by
-// GetUsersForGroupRequest.Validate if the designated constraints aren't met.
-type GetUsersForGroupRequestValidationError struct {
+// ListGroupUsersRequestValidationError is the validation error returned by
+// ListGroupUsersRequest.Validate if the designated constraints aren't met.
+type ListGroupUsersRequestValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -750,24 +750,24 @@ type GetUsersForGroupRequestValidationError struct {
 }
 
 // Field function returns field value.
-func (e GetUsersForGroupRequestValidationError) Field() string { return e.field }
+func (e ListGroupUsersRequestValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e GetUsersForGroupRequestValidationError) Reason() string { return e.reason }
+func (e ListGroupUsersRequestValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e GetUsersForGroupRequestValidationError) Cause() error { return e.cause }
+func (e ListGroupUsersRequestValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e GetUsersForGroupRequestValidationError) Key() bool { return e.key }
+func (e ListGroupUsersRequestValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e GetUsersForGroupRequestValidationError) ErrorName() string {
-	return "GetUsersForGroupRequestValidationError"
+func (e ListGroupUsersRequestValidationError) ErrorName() string {
+	return "ListGroupUsersRequestValidationError"
 }
 
 // Error satisfies the builtin error interface
-func (e GetUsersForGroupRequestValidationError) Error() string {
+func (e ListGroupUsersRequestValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -779,14 +779,14 @@ func (e GetUsersForGroupRequestValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sGetUsersForGroupRequest.%s: %s%s",
+		"invalid %sListGroupUsersRequest.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = GetUsersForGroupRequestValidationError{}
+var _ error = ListGroupUsersRequestValidationError{}
 
 var _ interface {
 	Field() string
@@ -794,24 +794,24 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = GetUsersForGroupRequestValidationError{}
+} = ListGroupUsersRequestValidationError{}
 
-// Validate checks the field values on GetUsersForGroupResponse with the rules
+// Validate checks the field values on ListGroupUsersResponse with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.
-func (m *GetUsersForGroupResponse) Validate() error {
+func (m *ListGroupUsersResponse) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on GetUsersForGroupResponse with the
-// rules defined in the proto definition for this message. If any rules are
+// ValidateAll checks the field values on ListGroupUsersResponse with the rules
+// defined in the proto definition for this message. If any rules are
 // violated, the result is a list of violation errors wrapped in
-// GetUsersForGroupResponseMultiError, or nil if none found.
-func (m *GetUsersForGroupResponse) ValidateAll() error {
+// ListGroupUsersResponseMultiError, or nil if none found.
+func (m *ListGroupUsersResponse) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *GetUsersForGroupResponse) validate(all bool) error {
+func (m *ListGroupUsersResponse) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -825,7 +825,7 @@ func (m *GetUsersForGroupResponse) validate(all bool) error {
 			switch v := interface{}(item).(type) {
 			case interface{ ValidateAll() error }:
 				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, GetUsersForGroupResponseValidationError{
+					errors = append(errors, ListGroupUsersResponseValidationError{
 						field:  fmt.Sprintf("Users[%v]", idx),
 						reason: "embedded message failed validation",
 						cause:  err,
@@ -833,7 +833,7 @@ func (m *GetUsersForGroupResponse) validate(all bool) error {
 				}
 			case interface{ Validate() error }:
 				if err := v.Validate(); err != nil {
-					errors = append(errors, GetUsersForGroupResponseValidationError{
+					errors = append(errors, ListGroupUsersResponseValidationError{
 						field:  fmt.Sprintf("Users[%v]", idx),
 						reason: "embedded message failed validation",
 						cause:  err,
@@ -842,7 +842,7 @@ func (m *GetUsersForGroupResponse) validate(all bool) error {
 			}
 		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
-				return GetUsersForGroupResponseValidationError{
+				return ListGroupUsersResponseValidationError{
 					field:  fmt.Sprintf("Users[%v]", idx),
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -853,19 +853,19 @@ func (m *GetUsersForGroupResponse) validate(all bool) error {
 	}
 
 	if len(errors) > 0 {
-		return GetUsersForGroupResponseMultiError(errors)
+		return ListGroupUsersResponseMultiError(errors)
 	}
 
 	return nil
 }
 
-// GetUsersForGroupResponseMultiError is an error wrapping multiple validation
-// errors returned by GetUsersForGroupResponse.ValidateAll() if the designated
+// ListGroupUsersResponseMultiError is an error wrapping multiple validation
+// errors returned by ListGroupUsersResponse.ValidateAll() if the designated
 // constraints aren't met.
-type GetUsersForGroupResponseMultiError []error
+type ListGroupUsersResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m GetUsersForGroupResponseMultiError) Error() string {
+func (m ListGroupUsersResponseMultiError) Error() string {
 	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -874,11 +874,11 @@ func (m GetUsersForGroupResponseMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m GetUsersForGroupResponseMultiError) AllErrors() []error { return m }
+func (m ListGroupUsersResponseMultiError) AllErrors() []error { return m }
 
-// GetUsersForGroupResponseValidationError is the validation error returned by
-// GetUsersForGroupResponse.Validate if the designated constraints aren't met.
-type GetUsersForGroupResponseValidationError struct {
+// ListGroupUsersResponseValidationError is the validation error returned by
+// ListGroupUsersResponse.Validate if the designated constraints aren't met.
+type ListGroupUsersResponseValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -886,24 +886,24 @@ type GetUsersForGroupResponseValidationError struct {
 }
 
 // Field function returns field value.
-func (e GetUsersForGroupResponseValidationError) Field() string { return e.field }
+func (e ListGroupUsersResponseValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e GetUsersForGroupResponseValidationError) Reason() string { return e.reason }
+func (e ListGroupUsersResponseValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e GetUsersForGroupResponseValidationError) Cause() error { return e.cause }
+func (e ListGroupUsersResponseValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e GetUsersForGroupResponseValidationError) Key() bool { return e.key }
+func (e ListGroupUsersResponseValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e GetUsersForGroupResponseValidationError) ErrorName() string {
-	return "GetUsersForGroupResponseValidationError"
+func (e ListGroupUsersResponseValidationError) ErrorName() string {
+	return "ListGroupUsersResponseValidationError"
 }
 
 // Error satisfies the builtin error interface
-func (e GetUsersForGroupResponseValidationError) Error() string {
+func (e ListGroupUsersResponseValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -915,14 +915,14 @@ func (e GetUsersForGroupResponseValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sGetUsersForGroupResponse.%s: %s%s",
+		"invalid %sListGroupUsersResponse.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = GetUsersForGroupResponseValidationError{}
+var _ error = ListGroupUsersResponseValidationError{}
 
 var _ interface {
 	Field() string
@@ -930,7 +930,7 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = GetUsersForGroupResponseValidationError{}
+} = ListGroupUsersResponseValidationError{}
 
 // Validate checks the field values on User with the rules defined in the proto
 // definition for this message. If any rules are violated, the first error
@@ -1036,22 +1036,22 @@ var _ interface {
 	ErrorName() string
 } = UserValidationError{}
 
-// Validate checks the field values on GetGroupsForUserRequest with the rules
+// Validate checks the field values on ListUserGroupsRequest with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.
-func (m *GetGroupsForUserRequest) Validate() error {
+func (m *ListUserGroupsRequest) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on GetGroupsForUserRequest with the
-// rules defined in the proto definition for this message. If any rules are
+// ValidateAll checks the field values on ListUserGroupsRequest with the rules
+// defined in the proto definition for this message. If any rules are
 // violated, the result is a list of violation errors wrapped in
-// GetGroupsForUserRequestMultiError, or nil if none found.
-func (m *GetGroupsForUserRequest) ValidateAll() error {
+// ListUserGroupsRequestMultiError, or nil if none found.
+func (m *ListUserGroupsRequest) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *GetGroupsForUserRequest) validate(all bool) error {
+func (m *ListUserGroupsRequest) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -1064,7 +1064,7 @@ func (m *GetGroupsForUserRequest) validate(all bool) error {
 		switch v := interface{}(m.GetAuthContext()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, GetGroupsForUserRequestValidationError{
+				errors = append(errors, ListUserGroupsRequestValidationError{
 					field:  "AuthContext",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -1072,7 +1072,7 @@ func (m *GetGroupsForUserRequest) validate(all bool) error {
 			}
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
-				errors = append(errors, GetGroupsForUserRequestValidationError{
+				errors = append(errors, ListUserGroupsRequestValidationError{
 					field:  "AuthContext",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -1081,7 +1081,7 @@ func (m *GetGroupsForUserRequest) validate(all bool) error {
 		}
 	} else if v, ok := interface{}(m.GetAuthContext()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
-			return GetGroupsForUserRequestValidationError{
+			return ListUserGroupsRequestValidationError{
 				field:  "AuthContext",
 				reason: "embedded message failed validation",
 				cause:  err,
@@ -1090,19 +1090,19 @@ func (m *GetGroupsForUserRequest) validate(all bool) error {
 	}
 
 	if len(errors) > 0 {
-		return GetGroupsForUserRequestMultiError(errors)
+		return ListUserGroupsRequestMultiError(errors)
 	}
 
 	return nil
 }
 
-// GetGroupsForUserRequestMultiError is an error wrapping multiple validation
-// errors returned by GetGroupsForUserRequest.ValidateAll() if the designated
+// ListUserGroupsRequestMultiError is an error wrapping multiple validation
+// errors returned by ListUserGroupsRequest.ValidateAll() if the designated
 // constraints aren't met.
-type GetGroupsForUserRequestMultiError []error
+type ListUserGroupsRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m GetGroupsForUserRequestMultiError) Error() string {
+func (m ListUserGroupsRequestMultiError) Error() string {
 	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -1111,11 +1111,11 @@ func (m GetGroupsForUserRequestMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m GetGroupsForUserRequestMultiError) AllErrors() []error { return m }
+func (m ListUserGroupsRequestMultiError) AllErrors() []error { return m }
 
-// GetGroupsForUserRequestValidationError is the validation error returned by
-// GetGroupsForUserRequest.Validate if the designated constraints aren't met.
-type GetGroupsForUserRequestValidationError struct {
+// ListUserGroupsRequestValidationError is the validation error returned by
+// ListUserGroupsRequest.Validate if the designated constraints aren't met.
+type ListUserGroupsRequestValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -1123,24 +1123,24 @@ type GetGroupsForUserRequestValidationError struct {
 }
 
 // Field function returns field value.
-func (e GetGroupsForUserRequestValidationError) Field() string { return e.field }
+func (e ListUserGroupsRequestValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e GetGroupsForUserRequestValidationError) Reason() string { return e.reason }
+func (e ListUserGroupsRequestValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e GetGroupsForUserRequestValidationError) Cause() error { return e.cause }
+func (e ListUserGroupsRequestValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e GetGroupsForUserRequestValidationError) Key() bool { return e.key }
+func (e ListUserGroupsRequestValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e GetGroupsForUserRequestValidationError) ErrorName() string {
-	return "GetGroupsForUserRequestValidationError"
+func (e ListUserGroupsRequestValidationError) ErrorName() string {
+	return "ListUserGroupsRequestValidationError"
 }
 
 // Error satisfies the builtin error interface
-func (e GetGroupsForUserRequestValidationError) Error() string {
+func (e ListUserGroupsRequestValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -1152,14 +1152,14 @@ func (e GetGroupsForUserRequestValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sGetGroupsForUserRequest.%s: %s%s",
+		"invalid %sListUserGroupsRequest.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = GetGroupsForUserRequestValidationError{}
+var _ error = ListUserGroupsRequestValidationError{}
 
 var _ interface {
 	Field() string
@@ -1167,24 +1167,24 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = GetGroupsForUserRequestValidationError{}
+} = ListUserGroupsRequestValidationError{}
 
-// Validate checks the field values on GetGroupsForUserResponse with the rules
+// Validate checks the field values on ListUserGroupsResponse with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.
-func (m *GetGroupsForUserResponse) Validate() error {
+func (m *ListUserGroupsResponse) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on GetGroupsForUserResponse with the
-// rules defined in the proto definition for this message. If any rules are
+// ValidateAll checks the field values on ListUserGroupsResponse with the rules
+// defined in the proto definition for this message. If any rules are
 // violated, the result is a list of violation errors wrapped in
-// GetGroupsForUserResponseMultiError, or nil if none found.
-func (m *GetGroupsForUserResponse) ValidateAll() error {
+// ListUserGroupsResponseMultiError, or nil if none found.
+func (m *ListUserGroupsResponse) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *GetGroupsForUserResponse) validate(all bool) error {
+func (m *ListUserGroupsResponse) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -1198,7 +1198,7 @@ func (m *GetGroupsForUserResponse) validate(all bool) error {
 			switch v := interface{}(item).(type) {
 			case interface{ ValidateAll() error }:
 				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, GetGroupsForUserResponseValidationError{
+					errors = append(errors, ListUserGroupsResponseValidationError{
 						field:  fmt.Sprintf("Groups[%v]", idx),
 						reason: "embedded message failed validation",
 						cause:  err,
@@ -1206,7 +1206,7 @@ func (m *GetGroupsForUserResponse) validate(all bool) error {
 				}
 			case interface{ Validate() error }:
 				if err := v.Validate(); err != nil {
-					errors = append(errors, GetGroupsForUserResponseValidationError{
+					errors = append(errors, ListUserGroupsResponseValidationError{
 						field:  fmt.Sprintf("Groups[%v]", idx),
 						reason: "embedded message failed validation",
 						cause:  err,
@@ -1215,7 +1215,7 @@ func (m *GetGroupsForUserResponse) validate(all bool) error {
 			}
 		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
-				return GetGroupsForUserResponseValidationError{
+				return ListUserGroupsResponseValidationError{
 					field:  fmt.Sprintf("Groups[%v]", idx),
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -1226,19 +1226,19 @@ func (m *GetGroupsForUserResponse) validate(all bool) error {
 	}
 
 	if len(errors) > 0 {
-		return GetGroupsForUserResponseMultiError(errors)
+		return ListUserGroupsResponseMultiError(errors)
 	}
 
 	return nil
 }
 
-// GetGroupsForUserResponseMultiError is an error wrapping multiple validation
-// errors returned by GetGroupsForUserResponse.ValidateAll() if the designated
+// ListUserGroupsResponseMultiError is an error wrapping multiple validation
+// errors returned by ListUserGroupsResponse.ValidateAll() if the designated
 // constraints aren't met.
-type GetGroupsForUserResponseMultiError []error
+type ListUserGroupsResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m GetGroupsForUserResponseMultiError) Error() string {
+func (m ListUserGroupsResponseMultiError) Error() string {
 	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -1247,11 +1247,11 @@ func (m GetGroupsForUserResponseMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m GetGroupsForUserResponseMultiError) AllErrors() []error { return m }
+func (m ListUserGroupsResponseMultiError) AllErrors() []error { return m }
 
-// GetGroupsForUserResponseValidationError is the validation error returned by
-// GetGroupsForUserResponse.Validate if the designated constraints aren't met.
-type GetGroupsForUserResponseValidationError struct {
+// ListUserGroupsResponseValidationError is the validation error returned by
+// ListUserGroupsResponse.Validate if the designated constraints aren't met.
+type ListUserGroupsResponseValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -1259,24 +1259,24 @@ type GetGroupsForUserResponseValidationError struct {
 }
 
 // Field function returns field value.
-func (e GetGroupsForUserResponseValidationError) Field() string { return e.field }
+func (e ListUserGroupsResponseValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e GetGroupsForUserResponseValidationError) Reason() string { return e.reason }
+func (e ListUserGroupsResponseValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e GetGroupsForUserResponseValidationError) Cause() error { return e.cause }
+func (e ListUserGroupsResponseValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e GetGroupsForUserResponseValidationError) Key() bool { return e.key }
+func (e ListUserGroupsResponseValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e GetGroupsForUserResponseValidationError) ErrorName() string {
-	return "GetGroupsForUserResponseValidationError"
+func (e ListUserGroupsResponseValidationError) ErrorName() string {
+	return "ListUserGroupsResponseValidationError"
 }
 
 // Error satisfies the builtin error interface
-func (e GetGroupsForUserResponseValidationError) Error() string {
+func (e ListUserGroupsResponseValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -1288,14 +1288,14 @@ func (e GetGroupsForUserResponseValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sGetGroupsForUserResponse.%s: %s%s",
+		"invalid %sListUserGroupsResponse.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = GetGroupsForUserResponseValidationError{}
+var _ error = ListUserGroupsResponseValidationError{}
 
 var _ interface {
 	Field() string
@@ -1303,7 +1303,7 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = GetGroupsForUserResponseValidationError{}
+} = ListUserGroupsResponseValidationError{}
 
 // Validate checks the field values on Group with the rules defined in the
 // proto definition for this message. If any rules are violated, the first

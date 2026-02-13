@@ -14,7 +14,7 @@ import (
 
 type V1 struct {
 	plugin.Facade
-	grpcnotification1.NotificationServicePluginClient
+	grpcnotification1.NotificationPluginClient
 }
 
 func (v1 *V1) Version() uint {
@@ -26,7 +26,7 @@ func (v1 *V1) ServiceInfo() api.Info {
 }
 
 func (v1 *V1) Send(ctx context.Context, req *notification.SendNotificationRequest) (*notification.SendNotificationResponse, error) {
-	in := &grpcnotification1.SendNotificationRequest{
+	in := &grpcnotification1.SendRequest{
 		NotificationType: grpcnotification1.NotificationType(req.Type),
 		Recipients:       req.Recipients,
 		Subject:          req.Subject,
@@ -36,7 +36,7 @@ func (v1 *V1) Send(ctx context.Context, req *notification.SendNotificationReques
 		return nil, fmt.Errorf("failed validation: %v", err)
 	}
 
-	grpcResp, err := v1.SendNotification(ctx, in)
+	grpcResp, err := v1.NotificationPluginClient.Send(ctx, in)
 	if err != nil {
 		return nil, err
 	}

@@ -35,22 +35,22 @@ var (
 	_ = sort.Sort
 )
 
-// Validate checks the field values on SendNotificationRequest with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the first error encountered is returned, or nil if there are no violations.
-func (m *SendNotificationRequest) Validate() error {
+// Validate checks the field values on SendRequest with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *SendRequest) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on SendNotificationRequest with the
-// rules defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// SendNotificationRequestMultiError, or nil if none found.
-func (m *SendNotificationRequest) ValidateAll() error {
+// ValidateAll checks the field values on SendRequest with the rules defined in
+// the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in SendRequestMultiError, or
+// nil if none found.
+func (m *SendRequest) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *SendNotificationRequest) validate(all bool) error {
+func (m *SendRequest) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -64,19 +64,18 @@ func (m *SendNotificationRequest) validate(all bool) error {
 	// no validation rules for Body
 
 	if len(errors) > 0 {
-		return SendNotificationRequestMultiError(errors)
+		return SendRequestMultiError(errors)
 	}
 
 	return nil
 }
 
-// SendNotificationRequestMultiError is an error wrapping multiple validation
-// errors returned by SendNotificationRequest.ValidateAll() if the designated
-// constraints aren't met.
-type SendNotificationRequestMultiError []error
+// SendRequestMultiError is an error wrapping multiple validation errors
+// returned by SendRequest.ValidateAll() if the designated constraints aren't met.
+type SendRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m SendNotificationRequestMultiError) Error() string {
+func (m SendRequestMultiError) Error() string {
 	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -85,11 +84,11 @@ func (m SendNotificationRequestMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m SendNotificationRequestMultiError) AllErrors() []error { return m }
+func (m SendRequestMultiError) AllErrors() []error { return m }
 
-// SendNotificationRequestValidationError is the validation error returned by
-// SendNotificationRequest.Validate if the designated constraints aren't met.
-type SendNotificationRequestValidationError struct {
+// SendRequestValidationError is the validation error returned by
+// SendRequest.Validate if the designated constraints aren't met.
+type SendRequestValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -97,24 +96,22 @@ type SendNotificationRequestValidationError struct {
 }
 
 // Field function returns field value.
-func (e SendNotificationRequestValidationError) Field() string { return e.field }
+func (e SendRequestValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e SendNotificationRequestValidationError) Reason() string { return e.reason }
+func (e SendRequestValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e SendNotificationRequestValidationError) Cause() error { return e.cause }
+func (e SendRequestValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e SendNotificationRequestValidationError) Key() bool { return e.key }
+func (e SendRequestValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e SendNotificationRequestValidationError) ErrorName() string {
-	return "SendNotificationRequestValidationError"
-}
+func (e SendRequestValidationError) ErrorName() string { return "SendRequestValidationError" }
 
 // Error satisfies the builtin error interface
-func (e SendNotificationRequestValidationError) Error() string {
+func (e SendRequestValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -126,14 +123,14 @@ func (e SendNotificationRequestValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sSendNotificationRequest.%s: %s%s",
+		"invalid %sSendRequest.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = SendNotificationRequestValidationError{}
+var _ error = SendRequestValidationError{}
 
 var _ interface {
 	Field() string
@@ -141,24 +138,24 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = SendNotificationRequestValidationError{}
+} = SendRequestValidationError{}
 
-// Validate checks the field values on SendNotificationResponse with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the first error encountered is returned, or nil if there are no violations.
-func (m *SendNotificationResponse) Validate() error {
+// Validate checks the field values on SendResponse with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *SendResponse) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on SendNotificationResponse with the
-// rules defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// SendNotificationResponseMultiError, or nil if none found.
-func (m *SendNotificationResponse) ValidateAll() error {
+// ValidateAll checks the field values on SendResponse with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in SendResponseMultiError, or
+// nil if none found.
+func (m *SendResponse) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *SendNotificationResponse) validate(all bool) error {
+func (m *SendResponse) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -170,19 +167,18 @@ func (m *SendNotificationResponse) validate(all bool) error {
 	// no validation rules for Message
 
 	if len(errors) > 0 {
-		return SendNotificationResponseMultiError(errors)
+		return SendResponseMultiError(errors)
 	}
 
 	return nil
 }
 
-// SendNotificationResponseMultiError is an error wrapping multiple validation
-// errors returned by SendNotificationResponse.ValidateAll() if the designated
-// constraints aren't met.
-type SendNotificationResponseMultiError []error
+// SendResponseMultiError is an error wrapping multiple validation errors
+// returned by SendResponse.ValidateAll() if the designated constraints aren't met.
+type SendResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m SendNotificationResponseMultiError) Error() string {
+func (m SendResponseMultiError) Error() string {
 	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -191,11 +187,11 @@ func (m SendNotificationResponseMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m SendNotificationResponseMultiError) AllErrors() []error { return m }
+func (m SendResponseMultiError) AllErrors() []error { return m }
 
-// SendNotificationResponseValidationError is the validation error returned by
-// SendNotificationResponse.Validate if the designated constraints aren't met.
-type SendNotificationResponseValidationError struct {
+// SendResponseValidationError is the validation error returned by
+// SendResponse.Validate if the designated constraints aren't met.
+type SendResponseValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -203,24 +199,22 @@ type SendNotificationResponseValidationError struct {
 }
 
 // Field function returns field value.
-func (e SendNotificationResponseValidationError) Field() string { return e.field }
+func (e SendResponseValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e SendNotificationResponseValidationError) Reason() string { return e.reason }
+func (e SendResponseValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e SendNotificationResponseValidationError) Cause() error { return e.cause }
+func (e SendResponseValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e SendNotificationResponseValidationError) Key() bool { return e.key }
+func (e SendResponseValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e SendNotificationResponseValidationError) ErrorName() string {
-	return "SendNotificationResponseValidationError"
-}
+func (e SendResponseValidationError) ErrorName() string { return "SendResponseValidationError" }
 
 // Error satisfies the builtin error interface
-func (e SendNotificationResponseValidationError) Error() string {
+func (e SendResponseValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -232,14 +226,14 @@ func (e SendNotificationResponseValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sSendNotificationResponse.%s: %s%s",
+		"invalid %sSendResponse.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = SendNotificationResponseValidationError{}
+var _ error = SendResponseValidationError{}
 
 var _ interface {
 	Field() string
@@ -247,4 +241,4 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = SendNotificationResponseValidationError{}
+} = SendResponseValidationError{}

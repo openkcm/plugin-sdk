@@ -35,22 +35,22 @@ var (
 	_ = sort.Sort
 )
 
-// Validate checks the field values on GetCertificateRequest with the rules
+// Validate checks the field values on IssueCertificateRequest with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.
-func (m *GetCertificateRequest) Validate() error {
+func (m *IssueCertificateRequest) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on GetCertificateRequest with the rules
-// defined in the proto definition for this message. If any rules are
+// ValidateAll checks the field values on IssueCertificateRequest with the
+// rules defined in the proto definition for this message. If any rules are
 // violated, the result is a list of violation errors wrapped in
-// GetCertificateRequestMultiError, or nil if none found.
-func (m *GetCertificateRequest) ValidateAll() error {
+// IssueCertificateRequestMultiError, or nil if none found.
+func (m *IssueCertificateRequest) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *GetCertificateRequest) validate(all bool) error {
+func (m *IssueCertificateRequest) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -63,7 +63,7 @@ func (m *GetCertificateRequest) validate(all bool) error {
 		switch v := interface{}(m.GetValidity()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, GetCertificateRequestValidationError{
+				errors = append(errors, IssueCertificateRequestValidationError{
 					field:  "Validity",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -71,7 +71,7 @@ func (m *GetCertificateRequest) validate(all bool) error {
 			}
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
-				errors = append(errors, GetCertificateRequestValidationError{
+				errors = append(errors, IssueCertificateRequestValidationError{
 					field:  "Validity",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -80,7 +80,7 @@ func (m *GetCertificateRequest) validate(all bool) error {
 		}
 	} else if v, ok := interface{}(m.GetValidity()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
-			return GetCertificateRequestValidationError{
+			return IssueCertificateRequestValidationError{
 				field:  "Validity",
 				reason: "embedded message failed validation",
 				cause:  err,
@@ -92,7 +92,7 @@ func (m *GetCertificateRequest) validate(all bool) error {
 		switch v := interface{}(m.GetPrivateKey()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, GetCertificateRequestValidationError{
+				errors = append(errors, IssueCertificateRequestValidationError{
 					field:  "PrivateKey",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -100,7 +100,7 @@ func (m *GetCertificateRequest) validate(all bool) error {
 			}
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
-				errors = append(errors, GetCertificateRequestValidationError{
+				errors = append(errors, IssueCertificateRequestValidationError{
 					field:  "PrivateKey",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -109,7 +109,7 @@ func (m *GetCertificateRequest) validate(all bool) error {
 		}
 	} else if v, ok := interface{}(m.GetPrivateKey()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
-			return GetCertificateRequestValidationError{
+			return IssueCertificateRequestValidationError{
 				field:  "PrivateKey",
 				reason: "embedded message failed validation",
 				cause:  err,
@@ -118,19 +118,19 @@ func (m *GetCertificateRequest) validate(all bool) error {
 	}
 
 	if len(errors) > 0 {
-		return GetCertificateRequestMultiError(errors)
+		return IssueCertificateRequestMultiError(errors)
 	}
 
 	return nil
 }
 
-// GetCertificateRequestMultiError is an error wrapping multiple validation
-// errors returned by GetCertificateRequest.ValidateAll() if the designated
+// IssueCertificateRequestMultiError is an error wrapping multiple validation
+// errors returned by IssueCertificateRequest.ValidateAll() if the designated
 // constraints aren't met.
-type GetCertificateRequestMultiError []error
+type IssueCertificateRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m GetCertificateRequestMultiError) Error() string {
+func (m IssueCertificateRequestMultiError) Error() string {
 	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -139,11 +139,11 @@ func (m GetCertificateRequestMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m GetCertificateRequestMultiError) AllErrors() []error { return m }
+func (m IssueCertificateRequestMultiError) AllErrors() []error { return m }
 
-// GetCertificateRequestValidationError is the validation error returned by
-// GetCertificateRequest.Validate if the designated constraints aren't met.
-type GetCertificateRequestValidationError struct {
+// IssueCertificateRequestValidationError is the validation error returned by
+// IssueCertificateRequest.Validate if the designated constraints aren't met.
+type IssueCertificateRequestValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -151,24 +151,24 @@ type GetCertificateRequestValidationError struct {
 }
 
 // Field function returns field value.
-func (e GetCertificateRequestValidationError) Field() string { return e.field }
+func (e IssueCertificateRequestValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e GetCertificateRequestValidationError) Reason() string { return e.reason }
+func (e IssueCertificateRequestValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e GetCertificateRequestValidationError) Cause() error { return e.cause }
+func (e IssueCertificateRequestValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e GetCertificateRequestValidationError) Key() bool { return e.key }
+func (e IssueCertificateRequestValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e GetCertificateRequestValidationError) ErrorName() string {
-	return "GetCertificateRequestValidationError"
+func (e IssueCertificateRequestValidationError) ErrorName() string {
+	return "IssueCertificateRequestValidationError"
 }
 
 // Error satisfies the builtin error interface
-func (e GetCertificateRequestValidationError) Error() string {
+func (e IssueCertificateRequestValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -180,14 +180,14 @@ func (e GetCertificateRequestValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sGetCertificateRequest.%s: %s%s",
+		"invalid %sIssueCertificateRequest.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = GetCertificateRequestValidationError{}
+var _ error = IssueCertificateRequestValidationError{}
 
 var _ interface {
 	Field() string
@@ -195,24 +195,24 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = GetCertificateRequestValidationError{}
+} = IssueCertificateRequestValidationError{}
 
-// Validate checks the field values on GetCertificateValidity with the rules
+// Validate checks the field values on CertificateValidity with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.
-func (m *GetCertificateValidity) Validate() error {
+func (m *CertificateValidity) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on GetCertificateValidity with the rules
+// ValidateAll checks the field values on CertificateValidity with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the result is a list of violation errors wrapped in
-// GetCertificateValidityMultiError, or nil if none found.
-func (m *GetCertificateValidity) ValidateAll() error {
+// CertificateValidityMultiError, or nil if none found.
+func (m *CertificateValidity) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *GetCertificateValidity) validate(all bool) error {
+func (m *CertificateValidity) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -224,19 +224,19 @@ func (m *GetCertificateValidity) validate(all bool) error {
 	// no validation rules for Type
 
 	if len(errors) > 0 {
-		return GetCertificateValidityMultiError(errors)
+		return CertificateValidityMultiError(errors)
 	}
 
 	return nil
 }
 
-// GetCertificateValidityMultiError is an error wrapping multiple validation
-// errors returned by GetCertificateValidity.ValidateAll() if the designated
+// CertificateValidityMultiError is an error wrapping multiple validation
+// errors returned by CertificateValidity.ValidateAll() if the designated
 // constraints aren't met.
-type GetCertificateValidityMultiError []error
+type CertificateValidityMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m GetCertificateValidityMultiError) Error() string {
+func (m CertificateValidityMultiError) Error() string {
 	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -245,11 +245,11 @@ func (m GetCertificateValidityMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m GetCertificateValidityMultiError) AllErrors() []error { return m }
+func (m CertificateValidityMultiError) AllErrors() []error { return m }
 
-// GetCertificateValidityValidationError is the validation error returned by
-// GetCertificateValidity.Validate if the designated constraints aren't met.
-type GetCertificateValidityValidationError struct {
+// CertificateValidityValidationError is the validation error returned by
+// CertificateValidity.Validate if the designated constraints aren't met.
+type CertificateValidityValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -257,24 +257,24 @@ type GetCertificateValidityValidationError struct {
 }
 
 // Field function returns field value.
-func (e GetCertificateValidityValidationError) Field() string { return e.field }
+func (e CertificateValidityValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e GetCertificateValidityValidationError) Reason() string { return e.reason }
+func (e CertificateValidityValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e GetCertificateValidityValidationError) Cause() error { return e.cause }
+func (e CertificateValidityValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e GetCertificateValidityValidationError) Key() bool { return e.key }
+func (e CertificateValidityValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e GetCertificateValidityValidationError) ErrorName() string {
-	return "GetCertificateValidityValidationError"
+func (e CertificateValidityValidationError) ErrorName() string {
+	return "CertificateValidityValidationError"
 }
 
 // Error satisfies the builtin error interface
-func (e GetCertificateValidityValidationError) Error() string {
+func (e CertificateValidityValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -286,14 +286,14 @@ func (e GetCertificateValidityValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sGetCertificateValidity.%s: %s%s",
+		"invalid %sCertificateValidity.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = GetCertificateValidityValidationError{}
+var _ error = CertificateValidityValidationError{}
 
 var _ interface {
 	Field() string
@@ -301,7 +301,7 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = GetCertificateValidityValidationError{}
+} = CertificateValidityValidationError{}
 
 // Validate checks the field values on PrivateKey with the rules defined in the
 // proto definition for this message. If any rules are violated, the first
@@ -404,44 +404,44 @@ var _ interface {
 	ErrorName() string
 } = PrivateKeyValidationError{}
 
-// Validate checks the field values on GetCertificateResponse with the rules
+// Validate checks the field values on IssueCertificateResponse with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.
-func (m *GetCertificateResponse) Validate() error {
+func (m *IssueCertificateResponse) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on GetCertificateResponse with the rules
-// defined in the proto definition for this message. If any rules are
+// ValidateAll checks the field values on IssueCertificateResponse with the
+// rules defined in the proto definition for this message. If any rules are
 // violated, the result is a list of violation errors wrapped in
-// GetCertificateResponseMultiError, or nil if none found.
-func (m *GetCertificateResponse) ValidateAll() error {
+// IssueCertificateResponseMultiError, or nil if none found.
+func (m *IssueCertificateResponse) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *GetCertificateResponse) validate(all bool) error {
+func (m *IssueCertificateResponse) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
 
 	var errors []error
 
-	// no validation rules for CertificateChain
+	// no validation rules for CertificateChainPem
 
 	if len(errors) > 0 {
-		return GetCertificateResponseMultiError(errors)
+		return IssueCertificateResponseMultiError(errors)
 	}
 
 	return nil
 }
 
-// GetCertificateResponseMultiError is an error wrapping multiple validation
-// errors returned by GetCertificateResponse.ValidateAll() if the designated
+// IssueCertificateResponseMultiError is an error wrapping multiple validation
+// errors returned by IssueCertificateResponse.ValidateAll() if the designated
 // constraints aren't met.
-type GetCertificateResponseMultiError []error
+type IssueCertificateResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m GetCertificateResponseMultiError) Error() string {
+func (m IssueCertificateResponseMultiError) Error() string {
 	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -450,11 +450,11 @@ func (m GetCertificateResponseMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m GetCertificateResponseMultiError) AllErrors() []error { return m }
+func (m IssueCertificateResponseMultiError) AllErrors() []error { return m }
 
-// GetCertificateResponseValidationError is the validation error returned by
-// GetCertificateResponse.Validate if the designated constraints aren't met.
-type GetCertificateResponseValidationError struct {
+// IssueCertificateResponseValidationError is the validation error returned by
+// IssueCertificateResponse.Validate if the designated constraints aren't met.
+type IssueCertificateResponseValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -462,24 +462,24 @@ type GetCertificateResponseValidationError struct {
 }
 
 // Field function returns field value.
-func (e GetCertificateResponseValidationError) Field() string { return e.field }
+func (e IssueCertificateResponseValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e GetCertificateResponseValidationError) Reason() string { return e.reason }
+func (e IssueCertificateResponseValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e GetCertificateResponseValidationError) Cause() error { return e.cause }
+func (e IssueCertificateResponseValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e GetCertificateResponseValidationError) Key() bool { return e.key }
+func (e IssueCertificateResponseValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e GetCertificateResponseValidationError) ErrorName() string {
-	return "GetCertificateResponseValidationError"
+func (e IssueCertificateResponseValidationError) ErrorName() string {
+	return "IssueCertificateResponseValidationError"
 }
 
 // Error satisfies the builtin error interface
-func (e GetCertificateResponseValidationError) Error() string {
+func (e IssueCertificateResponseValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -491,14 +491,14 @@ func (e GetCertificateResponseValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sGetCertificateResponse.%s: %s%s",
+		"invalid %sIssueCertificateResponse.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = GetCertificateResponseValidationError{}
+var _ error = IssueCertificateResponseValidationError{}
 
 var _ interface {
 	Field() string
@@ -506,4 +506,4 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = GetCertificateResponseValidationError{}
+} = IssueCertificateResponseValidationError{}

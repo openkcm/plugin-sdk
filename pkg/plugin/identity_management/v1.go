@@ -14,7 +14,7 @@ import (
 
 type V1 struct {
 	plugin.Facade
-	grpcidentitymanagementv1.IdentityManagementServicePluginClient
+	grpcidentitymanagementv1.IdentityManagementPluginClient
 }
 
 func (v1 *V1) Version() uint {
@@ -33,8 +33,7 @@ func (v1 *V1) GetGroup(ctx context.Context, req *identitymanagement.GetGroupRequ
 	if err := protovalidate.Validate(in); err != nil {
 		return nil, fmt.Errorf("failed validation: %v", err)
 	}
-
-	grpcResp, err := v1.IdentityManagementServicePluginClient.GetGroup(ctx, in)
+	grpcResp, err := v1.IdentityManagementPluginClient.GetGroup(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -44,14 +43,13 @@ func (v1 *V1) GetGroup(ctx context.Context, req *identitymanagement.GetGroupRequ
 }
 
 func (v1 *V1) ListGroups(ctx context.Context, req *identitymanagement.ListGroupsRequest) (*identitymanagement.ListGroupsResponse, error) {
-	in := &grpcidentitymanagementv1.GetAllGroupsRequest{
+	in := &grpcidentitymanagementv1.ListGroupsRequest{
 		AuthContext: AuthContextToGRPC(&req.AuthContext),
 	}
 	if err := protovalidate.Validate(in); err != nil {
 		return nil, fmt.Errorf("failed validation: %v", err)
 	}
-
-	grpcResp, err := v1.GetAllGroups(ctx, in)
+	grpcResp, err := v1.IdentityManagementPluginClient.ListGroups(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -61,15 +59,14 @@ func (v1 *V1) ListGroups(ctx context.Context, req *identitymanagement.ListGroups
 }
 
 func (v1 *V1) ListGroupUsers(ctx context.Context, req *identitymanagement.ListGroupUsersRequest) (*identitymanagement.ListGroupUsersResponse, error) {
-	in := &grpcidentitymanagementv1.GetUsersForGroupRequest{
+	in := &grpcidentitymanagementv1.ListGroupUsersRequest{
 		GroupId:     req.GroupID,
 		AuthContext: AuthContextToGRPC(&req.AuthContext),
 	}
 	if err := protovalidate.Validate(in); err != nil {
 		return nil, fmt.Errorf("failed validation: %v", err)
 	}
-
-	grpcResp, err := v1.GetUsersForGroup(ctx, in)
+	grpcResp, err := v1.IdentityManagementPluginClient.ListGroupUsers(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -79,15 +76,14 @@ func (v1 *V1) ListGroupUsers(ctx context.Context, req *identitymanagement.ListGr
 }
 
 func (v1 *V1) ListUserGroups(ctx context.Context, req *identitymanagement.ListUserGroupsRequest) (*identitymanagement.ListUserGroupsResponse, error) {
-	in := &grpcidentitymanagementv1.GetGroupsForUserRequest{
+	in := &grpcidentitymanagementv1.ListUserGroupsRequest{
 		UserId:      req.UserID,
 		AuthContext: AuthContextToGRPC(&req.AuthContext),
 	}
 	if err := protovalidate.Validate(in); err != nil {
 		return nil, fmt.Errorf("failed validation: %v", err)
 	}
-
-	grpcResp, err := v1.GetGroupsForUser(ctx, in)
+	grpcResp, err := v1.IdentityManagementPluginClient.ListUserGroups(ctx, in)
 	if err != nil {
 		return nil, err
 	}
