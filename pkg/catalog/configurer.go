@@ -17,13 +17,6 @@ type configurer struct {
 	pluginConfig PluginConfig
 }
 
-func makeConfigurer(plugin Plugin, pluginConfig PluginConfig) *configurer {
-	return &configurer{
-		plugin:       plugin,
-		pluginConfig: pluginConfig,
-	}
-}
-
 func (c *configurer) Configure(ctx context.Context) error {
 	client := configv1.NewConfigClient(c.plugin.ClientConnection())
 	resp, err := client.Configure(ctx, &configv1.ConfigureRequest{

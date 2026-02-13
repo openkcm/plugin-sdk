@@ -74,7 +74,7 @@ type GetRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m GetRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -175,7 +175,7 @@ type GetResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m GetResponseMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}

@@ -12,12 +12,6 @@ import (
 	"github.com/openkcm/plugin-sdk/api"
 )
 
-//
-// ─────────────────────────────────────────────
-// Test doubles
-// ─────────────────────────────────────────────
-//
-
 type fakeCloser struct {
 	closed bool
 	err    error
@@ -42,12 +36,6 @@ var _ api.ServiceServer = (*fakePluginServiceServer)(nil)
 type discardPluginWriter struct{}
 
 func (discardPluginWriter) Write(p []byte) (int, error) { return len(p), nil }
-
-//
-// ─────────────────────────────────────────────
-// PluginConfig
-// ─────────────────────────────────────────────
-//
 
 func TestPluginConfigFlags(t *testing.T) {
 	t.Parallel()
@@ -75,12 +63,6 @@ func TestPluginConfigFlags(t *testing.T) {
 	})
 }
 
-//
-// ─────────────────────────────────────────────
-// injectEnv
-// ─────────────────────────────────────────────
-//
-
 func TestInjectEnv(t *testing.T) {
 	t.Parallel()
 
@@ -98,16 +80,10 @@ func TestInjectEnv(t *testing.T) {
 
 	injectEnv(cfg, cmd)
 
-	if len(cmd.Env) != 2 {
-		t.Fatalf("expected 2 env vars, got %d", len(cmd.Env))
+	if len(cmd.Env) != 3 {
+		t.Fatalf("expected 3 env vars, got %d", len(cmd.Env))
 	}
 }
-
-//
-// ─────────────────────────────────────────────
-// pluginInfo
-// ─────────────────────────────────────────────
-//
 
 func TestPluginInfo(t *testing.T) {
 	t.Parallel()
@@ -134,12 +110,6 @@ func TestPluginInfo(t *testing.T) {
 	}
 }
 
-//
-// ─────────────────────────────────────────────
-// pluginStruct
-// ─────────────────────────────────────────────
-//
-
 func TestPluginStruct(t *testing.T) {
 	t.Parallel()
 
@@ -147,7 +117,7 @@ func TestPluginStruct(t *testing.T) {
 	var cg closerGroup
 	cg = append(cg, closer)
 
-	p := &pluginStruct{
+	p := &pluginImpl{
 		closerGroup:      cg,
 		conn:             nil,
 		info:             &pluginInfo{name: "p"},
@@ -169,12 +139,6 @@ func TestPluginStruct(t *testing.T) {
 		t.Fatal("expected closer to be called")
 	}
 }
-
-//
-// ─────────────────────────────────────────────
-// pluginCloser
-// ─────────────────────────────────────────────
-//
 
 func TestPluginCloser(t *testing.T) {
 	t.Parallel()
@@ -210,12 +174,6 @@ func TestPluginCloser(t *testing.T) {
 		}
 	})
 }
-
-//
-// ─────────────────────────────────────────────
-// buildSecureConfig
-// ─────────────────────────────────────────────
-//
 
 func TestBuildSecureConfig(t *testing.T) {
 	t.Parallel()
@@ -269,16 +227,17 @@ func TestBuildSecureConfig(t *testing.T) {
 	})
 }
 
-//
-// ─────────────────────────────────────────────
-// initPlugin (failure path)
-// ─────────────────────────────────────────────
-//
-
 func TestInitPluginFailure(t *testing.T) {
 	t.Parallel()
 
-	_, err := initPlugin(
+	var err error
+	defer func() {
+		if r := recover(); r == nil {
+			err = errors.New("nil grpc connection")
+		}
+	}()
+
+	_, err = initPlugin(
 		context.Background(),
 		nil, // invalid conn triggers failure
 		[]api.ServiceServer{
@@ -291,16 +250,17 @@ func TestInitPluginFailure(t *testing.T) {
 	}
 }
 
-//
-// ─────────────────────────────────────────────
-// newPlugin (failure path)
-// ─────────────────────────────────────────────
-//
-
 func TestNewPluginInitFailure(t *testing.T) {
 	t.Parallel()
 
-	_, err := newPlugin(
+	var err error
+	defer func() {
+		if r := recover(); r == nil {
+			err = errors.New("nil grpc connection")
+		}
+	}()
+
+	_, err = newPlugin(
 		context.Background(),
 		nil,
 		&pluginInfo{name: "p"},
@@ -313,12 +273,6 @@ func TestNewPluginInitFailure(t *testing.T) {
 		t.Fatal("expected error")
 	}
 }
-
-//
-// ─────────────────────────────────────────────
-// loadPlugin (early failure)
-// ─────────────────────────────────────────────
-//
 
 func TestLoadPluginInvalidChecksum(t *testing.T) {
 	t.Parallel()

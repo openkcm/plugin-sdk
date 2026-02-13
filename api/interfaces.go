@@ -3,6 +3,8 @@
 package api
 
 import (
+	"log/slog"
+
 	"github.com/hashicorp/go-hclog"
 	"google.golang.org/grpc"
 )
@@ -79,4 +81,52 @@ type ServiceBroker interface {
 	// host service is not available, the host service client will
 	// remain uninitialized and the function will return false.
 	BrokerClient(ServiceClient) bool
+}
+
+// Facade is a facade for a specific plugin or service version.
+type Facade interface {
+	// ServiceClient is used to initialize the service client with the
+	// connection to the plugin providing the service server.
+	ServiceClient
+
+	// InitInfo is used to initialize the facade with information for the
+	// loaded plugin providing the service server.
+	InitInfo(info Info)
+
+	// InitLog initializes the facade with the logger for the loaded plugin
+	// that provides the service server.
+	InitLog(log *slog.Logger)
+
+	Version() uint
+}
+
+// Info provides the information for the loaded plugin.
+type Info interface {
+	// The name of the plugin
+	Name() string
+
+	// The type of the plugin
+	Type() string
+
+	// Tags associated with the plugin
+	Tags() []string
+
+	// Build of the plugin
+	Build() string
+
+	// Version of the plugin
+	Version() uint
+}
+
+// Version represents a plugin or service version. It is used to instantiate
+// facades for the versions that are bound to the plugin or service
+// repositories (see the Binder method on the ServiceRepo).
+type Version interface {
+	// New returns a new facade for this version. Instantiated facades are only
+	// bound via the repo binder when they match a gRPC service name provided
+	// by the plugin.
+	New() Facade
+
+	// Deprecated returns whether the version is deprecated.
+	Deprecated() bool
 }

@@ -17,7 +17,7 @@ import (
 )
 
 type BuiltInPlugin interface {
-	PluginInfo
+	api.Info
 
 	Plugin() api.PluginServer
 	Services() []api.ServiceServer
@@ -29,6 +29,7 @@ type builtInPluginStruct struct {
 	plugin    api.PluginServer
 	services  []api.ServiceServer
 	buildInfo string
+	version   uint
 }
 
 func (p *builtInPluginStruct) Name() string {
@@ -55,21 +56,26 @@ func (p *builtInPluginStruct) Type() string {
 	return p.plugin.Type()
 }
 
+func (p *builtInPluginStruct) Version() uint {
+	return p.version
+}
+
 func (p *builtInPluginStruct) SetValue(value string) {
 	p.buildInfo = value
 }
 
 var _ BuiltInPlugin = (*builtInPluginStruct)(nil)
 
-func AsBuiltIn(name string, pluginServer api.PluginServer, serviceServers ...api.ServiceServer) BuiltInPlugin {
+func MakeBuiltIn(name string, pluginServer api.PluginServer, serviceServers ...api.ServiceServer) BuiltInPlugin {
 	return &builtInPluginStruct{
 		name:     name,
 		plugin:   pluginServer,
 		services: serviceServers,
+		version:  1,
 	}
 }
 
-func loadBuiltInPlugin(ctx context.Context, builtIn BuiltInPlugin, pluginConfig PluginConfig) (_ Plugin, err error) {
+func loadBuiltInPlugin(ctx context.Context, builtIn BuiltInPlugin, pluginConfig PluginConfig) (_ *pluginImpl, err error) {
 	dialer := &builtinDialer{
 		pluginName:   builtIn.Name(),
 		log:          pluginConfig.Logger,
@@ -98,10 +104,16 @@ func loadBuiltInPlugin(ctx context.Context, builtIn BuiltInPlugin, pluginConfig 
 	}
 	closers = append(closers, builtinConn)
 
+	var version uint = 1
+	if pluginConfig.Version > 1 {
+		version = uint(pluginConfig.Version)
+	}
 	info := &pluginInfo{
-		name: builtIn.Name(),
-		typ:  builtIn.Type(),
-		tags: builtIn.Tags(),
+		name:      builtIn.Name(),
+		typ:       builtIn.Type(),
+		tags:      builtIn.Tags(),
+		buildInfo: builtIn.Build(),
+		version:   version,
 	}
 
 	p, err := newPlugin(ctx, builtinConn, info, pluginConfig.Logger, closers, pluginConfig.HostServices)

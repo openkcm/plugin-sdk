@@ -8,7 +8,9 @@ import (
 	"fmt"
 	"io"
 	"log/slog"
+	"os"
 	"os/exec"
+	"sort"
 
 	"google.golang.org/grpc"
 
@@ -40,6 +42,10 @@ type PluginConfig struct {
 	// Checksum is the hex-encoded SHA256 hash of the plugin binary.
 	Checksum string
 
+	Version uint32
+
+	DataSource DataSource
+
 	YamlConfiguration string
 
 	LogLevel string
@@ -62,60 +68,74 @@ func (c *PluginConfig) IsEnabled() bool {
 	return !c.Disabled
 }
 
-type Build interface {
-	SetValue(string)
+type DataSource interface {
+	Load() (string, error)
+	IsDynamic() bool
 }
 
-// PluginInfo provides the information for the loaded plugin.
-type PluginInfo interface {
-	// The name of the plugin
-	Name() string
+type FixedData string
 
-	// The type of the plugin
-	Type() string
+func (d FixedData) Load() (string, error) {
+	return string(d), nil
+}
 
-	// Tags associated with the plugin
-	Tags() []string
+func (d FixedData) IsDynamic() bool {
+	return false
+}
 
-	// Build of the plugin
-	Build() string
+type FileData string
+
+func (d FileData) Load() (string, error) {
+	data, err := os.ReadFile(string(d))
+	if err != nil {
+		return "", err
+	}
+	return string(data), nil
+}
+
+func (d FileData) IsDynamic() bool {
+	return true
+}
+
+type Build interface {
+	SetValue(string)
 }
 
 type Plugin interface {
 	io.Closer
 
 	ClientConnection() grpc.ClientConnInterface
-	Info() PluginInfo
+	Info() api.Info
 	Logger() *slog.Logger
 	GrpcServiceNames() []string
 }
 
-type pluginStruct struct {
+type pluginImpl struct {
 	closerGroup
 
 	conn             grpc.ClientConnInterface
-	info             PluginInfo
+	info             api.Info
 	logger           *slog.Logger
 	grpcServiceNames []string
 }
 
-func (p *pluginStruct) Close() error {
+func (p *pluginImpl) Close() error {
 	return p.closerGroup.Close()
 }
-func (p *pluginStruct) ClientConnection() grpc.ClientConnInterface {
+func (p *pluginImpl) ClientConnection() grpc.ClientConnInterface {
 	return p.conn
 }
-func (p *pluginStruct) Info() PluginInfo {
+func (p *pluginImpl) Info() api.Info {
 	return p.info
 }
-func (p *pluginStruct) Logger() *slog.Logger {
+func (p *pluginImpl) Logger() *slog.Logger {
 	return p.logger
 }
-func (p *pluginStruct) GrpcServiceNames() []string {
+func (p *pluginImpl) GrpcServiceNames() []string {
 	return p.grpcServiceNames
 }
 
-func loadPlugin(ctx context.Context, config PluginConfig) (Plugin, error) {
+func loadPlugin(ctx context.Context, config PluginConfig) (*pluginImpl, error) {
 	config.Logger.InfoContext(ctx, "Loading plugin", "name", config.Name, "path", config.Path)
 
 	cmd := pluginCmd(config.Path, config.Args...)
@@ -166,10 +186,16 @@ func loadPlugin(ctx context.Context, config PluginConfig) (Plugin, error) {
 	// Plugin has been loaded and initialized. Ensure the plugin client is
 	// killed when the plugin is closed.
 	plugin.closers = append(plugin.closers, closerFunc(pluginClient.Kill))
+
+	var version uint = 1
+	if config.Version > 1 {
+		version = uint(config.Version)
+	}
 	info := &pluginInfo{
-		name: config.Name,
-		typ:  config.Type,
-		tags: config.Tags,
+		name:    config.Name,
+		typ:     config.Type,
+		tags:    config.Tags,
+		version: version,
 	}
 
 	return newPlugin(ctx, plugin.conn, info, config.Logger, plugin.closers, config.HostServices)
@@ -190,6 +216,7 @@ type pluginInfo struct {
 	typ       string
 	buildInfo string
 	tags      []string
+	version   uint
 }
 
 func (info *pluginInfo) Name() string {
@@ -203,6 +230,10 @@ func (info *pluginInfo) Type() string {
 func (info *pluginInfo) Tags() []string { return info.tags }
 
 func (info *pluginInfo) Build() string { return info.buildInfo }
+
+func (info *pluginInfo) Version() uint {
+	return info.version
+}
 
 func (info *pluginInfo) SetValue(value string) {
 	info.buildInfo = value
@@ -245,7 +276,7 @@ func buildSecureConfig(checksum string) (*goplugin.SecureConfig, error) {
 	}, nil
 }
 
-func newPlugin(ctx context.Context, conn grpc.ClientConnInterface, info PluginInfo, logger *slog.Logger, closers closerGroup, hostServices []api.ServiceServer) (Plugin, error) {
+func newPlugin(ctx context.Context, conn grpc.ClientConnInterface, info api.Info, logger *slog.Logger, closers closerGroup, hostServices []api.ServiceServer) (*pluginImpl, error) {
 	grpcServiceNames, err := initPlugin(ctx, conn, hostServices)
 	if err != nil {
 		return nil, err
@@ -261,7 +292,7 @@ func newPlugin(ctx context.Context, conn grpc.ClientConnInterface, info PluginIn
 		}
 	}))
 
-	return &pluginStruct{
+	return &pluginImpl{
 		closerGroup: closers,
 
 		conn:             conn,
@@ -269,6 +300,24 @@ func newPlugin(ctx context.Context, conn grpc.ClientConnInterface, info PluginIn
 		logger:           logger,
 		grpcServiceNames: grpcServiceNames,
 	}, nil
+}
+
+// Bind implements the Plugin interface method of the same name.
+func (p *pluginImpl) Bind(facades ...api.Facade) (Configurer, error) {
+	grpcServiceNames := grpcServiceNameSet(p.grpcServiceNames)
+
+	for _, facade := range facades {
+		if _, ok := grpcServiceNames[facade.GRPCServiceName()]; !ok {
+			return nil, fmt.Errorf("plugin does not support facade service %q", facade.GRPCServiceName())
+		}
+		p.initFacade(facade)
+	}
+
+	configurer, err := p.makeConfigurer(grpcServiceNames)
+	if err != nil {
+		return nil, err
+	}
+	return configurer, nil
 }
 
 func initPlugin(ctx context.Context, conn grpc.ClientConnInterface, hostServices []api.ServiceServer) ([]string, error) {
@@ -279,4 +328,120 @@ func initPlugin(ctx context.Context, conn grpc.ClientConnInterface, hostServices
 	ctx, cancel := context.WithTimeout(ctx, initTimeout)
 	defer cancel()
 	return bootstrap.Init(ctx, conn, hostServiceGRPCServiceNames)
+}
+
+func (p *pluginImpl) makeConfigurer(grpcServiceNames map[string]struct{}) (Configurer, error) {
+	repo := new(configurerRepo)
+	bindable, err := makeBindableServiceRepo(repo)
+	if err != nil {
+		return nil, err
+	}
+
+	_, err = p.bindRepo(bindable, grpcServiceNames, false)
+	if err != nil {
+		return nil, err
+	}
+
+	return repo.configurer, nil
+}
+
+func (p *pluginImpl) bindRepo(repo bindableServiceRepo, grpcServiceNames map[string]struct{}, failOnNotFound bool) (any, error) {
+	versions := repo.Versions()
+
+	var impl any
+	for _, version := range versions {
+		facade := version.New()
+
+		if _, ok := grpcServiceNames[facade.GRPCServiceName()]; ok {
+			delete(grpcServiceNames, facade.GRPCServiceName())
+			// Use the first matching version (in case the plugin implements
+			// more than one). The rest will be removed from the list of
+			// service names above so we can properly warn of unhandled
+			// services without false negatives.
+			if impl != nil {
+				continue
+			}
+			warnIfDeprecated(p.logger, version, versions[0])
+			impl = p.bindFacade(repo, facade)
+		}
+
+		if impl != nil && facade.Version() == p.info.Version() {
+			break
+		}
+	}
+
+	if impl == nil && failOnNotFound {
+		return nil, fmt.Errorf("requested plugin `%s` of version `%d` implementation not found",
+			p.info.Type(),
+			p.info.Version(),
+		)
+	}
+
+	return impl, nil
+}
+
+func (p *pluginImpl) bindFacade(repo bindable, facade api.Facade) any {
+	impl := p.initFacade(facade)
+	repo.bind(facade)
+	return impl
+}
+
+func (p *pluginImpl) bindRepos(pluginRepo bindablePluginRepo, serviceRepos []bindableServiceRepo) (Configurer, error) {
+	grpcServiceNames := grpcServiceNameSet(p.grpcServiceNames)
+
+	impl, err := p.bindRepo(pluginRepo, grpcServiceNames, true)
+	if err != nil {
+		return nil, err
+	}
+	for _, serviceRepo := range serviceRepos {
+		_, err := p.bindRepo(serviceRepo, grpcServiceNames, false)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	configurer, err := p.makeConfigurer(grpcServiceNames)
+	if err != nil {
+		return nil, err
+	}
+
+	switch {
+	case impl == nil:
+		return nil, fmt.Errorf("no supported plugin interface found in: %q", p.grpcServiceNames)
+	case len(grpcServiceNames) > 0:
+		for _, grpcServiceName := range sortStringSet(grpcServiceNames) {
+			p.logger.With("plugin_service", grpcServiceName).Warn("Unsupported plugin service found")
+		}
+	}
+
+	return configurer, nil
+}
+
+func warnIfDeprecated(log *slog.Logger, thisVersion, latestVersion api.Version) {
+	if thisVersion.Deprecated() {
+		log.Warn("Service is deprecated and will be removed in a future release")
+	}
+}
+
+func (p *pluginImpl) initFacade(facade api.Facade) any {
+	facade.InitInfo(p.info)
+	facade.InitLog(p.logger)
+	return facade.InitClient(p.conn)
+}
+
+func grpcServiceNameSet(grpcServiceNames []string) map[string]struct{} {
+	set := make(map[string]struct{})
+	for _, grpcServiceName := range grpcServiceNames {
+		set[grpcServiceName] = struct{}{}
+	}
+	return set
+}
+
+func sortStringSet(set map[string]struct{}) []string {
+	ss := make([]string, 0, len(set))
+	for s := range set {
+		ss = append(ss, s)
+	}
+	sort.Strings(ss)
+	return ss
 }
