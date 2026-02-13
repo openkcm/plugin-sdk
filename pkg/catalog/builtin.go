@@ -66,7 +66,7 @@ func (p *builtInPluginStruct) SetValue(value string) {
 
 var _ BuiltInPlugin = (*builtInPluginStruct)(nil)
 
-func AsBuiltIn(name string, pluginServer api.PluginServer, serviceServers ...api.ServiceServer) BuiltInPlugin {
+func MakeBuiltIn(name string, pluginServer api.PluginServer, serviceServers ...api.ServiceServer) BuiltInPlugin {
 	return &builtInPluginStruct{
 		name:     name,
 		plugin:   pluginServer,

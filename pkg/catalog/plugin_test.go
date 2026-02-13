@@ -12,12 +12,6 @@ import (
 	"github.com/openkcm/plugin-sdk/api"
 )
 
-//
-// ─────────────────────────────────────────────
-// Test doubles
-// ─────────────────────────────────────────────
-//
-
 type fakeCloser struct {
 	closed bool
 	err    error
@@ -42,12 +36,6 @@ var _ api.ServiceServer = (*fakePluginServiceServer)(nil)
 type discardPluginWriter struct{}
 
 func (discardPluginWriter) Write(p []byte) (int, error) { return len(p), nil }
-
-//
-// ─────────────────────────────────────────────
-// PluginConfig
-// ─────────────────────────────────────────────
-//
 
 func TestPluginConfigFlags(t *testing.T) {
 	t.Parallel()
@@ -75,12 +63,6 @@ func TestPluginConfigFlags(t *testing.T) {
 	})
 }
 
-//
-// ─────────────────────────────────────────────
-// injectEnv
-// ─────────────────────────────────────────────
-//
-
 func TestInjectEnv(t *testing.T) {
 	t.Parallel()
 
@@ -102,12 +84,6 @@ func TestInjectEnv(t *testing.T) {
 		t.Fatalf("expected 3 env vars, got %d", len(cmd.Env))
 	}
 }
-
-//
-// ─────────────────────────────────────────────
-// pluginInfo
-// ─────────────────────────────────────────────
-//
 
 func TestPluginInfo(t *testing.T) {
 	t.Parallel()
@@ -133,12 +109,6 @@ func TestPluginInfo(t *testing.T) {
 		t.Fatal("Build mismatch")
 	}
 }
-
-//
-// ─────────────────────────────────────────────
-// pluginImpl
-// ─────────────────────────────────────────────
-//
 
 func TestPluginStruct(t *testing.T) {
 	t.Parallel()
@@ -169,12 +139,6 @@ func TestPluginStruct(t *testing.T) {
 		t.Fatal("expected closer to be called")
 	}
 }
-
-//
-// ─────────────────────────────────────────────
-// pluginCloser
-// ─────────────────────────────────────────────
-//
 
 func TestPluginCloser(t *testing.T) {
 	t.Parallel()
@@ -210,12 +174,6 @@ func TestPluginCloser(t *testing.T) {
 		}
 	})
 }
-
-//
-// ─────────────────────────────────────────────
-// buildSecureConfig
-// ─────────────────────────────────────────────
-//
 
 func TestBuildSecureConfig(t *testing.T) {
 	t.Parallel()
@@ -269,12 +227,6 @@ func TestBuildSecureConfig(t *testing.T) {
 	})
 }
 
-//
-// ─────────────────────────────────────────────
-// initPlugin (failure path)
-// ─────────────────────────────────────────────
-//
-
 func TestInitPluginFailure(t *testing.T) {
 	t.Parallel()
 
@@ -297,12 +249,6 @@ func TestInitPluginFailure(t *testing.T) {
 		t.Fatal("expected error")
 	}
 }
-
-//
-// ─────────────────────────────────────────────
-// newPlugin (failure path)
-// ─────────────────────────────────────────────
-//
 
 func TestNewPluginInitFailure(t *testing.T) {
 	t.Parallel()
@@ -327,12 +273,6 @@ func TestNewPluginInitFailure(t *testing.T) {
 		t.Fatal("expected error")
 	}
 }
-
-//
-// ─────────────────────────────────────────────
-// loadPlugin (early failure)
-// ─────────────────────────────────────────────
-//
 
 func TestLoadPluginInvalidChecksum(t *testing.T) {
 	t.Parallel()
