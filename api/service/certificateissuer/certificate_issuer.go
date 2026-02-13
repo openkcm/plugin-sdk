@@ -89,7 +89,7 @@ type PrivateKey struct {
 type IssueCertificateRequest struct {
 	Lifetime        CertificateLifetime
 	Subject         Subject
-	PrivateKey      PrivateKey
+	PrivateKey      *PrivateKey
 	PreferredFormat CertificateFormat
 }
 

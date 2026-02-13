@@ -11,6 +11,7 @@ import (
 	sync "sync"
 	unsafe "unsafe"
 
+	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	durationpb "google.golang.org/protobuf/types/known/durationpb"
@@ -184,7 +185,7 @@ type IssueCertificateRequest struct {
 	state           protoimpl.MessageState                    `protogen:"open.v1"`
 	Lifetime        *CertificateLifetime                      `protobuf:"bytes,1,opt,name=lifetime,proto3" json:"lifetime,omitempty"`
 	Subject         *Subject                                  `protobuf:"bytes,2,opt,name=subject,proto3" json:"subject,omitempty"`
-	PrivateKey      *PrivateKey                               `protobuf:"bytes,3,opt,name=private_key,json=privateKey,proto3" json:"private_key,omitempty"`
+	PrivateKey      *PrivateKey                               `protobuf:"bytes,3,opt,name=private_key,json=privateKey,proto3,oneof" json:"private_key,omitempty"`
 	PreferredFormat IssueCertificateRequest_CertificateFormat `protobuf:"varint,4,opt,name=preferred_format,json=preferredFormat,proto3,enum=plugin.certificate_issuer.v1.IssueCertificateRequest_CertificateFormat" json:"preferred_format,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
@@ -310,15 +311,15 @@ func (x *IssueCertificateResponse) GetCaChain() [][]byte {
 
 type Subject struct {
 	state              protoimpl.MessageState `protogen:"open.v1"`
-	CommonName         string                 `protobuf:"bytes,1,opt,name=common_name,json=commonName,proto3" json:"common_name,omitempty"`
-	SerialNumber       *string                `protobuf:"bytes,2,opt,name=serial_number,json=serialNumber,proto3,oneof" json:"serial_number,omitempty"`
-	Country            []string               `protobuf:"bytes,3,rep,name=country,proto3" json:"country,omitempty"`
-	Organization       []string               `protobuf:"bytes,4,rep,name=organization,proto3" json:"organization,omitempty"`
-	OrganizationalUnit []string               `protobuf:"bytes,5,rep,name=organizational_unit,json=organizationalUnit,proto3" json:"organizational_unit,omitempty"`
-	Locality           []string               `protobuf:"bytes,6,rep,name=locality,proto3" json:"locality,omitempty"`
-	Province           []string               `protobuf:"bytes,7,rep,name=province,proto3" json:"province,omitempty"`
-	StreetAddress      []string               `protobuf:"bytes,8,rep,name=street_address,json=streetAddress,proto3" json:"street_address,omitempty"`
-	PostalCode         []string               `protobuf:"bytes,9,rep,name=postal_code,json=postalCode,proto3" json:"postal_code,omitempty"`
+	Country            []string               `protobuf:"bytes,1,rep,name=country,proto3" json:"country,omitempty"`                                                 // C
+	Province           []string               `protobuf:"bytes,2,rep,name=province,proto3" json:"province,omitempty"`                                               // ST (State or Province)
+	Locality           []string               `protobuf:"bytes,3,rep,name=locality,proto3" json:"locality,omitempty"`                                               // L
+	Organization       []string               `protobuf:"bytes,4,rep,name=organization,proto3" json:"organization,omitempty"`                                       // O
+	OrganizationalUnit []string               `protobuf:"bytes,5,rep,name=organizational_unit,json=organizationalUnit,proto3" json:"organizational_unit,omitempty"` // OU
+	CommonName         string                 `protobuf:"bytes,6,opt,name=common_name,json=commonName,proto3" json:"common_name,omitempty"`                         // CN
+	StreetAddress      []string               `protobuf:"bytes,7,rep,name=street_address,json=streetAddress,proto3" json:"street_address,omitempty"`                // STREET
+	PostalCode         []string               `protobuf:"bytes,8,rep,name=postal_code,json=postalCode,proto3" json:"postal_code,omitempty"`                         // PC
+	SerialNumber       *string                `protobuf:"bytes,9,opt,name=serial_number,json=serialNumber,proto3,oneof" json:"serial_number,omitempty"`             // SERIALNUMBER
 	unknownFields      protoimpl.UnknownFields
 	sizeCache          protoimpl.SizeCache
 }
@@ -353,23 +354,23 @@ func (*Subject) Descriptor() ([]byte, []int) {
 	return file_plugin_certificate_issuer_v1_certificate_issuer_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *Subject) GetCommonName() string {
-	if x != nil {
-		return x.CommonName
-	}
-	return ""
-}
-
-func (x *Subject) GetSerialNumber() string {
-	if x != nil && x.SerialNumber != nil {
-		return *x.SerialNumber
-	}
-	return ""
-}
-
 func (x *Subject) GetCountry() []string {
 	if x != nil {
 		return x.Country
+	}
+	return nil
+}
+
+func (x *Subject) GetProvince() []string {
+	if x != nil {
+		return x.Province
+	}
+	return nil
+}
+
+func (x *Subject) GetLocality() []string {
+	if x != nil {
+		return x.Locality
 	}
 	return nil
 }
@@ -388,18 +389,11 @@ func (x *Subject) GetOrganizationalUnit() []string {
 	return nil
 }
 
-func (x *Subject) GetLocality() []string {
+func (x *Subject) GetCommonName() string {
 	if x != nil {
-		return x.Locality
+		return x.CommonName
 	}
-	return nil
-}
-
-func (x *Subject) GetProvince() []string {
-	if x != nil {
-		return x.Province
-	}
-	return nil
+	return ""
 }
 
 func (x *Subject) GetStreetAddress() []string {
@@ -414,6 +408,13 @@ func (x *Subject) GetPostalCode() []string {
 		return x.PostalCode
 	}
 	return nil
+}
+
+func (x *Subject) GetSerialNumber() string {
+	if x != nil && x.SerialNumber != nil {
+		return *x.SerialNumber
+	}
+	return ""
 }
 
 type PrivateKey struct {
@@ -567,7 +568,8 @@ func (*CertificateLifetime_NotAfter) isCertificateLifetime_Lifetime() {}
 func (*CertificateLifetime_Relative) isCertificateLifetime_Lifetime() {}
 
 type RelativeValidity struct {
-	state         protoimpl.MessageState        `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Ensure the value is a strictly positive number
 	Value         int32                         `protobuf:"varint,1,opt,name=value,proto3" json:"value,omitempty"`
 	Unit          RelativeValidity_ValidityUnit `protobuf:"varint,2,opt,name=unit,proto3,enum=plugin.certificate_issuer.v1.RelativeValidity_ValidityUnit" json:"unit,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -682,34 +684,35 @@ var File_plugin_certificate_issuer_v1_certificate_issuer_proto protoreflect.File
 
 const file_plugin_certificate_issuer_v1_certificate_issuer_proto_rawDesc = "" +
 	"\n" +
-	"5plugin/certificate_issuer/v1/certificate_issuer.proto\x12\x1cplugin.certificate_issuer.v1\x1a\x1egoogle/protobuf/duration.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xbe\x03\n" +
+	"5plugin/certificate_issuer/v1/certificate_issuer.proto\x12\x1cplugin.certificate_issuer.v1\x1a\x1egoogle/protobuf/duration.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1bbuf/validate/validate.proto\"\xd3\x03\n" +
 	"\x17IssueCertificateRequest\x12M\n" +
 	"\blifetime\x18\x01 \x01(\v21.plugin.certificate_issuer.v1.CertificateLifetimeR\blifetime\x12?\n" +
-	"\asubject\x18\x02 \x01(\v2%.plugin.certificate_issuer.v1.SubjectR\asubject\x12I\n" +
-	"\vprivate_key\x18\x03 \x01(\v2(.plugin.certificate_issuer.v1.PrivateKeyR\n" +
-	"privateKey\x12r\n" +
+	"\asubject\x18\x02 \x01(\v2%.plugin.certificate_issuer.v1.SubjectR\asubject\x12N\n" +
+	"\vprivate_key\x18\x03 \x01(\v2(.plugin.certificate_issuer.v1.PrivateKeyH\x00R\n" +
+	"privateKey\x88\x01\x01\x12r\n" +
 	"\x10preferred_format\x18\x04 \x01(\x0e2G.plugin.certificate_issuer.v1.IssueCertificateRequest.CertificateFormatR\x0fpreferredFormat\"T\n" +
 	"\x11CertificateFormat\x12\"\n" +
 	"\x1eCERTIFICATE_FORMAT_UNSPECIFIED\x10\x00\x12\a\n" +
 	"\x03PEM\x10\x01\x12\a\n" +
 	"\x03DER\x10\x02\x12\t\n" +
-	"\x05PKCS7\x10\x03\"\xc1\x01\n" +
+	"\x05PKCS7\x10\x03B\x0e\n" +
+	"\f_private_key\"\xc1\x01\n" +
 	"\x18IssueCertificateResponse\x12)\n" +
 	"\x10certificate_data\x18\x01 \x01(\fR\x0fcertificateData\x12_\n" +
 	"\x06format\x18\x02 \x01(\x0e2G.plugin.certificate_issuer.v1.IssueCertificateRequest.CertificateFormatR\x06format\x12\x19\n" +
 	"\bca_chain\x18\x03 \x03(\fR\acaChain\"\xd5\x02\n" +
-	"\aSubject\x12\x1f\n" +
-	"\vcommon_name\x18\x01 \x01(\tR\n" +
-	"commonName\x12(\n" +
-	"\rserial_number\x18\x02 \x01(\tH\x00R\fserialNumber\x88\x01\x01\x12\x18\n" +
-	"\acountry\x18\x03 \x03(\tR\acountry\x12\"\n" +
+	"\aSubject\x12\x18\n" +
+	"\acountry\x18\x01 \x03(\tR\acountry\x12\x1a\n" +
+	"\bprovince\x18\x02 \x03(\tR\bprovince\x12\x1a\n" +
+	"\blocality\x18\x03 \x03(\tR\blocality\x12\"\n" +
 	"\forganization\x18\x04 \x03(\tR\forganization\x12/\n" +
-	"\x13organizational_unit\x18\x05 \x03(\tR\x12organizationalUnit\x12\x1a\n" +
-	"\blocality\x18\x06 \x03(\tR\blocality\x12\x1a\n" +
-	"\bprovince\x18\a \x03(\tR\bprovince\x12%\n" +
-	"\x0estreet_address\x18\b \x03(\tR\rstreetAddress\x12\x1f\n" +
-	"\vpostal_code\x18\t \x03(\tR\n" +
-	"postalCodeB\x10\n" +
+	"\x13organizational_unit\x18\x05 \x03(\tR\x12organizationalUnit\x12\x1f\n" +
+	"\vcommon_name\x18\x06 \x01(\tR\n" +
+	"commonName\x12%\n" +
+	"\x0estreet_address\x18\a \x03(\tR\rstreetAddress\x12\x1f\n" +
+	"\vpostal_code\x18\b \x03(\tR\n" +
+	"postalCode\x12(\n" +
+	"\rserial_number\x18\t \x01(\tH\x00R\fserialNumber\x88\x01\x01B\x10\n" +
 	"\x0e_serial_number\"\xb5\x01\n" +
 	"\n" +
 	"PrivateKey\x12\x12\n" +
@@ -725,16 +728,18 @@ const file_plugin_certificate_issuer_v1_certificate_issuer_proto_rawDesc = "" +
 	"\tnot_after\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampH\x00R\bnotAfter\x12L\n" +
 	"\brelative\x18\x03 \x01(\v2..plugin.certificate_issuer.v1.RelativeValidityH\x00R\brelativeB\n" +
 	"\n" +
-	"\blifetime\"\xc9\x01\n" +
-	"\x10RelativeValidity\x12\x14\n" +
-	"\x05value\x18\x01 \x01(\x05R\x05value\x12O\n" +
-	"\x04unit\x18\x02 \x01(\x0e2;.plugin.certificate_issuer.v1.RelativeValidity.ValidityUnitR\x04unit\"N\n" +
+	"\blifetime\"\xbe\x03\n" +
+	"\x10RelativeValidity\x12\x1d\n" +
+	"\x05value\x18\x01 \x01(\x05B\a\xbaH\x04\x1a\x02 \x00R\x05value\x12[\n" +
+	"\x04unit\x18\x02 \x01(\x0e2;.plugin.certificate_issuer.v1.RelativeValidity.ValidityUnitB\n" +
+	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\x04unit\"N\n" +
 	"\fValidityUnit\x12\x1d\n" +
 	"\x19VALIDITY_UNIT_UNSPECIFIED\x10\x00\x12\b\n" +
 	"\x04DAYS\x10\x01\x12\n" +
 	"\n" +
 	"\x06MONTHS\x10\x02\x12\t\n" +
-	"\x05YEARS\x10\x03\"\xbc\x01\n" +
+	"\x05YEARS\x10\x03:\xdd\x01\xbaH\xd9\x01\x1a\xd6\x01\n" +
+	"\x15max_duration_one_year\x12GValidity duration cannot exceed 1 year (365 days, 12 months, or 1 year)\x1at(this.unit == 1 && this.value <= 365) || (this.unit == 2 && this.value <= 12) || (this.unit == 3 && this.value <= 1)\"\xbc\x01\n" +
 	"\x18SupportedKeyFormatsError\x12'\n" +
 	"\x0frejected_format\x18\x01 \x01(\tR\x0erejectedFormat\x12_\n" +
 	"\x11supported_formats\x18\x02 \x03(\x0e22.plugin.certificate_issuer.v1.PrivateKey.KeyFormatR\x10supportedFormats\x12\x16\n" +
@@ -797,6 +802,7 @@ func file_plugin_certificate_issuer_v1_certificate_issuer_proto_init() {
 	if File_plugin_certificate_issuer_v1_certificate_issuer_proto != nil {
 		return
 	}
+	file_plugin_certificate_issuer_v1_certificate_issuer_proto_msgTypes[0].OneofWrappers = []any{}
 	file_plugin_certificate_issuer_v1_certificate_issuer_proto_msgTypes[2].OneofWrappers = []any{}
 	file_plugin_certificate_issuer_v1_certificate_issuer_proto_msgTypes[4].OneofWrappers = []any{
 		(*CertificateLifetime_Duration)(nil),

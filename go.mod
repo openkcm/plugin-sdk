@@ -5,6 +5,7 @@ go 1.26.0
 require (
 	buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go v1.36.11-20251209175733-2a1774d88802.1
 	buf.build/go/protovalidate v1.1.2
+	github.com/cloudflare/cfssl v1.6.5
 	github.com/hashicorp/go-hclog v1.6.3
 	github.com/hashicorp/go-plugin v1.7.0
 	github.com/stretchr/testify v1.11.1

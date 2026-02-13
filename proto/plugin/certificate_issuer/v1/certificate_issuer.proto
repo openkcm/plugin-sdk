@@ -4,6 +4,8 @@ package plugin.certificate_issuer.v1;
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 
+import "buf/validate/validate.proto";
+
 service CertificateIssuer {
   rpc IssueCertificate(IssueCertificateRequest) returns (IssueCertificateResponse);
 }
@@ -11,7 +13,7 @@ service CertificateIssuer {
 message IssueCertificateRequest {
   CertificateLifetime lifetime = 1;
   Subject subject = 2;
-  PrivateKey private_key = 3;
+  optional PrivateKey private_key = 3;
   CertificateFormat preferred_format = 4;
 
   enum CertificateFormat {
@@ -29,15 +31,15 @@ message IssueCertificateResponse {
 }
 
 message Subject {
-  string common_name = 1;
-  optional string serial_number = 2;
-  repeated string country = 3;
-  repeated string organization = 4;
-  repeated string organizational_unit = 5;
-  repeated string locality = 6;
-  repeated string province = 7;
-  repeated string street_address = 8;
-  repeated string postal_code = 9;
+  repeated string country = 1;             // C
+  repeated string province = 2;            // ST (State or Province)
+  repeated string locality = 3;            // L
+  repeated string organization = 4;        // O
+  repeated string organizational_unit = 5; // OU
+  string common_name = 6;                  // CN
+  repeated string street_address = 7;      // STREET
+  repeated string postal_code = 8;         // PC
+  optional string serial_number = 9;       // SERIALNUMBER
 }
 
 message PrivateKey {
@@ -60,9 +62,29 @@ message CertificateLifetime {
   }
 }
 
+
+
 message RelativeValidity {
-  int32 value = 1;
-  ValidityUnit unit = 2;
+  // Message-level validation using CEL (Common Expression Language)
+  // handles the cross-field logic for the 1-year maximum constraint.
+  option (buf.validate.message).cel = {
+    id: "max_duration_one_year",
+    message: "Validity duration cannot exceed 1 year (365 days, 12 months, or 1 year)",
+    // 1 = DAYS, 2 = MONTHS, 3 = YEARS
+    expression: "(this.unit == 1 && this.value <= 365) || (this.unit == 2 && this.value <= 12) || (this.unit == 3 && this.value <= 1)"
+  };
+
+  // Ensure the value is a strictly positive number
+  int32 value = 1 [
+    (buf.validate.field).int32 = { gt: 0 }
+  ];
+
+  ValidityUnit unit = 2 [
+    (buf.validate.field).enum = {
+      defined_only: true,
+      not_in: [0]         // Ensures VALIDITY_UNIT_UNSPECIFIED is rejected
+    }
+  ];
 
   enum ValidityUnit {
     VALIDITY_UNIT_UNSPECIFIED = 0;

@@ -115,36 +115,40 @@ func (m *IssueCertificateRequest) validate(all bool) error {
 		}
 	}
 
-	if all {
-		switch v := interface{}(m.GetPrivateKey()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, IssueCertificateRequestValidationError{
-					field:  "PrivateKey",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, IssueCertificateRequestValidationError{
-					field:  "PrivateKey",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetPrivateKey()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return IssueCertificateRequestValidationError{
-				field:  "PrivateKey",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
-
 	// no validation rules for PreferredFormat
+
+	if m.PrivateKey != nil {
+
+		if all {
+			switch v := interface{}(m.GetPrivateKey()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, IssueCertificateRequestValidationError{
+						field:  "PrivateKey",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, IssueCertificateRequestValidationError{
+						field:  "PrivateKey",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetPrivateKey()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return IssueCertificateRequestValidationError{
+					field:  "PrivateKey",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
 
 	if len(errors) > 0 {
 		return IssueCertificateRequestMultiError(errors)

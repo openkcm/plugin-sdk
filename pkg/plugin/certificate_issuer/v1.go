@@ -57,10 +57,13 @@ func mapRequestToProto(req *certificateissuer.IssueCertificateRequest) *grpccert
 			StreetAddress:      req.Subject.StreetAddress,
 			PostalCode:         req.Subject.PostalCode,
 		},
-		PrivateKey: &grpccertificateissuerv1.PrivateKey{
+	}
+
+	if req.PrivateKey != nil {
+		pbReq.PrivateKey = &grpccertificateissuerv1.PrivateKey{
 			Data:   req.PrivateKey.Data,
 			Format: grpccertificateissuerv1.PrivateKey_KeyFormat(req.PrivateKey.Format),
-		},
+		}
 	}
 
 	switch {
