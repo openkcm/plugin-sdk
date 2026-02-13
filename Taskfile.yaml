@@ -7,4 +7,3 @@ includes:
     vars:
       CODE_DIRS: '{{.ROOT_DIR}}/pkg/... {{.ROOT_DIR}}/proto/... {{.ROOT_DIR}}/internal/bootstrap/... {{.ROOT_DIR}}/internal/consts/... {{.ROOT_DIR}}/internal/slog2hclog/... {{.ROOT_DIR}}/api/...'
       GENERATE_DOCS_INDEX: "false"
-      LINTER_VERSION: "v2.9.0"
