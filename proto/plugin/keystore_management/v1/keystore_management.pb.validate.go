@@ -58,11 +58,11 @@ func (m *CreateKeystoreRequest) validate(all bool) error {
 	var errors []error
 
 	if all {
-		switch v := interface{}(m.GetValues()).(type) {
+		switch v := interface{}(m.GetConfigurationParameters()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
 				errors = append(errors, CreateKeystoreRequestValidationError{
-					field:  "Values",
+					field:  "ConfigurationParameters",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
@@ -70,16 +70,16 @@ func (m *CreateKeystoreRequest) validate(all bool) error {
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
 				errors = append(errors, CreateKeystoreRequestValidationError{
-					field:  "Values",
+					field:  "ConfigurationParameters",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		}
-	} else if v, ok := interface{}(m.GetValues()).(interface{ Validate() error }); ok {
+	} else if v, ok := interface{}(m.GetConfigurationParameters()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return CreateKeystoreRequestValidationError{
-				field:  "Values",
+				field:  "ConfigurationParameters",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}

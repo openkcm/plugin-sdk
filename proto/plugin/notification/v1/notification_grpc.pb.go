@@ -26,9 +26,10 @@ const (
 // NotificationClient is the client API for Notification service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// The Notification standardizes message delivery across multiple channels.
 type NotificationClient interface {
-	// Send sends a notification to the specified recipients
-	Send(ctx context.Context, in *SendRequest, opts ...grpc.CallOption) (*SendResponse, error)
+	Send(ctx context.Context, in *SendNotificationRequest, opts ...grpc.CallOption) (*SendNotificationResponse, error)
 }
 
 type notificationClient struct {
@@ -39,9 +40,9 @@ func NewNotificationClient(cc grpc.ClientConnInterface) NotificationClient {
 	return &notificationClient{cc}
 }
 
-func (c *notificationClient) Send(ctx context.Context, in *SendRequest, opts ...grpc.CallOption) (*SendResponse, error) {
+func (c *notificationClient) Send(ctx context.Context, in *SendNotificationRequest, opts ...grpc.CallOption) (*SendNotificationResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(SendResponse)
+	out := new(SendNotificationResponse)
 	err := c.cc.Invoke(ctx, Notification_Send_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -52,9 +53,10 @@ func (c *notificationClient) Send(ctx context.Context, in *SendRequest, opts ...
 // NotificationServer is the server API for Notification service.
 // All implementations must embed UnimplementedNotificationServer
 // for forward compatibility.
+//
+// The Notification standardizes message delivery across multiple channels.
 type NotificationServer interface {
-	// Send sends a notification to the specified recipients
-	Send(context.Context, *SendRequest) (*SendResponse, error)
+	Send(context.Context, *SendNotificationRequest) (*SendNotificationResponse, error)
 	mustEmbedUnimplementedNotificationServer()
 }
 
@@ -65,7 +67,7 @@ type NotificationServer interface {
 // pointer dereference when methods are called.
 type UnimplementedNotificationServer struct{}
 
-func (UnimplementedNotificationServer) Send(context.Context, *SendRequest) (*SendResponse, error) {
+func (UnimplementedNotificationServer) Send(context.Context, *SendNotificationRequest) (*SendNotificationResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method Send not implemented")
 }
 func (UnimplementedNotificationServer) mustEmbedUnimplementedNotificationServer() {}
@@ -90,7 +92,7 @@ func RegisterNotificationServer(s grpc.ServiceRegistrar, srv NotificationServer)
 }
 
 func _Notification_Send_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SendRequest)
+	in := new(SendNotificationRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -102,7 +104,7 @@ func _Notification_Send_Handler(srv interface{}, ctx context.Context, dec func(i
 		FullMethod: Notification_Send_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(NotificationServer).Send(ctx, req.(*SendRequest))
+		return srv.(NotificationServer).Send(ctx, req.(*SendNotificationRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }

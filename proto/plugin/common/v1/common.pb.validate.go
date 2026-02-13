@@ -35,22 +35,22 @@ var (
 	_ = sort.Sort
 )
 
-// Validate checks the field values on KeystoreInstanceConfig with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the first error encountered is returned, or nil if there are no violations.
-func (m *KeystoreInstanceConfig) Validate() error {
+// Validate checks the field values on KeystoreConfig with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *KeystoreConfig) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on KeystoreInstanceConfig with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// KeystoreInstanceConfigMultiError, or nil if none found.
-func (m *KeystoreInstanceConfig) ValidateAll() error {
+// ValidateAll checks the field values on KeystoreConfig with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in KeystoreConfigMultiError,
+// or nil if none found.
+func (m *KeystoreConfig) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *KeystoreInstanceConfig) validate(all bool) error {
+func (m *KeystoreConfig) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -58,28 +58,28 @@ func (m *KeystoreInstanceConfig) validate(all bool) error {
 	var errors []error
 
 	if all {
-		switch v := interface{}(m.GetValues()).(type) {
+		switch v := interface{}(m.GetConfigurationParameters()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, KeystoreInstanceConfigValidationError{
-					field:  "Values",
+				errors = append(errors, KeystoreConfigValidationError{
+					field:  "ConfigurationParameters",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
-				errors = append(errors, KeystoreInstanceConfigValidationError{
-					field:  "Values",
+				errors = append(errors, KeystoreConfigValidationError{
+					field:  "ConfigurationParameters",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		}
-	} else if v, ok := interface{}(m.GetValues()).(interface{ Validate() error }); ok {
+	} else if v, ok := interface{}(m.GetConfigurationParameters()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
-			return KeystoreInstanceConfigValidationError{
-				field:  "Values",
+			return KeystoreConfigValidationError{
+				field:  "ConfigurationParameters",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}
@@ -87,19 +87,19 @@ func (m *KeystoreInstanceConfig) validate(all bool) error {
 	}
 
 	if len(errors) > 0 {
-		return KeystoreInstanceConfigMultiError(errors)
+		return KeystoreConfigMultiError(errors)
 	}
 
 	return nil
 }
 
-// KeystoreInstanceConfigMultiError is an error wrapping multiple validation
-// errors returned by KeystoreInstanceConfig.ValidateAll() if the designated
-// constraints aren't met.
-type KeystoreInstanceConfigMultiError []error
+// KeystoreConfigMultiError is an error wrapping multiple validation errors
+// returned by KeystoreConfig.ValidateAll() if the designated constraints
+// aren't met.
+type KeystoreConfigMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m KeystoreInstanceConfigMultiError) Error() string {
+func (m KeystoreConfigMultiError) Error() string {
 	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -108,11 +108,11 @@ func (m KeystoreInstanceConfigMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m KeystoreInstanceConfigMultiError) AllErrors() []error { return m }
+func (m KeystoreConfigMultiError) AllErrors() []error { return m }
 
-// KeystoreInstanceConfigValidationError is the validation error returned by
-// KeystoreInstanceConfig.Validate if the designated constraints aren't met.
-type KeystoreInstanceConfigValidationError struct {
+// KeystoreConfigValidationError is the validation error returned by
+// KeystoreConfig.Validate if the designated constraints aren't met.
+type KeystoreConfigValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -120,24 +120,22 @@ type KeystoreInstanceConfigValidationError struct {
 }
 
 // Field function returns field value.
-func (e KeystoreInstanceConfigValidationError) Field() string { return e.field }
+func (e KeystoreConfigValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e KeystoreInstanceConfigValidationError) Reason() string { return e.reason }
+func (e KeystoreConfigValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e KeystoreInstanceConfigValidationError) Cause() error { return e.cause }
+func (e KeystoreConfigValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e KeystoreInstanceConfigValidationError) Key() bool { return e.key }
+func (e KeystoreConfigValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e KeystoreInstanceConfigValidationError) ErrorName() string {
-	return "KeystoreInstanceConfigValidationError"
-}
+func (e KeystoreConfigValidationError) ErrorName() string { return "KeystoreConfigValidationError" }
 
 // Error satisfies the builtin error interface
-func (e KeystoreInstanceConfigValidationError) Error() string {
+func (e KeystoreConfigValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -149,14 +147,14 @@ func (e KeystoreInstanceConfigValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sKeystoreInstanceConfig.%s: %s%s",
+		"invalid %sKeystoreConfig.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = KeystoreInstanceConfigValidationError{}
+var _ error = KeystoreConfigValidationError{}
 
 var _ interface {
 	Field() string
@@ -164,4 +162,4 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = KeystoreInstanceConfigValidationError{}
+} = KeystoreConfigValidationError{}

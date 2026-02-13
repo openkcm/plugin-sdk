@@ -26,10 +26,10 @@ const (
 )
 
 type CreateKeystoreRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Values        *structpb.Struct       `protobuf:"bytes,1,opt,name=values,proto3" json:"values,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state                   protoimpl.MessageState `protogen:"open.v1"`
+	ConfigurationParameters *structpb.Struct       `protobuf:"bytes,1,opt,name=configuration_parameters,json=configurationParameters,proto3" json:"configuration_parameters,omitempty"`
+	unknownFields           protoimpl.UnknownFields
+	sizeCache               protoimpl.SizeCache
 }
 
 func (x *CreateKeystoreRequest) Reset() {
@@ -62,16 +62,16 @@ func (*CreateKeystoreRequest) Descriptor() ([]byte, []int) {
 	return file_plugin_keystore_management_v1_keystore_management_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *CreateKeystoreRequest) GetValues() *structpb.Struct {
+func (x *CreateKeystoreRequest) GetConfigurationParameters() *structpb.Struct {
 	if x != nil {
-		return x.Values
+		return x.ConfigurationParameters
 	}
 	return nil
 }
 
 type CreateKeystoreResponse struct {
-	state         protoimpl.MessageState     `protogen:"open.v1"`
-	Config        *v1.KeystoreInstanceConfig `protobuf:"bytes,1,opt,name=config,proto3" json:"config,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Config        *v1.KeystoreConfig     `protobuf:"bytes,1,opt,name=config,proto3" json:"config,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -106,7 +106,7 @@ func (*CreateKeystoreResponse) Descriptor() ([]byte, []int) {
 	return file_plugin_keystore_management_v1_keystore_management_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *CreateKeystoreResponse) GetConfig() *v1.KeystoreInstanceConfig {
+func (x *CreateKeystoreResponse) GetConfig() *v1.KeystoreConfig {
 	if x != nil {
 		return x.Config
 	}
@@ -114,8 +114,8 @@ func (x *CreateKeystoreResponse) GetConfig() *v1.KeystoreInstanceConfig {
 }
 
 type DeleteKeystoreRequest struct {
-	state         protoimpl.MessageState     `protogen:"open.v1"`
-	Config        *v1.KeystoreInstanceConfig `protobuf:"bytes,1,opt,name=config,proto3" json:"config,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Config        *v1.KeystoreConfig     `protobuf:"bytes,1,opt,name=config,proto3" json:"config,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -150,7 +150,7 @@ func (*DeleteKeystoreRequest) Descriptor() ([]byte, []int) {
 	return file_plugin_keystore_management_v1_keystore_management_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *DeleteKeystoreRequest) GetConfig() *v1.KeystoreInstanceConfig {
+func (x *DeleteKeystoreRequest) GetConfig() *v1.KeystoreConfig {
 	if x != nil {
 		return x.Config
 	}
@@ -197,13 +197,13 @@ var File_plugin_keystore_management_v1_keystore_management_proto protoreflect.Fi
 
 const file_plugin_keystore_management_v1_keystore_management_proto_rawDesc = "" +
 	"\n" +
-	"7plugin/keystore_management/v1/keystore_management.proto\x12\x1dplugin.keystore_management.v1\x1a\x1cgoogle/protobuf/struct.proto\x1a\x1dplugin/common/v1/common.proto\"H\n" +
-	"\x15CreateKeystoreRequest\x12/\n" +
-	"\x06values\x18\x01 \x01(\v2\x17.google.protobuf.StructR\x06values\"Z\n" +
-	"\x16CreateKeystoreResponse\x12@\n" +
-	"\x06config\x18\x01 \x01(\v2(.plugin.common.v1.KeystoreInstanceConfigR\x06config\"Y\n" +
-	"\x15DeleteKeystoreRequest\x12@\n" +
-	"\x06config\x18\x01 \x01(\v2(.plugin.common.v1.KeystoreInstanceConfigR\x06config\"\x18\n" +
+	"7plugin/keystore_management/v1/keystore_management.proto\x12\x1dplugin.keystore_management.v1\x1a\x1cgoogle/protobuf/struct.proto\x1a\x1dplugin/common/v1/common.proto\"k\n" +
+	"\x15CreateKeystoreRequest\x12R\n" +
+	"\x18configuration_parameters\x18\x01 \x01(\v2\x17.google.protobuf.StructR\x17configurationParameters\"R\n" +
+	"\x16CreateKeystoreResponse\x128\n" +
+	"\x06config\x18\x01 \x01(\v2 .plugin.common.v1.KeystoreConfigR\x06config\"Q\n" +
+	"\x15DeleteKeystoreRequest\x128\n" +
+	"\x06config\x18\x01 \x01(\v2 .plugin.common.v1.KeystoreConfigR\x06config\"\x18\n" +
 	"\x16DeleteKeystoreResponse2\x92\x02\n" +
 	"\x12KeystoreManagement\x12}\n" +
 	"\x0eCreateKeystore\x124.plugin.keystore_management.v1.CreateKeystoreRequest\x1a5.plugin.keystore_management.v1.CreateKeystoreResponse\x12}\n" +
@@ -224,17 +224,17 @@ func file_plugin_keystore_management_v1_keystore_management_proto_rawDescGZIP() 
 
 var file_plugin_keystore_management_v1_keystore_management_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_plugin_keystore_management_v1_keystore_management_proto_goTypes = []any{
-	(*CreateKeystoreRequest)(nil),     // 0: plugin.keystore_management.v1.CreateKeystoreRequest
-	(*CreateKeystoreResponse)(nil),    // 1: plugin.keystore_management.v1.CreateKeystoreResponse
-	(*DeleteKeystoreRequest)(nil),     // 2: plugin.keystore_management.v1.DeleteKeystoreRequest
-	(*DeleteKeystoreResponse)(nil),    // 3: plugin.keystore_management.v1.DeleteKeystoreResponse
-	(*structpb.Struct)(nil),           // 4: google.protobuf.Struct
-	(*v1.KeystoreInstanceConfig)(nil), // 5: plugin.common.v1.KeystoreInstanceConfig
+	(*CreateKeystoreRequest)(nil),  // 0: plugin.keystore_management.v1.CreateKeystoreRequest
+	(*CreateKeystoreResponse)(nil), // 1: plugin.keystore_management.v1.CreateKeystoreResponse
+	(*DeleteKeystoreRequest)(nil),  // 2: plugin.keystore_management.v1.DeleteKeystoreRequest
+	(*DeleteKeystoreResponse)(nil), // 3: plugin.keystore_management.v1.DeleteKeystoreResponse
+	(*structpb.Struct)(nil),        // 4: google.protobuf.Struct
+	(*v1.KeystoreConfig)(nil),      // 5: plugin.common.v1.KeystoreConfig
 }
 var file_plugin_keystore_management_v1_keystore_management_proto_depIdxs = []int32{
-	4, // 0: plugin.keystore_management.v1.CreateKeystoreRequest.values:type_name -> google.protobuf.Struct
-	5, // 1: plugin.keystore_management.v1.CreateKeystoreResponse.config:type_name -> plugin.common.v1.KeystoreInstanceConfig
-	5, // 2: plugin.keystore_management.v1.DeleteKeystoreRequest.config:type_name -> plugin.common.v1.KeystoreInstanceConfig
+	4, // 0: plugin.keystore_management.v1.CreateKeystoreRequest.configuration_parameters:type_name -> google.protobuf.Struct
+	5, // 1: plugin.keystore_management.v1.CreateKeystoreResponse.config:type_name -> plugin.common.v1.KeystoreConfig
+	5, // 2: plugin.keystore_management.v1.DeleteKeystoreRequest.config:type_name -> plugin.common.v1.KeystoreConfig
 	0, // 3: plugin.keystore_management.v1.KeystoreManagement.CreateKeystore:input_type -> plugin.keystore_management.v1.CreateKeystoreRequest
 	2, // 4: plugin.keystore_management.v1.KeystoreManagement.DeleteKeystore:input_type -> plugin.keystore_management.v1.DeleteKeystoreRequest
 	1, // 5: plugin.keystore_management.v1.KeystoreManagement.CreateKeystore:output_type -> plugin.keystore_management.v1.CreateKeystoreResponse

@@ -23,29 +23,29 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// KeystoreInstanceConfig represents the configuration for a key store instance
+// KeystoreConfig represents the configuration for a key store instance
 // This is shared between management and operations plugins
-type KeystoreInstanceConfig struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Values        *structpb.Struct       `protobuf:"bytes,1,opt,name=values,proto3" json:"values,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+type KeystoreConfig struct {
+	state                   protoimpl.MessageState `protogen:"open.v1"`
+	ConfigurationParameters *structpb.Struct       `protobuf:"bytes,1,opt,name=configuration_parameters,json=configurationParameters,proto3" json:"configuration_parameters,omitempty"`
+	unknownFields           protoimpl.UnknownFields
+	sizeCache               protoimpl.SizeCache
 }
 
-func (x *KeystoreInstanceConfig) Reset() {
-	*x = KeystoreInstanceConfig{}
+func (x *KeystoreConfig) Reset() {
+	*x = KeystoreConfig{}
 	mi := &file_plugin_common_v1_common_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *KeystoreInstanceConfig) String() string {
+func (x *KeystoreConfig) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*KeystoreInstanceConfig) ProtoMessage() {}
+func (*KeystoreConfig) ProtoMessage() {}
 
-func (x *KeystoreInstanceConfig) ProtoReflect() protoreflect.Message {
+func (x *KeystoreConfig) ProtoReflect() protoreflect.Message {
 	mi := &file_plugin_common_v1_common_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -57,14 +57,14 @@ func (x *KeystoreInstanceConfig) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use KeystoreInstanceConfig.ProtoReflect.Descriptor instead.
-func (*KeystoreInstanceConfig) Descriptor() ([]byte, []int) {
+// Deprecated: Use KeystoreConfig.ProtoReflect.Descriptor instead.
+func (*KeystoreConfig) Descriptor() ([]byte, []int) {
 	return file_plugin_common_v1_common_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *KeystoreInstanceConfig) GetValues() *structpb.Struct {
+func (x *KeystoreConfig) GetConfigurationParameters() *structpb.Struct {
 	if x != nil {
-		return x.Values
+		return x.ConfigurationParameters
 	}
 	return nil
 }
@@ -73,9 +73,9 @@ var File_plugin_common_v1_common_proto protoreflect.FileDescriptor
 
 const file_plugin_common_v1_common_proto_rawDesc = "" +
 	"\n" +
-	"\x1dplugin/common/v1/common.proto\x12\x10plugin.common.v1\x1a\x1cgoogle/protobuf/struct.proto\"I\n" +
-	"\x16KeystoreInstanceConfig\x12/\n" +
-	"\x06values\x18\x01 \x01(\v2\x17.google.protobuf.StructR\x06valuesB\xc4\x01\n" +
+	"\x1dplugin/common/v1/common.proto\x12\x10plugin.common.v1\x1a\x1cgoogle/protobuf/struct.proto\"d\n" +
+	"\x0eKeystoreConfig\x12R\n" +
+	"\x18configuration_parameters\x18\x01 \x01(\v2\x17.google.protobuf.StructR\x17configurationParametersB\xc4\x01\n" +
 	"\x14com.plugin.common.v1B\vCommonProtoP\x01Z=github.com/openkcm/plugin-sdk/proto/plugin/common/v1;commonv1\xa2\x02\x03PCX\xaa\x02\x10Plugin.Common.V1\xca\x02\x10Plugin\\Common\\V1\xe2\x02\x1cPlugin\\Common\\V1\\GPBMetadata\xea\x02\x12Plugin::Common::V1b\x06proto3"
 
 var (
@@ -92,11 +92,11 @@ func file_plugin_common_v1_common_proto_rawDescGZIP() []byte {
 
 var file_plugin_common_v1_common_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_plugin_common_v1_common_proto_goTypes = []any{
-	(*KeystoreInstanceConfig)(nil), // 0: plugin.common.v1.KeystoreInstanceConfig
-	(*structpb.Struct)(nil),        // 1: google.protobuf.Struct
+	(*KeystoreConfig)(nil),  // 0: plugin.common.v1.KeystoreConfig
+	(*structpb.Struct)(nil), // 1: google.protobuf.Struct
 }
 var file_plugin_common_v1_common_proto_depIdxs = []int32{
-	1, // 0: plugin.common.v1.KeystoreInstanceConfig.values:type_name -> google.protobuf.Struct
+	1, // 0: plugin.common.v1.KeystoreConfig.configuration_parameters:type_name -> google.protobuf.Struct
 	1, // [1:1] is the sub-list for method output_type
 	1, // [1:1] is the sub-list for method input_type
 	1, // [1:1] is the sub-list for extension type_name

@@ -3,8 +3,8 @@ package plugin.common.v1;
 
 import "google/protobuf/struct.proto";
 
-// KeystoreInstanceConfig represents the configuration for a key store instance
+// KeystoreConfig represents the configuration for a key store instance
 // This is shared between management and operations plugins
-message KeystoreInstanceConfig {
-  google.protobuf.Struct values = 1;
+message KeystoreConfig {
+  google.protobuf.Struct configuration_parameters = 1;
 }

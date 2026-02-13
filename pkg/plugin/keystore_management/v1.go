@@ -35,7 +35,7 @@ func (v1 *V1) CreateKeystore(ctx context.Context, req *keystoremanagement.Create
 	}
 
 	in := &grpckeystoremanagementv1.CreateKeystoreRequest{
-		Values: value,
+		ConfigurationParameters: value,
 	}
 	if err := protovalidate.Validate(in); err != nil {
 		return nil, fmt.Errorf("failed validation: %v", err)
@@ -49,8 +49,8 @@ func (v1 *V1) CreateKeystore(ctx context.Context, req *keystoremanagement.Create
 			Values: nil,
 		},
 	}
-	if grpcResp.GetConfig() != nil || grpcResp.GetConfig().GetValues() != nil {
-		resp.Config.Values = grpcResp.GetConfig().GetValues().AsMap()
+	if grpcResp.GetConfig() != nil || grpcResp.GetConfig().GetConfigurationParameters() != nil {
+		resp.Config.Values = grpcResp.GetConfig().GetConfigurationParameters().AsMap()
 	}
 	return resp, nil
 }
@@ -61,8 +61,8 @@ func (v1 *V1) DeleteKeystore(ctx context.Context, req *keystoremanagement.Delete
 		return nil, fmt.Errorf("failed to parse values: %v", err)
 	}
 	in := &grpckeystoremanagementv1.DeleteKeystoreRequest{
-		Config: &grpccommonv1.KeystoreInstanceConfig{
-			Values: value,
+		Config: &grpccommonv1.KeystoreConfig{
+			ConfigurationParameters: value,
 		},
 	}
 	if err := protovalidate.Validate(in); err != nil {

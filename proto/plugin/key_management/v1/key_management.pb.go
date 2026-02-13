@@ -29,25 +29,25 @@ const (
 type Algorithm int32
 
 const (
-	Algorithm_UNKNOWN Algorithm = 0
-	Algorithm_AES256  Algorithm = 1
-	Algorithm_RSA3072 Algorithm = 2
-	Algorithm_RSA4096 Algorithm = 3
+	Algorithm_ALGORITHM_UNKNOWN Algorithm = 0
+	Algorithm_AES256            Algorithm = 1
+	Algorithm_RSA3072           Algorithm = 2
+	Algorithm_RSA4096           Algorithm = 3
 )
 
 // Enum value maps for Algorithm.
 var (
 	Algorithm_name = map[int32]string{
-		0: "UNKNOWN",
+		0: "ALGORITHM_UNKNOWN",
 		1: "AES256",
 		2: "RSA3072",
 		3: "RSA4096",
 	}
 	Algorithm_value = map[string]int32{
-		"UNKNOWN": 0,
-		"AES256":  1,
-		"RSA3072": 2,
-		"RSA4096": 3,
+		"ALGORITHM_UNKNOWN": 0,
+		"AES256":            1,
+		"RSA3072":           2,
+		"RSA4096":           3,
 	}
 )
 
@@ -81,25 +81,25 @@ func (Algorithm) EnumDescriptor() ([]byte, []int) {
 type KeyType int32
 
 const (
-	KeyType_UNSPECIFIED    KeyType = 0
-	KeyType_SYSTEM_MANAGED KeyType = 1 // System-managed key
-	KeyType_BYOK           KeyType = 2 // Bring Your Own Key
-	KeyType_HYOK           KeyType = 3 // Hold Your Own Key
+	KeyType_KEYTYPE_UNSPECIFIED KeyType = 0
+	KeyType_SYSTEM_MANAGED      KeyType = 1 // System-managed key
+	KeyType_BYOK                KeyType = 2 // Bring Your Own Key
+	KeyType_HYOK                KeyType = 3 // Hold Your Own Key
 )
 
 // Enum value maps for KeyType.
 var (
 	KeyType_name = map[int32]string{
-		0: "UNSPECIFIED",
+		0: "KEYTYPE_UNSPECIFIED",
 		1: "SYSTEM_MANAGED",
 		2: "BYOK",
 		3: "HYOK",
 	}
 	KeyType_value = map[string]int32{
-		"UNSPECIFIED":    0,
-		"SYSTEM_MANAGED": 1,
-		"BYOK":           2,
-		"HYOK":           3,
+		"KEYTYPE_UNSPECIFIED": 0,
+		"SYSTEM_MANAGED":      1,
+		"BYOK":                2,
+		"HYOK":                3,
 	}
 )
 
@@ -132,11 +132,11 @@ func (KeyType) EnumDescriptor() ([]byte, []int) {
 
 // RequestParameters contains the common fields needed for most key operations
 type RequestParameters struct {
-	state         protoimpl.MessageState     `protogen:"open.v1"`
-	Config        *v1.KeystoreInstanceConfig `protobuf:"bytes,1,opt,name=config,proto3" json:"config,omitempty"`
-	KeyId         string                     `protobuf:"bytes,2,opt,name=key_id,json=keyId,proto3" json:"key_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	KeystoreConfig *v1.KeystoreConfig     `protobuf:"bytes,1,opt,name=keystore_config,json=keystoreConfig,proto3" json:"keystore_config,omitempty"`
+	KeyId          string                 `protobuf:"bytes,2,opt,name=key_id,json=keyId,proto3" json:"key_id,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *RequestParameters) Reset() {
@@ -169,9 +169,9 @@ func (*RequestParameters) Descriptor() ([]byte, []int) {
 	return file_plugin_key_management_v1_key_management_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *RequestParameters) GetConfig() *v1.KeystoreInstanceConfig {
+func (x *RequestParameters) GetKeystoreConfig() *v1.KeystoreConfig {
 	if x != nil {
-		return x.Config
+		return x.KeystoreConfig
 	}
 	return nil
 }
@@ -279,7 +279,7 @@ func (x *GetKeyResponse) GetAlgorithm() Algorithm {
 	if x != nil {
 		return x.Algorithm
 	}
-	return Algorithm_UNKNOWN
+	return Algorithm_ALGORITHM_UNKNOWN
 }
 
 func (x *GetKeyResponse) GetStatus() string {
@@ -298,14 +298,14 @@ func (x *GetKeyResponse) GetUsage() string {
 
 // CreateKeyRequest contains parameters for key creation
 type CreateKeyRequest struct {
-	state         protoimpl.MessageState     `protogen:"open.v1"`
-	Config        *v1.KeystoreInstanceConfig `protobuf:"bytes,1,opt,name=config,proto3" json:"config,omitempty"`
-	Algorithm     Algorithm                  `protobuf:"varint,2,opt,name=algorithm,proto3,enum=plugin.key_management.v1.Algorithm" json:"algorithm,omitempty"`
-	Id            *string                    `protobuf:"bytes,3,opt,name=id,proto3,oneof" json:"id,omitempty"`                                                           // Optional predefined key ID
-	Region        string                     `protobuf:"bytes,4,opt,name=region,proto3" json:"region,omitempty"`                                                         // The region in which to create the key
-	KeyType       KeyType                    `protobuf:"varint,5,opt,name=key_type,json=keyType,proto3,enum=plugin.key_management.v1.KeyType" json:"key_type,omitempty"` // Key type (system-managed or BYOK)
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	KeystoreConfig *v1.KeystoreConfig     `protobuf:"bytes,1,opt,name=keystore_config,json=keystoreConfig,proto3" json:"keystore_config,omitempty"`
+	Algorithm      Algorithm              `protobuf:"varint,2,opt,name=algorithm,proto3,enum=plugin.key_management.v1.Algorithm" json:"algorithm,omitempty"`
+	Id             *string                `protobuf:"bytes,3,opt,name=id,proto3,oneof" json:"id,omitempty"`                                                           // Optional predefined key ID
+	Region         string                 `protobuf:"bytes,4,opt,name=region,proto3" json:"region,omitempty"`                                                         // The region in which to create the key
+	KeyType        KeyType                `protobuf:"varint,5,opt,name=key_type,json=keyType,proto3,enum=plugin.key_management.v1.KeyType" json:"key_type,omitempty"` // Key type (system-managed or BYOK)
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *CreateKeyRequest) Reset() {
@@ -338,9 +338,9 @@ func (*CreateKeyRequest) Descriptor() ([]byte, []int) {
 	return file_plugin_key_management_v1_key_management_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *CreateKeyRequest) GetConfig() *v1.KeystoreInstanceConfig {
+func (x *CreateKeyRequest) GetKeystoreConfig() *v1.KeystoreConfig {
 	if x != nil {
-		return x.Config
+		return x.KeystoreConfig
 	}
 	return nil
 }
@@ -349,7 +349,7 @@ func (x *CreateKeyRequest) GetAlgorithm() Algorithm {
 	if x != nil {
 		return x.Algorithm
 	}
-	return Algorithm_UNKNOWN
+	return Algorithm_ALGORITHM_UNKNOWN
 }
 
 func (x *CreateKeyRequest) GetId() string {
@@ -370,7 +370,7 @@ func (x *CreateKeyRequest) GetKeyType() KeyType {
 	if x != nil {
 		return x.KeyType
 	}
-	return KeyType_UNSPECIFIED
+	return KeyType_KEYTYPE_UNSPECIFIED
 }
 
 type CreateKeyResponse struct {
@@ -726,7 +726,7 @@ func (x *GetImportParametersRequest) GetAlgorithm() Algorithm {
 	if x != nil {
 		return x.Algorithm
 	}
-	return Algorithm_UNKNOWN
+	return Algorithm_ALGORITHM_UNKNOWN
 }
 
 // ImportKeyMaterialRequest contains parameters for importing key material
@@ -925,14 +925,14 @@ func (x *ValidateKeyRequest) GetKeyType() KeyType {
 	if x != nil {
 		return x.KeyType
 	}
-	return KeyType_UNSPECIFIED
+	return KeyType_KEYTYPE_UNSPECIFIED
 }
 
 func (x *ValidateKeyRequest) GetAlgorithm() Algorithm {
 	if x != nil {
 		return x.Algorithm
 	}
-	return Algorithm_UNKNOWN
+	return Algorithm_ALGORITHM_UNKNOWN
 }
 
 func (x *ValidateKeyRequest) GetRegion() string {
@@ -1308,9 +1308,9 @@ var File_plugin_key_management_v1_key_management_proto protoreflect.FileDescript
 
 const file_plugin_key_management_v1_key_management_proto_rawDesc = "" +
 	"\n" +
-	"-plugin/key_management/v1/key_management.proto\x12\x18plugin.key_management.v1\x1a\x1cgoogle/protobuf/struct.proto\x1a\x1dplugin/common/v1/common.proto\"l\n" +
-	"\x11RequestParameters\x12@\n" +
-	"\x06config\x18\x01 \x01(\v2(.plugin.common.v1.KeystoreInstanceConfigR\x06config\x12\x15\n" +
+	"-plugin/key_management/v1/key_management.proto\x12\x18plugin.key_management.v1\x1a\x1cgoogle/protobuf/struct.proto\x1a\x1dplugin/common/v1/common.proto\"u\n" +
+	"\x11RequestParameters\x12I\n" +
+	"\x0fkeystore_config\x18\x01 \x01(\v2 .plugin.common.v1.KeystoreConfigR\x0ekeystoreConfig\x12\x15\n" +
 	"\x06key_id\x18\x02 \x01(\tR\x05keyId\"\\\n" +
 	"\rGetKeyRequest\x12K\n" +
 	"\n" +
@@ -1320,9 +1320,9 @@ const file_plugin_key_management_v1_key_management_proto_rawDesc = "" +
 	"\x06key_id\x18\x01 \x01(\tR\x05keyId\x12A\n" +
 	"\talgorithm\x18\x02 \x01(\x0e2#.plugin.key_management.v1.AlgorithmR\talgorithm\x12\x16\n" +
 	"\x06status\x18\x03 \x01(\tR\x06status\x12\x14\n" +
-	"\x05usage\x18\x04 \x01(\tR\x05usage\"\x89\x02\n" +
-	"\x10CreateKeyRequest\x12@\n" +
-	"\x06config\x18\x01 \x01(\v2(.plugin.common.v1.KeystoreInstanceConfigR\x06config\x12A\n" +
+	"\x05usage\x18\x04 \x01(\tR\x05usage\"\x92\x02\n" +
+	"\x10CreateKeyRequest\x12I\n" +
+	"\x0fkeystore_config\x18\x01 \x01(\v2 .plugin.common.v1.KeystoreConfigR\x0ekeystoreConfig\x12A\n" +
 	"\talgorithm\x18\x02 \x01(\x0e2#.plugin.key_management.v1.AlgorithmR\talgorithm\x12\x13\n" +
 	"\x02id\x18\x03 \x01(\tH\x00R\x02id\x88\x01\x01\x12\x16\n" +
 	"\x06region\x18\x04 \x01(\tR\x06region\x12<\n" +
@@ -1392,15 +1392,15 @@ const file_plugin_key_management_v1_key_management_proto_rawDesc = "" +
 	"\rnative_key_id\x18\x01 \x01(\tR\vnativeKeyId\x12M\n" +
 	"\x16management_access_data\x18\x02 \x01(\v2\x17.google.protobuf.StructR\x14managementAccessData\"2\n" +
 	"\x18ExtractKeyRegionResponse\x12\x16\n" +
-	"\x06region\x18\x01 \x01(\tR\x06region*>\n" +
-	"\tAlgorithm\x12\v\n" +
-	"\aUNKNOWN\x10\x00\x12\n" +
+	"\x06region\x18\x01 \x01(\tR\x06region*H\n" +
+	"\tAlgorithm\x12\x15\n" +
+	"\x11ALGORITHM_UNKNOWN\x10\x00\x12\n" +
 	"\n" +
 	"\x06AES256\x10\x01\x12\v\n" +
 	"\aRSA3072\x10\x02\x12\v\n" +
-	"\aRSA4096\x10\x03*B\n" +
-	"\aKeyType\x12\x0f\n" +
-	"\vUNSPECIFIED\x10\x00\x12\x12\n" +
+	"\aRSA4096\x10\x03*J\n" +
+	"\aKeyType\x12\x17\n" +
+	"\x13KEYTYPE_UNSPECIFIED\x10\x00\x12\x12\n" +
 	"\x0eSYSTEM_MANAGED\x10\x01\x12\b\n" +
 	"\x04BYOK\x10\x02\x12\b\n" +
 	"\x04HYOK\x10\x032\x93\n" +
@@ -1461,14 +1461,14 @@ var file_plugin_key_management_v1_key_management_proto_goTypes = []any{
 	(*ExtractKeyRegionRequest)(nil),           // 23: plugin.key_management.v1.ExtractKeyRegionRequest
 	(*ExtractKeyRegionResponse)(nil),          // 24: plugin.key_management.v1.ExtractKeyRegionResponse
 	nil,                                       // 25: plugin.key_management.v1.TransformCryptoAccessDataResponse.TransformedAccessDataEntry
-	(*v1.KeystoreInstanceConfig)(nil),         // 26: plugin.common.v1.KeystoreInstanceConfig
+	(*v1.KeystoreConfig)(nil),                 // 26: plugin.common.v1.KeystoreConfig
 	(*structpb.Struct)(nil),                   // 27: google.protobuf.Struct
 }
 var file_plugin_key_management_v1_key_management_proto_depIdxs = []int32{
-	26, // 0: plugin.key_management.v1.RequestParameters.config:type_name -> plugin.common.v1.KeystoreInstanceConfig
+	26, // 0: plugin.key_management.v1.RequestParameters.keystore_config:type_name -> plugin.common.v1.KeystoreConfig
 	2,  // 1: plugin.key_management.v1.GetKeyRequest.parameters:type_name -> plugin.key_management.v1.RequestParameters
 	0,  // 2: plugin.key_management.v1.GetKeyResponse.algorithm:type_name -> plugin.key_management.v1.Algorithm
-	26, // 3: plugin.key_management.v1.CreateKeyRequest.config:type_name -> plugin.common.v1.KeystoreInstanceConfig
+	26, // 3: plugin.key_management.v1.CreateKeyRequest.keystore_config:type_name -> plugin.common.v1.KeystoreConfig
 	0,  // 4: plugin.key_management.v1.CreateKeyRequest.algorithm:type_name -> plugin.key_management.v1.Algorithm
 	1,  // 5: plugin.key_management.v1.CreateKeyRequest.key_type:type_name -> plugin.key_management.v1.KeyType
 	2,  // 6: plugin.key_management.v1.DeleteKeyRequest.parameters:type_name -> plugin.key_management.v1.RequestParameters
