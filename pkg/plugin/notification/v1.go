@@ -2,6 +2,7 @@ package notification
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	"buf.build/go/protovalidate"
@@ -40,8 +41,10 @@ func (v1 *V1) Send(ctx context.Context, req *notification.SendNotificationReques
 	if err != nil {
 		return nil, err
 	}
-	return &notification.SendNotificationResponse{
-		Success: grpcResp.GetSuccess(),
-		Message: grpcResp.GetMessage(),
-	}, nil
+
+	if !grpcResp.GetSuccess() {
+		return nil, errors.New(grpcResp.GetMessage())
+	}
+
+	return &notification.SendNotificationResponse{}, nil
 }

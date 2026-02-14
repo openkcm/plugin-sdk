@@ -30,7 +30,4 @@ type SendNotificationRequest struct {
 }
 
 type SendNotificationResponse struct {
-	// V1 Fields
-	Success bool
-	Message string
 }
