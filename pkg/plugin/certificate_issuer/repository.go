@@ -5,17 +5,17 @@ import (
 )
 
 type Repository struct {
-	CertificateIssuer certificateissuer.CertificateIssuer
+	Instance certificateissuer.CertificateIssuer
 }
 
-func (repo *Repository) GetCertificateIssuer() certificateissuer.CertificateIssuer {
-	return repo.CertificateIssuer
+func (repo *Repository) CertificateIssuer() (certificateissuer.CertificateIssuer, bool) {
+	return repo.Instance, repo.Instance != nil
 }
 
 func (repo *Repository) SetCertificateIssuer(instance certificateissuer.CertificateIssuer) {
-	repo.CertificateIssuer = instance
+	repo.Instance = instance
 }
 
 func (repo *Repository) Clear() {
-	repo.CertificateIssuer = nil
+	repo.Instance = nil
 }

@@ -5,17 +5,17 @@ import (
 )
 
 type Repository struct {
-	SystemInformation systeminformation.SystemInformation
+	Instance systeminformation.SystemInformation
 }
 
-func (repo *Repository) GetSystemInformation() systeminformation.SystemInformation {
-	return repo.SystemInformation
+func (repo *Repository) SystemInformation() (systeminformation.SystemInformation, bool) {
+	return repo.Instance, repo.Instance != nil
 }
 
-func (repo *Repository) SetSystemInformation(sysinfo systeminformation.SystemInformation) {
-	repo.SystemInformation = sysinfo
+func (repo *Repository) SetSystemInformation(instance systeminformation.SystemInformation) {
+	repo.Instance = instance
 }
 
 func (repo *Repository) Clear() {
-	repo.SystemInformation = nil
+	repo.Instance = nil
 }
