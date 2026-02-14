@@ -72,7 +72,7 @@ func (v1 *V1) CreateKey(ctx context.Context, req *keymanagement.CreateKeyRequest
 		KeystoreConfig: &grpccommonv1.KeystoreConfig{
 			ConfigurationParameters: value,
 		},
-		Algorithm: grpckeymanagementv1.Algorithm(req.KeyAlgorithm),
+		Algorithm: grpckeymanagementv1.KeyAlgorithm(req.KeyAlgorithm),
 		Id:        req.ID,
 		Region:    req.Region,
 		KeyType:   grpckeymanagementv1.KeyType(req.KeyType),
@@ -155,7 +155,7 @@ func (v1 *V1) GetImportParameters(ctx context.Context, req *keymanagement.GetImp
 			},
 			KeyId: req.Parameters.KeyID,
 		},
-		Algorithm: grpckeymanagementv1.Algorithm(req.KeyAlgorithm),
+		Algorithm: grpckeymanagementv1.KeyAlgorithm(req.KeyAlgorithm),
 	}
 	if err := protovalidate.Validate(in); err != nil {
 		return nil, failureError(msgFailedValidation, err)
@@ -207,7 +207,7 @@ func (v1 *V1) ImportKeyMaterial(ctx context.Context, req *keymanagement.ImportKe
 func (v1 *V1) ValidateKey(ctx context.Context, req *keymanagement.ValidateKeyRequest) (*keymanagement.ValidateKeyResponse, error) {
 	in := &grpckeymanagementv1.ValidateKeyRequest{
 		KeyType:     grpckeymanagementv1.KeyType(req.KeyType),
-		Algorithm:   grpckeymanagementv1.Algorithm(req.KeyAlgorithm),
+		Algorithm:   grpckeymanagementv1.KeyAlgorithm(req.KeyAlgorithm),
 		Region:      req.Region,
 		NativeKeyId: req.NativeKeyID,
 	}

@@ -70,16 +70,21 @@ type CertificateLifetime struct {
 }
 
 type Subject struct {
-	CommonName         string
-	SerialNumber       *string
-	Country            []string
-	Organization       []string
-	OrganizationalUnit []string
-	Locality           []string
-	Province           []string
-	StreetAddress      []string
-	PostalCode         []string
+	CommonName string
+	//OrganizationalUnit []string
+	//Organization       []string
+	//Locality           []string
+	//Province           []string
+	//Country            []string
+
+	//AdvancedAttributes *AdvancedSubjectAttributes
 }
+
+//type AdvancedSubjectAttributes struct {
+//	SerialNumber  *string
+//	StreetAddress []string
+//	PostalCode    []string
+//}
 
 type PrivateKey struct {
 	Data   []byte

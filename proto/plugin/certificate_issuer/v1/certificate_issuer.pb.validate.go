@@ -359,10 +359,6 @@ func (m *Subject) validate(all bool) error {
 
 	// no validation rules for CommonName
 
-	if m.SerialNumber != nil {
-		// no validation rules for SerialNumber
-	}
-
 	if len(errors) > 0 {
 		return SubjectMultiError(errors)
 	}

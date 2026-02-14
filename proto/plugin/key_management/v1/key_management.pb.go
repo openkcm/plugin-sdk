@@ -26,55 +26,55 @@ const (
 )
 
 // Algorithm defines the supported key algorithms across all operations
-type Algorithm int32
+type KeyAlgorithm int32
 
 const (
-	Algorithm_ALGORITHM_UNKNOWN Algorithm = 0
-	Algorithm_AES256            Algorithm = 1
-	Algorithm_RSA3072           Algorithm = 2
-	Algorithm_RSA4096           Algorithm = 3
+	KeyAlgorithm_KEY_ALGORITHM_UNKNOWN KeyAlgorithm = 0
+	KeyAlgorithm_AES256                KeyAlgorithm = 1
+	KeyAlgorithm_RSA3072               KeyAlgorithm = 2
+	KeyAlgorithm_RSA4096               KeyAlgorithm = 3
 )
 
-// Enum value maps for Algorithm.
+// Enum value maps for KeyAlgorithm.
 var (
-	Algorithm_name = map[int32]string{
-		0: "ALGORITHM_UNKNOWN",
+	KeyAlgorithm_name = map[int32]string{
+		0: "KEY_ALGORITHM_UNKNOWN",
 		1: "AES256",
 		2: "RSA3072",
 		3: "RSA4096",
 	}
-	Algorithm_value = map[string]int32{
-		"ALGORITHM_UNKNOWN": 0,
-		"AES256":            1,
-		"RSA3072":           2,
-		"RSA4096":           3,
+	KeyAlgorithm_value = map[string]int32{
+		"KEY_ALGORITHM_UNKNOWN": 0,
+		"AES256":                1,
+		"RSA3072":               2,
+		"RSA4096":               3,
 	}
 )
 
-func (x Algorithm) Enum() *Algorithm {
-	p := new(Algorithm)
+func (x KeyAlgorithm) Enum() *KeyAlgorithm {
+	p := new(KeyAlgorithm)
 	*p = x
 	return p
 }
 
-func (x Algorithm) String() string {
+func (x KeyAlgorithm) String() string {
 	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
 }
 
-func (Algorithm) Descriptor() protoreflect.EnumDescriptor {
+func (KeyAlgorithm) Descriptor() protoreflect.EnumDescriptor {
 	return file_plugin_key_management_v1_key_management_proto_enumTypes[0].Descriptor()
 }
 
-func (Algorithm) Type() protoreflect.EnumType {
+func (KeyAlgorithm) Type() protoreflect.EnumType {
 	return &file_plugin_key_management_v1_key_management_proto_enumTypes[0]
 }
 
-func (x Algorithm) Number() protoreflect.EnumNumber {
+func (x KeyAlgorithm) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use Algorithm.Descriptor instead.
-func (Algorithm) EnumDescriptor() ([]byte, []int) {
+// Deprecated: Use KeyAlgorithm.Descriptor instead.
+func (KeyAlgorithm) EnumDescriptor() ([]byte, []int) {
 	return file_plugin_key_management_v1_key_management_proto_rawDescGZIP(), []int{0}
 }
 
@@ -230,10 +230,10 @@ func (x *GetKeyRequest) GetParameters() *RequestParameters {
 
 type GetKeyResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	KeyId         string                 `protobuf:"bytes,1,opt,name=key_id,json=keyId,proto3" json:"key_id,omitempty"`                                     // The ID of the retrieved key
-	Algorithm     Algorithm              `protobuf:"varint,2,opt,name=algorithm,proto3,enum=plugin.key_management.v1.Algorithm" json:"algorithm,omitempty"` // The algorithm used for the key
-	Status        string                 `protobuf:"bytes,3,opt,name=status,proto3" json:"status,omitempty"`                                                // The current status of the key (e.g., enabled, disabled)
-	Usage         string                 `protobuf:"bytes,4,opt,name=usage,proto3" json:"usage,omitempty"`                                                  // The intended usage of the key (e.g., encryption, signing)
+	KeyId         string                 `protobuf:"bytes,1,opt,name=key_id,json=keyId,proto3" json:"key_id,omitempty"`                                        // The ID of the retrieved key
+	Algorithm     KeyAlgorithm           `protobuf:"varint,2,opt,name=algorithm,proto3,enum=plugin.key_management.v1.KeyAlgorithm" json:"algorithm,omitempty"` // The algorithm used for the key
+	Status        string                 `protobuf:"bytes,3,opt,name=status,proto3" json:"status,omitempty"`                                                   // The current status of the key (e.g., enabled, disabled)
+	Usage         string                 `protobuf:"bytes,4,opt,name=usage,proto3" json:"usage,omitempty"`                                                     // The intended usage of the key (e.g., encryption, signing)
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -275,11 +275,11 @@ func (x *GetKeyResponse) GetKeyId() string {
 	return ""
 }
 
-func (x *GetKeyResponse) GetAlgorithm() Algorithm {
+func (x *GetKeyResponse) GetAlgorithm() KeyAlgorithm {
 	if x != nil {
 		return x.Algorithm
 	}
-	return Algorithm_ALGORITHM_UNKNOWN
+	return KeyAlgorithm_KEY_ALGORITHM_UNKNOWN
 }
 
 func (x *GetKeyResponse) GetStatus() string {
@@ -300,7 +300,7 @@ func (x *GetKeyResponse) GetUsage() string {
 type CreateKeyRequest struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
 	KeystoreConfig *v1.KeystoreConfig     `protobuf:"bytes,1,opt,name=keystore_config,json=keystoreConfig,proto3" json:"keystore_config,omitempty"`
-	Algorithm      Algorithm              `protobuf:"varint,2,opt,name=algorithm,proto3,enum=plugin.key_management.v1.Algorithm" json:"algorithm,omitempty"`
+	Algorithm      KeyAlgorithm           `protobuf:"varint,2,opt,name=algorithm,proto3,enum=plugin.key_management.v1.KeyAlgorithm" json:"algorithm,omitempty"`
 	Id             *string                `protobuf:"bytes,3,opt,name=id,proto3,oneof" json:"id,omitempty"`                                                           // Optional predefined key ID
 	Region         string                 `protobuf:"bytes,4,opt,name=region,proto3" json:"region,omitempty"`                                                         // The region in which to create the key
 	KeyType        KeyType                `protobuf:"varint,5,opt,name=key_type,json=keyType,proto3,enum=plugin.key_management.v1.KeyType" json:"key_type,omitempty"` // Key type (system-managed or BYOK)
@@ -345,11 +345,11 @@ func (x *CreateKeyRequest) GetKeystoreConfig() *v1.KeystoreConfig {
 	return nil
 }
 
-func (x *CreateKeyRequest) GetAlgorithm() Algorithm {
+func (x *CreateKeyRequest) GetAlgorithm() KeyAlgorithm {
 	if x != nil {
 		return x.Algorithm
 	}
-	return Algorithm_ALGORITHM_UNKNOWN
+	return KeyAlgorithm_KEY_ALGORITHM_UNKNOWN
 }
 
 func (x *CreateKeyRequest) GetId() string {
@@ -680,7 +680,7 @@ func (*DisableKeyResponse) Descriptor() ([]byte, []int) {
 type GetImportParametersRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Parameters    *RequestParameters     `protobuf:"bytes,1,opt,name=parameters,proto3" json:"parameters,omitempty"`
-	Algorithm     Algorithm              `protobuf:"varint,2,opt,name=algorithm,proto3,enum=plugin.key_management.v1.Algorithm" json:"algorithm,omitempty"`
+	Algorithm     KeyAlgorithm           `protobuf:"varint,2,opt,name=algorithm,proto3,enum=plugin.key_management.v1.KeyAlgorithm" json:"algorithm,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -722,11 +722,11 @@ func (x *GetImportParametersRequest) GetParameters() *RequestParameters {
 	return nil
 }
 
-func (x *GetImportParametersRequest) GetAlgorithm() Algorithm {
+func (x *GetImportParametersRequest) GetAlgorithm() KeyAlgorithm {
 	if x != nil {
 		return x.Algorithm
 	}
-	return Algorithm_ALGORITHM_UNKNOWN
+	return KeyAlgorithm_KEY_ALGORITHM_UNKNOWN
 }
 
 // ImportKeyMaterialRequest contains parameters for importing key material
@@ -884,7 +884,7 @@ func (*ImportKeyMaterialResponse) Descriptor() ([]byte, []int) {
 type ValidateKeyRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	KeyType       KeyType                `protobuf:"varint,1,opt,name=key_type,json=keyType,proto3,enum=plugin.key_management.v1.KeyType" json:"key_type,omitempty"`
-	Algorithm     Algorithm              `protobuf:"varint,2,opt,name=algorithm,proto3,enum=plugin.key_management.v1.Algorithm" json:"algorithm,omitempty"`
+	Algorithm     KeyAlgorithm           `protobuf:"varint,2,opt,name=algorithm,proto3,enum=plugin.key_management.v1.KeyAlgorithm" json:"algorithm,omitempty"`
 	Region        string                 `protobuf:"bytes,3,opt,name=region,proto3" json:"region,omitempty"`                                // The region in which the key is to be validated
 	NativeKeyId   string                 `protobuf:"bytes,4,opt,name=native_key_id,json=nativeKeyId,proto3" json:"native_key_id,omitempty"` // The native key ID if applicable
 	unknownFields protoimpl.UnknownFields
@@ -928,11 +928,11 @@ func (x *ValidateKeyRequest) GetKeyType() KeyType {
 	return KeyType_KEYTYPE_UNSPECIFIED
 }
 
-func (x *ValidateKeyRequest) GetAlgorithm() Algorithm {
+func (x *ValidateKeyRequest) GetAlgorithm() KeyAlgorithm {
 	if x != nil {
 		return x.Algorithm
 	}
-	return Algorithm_ALGORITHM_UNKNOWN
+	return KeyAlgorithm_KEY_ALGORITHM_UNKNOWN
 }
 
 func (x *ValidateKeyRequest) GetRegion() string {
@@ -1315,15 +1315,15 @@ const file_plugin_key_management_v1_key_management_proto_rawDesc = "" +
 	"\rGetKeyRequest\x12K\n" +
 	"\n" +
 	"parameters\x18\x01 \x01(\v2+.plugin.key_management.v1.RequestParametersR\n" +
-	"parameters\"\x98\x01\n" +
+	"parameters\"\x9b\x01\n" +
 	"\x0eGetKeyResponse\x12\x15\n" +
-	"\x06key_id\x18\x01 \x01(\tR\x05keyId\x12A\n" +
-	"\talgorithm\x18\x02 \x01(\x0e2#.plugin.key_management.v1.AlgorithmR\talgorithm\x12\x16\n" +
+	"\x06key_id\x18\x01 \x01(\tR\x05keyId\x12D\n" +
+	"\talgorithm\x18\x02 \x01(\x0e2&.plugin.key_management.v1.KeyAlgorithmR\talgorithm\x12\x16\n" +
 	"\x06status\x18\x03 \x01(\tR\x06status\x12\x14\n" +
-	"\x05usage\x18\x04 \x01(\tR\x05usage\"\x92\x02\n" +
+	"\x05usage\x18\x04 \x01(\tR\x05usage\"\x95\x02\n" +
 	"\x10CreateKeyRequest\x12I\n" +
-	"\x0fkeystore_config\x18\x01 \x01(\v2 .plugin.common.v1.KeystoreConfigR\x0ekeystoreConfig\x12A\n" +
-	"\talgorithm\x18\x02 \x01(\x0e2#.plugin.key_management.v1.AlgorithmR\talgorithm\x12\x13\n" +
+	"\x0fkeystore_config\x18\x01 \x01(\v2 .plugin.common.v1.KeystoreConfigR\x0ekeystoreConfig\x12D\n" +
+	"\talgorithm\x18\x02 \x01(\x0e2&.plugin.key_management.v1.KeyAlgorithmR\talgorithm\x12\x13\n" +
 	"\x02id\x18\x03 \x01(\tH\x00R\x02id\x88\x01\x01\x12\x16\n" +
 	"\x06region\x18\x04 \x01(\tR\x06region\x12<\n" +
 	"\bkey_type\x18\x05 \x01(\x0e2!.plugin.key_management.v1.KeyTypeR\akeyTypeB\x05\n" +
@@ -1347,12 +1347,12 @@ const file_plugin_key_management_v1_key_management_proto_rawDesc = "" +
 	"\n" +
 	"parameters\x18\x01 \x01(\v2+.plugin.key_management.v1.RequestParametersR\n" +
 	"parameters\"\x14\n" +
-	"\x12DisableKeyResponse\"\xac\x01\n" +
+	"\x12DisableKeyResponse\"\xaf\x01\n" +
 	"\x1aGetImportParametersRequest\x12K\n" +
 	"\n" +
 	"parameters\x18\x01 \x01(\v2+.plugin.key_management.v1.RequestParametersR\n" +
-	"parameters\x12A\n" +
-	"\talgorithm\x18\x02 \x01(\x0e2#.plugin.key_management.v1.AlgorithmR\talgorithm\"z\n" +
+	"parameters\x12D\n" +
+	"\talgorithm\x18\x02 \x01(\x0e2&.plugin.key_management.v1.KeyAlgorithmR\talgorithm\"z\n" +
 	"\x1bGetImportParametersResponse\x12\x15\n" +
 	"\x06key_id\x18\x01 \x01(\tR\x05keyId\x12D\n" +
 	"\x11import_parameters\x18\x02 \x01(\v2\x17.google.protobuf.StructR\x10importParameters\"\xe3\x01\n" +
@@ -1362,10 +1362,10 @@ const file_plugin_key_management_v1_key_management_proto_rawDesc = "" +
 	"parameters\x12D\n" +
 	"\x11import_parameters\x18\x02 \x01(\v2\x17.google.protobuf.StructR\x10importParameters\x124\n" +
 	"\x16encrypted_key_material\x18\x03 \x01(\tR\x14encryptedKeyMaterial\"\x1b\n" +
-	"\x19ImportKeyMaterialResponse\"\xd1\x01\n" +
+	"\x19ImportKeyMaterialResponse\"\xd4\x01\n" +
 	"\x12ValidateKeyRequest\x12<\n" +
-	"\bkey_type\x18\x01 \x01(\x0e2!.plugin.key_management.v1.KeyTypeR\akeyType\x12A\n" +
-	"\talgorithm\x18\x02 \x01(\x0e2#.plugin.key_management.v1.AlgorithmR\talgorithm\x12\x16\n" +
+	"\bkey_type\x18\x01 \x01(\x0e2!.plugin.key_management.v1.KeyTypeR\akeyType\x12D\n" +
+	"\talgorithm\x18\x02 \x01(\x0e2&.plugin.key_management.v1.KeyAlgorithmR\talgorithm\x12\x16\n" +
 	"\x06region\x18\x03 \x01(\tR\x06region\x12\"\n" +
 	"\rnative_key_id\x18\x04 \x01(\tR\vnativeKeyId\"J\n" +
 	"\x13ValidateKeyResponse\x12\x19\n" +
@@ -1392,9 +1392,9 @@ const file_plugin_key_management_v1_key_management_proto_rawDesc = "" +
 	"\rnative_key_id\x18\x01 \x01(\tR\vnativeKeyId\x12M\n" +
 	"\x16management_access_data\x18\x02 \x01(\v2\x17.google.protobuf.StructR\x14managementAccessData\"2\n" +
 	"\x18ExtractKeyRegionResponse\x12\x16\n" +
-	"\x06region\x18\x01 \x01(\tR\x06region*H\n" +
-	"\tAlgorithm\x12\x15\n" +
-	"\x11ALGORITHM_UNKNOWN\x10\x00\x12\n" +
+	"\x06region\x18\x01 \x01(\tR\x06region*O\n" +
+	"\fKeyAlgorithm\x12\x19\n" +
+	"\x15KEY_ALGORITHM_UNKNOWN\x10\x00\x12\n" +
 	"\n" +
 	"\x06AES256\x10\x01\x12\v\n" +
 	"\aRSA3072\x10\x02\x12\v\n" +
@@ -1435,7 +1435,7 @@ func file_plugin_key_management_v1_key_management_proto_rawDescGZIP() []byte {
 var file_plugin_key_management_v1_key_management_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
 var file_plugin_key_management_v1_key_management_proto_msgTypes = make([]protoimpl.MessageInfo, 24)
 var file_plugin_key_management_v1_key_management_proto_goTypes = []any{
-	(Algorithm)(0),                            // 0: plugin.key_management.v1.Algorithm
+	(KeyAlgorithm)(0),                         // 0: plugin.key_management.v1.KeyAlgorithm
 	(KeyType)(0),                              // 1: plugin.key_management.v1.KeyType
 	(*RequestParameters)(nil),                 // 2: plugin.key_management.v1.RequestParameters
 	(*GetKeyRequest)(nil),                     // 3: plugin.key_management.v1.GetKeyRequest
@@ -1467,20 +1467,20 @@ var file_plugin_key_management_v1_key_management_proto_goTypes = []any{
 var file_plugin_key_management_v1_key_management_proto_depIdxs = []int32{
 	26, // 0: plugin.key_management.v1.RequestParameters.keystore_config:type_name -> plugin.common.v1.KeystoreConfig
 	2,  // 1: plugin.key_management.v1.GetKeyRequest.parameters:type_name -> plugin.key_management.v1.RequestParameters
-	0,  // 2: plugin.key_management.v1.GetKeyResponse.algorithm:type_name -> plugin.key_management.v1.Algorithm
+	0,  // 2: plugin.key_management.v1.GetKeyResponse.algorithm:type_name -> plugin.key_management.v1.KeyAlgorithm
 	26, // 3: plugin.key_management.v1.CreateKeyRequest.keystore_config:type_name -> plugin.common.v1.KeystoreConfig
-	0,  // 4: plugin.key_management.v1.CreateKeyRequest.algorithm:type_name -> plugin.key_management.v1.Algorithm
+	0,  // 4: plugin.key_management.v1.CreateKeyRequest.algorithm:type_name -> plugin.key_management.v1.KeyAlgorithm
 	1,  // 5: plugin.key_management.v1.CreateKeyRequest.key_type:type_name -> plugin.key_management.v1.KeyType
 	2,  // 6: plugin.key_management.v1.DeleteKeyRequest.parameters:type_name -> plugin.key_management.v1.RequestParameters
 	2,  // 7: plugin.key_management.v1.EnableKeyRequest.parameters:type_name -> plugin.key_management.v1.RequestParameters
 	2,  // 8: plugin.key_management.v1.DisableKeyRequest.parameters:type_name -> plugin.key_management.v1.RequestParameters
 	2,  // 9: plugin.key_management.v1.GetImportParametersRequest.parameters:type_name -> plugin.key_management.v1.RequestParameters
-	0,  // 10: plugin.key_management.v1.GetImportParametersRequest.algorithm:type_name -> plugin.key_management.v1.Algorithm
+	0,  // 10: plugin.key_management.v1.GetImportParametersRequest.algorithm:type_name -> plugin.key_management.v1.KeyAlgorithm
 	27, // 11: plugin.key_management.v1.GetImportParametersResponse.import_parameters:type_name -> google.protobuf.Struct
 	2,  // 12: plugin.key_management.v1.ImportKeyMaterialRequest.parameters:type_name -> plugin.key_management.v1.RequestParameters
 	27, // 13: plugin.key_management.v1.ImportKeyMaterialRequest.import_parameters:type_name -> google.protobuf.Struct
 	1,  // 14: plugin.key_management.v1.ValidateKeyRequest.key_type:type_name -> plugin.key_management.v1.KeyType
-	0,  // 15: plugin.key_management.v1.ValidateKeyRequest.algorithm:type_name -> plugin.key_management.v1.Algorithm
+	0,  // 15: plugin.key_management.v1.ValidateKeyRequest.algorithm:type_name -> plugin.key_management.v1.KeyAlgorithm
 	27, // 16: plugin.key_management.v1.ValidateKeyAccessDataRequest.management:type_name -> google.protobuf.Struct
 	27, // 17: plugin.key_management.v1.ValidateKeyAccessDataRequest.crypto:type_name -> google.protobuf.Struct
 	25, // 18: plugin.key_management.v1.TransformCryptoAccessDataResponse.transformed_access_data:type_name -> plugin.key_management.v1.TransformCryptoAccessDataResponse.TransformedAccessDataEntry

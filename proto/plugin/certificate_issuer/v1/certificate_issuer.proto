@@ -31,16 +31,22 @@ message IssueCertificateResponse {
 }
 
 message Subject {
-  repeated string country = 1;             // C
-  repeated string province = 2;            // ST (State or Province)
-  repeated string locality = 3;            // L
-  repeated string organization = 4;        // O
-  repeated string organizational_unit = 5; // OU
-  string common_name = 6;                  // CN
-  repeated string street_address = 7;      // STREET
-  repeated string postal_code = 8;         // PC
-  optional string serial_number = 9;       // SERIALNUMBER
+  string common_name = 1;                  // CN
+//  repeated string organizational_unit = 2; // OU
+//  repeated string organization = 3;        // O
+//  repeated string locality = 4;            // L
+//  repeated string province = 5;            // ST
+//  repeated string country = 6;             // C
+
+  // Nest the advanced attributes cleanly inside the main Subject
+//  optional AdvancedSubjectAttributes advanced_attributes = 7;
 }
+
+//message AdvancedSubjectAttributes {
+//  optional string serial_number = 1;       // SERIALNUMBER
+//  repeated string postal_code = 2;         // PC
+//  repeated string street_address = 3;      // STREET
+//}
 
 message PrivateKey {
   bytes data = 1;

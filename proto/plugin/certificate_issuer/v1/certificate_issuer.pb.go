@@ -310,18 +310,10 @@ func (x *IssueCertificateResponse) GetCaChain() [][]byte {
 }
 
 type Subject struct {
-	state              protoimpl.MessageState `protogen:"open.v1"`
-	Country            []string               `protobuf:"bytes,1,rep,name=country,proto3" json:"country,omitempty"`                                                 // C
-	Province           []string               `protobuf:"bytes,2,rep,name=province,proto3" json:"province,omitempty"`                                               // ST (State or Province)
-	Locality           []string               `protobuf:"bytes,3,rep,name=locality,proto3" json:"locality,omitempty"`                                               // L
-	Organization       []string               `protobuf:"bytes,4,rep,name=organization,proto3" json:"organization,omitempty"`                                       // O
-	OrganizationalUnit []string               `protobuf:"bytes,5,rep,name=organizational_unit,json=organizationalUnit,proto3" json:"organizational_unit,omitempty"` // OU
-	CommonName         string                 `protobuf:"bytes,6,opt,name=common_name,json=commonName,proto3" json:"common_name,omitempty"`                         // CN
-	StreetAddress      []string               `protobuf:"bytes,7,rep,name=street_address,json=streetAddress,proto3" json:"street_address,omitempty"`                // STREET
-	PostalCode         []string               `protobuf:"bytes,8,rep,name=postal_code,json=postalCode,proto3" json:"postal_code,omitempty"`                         // PC
-	SerialNumber       *string                `protobuf:"bytes,9,opt,name=serial_number,json=serialNumber,proto3,oneof" json:"serial_number,omitempty"`             // SERIALNUMBER
-	unknownFields      protoimpl.UnknownFields
-	sizeCache          protoimpl.SizeCache
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	CommonName    string                 `protobuf:"bytes,1,opt,name=common_name,json=commonName,proto3" json:"common_name,omitempty"` // CN
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Subject) Reset() {
@@ -354,65 +346,9 @@ func (*Subject) Descriptor() ([]byte, []int) {
 	return file_plugin_certificate_issuer_v1_certificate_issuer_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *Subject) GetCountry() []string {
-	if x != nil {
-		return x.Country
-	}
-	return nil
-}
-
-func (x *Subject) GetProvince() []string {
-	if x != nil {
-		return x.Province
-	}
-	return nil
-}
-
-func (x *Subject) GetLocality() []string {
-	if x != nil {
-		return x.Locality
-	}
-	return nil
-}
-
-func (x *Subject) GetOrganization() []string {
-	if x != nil {
-		return x.Organization
-	}
-	return nil
-}
-
-func (x *Subject) GetOrganizationalUnit() []string {
-	if x != nil {
-		return x.OrganizationalUnit
-	}
-	return nil
-}
-
 func (x *Subject) GetCommonName() string {
 	if x != nil {
 		return x.CommonName
-	}
-	return ""
-}
-
-func (x *Subject) GetStreetAddress() []string {
-	if x != nil {
-		return x.StreetAddress
-	}
-	return nil
-}
-
-func (x *Subject) GetPostalCode() []string {
-	if x != nil {
-		return x.PostalCode
-	}
-	return nil
-}
-
-func (x *Subject) GetSerialNumber() string {
-	if x != nil && x.SerialNumber != nil {
-		return *x.SerialNumber
 	}
 	return ""
 }
@@ -700,20 +636,10 @@ const file_plugin_certificate_issuer_v1_certificate_issuer_proto_rawDesc = "" +
 	"\x18IssueCertificateResponse\x12)\n" +
 	"\x10certificate_data\x18\x01 \x01(\fR\x0fcertificateData\x12_\n" +
 	"\x06format\x18\x02 \x01(\x0e2G.plugin.certificate_issuer.v1.IssueCertificateRequest.CertificateFormatR\x06format\x12\x19\n" +
-	"\bca_chain\x18\x03 \x03(\fR\acaChain\"\xd5\x02\n" +
-	"\aSubject\x12\x18\n" +
-	"\acountry\x18\x01 \x03(\tR\acountry\x12\x1a\n" +
-	"\bprovince\x18\x02 \x03(\tR\bprovince\x12\x1a\n" +
-	"\blocality\x18\x03 \x03(\tR\blocality\x12\"\n" +
-	"\forganization\x18\x04 \x03(\tR\forganization\x12/\n" +
-	"\x13organizational_unit\x18\x05 \x03(\tR\x12organizationalUnit\x12\x1f\n" +
-	"\vcommon_name\x18\x06 \x01(\tR\n" +
-	"commonName\x12%\n" +
-	"\x0estreet_address\x18\a \x03(\tR\rstreetAddress\x12\x1f\n" +
-	"\vpostal_code\x18\b \x03(\tR\n" +
-	"postalCode\x12(\n" +
-	"\rserial_number\x18\t \x01(\tH\x00R\fserialNumber\x88\x01\x01B\x10\n" +
-	"\x0e_serial_number\"\xb5\x01\n" +
+	"\bca_chain\x18\x03 \x03(\fR\acaChain\"*\n" +
+	"\aSubject\x12\x1f\n" +
+	"\vcommon_name\x18\x01 \x01(\tR\n" +
+	"commonName\"\xb5\x01\n" +
 	"\n" +
 	"PrivateKey\x12\x12\n" +
 	"\x04data\x18\x01 \x01(\fR\x04data\x12J\n" +
@@ -803,7 +729,6 @@ func file_plugin_certificate_issuer_v1_certificate_issuer_proto_init() {
 		return
 	}
 	file_plugin_certificate_issuer_v1_certificate_issuer_proto_msgTypes[0].OneofWrappers = []any{}
-	file_plugin_certificate_issuer_v1_certificate_issuer_proto_msgTypes[2].OneofWrappers = []any{}
 	file_plugin_certificate_issuer_v1_certificate_issuer_proto_msgTypes[4].OneofWrappers = []any{
 		(*CertificateLifetime_Duration)(nil),
 		(*CertificateLifetime_NotAfter)(nil),

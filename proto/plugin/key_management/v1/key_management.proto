@@ -45,8 +45,8 @@ service KeyManagement {
 }
 
 // Algorithm defines the supported key algorithms across all operations
-enum Algorithm {
-  ALGORITHM_UNKNOWN = 0;
+enum KeyAlgorithm {
+  KEY_ALGORITHM_UNKNOWN = 0;
   AES256 = 1;
   RSA3072 = 2;
   RSA4096 = 3;
@@ -72,7 +72,7 @@ message GetKeyRequest {
 
 message GetKeyResponse {
   string key_id = 1; // The ID of the retrieved key
-  Algorithm algorithm = 2; // The algorithm used for the key
+  KeyAlgorithm algorithm = 2; // The algorithm used for the key
   string status = 3; // The current status of the key (e.g., enabled, disabled)
   string usage = 4; // The intended usage of the key (e.g., encryption, signing)
 }
@@ -80,7 +80,7 @@ message GetKeyResponse {
 // CreateKeyRequest contains parameters for key creation
 message CreateKeyRequest {
   plugin.common.v1.KeystoreConfig keystore_config = 1;
-  Algorithm algorithm = 2;
+  KeyAlgorithm algorithm = 2;
   optional string id = 3; // Optional predefined key ID
   string region = 4; // The region in which to create the key
   KeyType key_type = 5; // Key type (system-managed or BYOK)
@@ -116,7 +116,7 @@ message DisableKeyResponse {}
 // GetImportParametersRequest contains parameters for retrieving import parameters
 message GetImportParametersRequest {
   RequestParameters parameters = 1;
-  Algorithm algorithm = 2;
+  KeyAlgorithm algorithm = 2;
 }
 
 // ImportKeyMaterialRequest contains parameters for importing key material
@@ -138,7 +138,7 @@ message ImportKeyMaterialResponse {}
 // ValidateKeyRequest contains parameters for validating key attributes
 message ValidateKeyRequest {
   KeyType key_type = 1;
-  Algorithm algorithm = 2;
+  KeyAlgorithm algorithm = 2;
   string region = 3; // The region in which the key is to be validated
   string native_key_id = 4; // The native key ID if applicable
 }

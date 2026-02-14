@@ -47,17 +47,23 @@ func mapRequestToProto(req *certificateissuer.IssueCertificateRequest) *grpccert
 	pbReq := &grpccertificateissuerv1.IssueCertificateRequest{
 		PreferredFormat: grpccertificateissuerv1.IssueCertificateRequest_CertificateFormat(req.PreferredFormat),
 		Subject: &grpccertificateissuerv1.Subject{
-			CommonName:         req.Subject.CommonName,
-			SerialNumber:       req.Subject.SerialNumber,
-			Country:            req.Subject.Country,
-			Organization:       req.Subject.Organization,
-			OrganizationalUnit: req.Subject.OrganizationalUnit,
-			Locality:           req.Subject.Locality,
-			Province:           req.Subject.Province,
-			StreetAddress:      req.Subject.StreetAddress,
-			PostalCode:         req.Subject.PostalCode,
+			CommonName: req.Subject.CommonName,
+
+			//Country:            req.Subject.Country,
+			//Organization:       req.Subject.Organization,
+			//OrganizationalUnit: req.Subject.OrganizationalUnit,
+			//Locality:           req.Subject.Locality,
+			//Province:           req.Subject.Province,
 		},
 	}
+
+	//if req.Subject.AdvancedAttributes != nil {
+	//	pbReq.Subject.AdvancedAttributes = &grpccertificateissuerv1.AdvancedSubjectAttributes{
+	//		SerialNumber:  req.Subject.AdvancedAttributes.SerialNumber,
+	//		StreetAddress: req.Subject.AdvancedAttributes.StreetAddress,
+	//		PostalCode:    req.Subject.AdvancedAttributes.PostalCode,
+	//	}
+	//}
 
 	if req.PrivateKey != nil {
 		pbReq.PrivateKey = &grpccertificateissuerv1.PrivateKey{
