@@ -7,24 +7,28 @@ import (
 )
 
 type Repository struct {
-	KeyManagements map[string]keymanagementapi.KeyManagement
+	Instances map[string]keymanagementapi.KeyManagement
 }
 
-func (repo *Repository) GetKeyManagements() map[string]keymanagementapi.KeyManagement {
-	return repo.KeyManagements
+func (repo *Repository) KeyManagements() (map[string]keymanagementapi.KeyManagement, bool) {
+	return repo.Instances, len(repo.Instances) > 0
 }
 
-func (repo *Repository) ListKeyManagement() []keymanagementapi.KeyManagement {
-	list := make([]keymanagementapi.KeyManagement, 0, len(repo.KeyManagements))
-	for _, manager := range repo.KeyManagements {
+func (repo *Repository) KeyManagementList() ([]keymanagementapi.KeyManagement, bool) {
+	if len(repo.Instances) == 0 {
+		return nil, false
+	}
+
+	list := make([]keymanagementapi.KeyManagement, 0, len(repo.Instances))
+	for _, manager := range repo.Instances {
 		list = append(list, manager)
 	}
-	return list
+	return list, true
 }
 
 func (repo *Repository) AddKeyManagement(instance keymanagementapi.KeyManagement) {
-	if repo.KeyManagements == nil {
-		repo.KeyManagements = make(map[string]keymanagementapi.KeyManagement)
+	if repo.Instances == nil {
+		repo.Instances = make(map[string]keymanagementapi.KeyManagement)
 	}
 
 	info := instance.ServiceInfo()
@@ -33,9 +37,9 @@ func (repo *Repository) AddKeyManagement(instance keymanagementapi.KeyManagement
 		return
 	}
 
-	repo.KeyManagements[info.Name()] = instance
+	repo.Instances[info.Name()] = instance
 }
 
 func (repo *Repository) Clear() {
-	repo.KeyManagements = nil
+	repo.Instances = nil
 }
