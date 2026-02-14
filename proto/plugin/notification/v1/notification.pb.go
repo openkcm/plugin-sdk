@@ -84,7 +84,7 @@ type SendNotificationRequest struct {
 	// A list of targets. Can be mixed types (emails, phones, user IDs).
 	Recipients []*Recipient `protobuf:"bytes,1,rep,name=recipients,proto3" json:"recipients,omitempty"`
 	// The actual message payload (either raw or template-based).
-	Content *NotificationContent `protobuf:"bytes,2,opt,name=content,proto3" json:"content,omitempty"`
+	Content *Content `protobuf:"bytes,2,opt,name=content,proto3" json:"content,omitempty"`
 	// Optional: Force a specific delivery method.
 	// If unspecified, the server can infer it from the Recipient data.
 	PreferredChannel DeliveryChannel `protobuf:"varint,3,opt,name=preferred_channel,json=preferredChannel,proto3,enum=plugin.notification.v1.DeliveryChannel" json:"preferred_channel,omitempty"`
@@ -129,7 +129,7 @@ func (x *SendNotificationRequest) GetRecipients() []*Recipient {
 	return nil
 }
 
-func (x *SendNotificationRequest) GetContent() *NotificationContent {
+func (x *SendNotificationRequest) GetContent() *Content {
 	if x != nil {
 		return x.Content
 	}
@@ -259,31 +259,31 @@ func (*Recipient_DeviceToken) isRecipient_Target() {}
 func (*Recipient_UserId) isRecipient_Target() {}
 
 // The content of the notification, supporting both raw text and pre-defined templates.
-type NotificationContent struct {
+type Content struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Types that are valid to be assigned to Payload:
 	//
-	//	*NotificationContent_Raw
-	//	*NotificationContent_Template
-	Payload       isNotificationContent_Payload `protobuf_oneof:"payload"`
+	//	*Content_Raw
+	//	*Content_Template
+	Payload       isContent_Payload `protobuf_oneof:"payload"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *NotificationContent) Reset() {
-	*x = NotificationContent{}
+func (x *Content) Reset() {
+	*x = Content{}
 	mi := &file_plugin_notification_v1_notification_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *NotificationContent) String() string {
+func (x *Content) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*NotificationContent) ProtoMessage() {}
+func (*Content) ProtoMessage() {}
 
-func (x *NotificationContent) ProtoReflect() protoreflect.Message {
+func (x *Content) ProtoReflect() protoreflect.Message {
 	mi := &file_plugin_notification_v1_notification_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -295,56 +295,56 @@ func (x *NotificationContent) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use NotificationContent.ProtoReflect.Descriptor instead.
-func (*NotificationContent) Descriptor() ([]byte, []int) {
+// Deprecated: Use Content.ProtoReflect.Descriptor instead.
+func (*Content) Descriptor() ([]byte, []int) {
 	return file_plugin_notification_v1_notification_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *NotificationContent) GetPayload() isNotificationContent_Payload {
+func (x *Content) GetPayload() isContent_Payload {
 	if x != nil {
 		return x.Payload
 	}
 	return nil
 }
 
-func (x *NotificationContent) GetRaw() *RawMessage {
+func (x *Content) GetRaw() *RawMessage {
 	if x != nil {
-		if x, ok := x.Payload.(*NotificationContent_Raw); ok {
+		if x, ok := x.Payload.(*Content_Raw); ok {
 			return x.Raw
 		}
 	}
 	return nil
 }
 
-func (x *NotificationContent) GetTemplate() *TemplateMessage {
+func (x *Content) GetTemplate() *TemplateMessage {
 	if x != nil {
-		if x, ok := x.Payload.(*NotificationContent_Template); ok {
+		if x, ok := x.Payload.(*Content_Template); ok {
 			return x.Template
 		}
 	}
 	return nil
 }
 
-type isNotificationContent_Payload interface {
-	isNotificationContent_Payload()
+type isContent_Payload interface {
+	isContent_Payload()
 }
 
-type NotificationContent_Raw struct {
+type Content_Raw struct {
 	Raw *RawMessage `protobuf:"bytes,1,opt,name=raw,proto3,oneof"`
 }
 
-type NotificationContent_Template struct {
+type Content_Template struct {
 	Template *TemplateMessage `protobuf:"bytes,2,opt,name=template,proto3,oneof"`
 }
 
-func (*NotificationContent_Raw) isNotificationContent_Payload() {}
+func (*Content_Raw) isContent_Payload() {}
 
-func (*NotificationContent_Template) isNotificationContent_Payload() {}
+func (*Content_Template) isContent_Payload() {}
 
 // A generic message structure that automatically adapts to the delivery channel.
 type RawMessage struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Title         string                 `protobuf:"bytes,1,opt,name=title,proto3" json:"title,omitempty"`                                                                                 // Maps to Email Subject or Push Notification Title
+	Subject       string                 `protobuf:"bytes,1,opt,name=subject,proto3" json:"subject,omitempty"`                                                                             // Maps to Email Subject or Push Notification Title
 	Body          string                 `protobuf:"bytes,2,opt,name=body,proto3" json:"body,omitempty"`                                                                                   // The main text/html content
 	Metadata      map[string]string      `protobuf:"bytes,3,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"` // Extra data for apps (e.g., deep links, JSON payloads)
 	unknownFields protoimpl.UnknownFields
@@ -381,9 +381,9 @@ func (*RawMessage) Descriptor() ([]byte, []int) {
 	return file_plugin_notification_v1_notification_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *RawMessage) GetTitle() string {
+func (x *RawMessage) GetSubject() string {
 	if x != nil {
-		return x.Title
+		return x.Subject
 	}
 	return ""
 }
@@ -565,26 +565,26 @@ var File_plugin_notification_v1_notification_proto protoreflect.FileDescriptor
 
 const file_plugin_notification_v1_notification_proto_rawDesc = "" +
 	"\n" +
-	")plugin/notification/v1/notification.proto\x12\x16plugin.notification.v1\"\xf9\x01\n" +
+	")plugin/notification/v1/notification.proto\x12\x16plugin.notification.v1\"\xed\x01\n" +
 	"\x17SendNotificationRequest\x12A\n" +
 	"\n" +
 	"recipients\x18\x01 \x03(\v2!.plugin.notification.v1.RecipientR\n" +
-	"recipients\x12E\n" +
-	"\acontent\x18\x02 \x01(\v2+.plugin.notification.v1.NotificationContentR\acontent\x12T\n" +
+	"recipients\x129\n" +
+	"\acontent\x18\x02 \x01(\v2\x1f.plugin.notification.v1.ContentR\acontent\x12T\n" +
 	"\x11preferred_channel\x18\x03 \x01(\x0e2'.plugin.notification.v1.DeliveryChannelR\x10preferredChannel\"\xa1\x01\n" +
 	"\tRecipient\x12%\n" +
 	"\remail_address\x18\x01 \x01(\tH\x00R\femailAddress\x12#\n" +
 	"\fphone_number\x18\x02 \x01(\tH\x00R\vphoneNumber\x12#\n" +
 	"\fdevice_token\x18\x03 \x01(\tH\x00R\vdeviceToken\x12\x19\n" +
 	"\auser_id\x18\x04 \x01(\tH\x00R\x06userIdB\b\n" +
-	"\x06target\"\x9f\x01\n" +
-	"\x13NotificationContent\x126\n" +
+	"\x06target\"\x93\x01\n" +
+	"\aContent\x126\n" +
 	"\x03raw\x18\x01 \x01(\v2\".plugin.notification.v1.RawMessageH\x00R\x03raw\x12E\n" +
 	"\btemplate\x18\x02 \x01(\v2'.plugin.notification.v1.TemplateMessageH\x00R\btemplateB\t\n" +
-	"\apayload\"\xc1\x01\n" +
+	"\apayload\"\xc5\x01\n" +
 	"\n" +
-	"RawMessage\x12\x14\n" +
-	"\x05title\x18\x01 \x01(\tR\x05title\x12\x12\n" +
+	"RawMessage\x12\x18\n" +
+	"\asubject\x18\x01 \x01(\tR\asubject\x12\x12\n" +
 	"\x04body\x18\x02 \x01(\tR\x04body\x12L\n" +
 	"\bmetadata\x18\x03 \x03(\v20.plugin.notification.v1.RawMessage.MetadataEntryR\bmetadata\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
@@ -635,7 +635,7 @@ var file_plugin_notification_v1_notification_proto_goTypes = []any{
 	(DeliveryChannel)(0),             // 0: plugin.notification.v1.DeliveryChannel
 	(*SendNotificationRequest)(nil),  // 1: plugin.notification.v1.SendNotificationRequest
 	(*Recipient)(nil),                // 2: plugin.notification.v1.Recipient
-	(*NotificationContent)(nil),      // 3: plugin.notification.v1.NotificationContent
+	(*Content)(nil),                  // 3: plugin.notification.v1.Content
 	(*RawMessage)(nil),               // 4: plugin.notification.v1.RawMessage
 	(*TemplateMessage)(nil),          // 5: plugin.notification.v1.TemplateMessage
 	(*SendNotificationResponse)(nil), // 6: plugin.notification.v1.SendNotificationResponse
@@ -645,10 +645,10 @@ var file_plugin_notification_v1_notification_proto_goTypes = []any{
 }
 var file_plugin_notification_v1_notification_proto_depIdxs = []int32{
 	2,  // 0: plugin.notification.v1.SendNotificationRequest.recipients:type_name -> plugin.notification.v1.Recipient
-	3,  // 1: plugin.notification.v1.SendNotificationRequest.content:type_name -> plugin.notification.v1.NotificationContent
+	3,  // 1: plugin.notification.v1.SendNotificationRequest.content:type_name -> plugin.notification.v1.Content
 	0,  // 2: plugin.notification.v1.SendNotificationRequest.preferred_channel:type_name -> plugin.notification.v1.DeliveryChannel
-	4,  // 3: plugin.notification.v1.NotificationContent.raw:type_name -> plugin.notification.v1.RawMessage
-	5,  // 4: plugin.notification.v1.NotificationContent.template:type_name -> plugin.notification.v1.TemplateMessage
+	4,  // 3: plugin.notification.v1.Content.raw:type_name -> plugin.notification.v1.RawMessage
+	5,  // 4: plugin.notification.v1.Content.template:type_name -> plugin.notification.v1.TemplateMessage
 	8,  // 5: plugin.notification.v1.RawMessage.metadata:type_name -> plugin.notification.v1.RawMessage.MetadataEntry
 	9,  // 6: plugin.notification.v1.TemplateMessage.parameters:type_name -> plugin.notification.v1.TemplateMessage.ParametersEntry
 	7,  // 7: plugin.notification.v1.SendNotificationResponse.partial_failures:type_name -> plugin.notification.v1.DeliveryFailure
@@ -674,8 +674,8 @@ func file_plugin_notification_v1_notification_proto_init() {
 		(*Recipient_UserId)(nil),
 	}
 	file_plugin_notification_v1_notification_proto_msgTypes[2].OneofWrappers = []any{
-		(*NotificationContent_Raw)(nil),
-		(*NotificationContent_Template)(nil),
+		(*Content_Raw)(nil),
+		(*Content_Template)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{

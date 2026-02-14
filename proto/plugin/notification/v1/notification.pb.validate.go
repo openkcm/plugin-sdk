@@ -354,22 +354,21 @@ var _ interface {
 	ErrorName() string
 } = RecipientValidationError{}
 
-// Validate checks the field values on NotificationContent with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the first error encountered is returned, or nil if there are no violations.
-func (m *NotificationContent) Validate() error {
+// Validate checks the field values on Content with the rules defined in the
+// proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *Content) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on NotificationContent with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// NotificationContentMultiError, or nil if none found.
-func (m *NotificationContent) ValidateAll() error {
+// ValidateAll checks the field values on Content with the rules defined in the
+// proto definition for this message. If any rules are violated, the result is
+// a list of violation errors wrapped in ContentMultiError, or nil if none found.
+func (m *Content) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *NotificationContent) validate(all bool) error {
+func (m *Content) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -377,9 +376,9 @@ func (m *NotificationContent) validate(all bool) error {
 	var errors []error
 
 	switch v := m.Payload.(type) {
-	case *NotificationContent_Raw:
+	case *Content_Raw:
 		if v == nil {
-			err := NotificationContentValidationError{
+			err := ContentValidationError{
 				field:  "Payload",
 				reason: "oneof value cannot be a typed-nil",
 			}
@@ -393,7 +392,7 @@ func (m *NotificationContent) validate(all bool) error {
 			switch v := interface{}(m.GetRaw()).(type) {
 			case interface{ ValidateAll() error }:
 				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, NotificationContentValidationError{
+					errors = append(errors, ContentValidationError{
 						field:  "Raw",
 						reason: "embedded message failed validation",
 						cause:  err,
@@ -401,7 +400,7 @@ func (m *NotificationContent) validate(all bool) error {
 				}
 			case interface{ Validate() error }:
 				if err := v.Validate(); err != nil {
-					errors = append(errors, NotificationContentValidationError{
+					errors = append(errors, ContentValidationError{
 						field:  "Raw",
 						reason: "embedded message failed validation",
 						cause:  err,
@@ -410,7 +409,7 @@ func (m *NotificationContent) validate(all bool) error {
 			}
 		} else if v, ok := interface{}(m.GetRaw()).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
-				return NotificationContentValidationError{
+				return ContentValidationError{
 					field:  "Raw",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -418,9 +417,9 @@ func (m *NotificationContent) validate(all bool) error {
 			}
 		}
 
-	case *NotificationContent_Template:
+	case *Content_Template:
 		if v == nil {
-			err := NotificationContentValidationError{
+			err := ContentValidationError{
 				field:  "Payload",
 				reason: "oneof value cannot be a typed-nil",
 			}
@@ -434,7 +433,7 @@ func (m *NotificationContent) validate(all bool) error {
 			switch v := interface{}(m.GetTemplate()).(type) {
 			case interface{ ValidateAll() error }:
 				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, NotificationContentValidationError{
+					errors = append(errors, ContentValidationError{
 						field:  "Template",
 						reason: "embedded message failed validation",
 						cause:  err,
@@ -442,7 +441,7 @@ func (m *NotificationContent) validate(all bool) error {
 				}
 			case interface{ Validate() error }:
 				if err := v.Validate(); err != nil {
-					errors = append(errors, NotificationContentValidationError{
+					errors = append(errors, ContentValidationError{
 						field:  "Template",
 						reason: "embedded message failed validation",
 						cause:  err,
@@ -451,7 +450,7 @@ func (m *NotificationContent) validate(all bool) error {
 			}
 		} else if v, ok := interface{}(m.GetTemplate()).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
-				return NotificationContentValidationError{
+				return ContentValidationError{
 					field:  "Template",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -464,19 +463,18 @@ func (m *NotificationContent) validate(all bool) error {
 	}
 
 	if len(errors) > 0 {
-		return NotificationContentMultiError(errors)
+		return ContentMultiError(errors)
 	}
 
 	return nil
 }
 
-// NotificationContentMultiError is an error wrapping multiple validation
-// errors returned by NotificationContent.ValidateAll() if the designated
-// constraints aren't met.
-type NotificationContentMultiError []error
+// ContentMultiError is an error wrapping multiple validation errors returned
+// by Content.ValidateAll() if the designated constraints aren't met.
+type ContentMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m NotificationContentMultiError) Error() string {
+func (m ContentMultiError) Error() string {
 	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -485,11 +483,11 @@ func (m NotificationContentMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m NotificationContentMultiError) AllErrors() []error { return m }
+func (m ContentMultiError) AllErrors() []error { return m }
 
-// NotificationContentValidationError is the validation error returned by
-// NotificationContent.Validate if the designated constraints aren't met.
-type NotificationContentValidationError struct {
+// ContentValidationError is the validation error returned by Content.Validate
+// if the designated constraints aren't met.
+type ContentValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -497,24 +495,22 @@ type NotificationContentValidationError struct {
 }
 
 // Field function returns field value.
-func (e NotificationContentValidationError) Field() string { return e.field }
+func (e ContentValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e NotificationContentValidationError) Reason() string { return e.reason }
+func (e ContentValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e NotificationContentValidationError) Cause() error { return e.cause }
+func (e ContentValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e NotificationContentValidationError) Key() bool { return e.key }
+func (e ContentValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e NotificationContentValidationError) ErrorName() string {
-	return "NotificationContentValidationError"
-}
+func (e ContentValidationError) ErrorName() string { return "ContentValidationError" }
 
 // Error satisfies the builtin error interface
-func (e NotificationContentValidationError) Error() string {
+func (e ContentValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -526,14 +522,14 @@ func (e NotificationContentValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sNotificationContent.%s: %s%s",
+		"invalid %sContent.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = NotificationContentValidationError{}
+var _ error = ContentValidationError{}
 
 var _ interface {
 	Field() string
@@ -541,7 +537,7 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = NotificationContentValidationError{}
+} = ContentValidationError{}
 
 // Validate checks the field values on RawMessage with the rules defined in the
 // proto definition for this message. If any rules are violated, the first
@@ -565,7 +561,7 @@ func (m *RawMessage) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for Title
+	// no validation rules for Subject
 
 	// no validation rules for Body
 

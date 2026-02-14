@@ -25,14 +25,14 @@ func (v1 *V1) ServiceInfo() api.Info {
 	return v1.Info
 }
 
-func (v1 *V1) SendNotification(ctx context.Context, req *notification.SendNotificationRequest) (*notification.SendNotificationResponse, error) {
+func (v1 *V1) Send(ctx context.Context, req *notification.SendNotificationRequest) (*notification.SendNotificationResponse, error) {
 	pbReq := mapNotificationRequestToProto(req)
 
 	if err := protovalidate.Validate(pbReq); err != nil {
 		return nil, fmt.Errorf("failed validation: %v", err)
 	}
 
-	pbResp, err := v1.Send(ctx, pbReq)
+	pbResp, err := v1.NotificationPluginClient.Send(ctx, pbReq)
 	if err != nil {
 		return nil, err
 	}
@@ -65,18 +65,18 @@ func mapNotificationRequestToProto(req *notification.SendNotificationRequest) *g
 	}
 
 	// Map Content oneof using a clean switch
-	pbReq.Content = &grpcnotification1.NotificationContent{}
+	pbReq.Content = &grpcnotification1.Content{}
 	switch {
 	case req.Content.Raw != nil:
-		pbReq.Content.Payload = &grpcnotification1.NotificationContent_Raw{
+		pbReq.Content.Payload = &grpcnotification1.Content_Raw{
 			Raw: &grpcnotification1.RawMessage{
-				Title:    req.Content.Raw.Title,
+				Subject:  req.Content.Raw.Subject,
 				Body:     req.Content.Raw.Body,
 				Metadata: req.Content.Raw.Metadata,
 			},
 		}
 	case req.Content.Template != nil:
-		pbReq.Content.Payload = &grpcnotification1.NotificationContent_Template{
+		pbReq.Content.Payload = &grpcnotification1.Content_Template{
 			Template: &grpcnotification1.TemplateMessage{
 				TemplateId: req.Content.Template.TemplateID,
 				Parameters: req.Content.Template.Parameters,

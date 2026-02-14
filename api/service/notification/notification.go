@@ -51,7 +51,7 @@ type Recipient struct {
 }
 
 type RawMessage struct {
-	Title    string
+	Subject  string
 	Body     string
 	Metadata map[string]string
 }
@@ -61,15 +61,15 @@ type TemplateMessage struct {
 	Parameters map[string]string
 }
 
-// NotificationContent uses pointers for the oneof field.
-type NotificationContent struct {
+// Content uses pointers for the oneof field.
+type Content struct {
 	Raw      *RawMessage
 	Template *TemplateMessage
 }
 
 type SendNotificationRequest struct {
 	Recipients       []Recipient
-	Content          NotificationContent
+	Content          Content
 	PreferredChannel DeliveryChannel
 }
 

@@ -12,7 +12,7 @@ message SendNotificationRequest {
   repeated Recipient recipients = 1;
 
   // The actual message payload (either raw or template-based).
-  NotificationContent content = 2;
+  Content content = 2;
 
   // Optional: Force a specific delivery method.
   // If unspecified, the server can infer it from the Recipient data.
@@ -30,7 +30,7 @@ message Recipient {
 }
 
 // The content of the notification, supporting both raw text and pre-defined templates.
-message NotificationContent {
+message Content {
   oneof payload {
     RawMessage raw = 1;
     TemplateMessage template = 2;
@@ -39,7 +39,7 @@ message NotificationContent {
 
 // A generic message structure that automatically adapts to the delivery channel.
 message RawMessage {
-  string title = 1; // Maps to Email Subject or Push Notification Title
+  string subject = 1; // Maps to Email Subject or Push Notification Title
   string body = 2;  // The main text/html content
   map<string, string> metadata = 3; // Extra data for apps (e.g., deep links, JSON payloads)
 }
