@@ -5,17 +5,17 @@ import (
 )
 
 type Repository struct {
-	Notification notification.Notification
+	Instance notification.Notification
 }
 
-func (repo *Repository) GetNotification() notification.Notification {
-	return repo.Notification
+func (repo *Repository) Notification() (notification.Notification, bool) {
+	return repo.Instance, repo.Instance != nil
 }
 
 func (repo *Repository) SetNotification(instance notification.Notification) {
-	repo.Notification = instance
+	repo.Instance = instance
 }
 
 func (repo *Repository) Clear() {
-	repo.Notification = nil
+	repo.Instance = nil
 }

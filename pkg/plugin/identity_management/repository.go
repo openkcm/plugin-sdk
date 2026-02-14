@@ -5,17 +5,17 @@ import (
 )
 
 type Repository struct {
-	IdentityManagement identitymanagement.IdentityManagement
+	Instance identitymanagement.IdentityManagement
 }
 
-func (repo *Repository) GetIdentityManagement() identitymanagement.IdentityManagement {
-	return repo.IdentityManagement
+func (repo *Repository) IdentityManagement() (identitymanagement.IdentityManagement, bool) {
+	return repo.Instance, repo.Instance != nil
 }
 
 func (repo *Repository) SetIdentityManagement(instance identitymanagement.IdentityManagement) {
-	repo.IdentityManagement = instance
+	repo.Instance = instance
 }
 
 func (repo *Repository) Clear() {
-	repo.IdentityManagement = nil
+	repo.Instance = nil
 }

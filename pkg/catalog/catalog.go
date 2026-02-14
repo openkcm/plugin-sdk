@@ -26,7 +26,6 @@ type PluginRepository struct {
 	keystoreManagementRepository
 	keyManagementRepository
 
-	log     *slog.Logger
 	catalog *Catalog
 }
 
@@ -74,10 +73,8 @@ func (repo *PluginRepository) ListPluginInfo() []api.Info {
 	return plugins
 }
 
-func CreateRegistry(ctx context.Context, config Config, builtInPlugins ...BuiltInPlugin) (_ *PluginRepository, err error) {
-	repo := &PluginRepository{
-		log: config.Logger,
-	}
+func CreatePluginRepository(ctx context.Context, config Config, builtInPlugins ...BuiltInPlugin) (_ *PluginRepository, err error) {
+	repo := &PluginRepository{}
 	defer func() {
 		if err != nil {
 			_ = repo.Close()
@@ -88,12 +85,18 @@ func CreateRegistry(ctx context.Context, config Config, builtInPlugins ...BuiltI
 		config.HostServices = make([]api.ServiceServer, 0)
 	}
 
-	repo.catalog, err = load(ctx, config, repo, builtInPlugins...)
+	repo.catalog, err = buildCatalog(ctx, config, repo, builtInPlugins...)
 	if err != nil {
 		return nil, err
 	}
 
 	return repo, nil
+}
+
+func WrapAsPluginRepository(c *Catalog) *PluginRepository {
+	return &PluginRepository{
+		catalog: c,
+	}
 }
 
 type Catalog struct {
@@ -172,9 +175,7 @@ func (c *Catalog) ListPluginInfo() []api.Info {
 
 // Deprecated: [CreateRegistry function to be used instead]
 func Load(ctx context.Context, config Config, builtIns ...BuiltInPlugin) (_ *Catalog, err error) {
-	repo := &PluginRepository{
-		log: config.Logger,
-	}
+	repo := &PluginRepository{}
 	defer func() {
 		if err != nil {
 			_ = repo.Close()
@@ -185,7 +186,7 @@ func Load(ctx context.Context, config Config, builtIns ...BuiltInPlugin) (_ *Cat
 		config.HostServices = make([]api.ServiceServer, 0)
 	}
 
-	repo.catalog, err = load(ctx, config, repo, builtIns...)
+	repo.catalog, err = buildCatalog(ctx, config, repo, builtIns...)
 	if err != nil {
 		return nil, err
 	}
@@ -193,7 +194,7 @@ func Load(ctx context.Context, config Config, builtIns ...BuiltInPlugin) (_ *Cat
 	return repo.catalog, nil
 }
 
-func load(ctx context.Context, config Config, repo Repository, builtIns ...BuiltInPlugin) (_ *Catalog, err error) {
+func buildCatalog(ctx context.Context, config Config, repo Repository, builtIns ...BuiltInPlugin) (_ *Catalog, err error) {
 	closers := make(closerGroup, 0)
 	defer func() {
 		// If loading fails, clear out the catalog and close down all plugins
