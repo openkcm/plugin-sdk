@@ -75,7 +75,7 @@ func (repo *Repository) Close() error {
 func CreateServiceRepository(ctx context.Context, config catalog.Config, builtIns ...catalog.BuiltInPlugin) (_ *Repository, err error) {
 	repo := &Repository{}
 
-	repo.RawCatalog, err = catalog.BuildCatalog(ctx, config, repo, builtIns...)
+	repo.RawCatalog, err = catalog.New(ctx, config, repo, builtIns...)
 	if err != nil {
 		return nil, err
 	}

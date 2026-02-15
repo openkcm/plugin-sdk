@@ -80,7 +80,7 @@ func (c *Catalog) ListPluginInfo() []api.Info {
 	return plugins
 }
 
-func BuildCatalog(ctx context.Context, config Config, repo api.Repository, builtIns ...BuiltInPlugin) (_ *Catalog, err error) {
+func New(ctx context.Context, config Config, repo api.Repository, builtIns ...BuiltInPlugin) (_ *Catalog, err error) {
 	closers := make(closerGroup, 0)
 	defer func() {
 		// If loading fails, clear out the catalog and close down all plugins
