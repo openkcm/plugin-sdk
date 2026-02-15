@@ -11,8 +11,11 @@ import (
 	sync "sync"
 	unsafe "unsafe"
 
+	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 const (
@@ -22,82 +25,186 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type ValidityType int32
+type IssueCertificateRequest_CertificateFormat int32
 
 const (
-	ValidityType_VALIDITY_TYPE_UNSPECIFIED ValidityType = 0
-	ValidityType_VALIDITY_TYPE_DAYS        ValidityType = 1
-	ValidityType_VALIDITY_TYPE_MONTHS      ValidityType = 2
-	ValidityType_VALIDITY_TYPE_YEARS       ValidityType = 3
+	IssueCertificateRequest_CERTIFICATE_FORMAT_UNSPECIFIED IssueCertificateRequest_CertificateFormat = 0
+	IssueCertificateRequest_PEM                            IssueCertificateRequest_CertificateFormat = 1
+	IssueCertificateRequest_DER                            IssueCertificateRequest_CertificateFormat = 2
+	IssueCertificateRequest_PKCS7                          IssueCertificateRequest_CertificateFormat = 3
 )
 
-// Enum value maps for ValidityType.
+// Enum value maps for IssueCertificateRequest_CertificateFormat.
 var (
-	ValidityType_name = map[int32]string{
-		0: "VALIDITY_TYPE_UNSPECIFIED",
-		1: "VALIDITY_TYPE_DAYS",
-		2: "VALIDITY_TYPE_MONTHS",
-		3: "VALIDITY_TYPE_YEARS",
+	IssueCertificateRequest_CertificateFormat_name = map[int32]string{
+		0: "CERTIFICATE_FORMAT_UNSPECIFIED",
+		1: "PEM",
+		2: "DER",
+		3: "PKCS7",
 	}
-	ValidityType_value = map[string]int32{
-		"VALIDITY_TYPE_UNSPECIFIED": 0,
-		"VALIDITY_TYPE_DAYS":        1,
-		"VALIDITY_TYPE_MONTHS":      2,
-		"VALIDITY_TYPE_YEARS":       3,
+	IssueCertificateRequest_CertificateFormat_value = map[string]int32{
+		"CERTIFICATE_FORMAT_UNSPECIFIED": 0,
+		"PEM":                            1,
+		"DER":                            2,
+		"PKCS7":                          3,
 	}
 )
 
-func (x ValidityType) Enum() *ValidityType {
-	p := new(ValidityType)
+func (x IssueCertificateRequest_CertificateFormat) Enum() *IssueCertificateRequest_CertificateFormat {
+	p := new(IssueCertificateRequest_CertificateFormat)
 	*p = x
 	return p
 }
 
-func (x ValidityType) String() string {
+func (x IssueCertificateRequest_CertificateFormat) String() string {
 	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
 }
 
-func (ValidityType) Descriptor() protoreflect.EnumDescriptor {
+func (IssueCertificateRequest_CertificateFormat) Descriptor() protoreflect.EnumDescriptor {
 	return file_plugin_certificate_issuer_v1_certificate_issuer_proto_enumTypes[0].Descriptor()
 }
 
-func (ValidityType) Type() protoreflect.EnumType {
+func (IssueCertificateRequest_CertificateFormat) Type() protoreflect.EnumType {
 	return &file_plugin_certificate_issuer_v1_certificate_issuer_proto_enumTypes[0]
 }
 
-func (x ValidityType) Number() protoreflect.EnumNumber {
+func (x IssueCertificateRequest_CertificateFormat) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use ValidityType.Descriptor instead.
-func (ValidityType) EnumDescriptor() ([]byte, []int) {
-	return file_plugin_certificate_issuer_v1_certificate_issuer_proto_rawDescGZIP(), []int{0}
+// Deprecated: Use IssueCertificateRequest_CertificateFormat.Descriptor instead.
+func (IssueCertificateRequest_CertificateFormat) EnumDescriptor() ([]byte, []int) {
+	return file_plugin_certificate_issuer_v1_certificate_issuer_proto_rawDescGZIP(), []int{0, 0}
 }
 
-type GetCertificateRequest struct {
-	state         protoimpl.MessageState  `protogen:"open.v1"`
-	CommonName    string                  `protobuf:"bytes,1,opt,name=common_name,json=commonName,proto3" json:"common_name,omitempty"`
-	Locality      []string                `protobuf:"bytes,2,rep,name=locality,proto3" json:"locality,omitempty"`
-	Validity      *GetCertificateValidity `protobuf:"bytes,3,opt,name=validity,proto3" json:"validity,omitempty"`
-	PrivateKey    *PrivateKey             `protobuf:"bytes,4,opt,name=private_key,json=privateKey,proto3" json:"private_key,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+type PrivateKey_KeyFormat int32
+
+const (
+	PrivateKey_KEY_FORMAT_UNSPECIFIED PrivateKey_KeyFormat = 0
+	PrivateKey_PKCS1                  PrivateKey_KeyFormat = 1
+	PrivateKey_PKCS8                  PrivateKey_KeyFormat = 2
+	PrivateKey_SEC1                   PrivateKey_KeyFormat = 3
+)
+
+// Enum value maps for PrivateKey_KeyFormat.
+var (
+	PrivateKey_KeyFormat_name = map[int32]string{
+		0: "KEY_FORMAT_UNSPECIFIED",
+		1: "PKCS1",
+		2: "PKCS8",
+		3: "SEC1",
+	}
+	PrivateKey_KeyFormat_value = map[string]int32{
+		"KEY_FORMAT_UNSPECIFIED": 0,
+		"PKCS1":                  1,
+		"PKCS8":                  2,
+		"SEC1":                   3,
+	}
+)
+
+func (x PrivateKey_KeyFormat) Enum() *PrivateKey_KeyFormat {
+	p := new(PrivateKey_KeyFormat)
+	*p = x
+	return p
 }
 
-func (x *GetCertificateRequest) Reset() {
-	*x = GetCertificateRequest{}
+func (x PrivateKey_KeyFormat) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (PrivateKey_KeyFormat) Descriptor() protoreflect.EnumDescriptor {
+	return file_plugin_certificate_issuer_v1_certificate_issuer_proto_enumTypes[1].Descriptor()
+}
+
+func (PrivateKey_KeyFormat) Type() protoreflect.EnumType {
+	return &file_plugin_certificate_issuer_v1_certificate_issuer_proto_enumTypes[1]
+}
+
+func (x PrivateKey_KeyFormat) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use PrivateKey_KeyFormat.Descriptor instead.
+func (PrivateKey_KeyFormat) EnumDescriptor() ([]byte, []int) {
+	return file_plugin_certificate_issuer_v1_certificate_issuer_proto_rawDescGZIP(), []int{3, 0}
+}
+
+type RelativeValidity_ValidityUnit int32
+
+const (
+	RelativeValidity_VALIDITY_UNIT_UNSPECIFIED RelativeValidity_ValidityUnit = 0
+	RelativeValidity_DAYS                      RelativeValidity_ValidityUnit = 1
+	RelativeValidity_MONTHS                    RelativeValidity_ValidityUnit = 2
+	RelativeValidity_YEARS                     RelativeValidity_ValidityUnit = 3
+)
+
+// Enum value maps for RelativeValidity_ValidityUnit.
+var (
+	RelativeValidity_ValidityUnit_name = map[int32]string{
+		0: "VALIDITY_UNIT_UNSPECIFIED",
+		1: "DAYS",
+		2: "MONTHS",
+		3: "YEARS",
+	}
+	RelativeValidity_ValidityUnit_value = map[string]int32{
+		"VALIDITY_UNIT_UNSPECIFIED": 0,
+		"DAYS":                      1,
+		"MONTHS":                    2,
+		"YEARS":                     3,
+	}
+)
+
+func (x RelativeValidity_ValidityUnit) Enum() *RelativeValidity_ValidityUnit {
+	p := new(RelativeValidity_ValidityUnit)
+	*p = x
+	return p
+}
+
+func (x RelativeValidity_ValidityUnit) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (RelativeValidity_ValidityUnit) Descriptor() protoreflect.EnumDescriptor {
+	return file_plugin_certificate_issuer_v1_certificate_issuer_proto_enumTypes[2].Descriptor()
+}
+
+func (RelativeValidity_ValidityUnit) Type() protoreflect.EnumType {
+	return &file_plugin_certificate_issuer_v1_certificate_issuer_proto_enumTypes[2]
+}
+
+func (x RelativeValidity_ValidityUnit) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use RelativeValidity_ValidityUnit.Descriptor instead.
+func (RelativeValidity_ValidityUnit) EnumDescriptor() ([]byte, []int) {
+	return file_plugin_certificate_issuer_v1_certificate_issuer_proto_rawDescGZIP(), []int{5, 0}
+}
+
+type IssueCertificateRequest struct {
+	state           protoimpl.MessageState                    `protogen:"open.v1"`
+	Lifetime        *CertificateLifetime                      `protobuf:"bytes,1,opt,name=lifetime,proto3" json:"lifetime,omitempty"`
+	Subject         *Subject                                  `protobuf:"bytes,2,opt,name=subject,proto3" json:"subject,omitempty"`
+	PrivateKey      *PrivateKey                               `protobuf:"bytes,3,opt,name=private_key,json=privateKey,proto3,oneof" json:"private_key,omitempty"`
+	PreferredFormat IssueCertificateRequest_CertificateFormat `protobuf:"varint,4,opt,name=preferred_format,json=preferredFormat,proto3,enum=plugin.certificate_issuer.v1.IssueCertificateRequest_CertificateFormat" json:"preferred_format,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
+
+func (x *IssueCertificateRequest) Reset() {
+	*x = IssueCertificateRequest{}
 	mi := &file_plugin_certificate_issuer_v1_certificate_issuer_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *GetCertificateRequest) String() string {
+func (x *IssueCertificateRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetCertificateRequest) ProtoMessage() {}
+func (*IssueCertificateRequest) ProtoMessage() {}
 
-func (x *GetCertificateRequest) ProtoReflect() protoreflect.Message {
+func (x *IssueCertificateRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_plugin_certificate_issuer_v1_certificate_issuer_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -109,61 +216,62 @@ func (x *GetCertificateRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetCertificateRequest.ProtoReflect.Descriptor instead.
-func (*GetCertificateRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use IssueCertificateRequest.ProtoReflect.Descriptor instead.
+func (*IssueCertificateRequest) Descriptor() ([]byte, []int) {
 	return file_plugin_certificate_issuer_v1_certificate_issuer_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *GetCertificateRequest) GetCommonName() string {
+func (x *IssueCertificateRequest) GetLifetime() *CertificateLifetime {
 	if x != nil {
-		return x.CommonName
-	}
-	return ""
-}
-
-func (x *GetCertificateRequest) GetLocality() []string {
-	if x != nil {
-		return x.Locality
+		return x.Lifetime
 	}
 	return nil
 }
 
-func (x *GetCertificateRequest) GetValidity() *GetCertificateValidity {
+func (x *IssueCertificateRequest) GetSubject() *Subject {
 	if x != nil {
-		return x.Validity
+		return x.Subject
 	}
 	return nil
 }
 
-func (x *GetCertificateRequest) GetPrivateKey() *PrivateKey {
+func (x *IssueCertificateRequest) GetPrivateKey() *PrivateKey {
 	if x != nil {
 		return x.PrivateKey
 	}
 	return nil
 }
 
-type GetCertificateValidity struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Value         int64                  `protobuf:"varint,1,opt,name=value,proto3" json:"value,omitempty"`
-	Type          ValidityType           `protobuf:"varint,2,opt,name=type,proto3,enum=plugin.certificate_issuer.v1.ValidityType" json:"type,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+func (x *IssueCertificateRequest) GetPreferredFormat() IssueCertificateRequest_CertificateFormat {
+	if x != nil {
+		return x.PreferredFormat
+	}
+	return IssueCertificateRequest_CERTIFICATE_FORMAT_UNSPECIFIED
 }
 
-func (x *GetCertificateValidity) Reset() {
-	*x = GetCertificateValidity{}
+type IssueCertificateResponse struct {
+	state           protoimpl.MessageState                    `protogen:"open.v1"`
+	CertificateData []byte                                    `protobuf:"bytes,1,opt,name=certificate_data,json=certificateData,proto3" json:"certificate_data,omitempty"`
+	Format          IssueCertificateRequest_CertificateFormat `protobuf:"varint,2,opt,name=format,proto3,enum=plugin.certificate_issuer.v1.IssueCertificateRequest_CertificateFormat" json:"format,omitempty"`
+	CaChain         [][]byte                                  `protobuf:"bytes,3,rep,name=ca_chain,json=caChain,proto3" json:"ca_chain,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
+
+func (x *IssueCertificateResponse) Reset() {
+	*x = IssueCertificateResponse{}
 	mi := &file_plugin_certificate_issuer_v1_certificate_issuer_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *GetCertificateValidity) String() string {
+func (x *IssueCertificateResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetCertificateValidity) ProtoMessage() {}
+func (*IssueCertificateResponse) ProtoMessage() {}
 
-func (x *GetCertificateValidity) ProtoReflect() protoreflect.Message {
+func (x *IssueCertificateResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_plugin_certificate_issuer_v1_certificate_issuer_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -175,35 +283,87 @@ func (x *GetCertificateValidity) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetCertificateValidity.ProtoReflect.Descriptor instead.
-func (*GetCertificateValidity) Descriptor() ([]byte, []int) {
+// Deprecated: Use IssueCertificateResponse.ProtoReflect.Descriptor instead.
+func (*IssueCertificateResponse) Descriptor() ([]byte, []int) {
 	return file_plugin_certificate_issuer_v1_certificate_issuer_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *GetCertificateValidity) GetValue() int64 {
+func (x *IssueCertificateResponse) GetCertificateData() []byte {
 	if x != nil {
-		return x.Value
+		return x.CertificateData
 	}
-	return 0
+	return nil
 }
 
-func (x *GetCertificateValidity) GetType() ValidityType {
+func (x *IssueCertificateResponse) GetFormat() IssueCertificateRequest_CertificateFormat {
 	if x != nil {
-		return x.Type
+		return x.Format
 	}
-	return ValidityType_VALIDITY_TYPE_UNSPECIFIED
+	return IssueCertificateRequest_CERTIFICATE_FORMAT_UNSPECIFIED
+}
+
+func (x *IssueCertificateResponse) GetCaChain() [][]byte {
+	if x != nil {
+		return x.CaChain
+	}
+	return nil
+}
+
+type Subject struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	CommonName    string                 `protobuf:"bytes,1,opt,name=common_name,json=commonName,proto3" json:"common_name,omitempty"` // CN
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Subject) Reset() {
+	*x = Subject{}
+	mi := &file_plugin_certificate_issuer_v1_certificate_issuer_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Subject) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Subject) ProtoMessage() {}
+
+func (x *Subject) ProtoReflect() protoreflect.Message {
+	mi := &file_plugin_certificate_issuer_v1_certificate_issuer_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Subject.ProtoReflect.Descriptor instead.
+func (*Subject) Descriptor() ([]byte, []int) {
+	return file_plugin_certificate_issuer_v1_certificate_issuer_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *Subject) GetCommonName() string {
+	if x != nil {
+		return x.CommonName
+	}
+	return ""
 }
 
 type PrivateKey struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Data          []byte                 `protobuf:"bytes,1,opt,name=data,proto3" json:"data,omitempty"`
+	Format        PrivateKey_KeyFormat   `protobuf:"varint,2,opt,name=format,proto3,enum=plugin.certificate_issuer.v1.PrivateKey_KeyFormat" json:"format,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *PrivateKey) Reset() {
 	*x = PrivateKey{}
-	mi := &file_plugin_certificate_issuer_v1_certificate_issuer_proto_msgTypes[2]
+	mi := &file_plugin_certificate_issuer_v1_certificate_issuer_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -215,7 +375,7 @@ func (x *PrivateKey) String() string {
 func (*PrivateKey) ProtoMessage() {}
 
 func (x *PrivateKey) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_certificate_issuer_v1_certificate_issuer_proto_msgTypes[2]
+	mi := &file_plugin_certificate_issuer_v1_certificate_issuer_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -228,7 +388,7 @@ func (x *PrivateKey) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PrivateKey.ProtoReflect.Descriptor instead.
 func (*PrivateKey) Descriptor() ([]byte, []int) {
-	return file_plugin_certificate_issuer_v1_certificate_issuer_proto_rawDescGZIP(), []int{2}
+	return file_plugin_certificate_issuer_v1_certificate_issuer_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *PrivateKey) GetData() []byte {
@@ -238,28 +398,40 @@ func (x *PrivateKey) GetData() []byte {
 	return nil
 }
 
-type GetCertificateResponse struct {
-	state            protoimpl.MessageState `protogen:"open.v1"`
-	CertificateChain string                 `protobuf:"bytes,1,opt,name=certificate_chain,json=certificateChain,proto3" json:"certificate_chain,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
+func (x *PrivateKey) GetFormat() PrivateKey_KeyFormat {
+	if x != nil {
+		return x.Format
+	}
+	return PrivateKey_KEY_FORMAT_UNSPECIFIED
 }
 
-func (x *GetCertificateResponse) Reset() {
-	*x = GetCertificateResponse{}
-	mi := &file_plugin_certificate_issuer_v1_certificate_issuer_proto_msgTypes[3]
+type CertificateLifetime struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Types that are valid to be assigned to Lifetime:
+	//
+	//	*CertificateLifetime_Duration
+	//	*CertificateLifetime_NotAfter
+	//	*CertificateLifetime_Relative
+	Lifetime      isCertificateLifetime_Lifetime `protobuf_oneof:"lifetime"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CertificateLifetime) Reset() {
+	*x = CertificateLifetime{}
+	mi := &file_plugin_certificate_issuer_v1_certificate_issuer_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *GetCertificateResponse) String() string {
+func (x *CertificateLifetime) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetCertificateResponse) ProtoMessage() {}
+func (*CertificateLifetime) ProtoMessage() {}
 
-func (x *GetCertificateResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_certificate_issuer_v1_certificate_issuer_proto_msgTypes[3]
+func (x *CertificateLifetime) ProtoReflect() protoreflect.Message {
+	mi := &file_plugin_certificate_issuer_v1_certificate_issuer_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -270,14 +442,176 @@ func (x *GetCertificateResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetCertificateResponse.ProtoReflect.Descriptor instead.
-func (*GetCertificateResponse) Descriptor() ([]byte, []int) {
-	return file_plugin_certificate_issuer_v1_certificate_issuer_proto_rawDescGZIP(), []int{3}
+// Deprecated: Use CertificateLifetime.ProtoReflect.Descriptor instead.
+func (*CertificateLifetime) Descriptor() ([]byte, []int) {
+	return file_plugin_certificate_issuer_v1_certificate_issuer_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *GetCertificateResponse) GetCertificateChain() string {
+func (x *CertificateLifetime) GetLifetime() isCertificateLifetime_Lifetime {
 	if x != nil {
-		return x.CertificateChain
+		return x.Lifetime
+	}
+	return nil
+}
+
+func (x *CertificateLifetime) GetDuration() *durationpb.Duration {
+	if x != nil {
+		if x, ok := x.Lifetime.(*CertificateLifetime_Duration); ok {
+			return x.Duration
+		}
+	}
+	return nil
+}
+
+func (x *CertificateLifetime) GetNotAfter() *timestamppb.Timestamp {
+	if x != nil {
+		if x, ok := x.Lifetime.(*CertificateLifetime_NotAfter); ok {
+			return x.NotAfter
+		}
+	}
+	return nil
+}
+
+func (x *CertificateLifetime) GetRelative() *RelativeValidity {
+	if x != nil {
+		if x, ok := x.Lifetime.(*CertificateLifetime_Relative); ok {
+			return x.Relative
+		}
+	}
+	return nil
+}
+
+type isCertificateLifetime_Lifetime interface {
+	isCertificateLifetime_Lifetime()
+}
+
+type CertificateLifetime_Duration struct {
+	Duration *durationpb.Duration `protobuf:"bytes,1,opt,name=duration,proto3,oneof"`
+}
+
+type CertificateLifetime_NotAfter struct {
+	NotAfter *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=not_after,json=notAfter,proto3,oneof"`
+}
+
+type CertificateLifetime_Relative struct {
+	Relative *RelativeValidity `protobuf:"bytes,3,opt,name=relative,proto3,oneof"`
+}
+
+func (*CertificateLifetime_Duration) isCertificateLifetime_Lifetime() {}
+
+func (*CertificateLifetime_NotAfter) isCertificateLifetime_Lifetime() {}
+
+func (*CertificateLifetime_Relative) isCertificateLifetime_Lifetime() {}
+
+type RelativeValidity struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Ensure the value is a strictly positive number
+	Value         int32                         `protobuf:"varint,1,opt,name=value,proto3" json:"value,omitempty"`
+	Unit          RelativeValidity_ValidityUnit `protobuf:"varint,2,opt,name=unit,proto3,enum=plugin.certificate_issuer.v1.RelativeValidity_ValidityUnit" json:"unit,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RelativeValidity) Reset() {
+	*x = RelativeValidity{}
+	mi := &file_plugin_certificate_issuer_v1_certificate_issuer_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RelativeValidity) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RelativeValidity) ProtoMessage() {}
+
+func (x *RelativeValidity) ProtoReflect() protoreflect.Message {
+	mi := &file_plugin_certificate_issuer_v1_certificate_issuer_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RelativeValidity.ProtoReflect.Descriptor instead.
+func (*RelativeValidity) Descriptor() ([]byte, []int) {
+	return file_plugin_certificate_issuer_v1_certificate_issuer_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *RelativeValidity) GetValue() int32 {
+	if x != nil {
+		return x.Value
+	}
+	return 0
+}
+
+func (x *RelativeValidity) GetUnit() RelativeValidity_ValidityUnit {
+	if x != nil {
+		return x.Unit
+	}
+	return RelativeValidity_VALIDITY_UNIT_UNSPECIFIED
+}
+
+type SupportedKeyFormatsError struct {
+	state            protoimpl.MessageState `protogen:"open.v1"`
+	RejectedFormat   string                 `protobuf:"bytes,1,opt,name=rejected_format,json=rejectedFormat,proto3" json:"rejected_format,omitempty"`
+	SupportedFormats []PrivateKey_KeyFormat `protobuf:"varint,2,rep,packed,name=supported_formats,json=supportedFormats,proto3,enum=plugin.certificate_issuer.v1.PrivateKey_KeyFormat" json:"supported_formats,omitempty"`
+	Reason           string                 `protobuf:"bytes,3,opt,name=reason,proto3" json:"reason,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
+}
+
+func (x *SupportedKeyFormatsError) Reset() {
+	*x = SupportedKeyFormatsError{}
+	mi := &file_plugin_certificate_issuer_v1_certificate_issuer_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SupportedKeyFormatsError) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SupportedKeyFormatsError) ProtoMessage() {}
+
+func (x *SupportedKeyFormatsError) ProtoReflect() protoreflect.Message {
+	mi := &file_plugin_certificate_issuer_v1_certificate_issuer_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SupportedKeyFormatsError.ProtoReflect.Descriptor instead.
+func (*SupportedKeyFormatsError) Descriptor() ([]byte, []int) {
+	return file_plugin_certificate_issuer_v1_certificate_issuer_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *SupportedKeyFormatsError) GetRejectedFormat() string {
+	if x != nil {
+		return x.RejectedFormat
+	}
+	return ""
+}
+
+func (x *SupportedKeyFormatsError) GetSupportedFormats() []PrivateKey_KeyFormat {
+	if x != nil {
+		return x.SupportedFormats
+	}
+	return nil
+}
+
+func (x *SupportedKeyFormatsError) GetReason() string {
+	if x != nil {
+		return x.Reason
 	}
 	return ""
 }
@@ -286,29 +620,58 @@ var File_plugin_certificate_issuer_v1_certificate_issuer_proto protoreflect.File
 
 const file_plugin_certificate_issuer_v1_certificate_issuer_proto_rawDesc = "" +
 	"\n" +
-	"5plugin/certificate_issuer/v1/certificate_issuer.proto\x12\x1cplugin.certificate_issuer.v1\"\xf1\x01\n" +
-	"\x15GetCertificateRequest\x12\x1f\n" +
+	"5plugin/certificate_issuer/v1/certificate_issuer.proto\x12\x1cplugin.certificate_issuer.v1\x1a\x1egoogle/protobuf/duration.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1bbuf/validate/validate.proto\"\xd3\x03\n" +
+	"\x17IssueCertificateRequest\x12M\n" +
+	"\blifetime\x18\x01 \x01(\v21.plugin.certificate_issuer.v1.CertificateLifetimeR\blifetime\x12?\n" +
+	"\asubject\x18\x02 \x01(\v2%.plugin.certificate_issuer.v1.SubjectR\asubject\x12N\n" +
+	"\vprivate_key\x18\x03 \x01(\v2(.plugin.certificate_issuer.v1.PrivateKeyH\x00R\n" +
+	"privateKey\x88\x01\x01\x12r\n" +
+	"\x10preferred_format\x18\x04 \x01(\x0e2G.plugin.certificate_issuer.v1.IssueCertificateRequest.CertificateFormatR\x0fpreferredFormat\"T\n" +
+	"\x11CertificateFormat\x12\"\n" +
+	"\x1eCERTIFICATE_FORMAT_UNSPECIFIED\x10\x00\x12\a\n" +
+	"\x03PEM\x10\x01\x12\a\n" +
+	"\x03DER\x10\x02\x12\t\n" +
+	"\x05PKCS7\x10\x03B\x0e\n" +
+	"\f_private_key\"\xc1\x01\n" +
+	"\x18IssueCertificateResponse\x12)\n" +
+	"\x10certificate_data\x18\x01 \x01(\fR\x0fcertificateData\x12_\n" +
+	"\x06format\x18\x02 \x01(\x0e2G.plugin.certificate_issuer.v1.IssueCertificateRequest.CertificateFormatR\x06format\x12\x19\n" +
+	"\bca_chain\x18\x03 \x03(\fR\acaChain\"*\n" +
+	"\aSubject\x12\x1f\n" +
 	"\vcommon_name\x18\x01 \x01(\tR\n" +
-	"commonName\x12\x1a\n" +
-	"\blocality\x18\x02 \x03(\tR\blocality\x12P\n" +
-	"\bvalidity\x18\x03 \x01(\v24.plugin.certificate_issuer.v1.GetCertificateValidityR\bvalidity\x12I\n" +
-	"\vprivate_key\x18\x04 \x01(\v2(.plugin.certificate_issuer.v1.PrivateKeyR\n" +
-	"privateKey\"n\n" +
-	"\x16GetCertificateValidity\x12\x14\n" +
-	"\x05value\x18\x01 \x01(\x03R\x05value\x12>\n" +
-	"\x04type\x18\x02 \x01(\x0e2*.plugin.certificate_issuer.v1.ValidityTypeR\x04type\" \n" +
+	"commonName\"\xb5\x01\n" +
 	"\n" +
 	"PrivateKey\x12\x12\n" +
-	"\x04data\x18\x01 \x01(\fR\x04data\"E\n" +
-	"\x16GetCertificateResponse\x12+\n" +
-	"\x11certificate_chain\x18\x01 \x01(\tR\x10certificateChain*x\n" +
-	"\fValidityType\x12\x1d\n" +
-	"\x19VALIDITY_TYPE_UNSPECIFIED\x10\x00\x12\x16\n" +
-	"\x12VALIDITY_TYPE_DAYS\x10\x01\x12\x18\n" +
-	"\x14VALIDITY_TYPE_MONTHS\x10\x02\x12\x17\n" +
-	"\x13VALIDITY_TYPE_YEARS\x10\x032\x97\x01\n" +
-	"\x18CertificateIssuerService\x12{\n" +
-	"\x0eGetCertificate\x123.plugin.certificate_issuer.v1.GetCertificateRequest\x1a4.plugin.certificate_issuer.v1.GetCertificateResponseB\x9f\x02\n" +
+	"\x04data\x18\x01 \x01(\fR\x04data\x12J\n" +
+	"\x06format\x18\x02 \x01(\x0e22.plugin.certificate_issuer.v1.PrivateKey.KeyFormatR\x06format\"G\n" +
+	"\tKeyFormat\x12\x1a\n" +
+	"\x16KEY_FORMAT_UNSPECIFIED\x10\x00\x12\t\n" +
+	"\x05PKCS1\x10\x01\x12\t\n" +
+	"\x05PKCS8\x10\x02\x12\b\n" +
+	"\x04SEC1\x10\x03\"\xe3\x01\n" +
+	"\x13CertificateLifetime\x127\n" +
+	"\bduration\x18\x01 \x01(\v2\x19.google.protobuf.DurationH\x00R\bduration\x129\n" +
+	"\tnot_after\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampH\x00R\bnotAfter\x12L\n" +
+	"\brelative\x18\x03 \x01(\v2..plugin.certificate_issuer.v1.RelativeValidityH\x00R\brelativeB\n" +
+	"\n" +
+	"\blifetime\"\xbe\x03\n" +
+	"\x10RelativeValidity\x12\x1d\n" +
+	"\x05value\x18\x01 \x01(\x05B\a\xbaH\x04\x1a\x02 \x00R\x05value\x12[\n" +
+	"\x04unit\x18\x02 \x01(\x0e2;.plugin.certificate_issuer.v1.RelativeValidity.ValidityUnitB\n" +
+	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\x04unit\"N\n" +
+	"\fValidityUnit\x12\x1d\n" +
+	"\x19VALIDITY_UNIT_UNSPECIFIED\x10\x00\x12\b\n" +
+	"\x04DAYS\x10\x01\x12\n" +
+	"\n" +
+	"\x06MONTHS\x10\x02\x12\t\n" +
+	"\x05YEARS\x10\x03:\xdd\x01\xbaH\xd9\x01\x1a\xd6\x01\n" +
+	"\x15max_duration_one_year\x12GValidity duration cannot exceed 1 year (365 days, 12 months, or 1 year)\x1at(this.unit == 1 && this.value <= 365) || (this.unit == 2 && this.value <= 12) || (this.unit == 3 && this.value <= 1)\"\xbc\x01\n" +
+	"\x18SupportedKeyFormatsError\x12'\n" +
+	"\x0frejected_format\x18\x01 \x01(\tR\x0erejectedFormat\x12_\n" +
+	"\x11supported_formats\x18\x02 \x03(\x0e22.plugin.certificate_issuer.v1.PrivateKey.KeyFormatR\x10supportedFormats\x12\x16\n" +
+	"\x06reason\x18\x03 \x01(\tR\x06reason2\x97\x01\n" +
+	"\x11CertificateIssuer\x12\x81\x01\n" +
+	"\x10IssueCertificate\x125.plugin.certificate_issuer.v1.IssueCertificateRequest\x1a6.plugin.certificate_issuer.v1.IssueCertificateResponseB\x9f\x02\n" +
 	" com.plugin.certificate_issuer.v1B\x16CertificateIssuerProtoP\x01ZUgithub.com/openkcm/plugin-sdk/proto/plugin/certificate_issuer/v1;certificate_issuerv1\xa2\x02\x03PCX\xaa\x02\x1bPlugin.CertificateIssuer.V1\xca\x02\x1bPlugin\\CertificateIssuer\\V1\xe2\x02'Plugin\\CertificateIssuer\\V1\\GPBMetadata\xea\x02\x1dPlugin::CertificateIssuer::V1b\x06proto3"
 
 var (
@@ -323,26 +686,41 @@ func file_plugin_certificate_issuer_v1_certificate_issuer_proto_rawDescGZIP() []
 	return file_plugin_certificate_issuer_v1_certificate_issuer_proto_rawDescData
 }
 
-var file_plugin_certificate_issuer_v1_certificate_issuer_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_plugin_certificate_issuer_v1_certificate_issuer_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_plugin_certificate_issuer_v1_certificate_issuer_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
+var file_plugin_certificate_issuer_v1_certificate_issuer_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_plugin_certificate_issuer_v1_certificate_issuer_proto_goTypes = []any{
-	(ValidityType)(0),              // 0: plugin.certificate_issuer.v1.ValidityType
-	(*GetCertificateRequest)(nil),  // 1: plugin.certificate_issuer.v1.GetCertificateRequest
-	(*GetCertificateValidity)(nil), // 2: plugin.certificate_issuer.v1.GetCertificateValidity
-	(*PrivateKey)(nil),             // 3: plugin.certificate_issuer.v1.PrivateKey
-	(*GetCertificateResponse)(nil), // 4: plugin.certificate_issuer.v1.GetCertificateResponse
+	(IssueCertificateRequest_CertificateFormat)(0), // 0: plugin.certificate_issuer.v1.IssueCertificateRequest.CertificateFormat
+	(PrivateKey_KeyFormat)(0),                      // 1: plugin.certificate_issuer.v1.PrivateKey.KeyFormat
+	(RelativeValidity_ValidityUnit)(0),             // 2: plugin.certificate_issuer.v1.RelativeValidity.ValidityUnit
+	(*IssueCertificateRequest)(nil),                // 3: plugin.certificate_issuer.v1.IssueCertificateRequest
+	(*IssueCertificateResponse)(nil),               // 4: plugin.certificate_issuer.v1.IssueCertificateResponse
+	(*Subject)(nil),                                // 5: plugin.certificate_issuer.v1.Subject
+	(*PrivateKey)(nil),                             // 6: plugin.certificate_issuer.v1.PrivateKey
+	(*CertificateLifetime)(nil),                    // 7: plugin.certificate_issuer.v1.CertificateLifetime
+	(*RelativeValidity)(nil),                       // 8: plugin.certificate_issuer.v1.RelativeValidity
+	(*SupportedKeyFormatsError)(nil),               // 9: plugin.certificate_issuer.v1.SupportedKeyFormatsError
+	(*durationpb.Duration)(nil),                    // 10: google.protobuf.Duration
+	(*timestamppb.Timestamp)(nil),                  // 11: google.protobuf.Timestamp
 }
 var file_plugin_certificate_issuer_v1_certificate_issuer_proto_depIdxs = []int32{
-	2, // 0: plugin.certificate_issuer.v1.GetCertificateRequest.validity:type_name -> plugin.certificate_issuer.v1.GetCertificateValidity
-	3, // 1: plugin.certificate_issuer.v1.GetCertificateRequest.private_key:type_name -> plugin.certificate_issuer.v1.PrivateKey
-	0, // 2: plugin.certificate_issuer.v1.GetCertificateValidity.type:type_name -> plugin.certificate_issuer.v1.ValidityType
-	1, // 3: plugin.certificate_issuer.v1.CertificateIssuerService.GetCertificate:input_type -> plugin.certificate_issuer.v1.GetCertificateRequest
-	4, // 4: plugin.certificate_issuer.v1.CertificateIssuerService.GetCertificate:output_type -> plugin.certificate_issuer.v1.GetCertificateResponse
-	4, // [4:5] is the sub-list for method output_type
-	3, // [3:4] is the sub-list for method input_type
-	3, // [3:3] is the sub-list for extension type_name
-	3, // [3:3] is the sub-list for extension extendee
-	0, // [0:3] is the sub-list for field type_name
+	7,  // 0: plugin.certificate_issuer.v1.IssueCertificateRequest.lifetime:type_name -> plugin.certificate_issuer.v1.CertificateLifetime
+	5,  // 1: plugin.certificate_issuer.v1.IssueCertificateRequest.subject:type_name -> plugin.certificate_issuer.v1.Subject
+	6,  // 2: plugin.certificate_issuer.v1.IssueCertificateRequest.private_key:type_name -> plugin.certificate_issuer.v1.PrivateKey
+	0,  // 3: plugin.certificate_issuer.v1.IssueCertificateRequest.preferred_format:type_name -> plugin.certificate_issuer.v1.IssueCertificateRequest.CertificateFormat
+	0,  // 4: plugin.certificate_issuer.v1.IssueCertificateResponse.format:type_name -> plugin.certificate_issuer.v1.IssueCertificateRequest.CertificateFormat
+	1,  // 5: plugin.certificate_issuer.v1.PrivateKey.format:type_name -> plugin.certificate_issuer.v1.PrivateKey.KeyFormat
+	10, // 6: plugin.certificate_issuer.v1.CertificateLifetime.duration:type_name -> google.protobuf.Duration
+	11, // 7: plugin.certificate_issuer.v1.CertificateLifetime.not_after:type_name -> google.protobuf.Timestamp
+	8,  // 8: plugin.certificate_issuer.v1.CertificateLifetime.relative:type_name -> plugin.certificate_issuer.v1.RelativeValidity
+	2,  // 9: plugin.certificate_issuer.v1.RelativeValidity.unit:type_name -> plugin.certificate_issuer.v1.RelativeValidity.ValidityUnit
+	1,  // 10: plugin.certificate_issuer.v1.SupportedKeyFormatsError.supported_formats:type_name -> plugin.certificate_issuer.v1.PrivateKey.KeyFormat
+	3,  // 11: plugin.certificate_issuer.v1.CertificateIssuer.IssueCertificate:input_type -> plugin.certificate_issuer.v1.IssueCertificateRequest
+	4,  // 12: plugin.certificate_issuer.v1.CertificateIssuer.IssueCertificate:output_type -> plugin.certificate_issuer.v1.IssueCertificateResponse
+	12, // [12:13] is the sub-list for method output_type
+	11, // [11:12] is the sub-list for method input_type
+	11, // [11:11] is the sub-list for extension type_name
+	11, // [11:11] is the sub-list for extension extendee
+	0,  // [0:11] is the sub-list for field type_name
 }
 
 func init() { file_plugin_certificate_issuer_v1_certificate_issuer_proto_init() }
@@ -350,13 +728,19 @@ func file_plugin_certificate_issuer_v1_certificate_issuer_proto_init() {
 	if File_plugin_certificate_issuer_v1_certificate_issuer_proto != nil {
 		return
 	}
+	file_plugin_certificate_issuer_v1_certificate_issuer_proto_msgTypes[0].OneofWrappers = []any{}
+	file_plugin_certificate_issuer_v1_certificate_issuer_proto_msgTypes[4].OneofWrappers = []any{
+		(*CertificateLifetime_Duration)(nil),
+		(*CertificateLifetime_NotAfter)(nil),
+		(*CertificateLifetime_Relative)(nil),
+	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_plugin_certificate_issuer_v1_certificate_issuer_proto_rawDesc), len(file_plugin_certificate_issuer_v1_certificate_issuer_proto_rawDesc)),
-			NumEnums:      1,
-			NumMessages:   4,
+			NumEnums:      3,
+			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

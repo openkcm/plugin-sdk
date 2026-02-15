@@ -9,15 +9,15 @@ import (
 
 	"github.com/openkcm/plugin-sdk/api"
 	"github.com/openkcm/plugin-sdk/pkg/plugin"
-	grpccommonv1 "github.com/openkcm/plugin-sdk/proto/plugin/keystore/common/v1"
-	grpckeystoremanagementv1 "github.com/openkcm/plugin-sdk/proto/plugin/keystore/management/v1"
+	grpccommonv1 "github.com/openkcm/plugin-sdk/proto/plugin/common/v1"
+	grpckeystoremanagementv1 "github.com/openkcm/plugin-sdk/proto/plugin/keystore_management/v1"
 	"github.com/openkcm/plugin-sdk/service/api/common"
 	"github.com/openkcm/plugin-sdk/service/api/keystoremanagement"
 )
 
 type V1 struct {
 	plugin.Facade
-	grpckeystoremanagementv1.KeystoreProviderPluginClient
+	grpckeystoremanagementv1.KeystoreManagementPluginClient
 }
 
 func (v1 *V1) Version() uint {
@@ -35,13 +35,12 @@ func (v1 *V1) CreateKeystore(ctx context.Context, req *keystoremanagement.Create
 	}
 
 	in := &grpckeystoremanagementv1.CreateKeystoreRequest{
-		Values: value,
+		ConfigurationParameters: value,
 	}
 	if err := protovalidate.Validate(in); err != nil {
 		return nil, fmt.Errorf("failed validation: %v", err)
 	}
-
-	grpcResp, err := v1.KeystoreProviderPluginClient.CreateKeystore(ctx, in)
+	grpcResp, err := v1.KeystoreManagementPluginClient.CreateKeystore(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -50,8 +49,8 @@ func (v1 *V1) CreateKeystore(ctx context.Context, req *keystoremanagement.Create
 			Values: nil,
 		},
 	}
-	if grpcResp.GetConfig() != nil || grpcResp.GetConfig().GetValues() != nil {
-		resp.Config.Values = grpcResp.GetConfig().GetValues().AsMap()
+	if grpcResp.GetConfig() != nil || grpcResp.GetConfig().GetConfigurationParameters() != nil {
+		resp.Config.Values = grpcResp.GetConfig().GetConfigurationParameters().AsMap()
 	}
 	return resp, nil
 }
@@ -62,15 +61,15 @@ func (v1 *V1) DeleteKeystore(ctx context.Context, req *keystoremanagement.Delete
 		return nil, fmt.Errorf("failed to parse values: %v", err)
 	}
 	in := &grpckeystoremanagementv1.DeleteKeystoreRequest{
-		Config: &grpccommonv1.KeystoreInstanceConfig{
-			Values: value,
+		Config: &grpccommonv1.KeystoreConfig{
+			ConfigurationParameters: value,
 		},
 	}
 	if err := protovalidate.Validate(in); err != nil {
 		return nil, fmt.Errorf("failed validation: %v", err)
 	}
 
-	_, err = v1.KeystoreProviderPluginClient.DeleteKeystore(ctx, in)
+	_, err = v1.KeystoreManagementPluginClient.DeleteKeystore(ctx, in)
 	if err != nil {
 		return nil, err
 	}

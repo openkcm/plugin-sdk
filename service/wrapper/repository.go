@@ -8,26 +8,12 @@ import (
 )
 
 const (
-	certificateIssuerType = "CertificateIssuer"
-	// TODO: value should go away after plugin proto refactoring
-	certificateIssuerServiceType = "CertificateIssuerService"
-
-	notificationType = "Notification"
-	// TODO: value should go away after plugin proto refactoring
-	notificationServiceType = "NotificationService"
-
-	systemInformationType = "SystemInformation"
-	// TODO: value should go away after plugin proto refactoring
-	systemInformationServiceType = "SystemInformationService"
-
+	certificateIssuerType  = "CertificateIssuer"
+	notificationType       = "Notification"
+	systemInformationType  = "SystemInformation"
 	identityManagementType = "IdentityManagement"
-	// TODO: value should go away after plugin proto refactoring
-	identityManagementServiceType = "IdentityManagementService"
-
-	// TODO: value should become `KeystoreManagement` after plugin proto refactoring
-	keystoreManagementType = "KeystoreProvider"
-	// TODO: value should become `KeyManagement` after plugin proto refactoring
-	keyManagementType = "KeystoreInstanceKeyOperation"
+	keystoreManagementType = "KeystoreManagement"
+	keyManagementType      = "KeyManagement"
 )
 
 type Repository struct {
@@ -43,16 +29,12 @@ type Repository struct {
 
 func (repo *Repository) Plugins() map[string]api.PluginRepo {
 	return map[string]api.PluginRepo{
-		identityManagementType:        &repo.identityManagementRepository,
-		identityManagementServiceType: &repo.identityManagementRepository,
-		certificateIssuerType:         &repo.certificateIssuerRepository,
-		certificateIssuerServiceType:  &repo.certificateIssuerRepository,
-		notificationType:              &repo.notificationRepository,
-		notificationServiceType:       &repo.notificationRepository,
-		systemInformationType:         &repo.systemInformationRepository,
-		systemInformationServiceType:  &repo.systemInformationRepository,
-		keystoreManagementType:        &repo.keystoreManagementRepository,
-		keyManagementType:             &repo.keyManagementRepository,
+		identityManagementType: &repo.identityManagementRepository,
+		certificateIssuerType:  &repo.certificateIssuerRepository,
+		notificationType:       &repo.notificationRepository,
+		systemInformationType:  &repo.systemInformationRepository,
+		keystoreManagementType: &repo.keystoreManagementRepository,
+		keyManagementType:      &repo.keyManagementRepository,
 	}
 }
 

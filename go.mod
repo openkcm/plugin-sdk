@@ -1,10 +1,11 @@
 module github.com/openkcm/plugin-sdk
 
-go 1.25.4
+go 1.26.0
 
 require (
 	buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go v1.36.11-20260209202127-80ab13bee0bf.1
 	buf.build/go/protovalidate v1.1.2
+	github.com/cloudflare/cfssl v1.6.5
 	github.com/hashicorp/go-hclog v1.6.3
 	github.com/hashicorp/go-plugin v1.7.0
 	github.com/stretchr/testify v1.11.1

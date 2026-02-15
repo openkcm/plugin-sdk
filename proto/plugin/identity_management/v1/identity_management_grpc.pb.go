@@ -20,216 +20,215 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	IdentityManagementService_GetGroup_FullMethodName         = "/plugin.identity_management.v1.IdentityManagementService/GetGroup"
-	IdentityManagementService_GetAllGroups_FullMethodName     = "/plugin.identity_management.v1.IdentityManagementService/GetAllGroups"
-	IdentityManagementService_GetUsersForGroup_FullMethodName = "/plugin.identity_management.v1.IdentityManagementService/GetUsersForGroup"
-	IdentityManagementService_GetGroupsForUser_FullMethodName = "/plugin.identity_management.v1.IdentityManagementService/GetGroupsForUser"
+	IdentityManagement_GetGroup_FullMethodName       = "/plugin.identity_management.v1.IdentityManagement/GetGroup"
+	IdentityManagement_ListGroups_FullMethodName     = "/plugin.identity_management.v1.IdentityManagement/ListGroups"
+	IdentityManagement_ListGroupUsers_FullMethodName = "/plugin.identity_management.v1.IdentityManagement/ListGroupUsers"
+	IdentityManagement_ListUserGroups_FullMethodName = "/plugin.identity_management.v1.IdentityManagement/ListUserGroups"
 )
 
-// IdentityManagementServiceClient is the client API for IdentityManagementService service.
+// IdentityManagementClient is the client API for IdentityManagement service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type IdentityManagementServiceClient interface {
+type IdentityManagementClient interface {
 	GetGroup(ctx context.Context, in *GetGroupRequest, opts ...grpc.CallOption) (*GetGroupResponse, error)
-	GetAllGroups(ctx context.Context, in *GetAllGroupsRequest, opts ...grpc.CallOption) (*GetAllGroupsResponse, error)
-	GetUsersForGroup(ctx context.Context, in *GetUsersForGroupRequest, opts ...grpc.CallOption) (*GetUsersForGroupResponse, error)
-	GetGroupsForUser(ctx context.Context, in *GetGroupsForUserRequest, opts ...grpc.CallOption) (*GetGroupsForUserResponse, error)
+	ListGroups(ctx context.Context, in *ListGroupsRequest, opts ...grpc.CallOption) (*ListGroupsResponse, error)
+	ListGroupUsers(ctx context.Context, in *ListGroupUsersRequest, opts ...grpc.CallOption) (*ListGroupUsersResponse, error)
+	ListUserGroups(ctx context.Context, in *ListUserGroupsRequest, opts ...grpc.CallOption) (*ListUserGroupsResponse, error)
 }
 
-type identityManagementServiceClient struct {
+type identityManagementClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewIdentityManagementServiceClient(cc grpc.ClientConnInterface) IdentityManagementServiceClient {
-	return &identityManagementServiceClient{cc}
+func NewIdentityManagementClient(cc grpc.ClientConnInterface) IdentityManagementClient {
+	return &identityManagementClient{cc}
 }
 
-func (c *identityManagementServiceClient) GetGroup(ctx context.Context, in *GetGroupRequest, opts ...grpc.CallOption) (*GetGroupResponse, error) {
+func (c *identityManagementClient) GetGroup(ctx context.Context, in *GetGroupRequest, opts ...grpc.CallOption) (*GetGroupResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetGroupResponse)
-	err := c.cc.Invoke(ctx, IdentityManagementService_GetGroup_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, IdentityManagement_GetGroup_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *identityManagementServiceClient) GetAllGroups(ctx context.Context, in *GetAllGroupsRequest, opts ...grpc.CallOption) (*GetAllGroupsResponse, error) {
+func (c *identityManagementClient) ListGroups(ctx context.Context, in *ListGroupsRequest, opts ...grpc.CallOption) (*ListGroupsResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetAllGroupsResponse)
-	err := c.cc.Invoke(ctx, IdentityManagementService_GetAllGroups_FullMethodName, in, out, cOpts...)
+	out := new(ListGroupsResponse)
+	err := c.cc.Invoke(ctx, IdentityManagement_ListGroups_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *identityManagementServiceClient) GetUsersForGroup(ctx context.Context, in *GetUsersForGroupRequest, opts ...grpc.CallOption) (*GetUsersForGroupResponse, error) {
+func (c *identityManagementClient) ListGroupUsers(ctx context.Context, in *ListGroupUsersRequest, opts ...grpc.CallOption) (*ListGroupUsersResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetUsersForGroupResponse)
-	err := c.cc.Invoke(ctx, IdentityManagementService_GetUsersForGroup_FullMethodName, in, out, cOpts...)
+	out := new(ListGroupUsersResponse)
+	err := c.cc.Invoke(ctx, IdentityManagement_ListGroupUsers_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *identityManagementServiceClient) GetGroupsForUser(ctx context.Context, in *GetGroupsForUserRequest, opts ...grpc.CallOption) (*GetGroupsForUserResponse, error) {
+func (c *identityManagementClient) ListUserGroups(ctx context.Context, in *ListUserGroupsRequest, opts ...grpc.CallOption) (*ListUserGroupsResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetGroupsForUserResponse)
-	err := c.cc.Invoke(ctx, IdentityManagementService_GetGroupsForUser_FullMethodName, in, out, cOpts...)
+	out := new(ListUserGroupsResponse)
+	err := c.cc.Invoke(ctx, IdentityManagement_ListUserGroups_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// IdentityManagementServiceServer is the server API for IdentityManagementService service.
-// All implementations must embed UnimplementedIdentityManagementServiceServer
+// IdentityManagementServer is the server API for IdentityManagement service.
+// All implementations must embed UnimplementedIdentityManagementServer
 // for forward compatibility.
-type IdentityManagementServiceServer interface {
+type IdentityManagementServer interface {
 	GetGroup(context.Context, *GetGroupRequest) (*GetGroupResponse, error)
-	GetAllGroups(context.Context, *GetAllGroupsRequest) (*GetAllGroupsResponse, error)
-	GetUsersForGroup(context.Context, *GetUsersForGroupRequest) (*GetUsersForGroupResponse, error)
-	GetGroupsForUser(context.Context, *GetGroupsForUserRequest) (*GetGroupsForUserResponse, error)
-	mustEmbedUnimplementedIdentityManagementServiceServer()
+	ListGroups(context.Context, *ListGroupsRequest) (*ListGroupsResponse, error)
+	ListGroupUsers(context.Context, *ListGroupUsersRequest) (*ListGroupUsersResponse, error)
+	ListUserGroups(context.Context, *ListUserGroupsRequest) (*ListUserGroupsResponse, error)
+	mustEmbedUnimplementedIdentityManagementServer()
 }
 
-// UnimplementedIdentityManagementServiceServer must be embedded to have
+// UnimplementedIdentityManagementServer must be embedded to have
 // forward compatible implementations.
 //
 // NOTE: this should be embedded by value instead of pointer to avoid a nil
 // pointer dereference when methods are called.
-type UnimplementedIdentityManagementServiceServer struct{}
+type UnimplementedIdentityManagementServer struct{}
 
-func (UnimplementedIdentityManagementServiceServer) GetGroup(context.Context, *GetGroupRequest) (*GetGroupResponse, error) {
+func (UnimplementedIdentityManagementServer) GetGroup(context.Context, *GetGroupRequest) (*GetGroupResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetGroup not implemented")
 }
-func (UnimplementedIdentityManagementServiceServer) GetAllGroups(context.Context, *GetAllGroupsRequest) (*GetAllGroupsResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method GetAllGroups not implemented")
+func (UnimplementedIdentityManagementServer) ListGroups(context.Context, *ListGroupsRequest) (*ListGroupsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListGroups not implemented")
 }
-func (UnimplementedIdentityManagementServiceServer) GetUsersForGroup(context.Context, *GetUsersForGroupRequest) (*GetUsersForGroupResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method GetUsersForGroup not implemented")
+func (UnimplementedIdentityManagementServer) ListGroupUsers(context.Context, *ListGroupUsersRequest) (*ListGroupUsersResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListGroupUsers not implemented")
 }
-func (UnimplementedIdentityManagementServiceServer) GetGroupsForUser(context.Context, *GetGroupsForUserRequest) (*GetGroupsForUserResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method GetGroupsForUser not implemented")
+func (UnimplementedIdentityManagementServer) ListUserGroups(context.Context, *ListUserGroupsRequest) (*ListUserGroupsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListUserGroups not implemented")
 }
-func (UnimplementedIdentityManagementServiceServer) mustEmbedUnimplementedIdentityManagementServiceServer() {
-}
-func (UnimplementedIdentityManagementServiceServer) testEmbeddedByValue() {}
+func (UnimplementedIdentityManagementServer) mustEmbedUnimplementedIdentityManagementServer() {}
+func (UnimplementedIdentityManagementServer) testEmbeddedByValue()                            {}
 
-// UnsafeIdentityManagementServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to IdentityManagementServiceServer will
+// UnsafeIdentityManagementServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to IdentityManagementServer will
 // result in compilation errors.
-type UnsafeIdentityManagementServiceServer interface {
-	mustEmbedUnimplementedIdentityManagementServiceServer()
+type UnsafeIdentityManagementServer interface {
+	mustEmbedUnimplementedIdentityManagementServer()
 }
 
-func RegisterIdentityManagementServiceServer(s grpc.ServiceRegistrar, srv IdentityManagementServiceServer) {
-	// If the following call panics, it indicates UnimplementedIdentityManagementServiceServer was
+func RegisterIdentityManagementServer(s grpc.ServiceRegistrar, srv IdentityManagementServer) {
+	// If the following call panics, it indicates UnimplementedIdentityManagementServer was
 	// embedded by pointer and is nil.  This will cause panics if an
 	// unimplemented method is ever invoked, so we test this at initialization
 	// time to prevent it from happening at runtime later due to I/O.
 	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
 		t.testEmbeddedByValue()
 	}
-	s.RegisterService(&IdentityManagementService_ServiceDesc, srv)
+	s.RegisterService(&IdentityManagement_ServiceDesc, srv)
 }
 
-func _IdentityManagementService_GetGroup_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _IdentityManagement_GetGroup_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetGroupRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(IdentityManagementServiceServer).GetGroup(ctx, in)
+		return srv.(IdentityManagementServer).GetGroup(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: IdentityManagementService_GetGroup_FullMethodName,
+		FullMethod: IdentityManagement_GetGroup_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(IdentityManagementServiceServer).GetGroup(ctx, req.(*GetGroupRequest))
+		return srv.(IdentityManagementServer).GetGroup(ctx, req.(*GetGroupRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _IdentityManagementService_GetAllGroups_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetAllGroupsRequest)
+func _IdentityManagement_ListGroups_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListGroupsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(IdentityManagementServiceServer).GetAllGroups(ctx, in)
+		return srv.(IdentityManagementServer).ListGroups(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: IdentityManagementService_GetAllGroups_FullMethodName,
+		FullMethod: IdentityManagement_ListGroups_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(IdentityManagementServiceServer).GetAllGroups(ctx, req.(*GetAllGroupsRequest))
+		return srv.(IdentityManagementServer).ListGroups(ctx, req.(*ListGroupsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _IdentityManagementService_GetUsersForGroup_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetUsersForGroupRequest)
+func _IdentityManagement_ListGroupUsers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListGroupUsersRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(IdentityManagementServiceServer).GetUsersForGroup(ctx, in)
+		return srv.(IdentityManagementServer).ListGroupUsers(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: IdentityManagementService_GetUsersForGroup_FullMethodName,
+		FullMethod: IdentityManagement_ListGroupUsers_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(IdentityManagementServiceServer).GetUsersForGroup(ctx, req.(*GetUsersForGroupRequest))
+		return srv.(IdentityManagementServer).ListGroupUsers(ctx, req.(*ListGroupUsersRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _IdentityManagementService_GetGroupsForUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetGroupsForUserRequest)
+func _IdentityManagement_ListUserGroups_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListUserGroupsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(IdentityManagementServiceServer).GetGroupsForUser(ctx, in)
+		return srv.(IdentityManagementServer).ListUserGroups(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: IdentityManagementService_GetGroupsForUser_FullMethodName,
+		FullMethod: IdentityManagement_ListUserGroups_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(IdentityManagementServiceServer).GetGroupsForUser(ctx, req.(*GetGroupsForUserRequest))
+		return srv.(IdentityManagementServer).ListUserGroups(ctx, req.(*ListUserGroupsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// IdentityManagementService_ServiceDesc is the grpc.ServiceDesc for IdentityManagementService service.
+// IdentityManagement_ServiceDesc is the grpc.ServiceDesc for IdentityManagement service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var IdentityManagementService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "plugin.identity_management.v1.IdentityManagementService",
-	HandlerType: (*IdentityManagementServiceServer)(nil),
+var IdentityManagement_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "plugin.identity_management.v1.IdentityManagement",
+	HandlerType: (*IdentityManagementServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "GetGroup",
-			Handler:    _IdentityManagementService_GetGroup_Handler,
+			Handler:    _IdentityManagement_GetGroup_Handler,
 		},
 		{
-			MethodName: "GetAllGroups",
-			Handler:    _IdentityManagementService_GetAllGroups_Handler,
+			MethodName: "ListGroups",
+			Handler:    _IdentityManagement_ListGroups_Handler,
 		},
 		{
-			MethodName: "GetUsersForGroup",
-			Handler:    _IdentityManagementService_GetUsersForGroup_Handler,
+			MethodName: "ListGroupUsers",
+			Handler:    _IdentityManagement_ListGroupUsers_Handler,
 		},
 		{
-			MethodName: "GetGroupsForUser",
-			Handler:    _IdentityManagementService_GetGroupsForUser_Handler,
+			MethodName: "ListUserGroups",
+			Handler:    _IdentityManagement_ListUserGroups_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -1,26 +1,72 @@
 syntax = "proto3";
 package plugin.notification.v1;
 
-service NotificationService {
-  // SendNotification sends a notification to the specified recipients
-  rpc SendNotification(SendNotificationRequest) returns (SendNotificationResponse);
+// The Notification standardizes message delivery across multiple channels.
+service Notification {
+  rpc Send(SendNotificationRequest) returns (SendNotificationResponse);
 }
 
+// Represents the request to send a notification.
 message SendNotificationRequest {
-  NotificationType notification_type = 1; // Type of notification (e.g., Email, Text, Web)
-  repeated string recipients = 2; // List of recipient addresses
-  string subject = 3; // Subject of the notification
-  string body = 4; // Body of the notification (HTML or Raw)
+  // A list of targets. Can be mixed types (emails, phones, user IDs).
+  repeated Recipient recipients = 1;
+
+  // The actual message payload (either raw or template-based).
+  Content content = 2;
+
+  // Optional: Force a specific delivery method.
+  // If unspecified, the server can infer it from the Recipient data.
+  DeliveryChannel preferred_channel = 3;
 }
 
-enum NotificationType {
-  NOTIFICATION_TYPE_UNSPECIFIED = 0; // Unspecified notification type
-  NOTIFICATION_TYPE_EMAIL = 1; // Email notification
-  NOTIFICATION_TYPE_TEXT = 2; // Text message notification
-  NOTIFICATION_TYPE_WEB = 3; // Web notification
+// A flexible recipient that can be targeted by explicit address or internal system ID.
+message Recipient {
+  oneof target {
+    string email_address = 1;
+    string phone_number = 2;
+    string device_token = 3; // For mobile/web push notifications
+    string user_id = 4;      // Server resolves this to addresses based on user preferences
+  }
 }
 
+// The content of the notification, supporting both raw text and pre-defined templates.
+message Content {
+  oneof payload {
+    RawMessage raw = 1;
+    TemplateMessage template = 2;
+  }
+}
+
+// A generic message structure that automatically adapts to the delivery channel.
+message RawMessage {
+  string subject = 1; // Maps to Email Subject or Push Notification Title
+  string body = 2;  // The main text/html content
+  map<string, string> metadata = 3; // Extra data for apps (e.g., deep links, JSON payloads)
+}
+
+// Used for dynamic templating systems (like SendGrid, Twilio, or Firebase).
+message TemplateMessage {
+  string template_id = 1;
+  map<string, string> parameters = 2; // Dynamic variables to inject into the template
+}
+
+// Standardized channels, using the '0' prefix best practice.
+enum DeliveryChannel {
+  DELIVERY_CHANNEL_UNSPECIFIED = 0;
+  EMAIL = 1;
+  SMS = 2;
+  PUSH = 3;
+  IN_APP = 4;
+}
+
+// The response handles partial successes cleanly without breaking gRPC conventions.
 message SendNotificationResponse {
-  bool success = 1; // Indicates if the notification was sent successfully
-  string message = 2; // Additional message or error details
+  string tracking_id = 1; // A global ID to track delivery status asynchronously
+  repeated DeliveryFailure partial_failures = 2; // Empty array means 100% success
+}
+
+// Details about why a specific recipient failed, allowing the client to handle retries.
+message DeliveryFailure {
+  Recipient recipient = 1;
+  string error_reason = 2;
 }
