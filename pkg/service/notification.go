@@ -1,8 +1,9 @@
-package catalog
+package service
 
 import (
 	"github.com/openkcm/plugin-sdk/api"
-	"github.com/openkcm/plugin-sdk/pkg/plugin/notification"
+	"github.com/openkcm/plugin-sdk/pkg/catalog"
+	"github.com/openkcm/plugin-sdk/pkg/service/internal/notification"
 )
 
 type notificationRepository struct {
@@ -13,8 +14,8 @@ func (repo *notificationRepository) Binder() any {
 	return repo.SetNotification
 }
 
-func (repo *notificationRepository) Constraints() Constraints {
-	return ExactlyOne()
+func (repo *notificationRepository) Constraints() catalog.Constraints {
+	return catalog.ExactlyOne()
 }
 
 func (repo *notificationRepository) Versions() []api.Version {

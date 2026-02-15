@@ -1,8 +1,9 @@
-package catalog
+package service
 
 import (
 	"github.com/openkcm/plugin-sdk/api"
-	"github.com/openkcm/plugin-sdk/pkg/plugin/key_management"
+	"github.com/openkcm/plugin-sdk/pkg/catalog"
+	"github.com/openkcm/plugin-sdk/pkg/service/internal/key_management"
 )
 
 type keyManagementRepository struct {
@@ -13,8 +14,8 @@ func (repo *keyManagementRepository) Binder() any {
 	return repo.AddKeyManagement
 }
 
-func (repo *keyManagementRepository) Constraints() Constraints {
-	return ExactlyOne()
+func (repo *keyManagementRepository) Constraints() catalog.Constraints {
+	return catalog.ExactlyOne()
 }
 
 func (repo *keyManagementRepository) Versions() []api.Version {

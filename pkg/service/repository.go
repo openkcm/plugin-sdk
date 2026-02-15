@@ -1,7 +1,9 @@
-package catalog
+package service
 
 import (
 	"context"
+
+	"github.com/openkcm/plugin-sdk/pkg/catalog"
 )
 
 const (
@@ -27,7 +29,7 @@ const (
 	keyManagementType = "KeystoreInstanceKeyOperation"
 )
 
-type PluginRepository struct {
+type ServiceRepository struct {
 	identityManagementRepository
 	certificateIssuerRepository
 	notificationRepository
@@ -35,11 +37,11 @@ type PluginRepository struct {
 	keystoreManagementRepository
 	keyManagementRepository
 
-	catalog *Catalog
+	catalog *catalog.Catalog
 }
 
-func (repo *PluginRepository) Plugins() map[string]PluginRepo {
-	return map[string]PluginRepo{
+func (repo *ServiceRepository) Plugins() map[string]catalog.PluginRepo {
+	return map[string]catalog.PluginRepo{
 		identityManagementType:        &repo.identityManagementRepository,
 		identityManagementServiceType: &repo.identityManagementRepository,
 		certificateIssuerType:         &repo.certificateIssuerRepository,
@@ -53,40 +55,35 @@ func (repo *PluginRepository) Plugins() map[string]PluginRepo {
 	}
 }
 
-func (repo *PluginRepository) Services() []ServiceRepo {
+func (repo *ServiceRepository) Services() []catalog.ServiceRepo {
 	return nil
 }
 
-func (repo *PluginRepository) Reconfigure(ctx context.Context) {
+func (repo *ServiceRepository) Reconfigure(ctx context.Context) {
 	repo.catalog.Reconfigure(ctx)
 }
 
-func (repo *PluginRepository) Close() error {
+func (repo *ServiceRepository) Close() error {
 	if repo.catalog == nil {
 		return nil
 	}
 
-	err := repo.catalog.Close()
-	if err != nil {
-		return err
-	}
-
-	return nil
+	return repo.catalog.Close()
 }
 
-func CreatePluginRepository(ctx context.Context, config Config, builtInPlugins ...BuiltInPlugin) (_ *PluginRepository, err error) {
-	repo := &PluginRepository{}
+func CreateCatalog(ctx context.Context, config catalog.Config, builtIns ...catalog.BuiltInPlugin) (_ *catalog.Catalog, err error) {
+	repo := &ServiceRepository{}
 
-	repo.catalog, err = buildCatalog(ctx, config, repo, builtInPlugins...)
+	repo.catalog, err = catalog.BuildCatalog(ctx, config, repo, builtIns...)
 	if err != nil {
 		return nil, err
 	}
 
-	return repo, nil
+	return repo.catalog, nil
 }
 
-func WrapAsPluginRepository(c *Catalog) *PluginRepository {
-	return &PluginRepository{
+func WrapAsServiceRepository(c *catalog.Catalog) *ServiceRepository {
+	return &ServiceRepository{
 		catalog: c,
 	}
 }

@@ -1,8 +1,9 @@
-package catalog
+package service
 
 import (
 	"github.com/openkcm/plugin-sdk/api"
-	"github.com/openkcm/plugin-sdk/pkg/plugin/identity_management"
+	"github.com/openkcm/plugin-sdk/pkg/catalog"
+	"github.com/openkcm/plugin-sdk/pkg/service/internal/identity_management"
 )
 
 type identityManagementRepository struct {
@@ -13,8 +14,8 @@ func (repo *identityManagementRepository) Binder() any {
 	return repo.SetIdentityManagement
 }
 
-func (repo *identityManagementRepository) Constraints() Constraints {
-	return ExactlyOne()
+func (repo *identityManagementRepository) Constraints() catalog.Constraints {
+	return catalog.ExactlyOne()
 }
 
 func (repo *identityManagementRepository) Versions() []api.Version {

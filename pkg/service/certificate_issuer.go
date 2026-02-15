@@ -1,8 +1,9 @@
-package catalog
+package service
 
 import (
 	"github.com/openkcm/plugin-sdk/api"
-	"github.com/openkcm/plugin-sdk/pkg/plugin/certificate_issuer"
+	"github.com/openkcm/plugin-sdk/pkg/catalog"
+	"github.com/openkcm/plugin-sdk/pkg/service/internal/certificate_issuer"
 )
 
 type certificateIssuerRepository struct {
@@ -13,8 +14,8 @@ func (repo *certificateIssuerRepository) Binder() any {
 	return repo.SetCertificateIssuer
 }
 
-func (repo *certificateIssuerRepository) Constraints() Constraints {
-	return ExactlyOne()
+func (repo *certificateIssuerRepository) Constraints() catalog.Constraints {
+	return catalog.ExactlyOne()
 }
 
 func (repo *certificateIssuerRepository) Versions() []api.Version {

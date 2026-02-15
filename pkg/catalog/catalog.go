@@ -80,27 +80,7 @@ func (c *Catalog) ListPluginInfo() []api.Info {
 	return plugins
 }
 
-func Load(ctx context.Context, config Config, builtIns ...BuiltInPlugin) (_ *Catalog, err error) {
-	repo := &PluginRepository{}
-	defer func() {
-		if err != nil {
-			_ = repo.Close()
-		}
-	}()
-
-	if len(config.HostServices) == 0 {
-		config.HostServices = make([]api.ServiceServer, 0)
-	}
-
-	repo.catalog, err = buildCatalog(ctx, config, repo, builtIns...)
-	if err != nil {
-		return nil, err
-	}
-
-	return repo.catalog, nil
-}
-
-func buildCatalog(ctx context.Context, config Config, repo Repository, builtIns ...BuiltInPlugin) (_ *Catalog, err error) {
+func BuildCatalog(ctx context.Context, config Config, repo Repository, builtIns ...BuiltInPlugin) (_ *Catalog, err error) {
 	closers := make(closerGroup, 0)
 	defer func() {
 		// If loading fails, clear out the catalog and close down all plugins
