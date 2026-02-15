@@ -127,6 +127,45 @@ type Version interface {
 	// by the plugin.
 	New() Facade
 
-	// Deprecated returns whether the version is deprecated.
 	Deprecated() bool
+}
+
+// Repository is a set of plugin and service repositories.
+type Repository interface {
+	// Plugins returns a map of plugin repositories, keyed by the plugin type.
+	Plugins() map[string]PluginRepo
+
+	// Services returns service repositories.
+	Services() []ServiceRepo
+}
+
+// PluginRepo is a repository of plugin facades for a given plugin type.
+type PluginRepo interface {
+	ServiceRepo
+
+	// Constraints returns the constraints required by the plugin repository.
+	// The Load function will ensure that these constraints are satisfied before
+	// returning successfully.
+	Constraints() Constraints
+}
+
+// ServiceRepo is a repository for service facades for a given service.
+type ServiceRepo interface {
+	// Binder returns a function that is used by the catalog system to "bind"
+	// the facade returned by selected version to the repository. It MUST
+	// return void and take a single argument of type X, where X can be
+	// assigned to by any of the facade implementation types returned by the
+	// provided versions (see Versions).
+	Binder() any
+
+	// Versions returns the versions supported by the repository, ordered by
+	// most to least preferred. The first version supported by the plugin will
+	// be used. When a deprecated version is bound, warning messaging will
+	// recommend the first version in the list as a replacement, unless it is
+	// also deprecated.
+	Versions() []Version
+
+	// Clear is called when loading fails to clear the repository of any
+	// previously bound facades.
+	Clear()
 }

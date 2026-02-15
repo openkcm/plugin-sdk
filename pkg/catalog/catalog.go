@@ -9,114 +9,6 @@ import (
 	"github.com/openkcm/plugin-sdk/api"
 )
 
-const (
-	certificateIssuerType = "CertificateIssuer"
-	// TODO: value should go away after plugin proto refactoring
-	certificateIssuerServiceType = "CertificateIssuerService"
-
-	notificationType = "Notification"
-	// TODO: value should go away after plugin proto refactoring
-	notificationServiceType = "NotificationService"
-
-	systemInformationType = "SystemInformation"
-	// TODO: value should go away after plugin proto refactoring
-	systemInformationServiceType = "SystemInformationService"
-
-	identityManagementType = "IdentityManagement"
-	// TODO: value should go away after plugin proto refactoring
-	identityManagementServiceType = "IdentityManagementService"
-
-	// TODO: value should become `KeystoreManagement` after plugin proto refactoring
-	keystoreManagementType = "KeystoreProvider"
-	// TODO: value should become `KeyManagement` after plugin proto refactoring
-	keyManagementType = "KeystoreInstanceKeyOperation"
-)
-
-type PluginRepository struct {
-	identityManagementRepository
-	certificateIssuerRepository
-	notificationRepository
-	systemInformationRepository
-	keystoreManagementRepository
-	keyManagementRepository
-
-	catalog *Catalog
-}
-
-func (repo *PluginRepository) Plugins() map[string]PluginRepo {
-	return map[string]PluginRepo{
-		identityManagementType:        &repo.identityManagementRepository,
-		identityManagementServiceType: &repo.identityManagementRepository,
-		certificateIssuerType:         &repo.certificateIssuerRepository,
-		certificateIssuerServiceType:  &repo.certificateIssuerRepository,
-		notificationType:              &repo.notificationRepository,
-		notificationServiceType:       &repo.notificationRepository,
-		systemInformationType:         &repo.systemInformationRepository,
-		systemInformationServiceType:  &repo.systemInformationRepository,
-		keystoreManagementType:        &repo.keystoreManagementRepository,
-		keyManagementType:             &repo.keyManagementRepository,
-	}
-}
-
-func (repo *PluginRepository) Services() []ServiceRepo {
-	return nil
-}
-
-func (repo *PluginRepository) Reconfigure(ctx context.Context) {
-	repo.catalog.Reconfigure(ctx)
-}
-
-func (repo *PluginRepository) Close() error {
-	if repo.catalog == nil {
-		return nil
-	}
-
-	err := repo.catalog.Close()
-	if err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (repo *PluginRepository) ListPluginInfo() []api.Info {
-	var plugins []api.Info
-
-	closerGr := repo.catalog.closers.(closerGroup)
-	for _, cfger := range closerGr {
-		pluginClose := cfger.(pluginCloser)
-		plugin := pluginClose.plugin.(Plugin)
-		plugins = append(plugins, plugin.Info())
-	}
-	return plugins
-}
-
-func CreatePluginRepository(ctx context.Context, config Config, builtInPlugins ...BuiltInPlugin) (_ *PluginRepository, err error) {
-	repo := &PluginRepository{}
-	defer func() {
-		if err != nil {
-			_ = repo.Close()
-		}
-	}()
-
-	if len(config.HostServices) == 0 {
-		config.HostServices = make([]api.ServiceServer, 0)
-	}
-
-	repo.catalog, err = buildCatalog(ctx, config, repo, builtInPlugins...)
-	if err != nil {
-		return nil, err
-	}
-
-	return repo, nil
-}
-
-func WrapAsPluginRepository(c *Catalog) *PluginRepository {
-	return &PluginRepository{
-		catalog: c,
-	}
-}
-
 type Catalog struct {
 	closers     io.Closer
 	configurers Reconfigurers
@@ -130,7 +22,6 @@ func (c *Catalog) Reconfigure(ctx context.Context) {
 	c.configurers.Reconfigure(ctx)
 }
 
-// Deprecated: [will be removed once switched to CreateRegistry function]
 func (c *Catalog) LookupByType(pluginType string) []Plugin {
 	var plugins []Plugin
 
@@ -152,7 +43,6 @@ func (c *Catalog) LookupByType(pluginType string) []Plugin {
 	return plugins
 }
 
-// Deprecated: [will be removed once switched to CreateRegistry function]
 func (c *Catalog) LookupByTypeAndName(pluginType, pluginName string) Plugin {
 	defer func() {
 		if err := recover(); err != nil {
@@ -172,7 +62,6 @@ func (c *Catalog) LookupByTypeAndName(pluginType, pluginName string) Plugin {
 	return nil
 }
 
-// Deprecated: [will be removed once switched to CreateRegistry function]
 func (c *Catalog) ListPluginInfo() []api.Info {
 	var plugins []api.Info
 
@@ -191,28 +80,7 @@ func (c *Catalog) ListPluginInfo() []api.Info {
 	return plugins
 }
 
-// Deprecated: [CreateRegistry function to be used instead]
-func Load(ctx context.Context, config Config, builtIns ...BuiltInPlugin) (_ *Catalog, err error) {
-	repo := &PluginRepository{}
-	defer func() {
-		if err != nil {
-			_ = repo.Close()
-		}
-	}()
-
-	if len(config.HostServices) == 0 {
-		config.HostServices = make([]api.ServiceServer, 0)
-	}
-
-	repo.catalog, err = buildCatalog(ctx, config, repo, builtIns...)
-	if err != nil {
-		return nil, err
-	}
-
-	return repo.catalog, nil
-}
-
-func buildCatalog(ctx context.Context, config Config, repo Repository, builtIns ...BuiltInPlugin) (_ *Catalog, err error) {
+func New(ctx context.Context, config Config, repo api.Repository, builtIns ...BuiltInPlugin) (_ *Catalog, err error) {
 	closers := make(closerGroup, 0)
 	defer func() {
 		// If loading fails, clear out the catalog and close down all plugins
