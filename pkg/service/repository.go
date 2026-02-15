@@ -79,5 +79,5 @@ func CreateServiceRepository(ctx context.Context, config catalog.Config, builtIn
 		return nil, err
 	}
 
-	return &Repository{}, nil
+	return repo, nil
 }
