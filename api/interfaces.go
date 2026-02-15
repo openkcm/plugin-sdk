@@ -127,6 +127,5 @@ type Version interface {
 	// by the plugin.
 	New() Facade
 
-	// Deprecated returns whether the version is deprecated.
 	Deprecated() bool
 }
