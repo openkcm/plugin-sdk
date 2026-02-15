@@ -2,7 +2,6 @@ package service
 
 import (
 	"github.com/openkcm/plugin-sdk/api"
-	"github.com/openkcm/plugin-sdk/pkg/catalog"
 	"github.com/openkcm/plugin-sdk/pkg/service/certificate_issuer"
 )
 
@@ -14,8 +13,8 @@ func (repo *certificateIssuerRepository) Binder() any {
 	return repo.SetCertificateIssuer
 }
 
-func (repo *certificateIssuerRepository) Constraints() catalog.Constraints {
-	return catalog.ExactlyOne()
+func (repo *certificateIssuerRepository) Constraints() api.Constraints {
+	return api.ExactlyOne()
 }
 
 func (repo *certificateIssuerRepository) Versions() []api.Version {

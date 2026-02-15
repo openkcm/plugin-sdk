@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 
+	"github.com/openkcm/plugin-sdk/api"
 	"github.com/openkcm/plugin-sdk/pkg/catalog"
 )
 
@@ -40,8 +41,8 @@ type Repository struct {
 	RawCatalog *catalog.Catalog
 }
 
-func (repo *Repository) Plugins() map[string]catalog.PluginRepo {
-	return map[string]catalog.PluginRepo{
+func (repo *Repository) Plugins() map[string]api.PluginRepo {
+	return map[string]api.PluginRepo{
 		identityManagementType:        &repo.identityManagementRepository,
 		identityManagementServiceType: &repo.identityManagementRepository,
 		certificateIssuerType:         &repo.certificateIssuerRepository,
@@ -55,7 +56,7 @@ func (repo *Repository) Plugins() map[string]catalog.PluginRepo {
 	}
 }
 
-func (repo *Repository) Services() []catalog.ServiceRepo {
+func (repo *Repository) Services() []api.ServiceRepo {
 	return nil
 }
 

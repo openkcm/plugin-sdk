@@ -2,7 +2,6 @@ package service
 
 import (
 	"github.com/openkcm/plugin-sdk/api"
-	"github.com/openkcm/plugin-sdk/pkg/catalog"
 	"github.com/openkcm/plugin-sdk/pkg/service/keystore_management"
 )
 
@@ -14,8 +13,8 @@ func (repo *keystoreManagementRepository) Binder() any {
 	return repo.AddKeystoreManagement
 }
 
-func (repo *keystoreManagementRepository) Constraints() catalog.Constraints {
-	return catalog.ExactlyOne()
+func (repo *keystoreManagementRepository) Constraints() api.Constraints {
+	return api.ExactlyOne()
 }
 
 func (repo *keystoreManagementRepository) Versions() []api.Version {

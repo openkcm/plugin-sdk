@@ -9,12 +9,12 @@ import (
 )
 
 type bindablePluginRepo interface {
-	PluginRepo
+	api.PluginRepo
 	bindable
 }
 
 type bindableServiceRepo interface {
-	ServiceRepo
+	api.ServiceRepo
 	bindable
 }
 
@@ -22,7 +22,7 @@ type bindable interface {
 	bind(api.Facade)
 }
 
-func makeBindablePluginRepos(repos map[string]PluginRepo) (map[string]bindablePluginRepo, error) {
+func makeBindablePluginRepos(repos map[string]api.PluginRepo) (map[string]bindablePluginRepo, error) {
 	bindables := make(map[string]bindablePluginRepo)
 	for pluginType, repo := range repos {
 		bindable, err := makeBindablePluginRepo(repo)
@@ -34,13 +34,13 @@ func makeBindablePluginRepos(repos map[string]PluginRepo) (map[string]bindablePl
 	return bindables, nil
 }
 
-func makeBindablePluginRepo(repo PluginRepo) (bindablePluginRepo, error) {
+func makeBindablePluginRepo(repo api.PluginRepo) (bindablePluginRepo, error) {
 	binder, err := makeServiceRepoBinder(repo)
 	if err != nil {
 		return nil, err
 	}
 	return struct {
-		PluginRepo
+		api.PluginRepo
 		bindable
 	}{
 		PluginRepo: repo,
@@ -48,7 +48,7 @@ func makeBindablePluginRepo(repo PluginRepo) (bindablePluginRepo, error) {
 	}, nil
 }
 
-func makeBindableServiceRepos(repos []ServiceRepo) ([]bindableServiceRepo, error) {
+func makeBindableServiceRepos(repos []api.ServiceRepo) ([]bindableServiceRepo, error) {
 	var bindables []bindableServiceRepo
 	for _, repo := range repos {
 		bindable, err := makeBindableServiceRepo(repo)
@@ -60,13 +60,13 @@ func makeBindableServiceRepos(repos []ServiceRepo) ([]bindableServiceRepo, error
 	return bindables, nil
 }
 
-func makeBindableServiceRepo(repo ServiceRepo) (bindableServiceRepo, error) {
+func makeBindableServiceRepo(repo api.ServiceRepo) (bindableServiceRepo, error) {
 	binder, err := makeServiceRepoBinder(repo)
 	if err != nil {
 		return nil, err
 	}
 	return struct {
-		ServiceRepo
+		api.ServiceRepo
 		bindable
 	}{
 		ServiceRepo: repo,
@@ -74,7 +74,7 @@ func makeBindableServiceRepo(repo ServiceRepo) (bindableServiceRepo, error) {
 	}, nil
 }
 
-func makeServiceRepoBinder(repo ServiceRepo) (binder, error) {
+func makeServiceRepoBinder(repo api.ServiceRepo) (binder, error) {
 	b, err := makeBinder(repo.Binder())
 	if err != nil {
 		return binder{}, fmt.Errorf("%T has an invalid binder: %w", repo, err)

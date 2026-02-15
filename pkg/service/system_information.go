@@ -2,7 +2,6 @@ package service
 
 import (
 	"github.com/openkcm/plugin-sdk/api"
-	"github.com/openkcm/plugin-sdk/pkg/catalog"
 	"github.com/openkcm/plugin-sdk/pkg/service/system_information"
 )
 
@@ -14,8 +13,8 @@ func (repo *systemInformationRepository) Binder() any {
 	return repo.SetSystemInformation
 }
 
-func (repo *systemInformationRepository) Constraints() catalog.Constraints {
-	return catalog.ExactlyOne()
+func (repo *systemInformationRepository) Constraints() api.Constraints {
+	return api.ExactlyOne()
 }
 
 func (repo *systemInformationRepository) Versions() []api.Version {
