@@ -3,7 +3,7 @@ package service
 import (
 	"github.com/openkcm/plugin-sdk/api"
 	"github.com/openkcm/plugin-sdk/pkg/catalog"
-	"github.com/openkcm/plugin-sdk/pkg/service/internal/key_management"
+	"github.com/openkcm/plugin-sdk/pkg/service/key_management"
 )
 
 type keyManagementRepository struct {

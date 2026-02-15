@@ -3,7 +3,7 @@ package service
 import (
 	"github.com/openkcm/plugin-sdk/api"
 	"github.com/openkcm/plugin-sdk/pkg/catalog"
-	"github.com/openkcm/plugin-sdk/pkg/service/internal/system_information"
+	"github.com/openkcm/plugin-sdk/pkg/service/system_information"
 )
 
 type systemInformationRepository struct {

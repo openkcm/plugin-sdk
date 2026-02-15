@@ -3,7 +3,7 @@ package service
 import (
 	"github.com/openkcm/plugin-sdk/api"
 	"github.com/openkcm/plugin-sdk/pkg/catalog"
-	"github.com/openkcm/plugin-sdk/pkg/service/internal/certificate_issuer"
+	"github.com/openkcm/plugin-sdk/pkg/service/certificate_issuer"
 )
 
 type certificateIssuerRepository struct {

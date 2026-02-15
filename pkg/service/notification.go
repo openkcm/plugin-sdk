@@ -3,7 +3,7 @@ package service
 import (
 	"github.com/openkcm/plugin-sdk/api"
 	"github.com/openkcm/plugin-sdk/pkg/catalog"
-	"github.com/openkcm/plugin-sdk/pkg/service/internal/notification"
+	"github.com/openkcm/plugin-sdk/pkg/service/notification"
 )
 
 type notificationRepository struct {

@@ -29,7 +29,7 @@ const (
 	keyManagementType = "KeystoreInstanceKeyOperation"
 )
 
-type ServiceRepository struct {
+type Repository struct {
 	identityManagementRepository
 	certificateIssuerRepository
 	notificationRepository
@@ -37,10 +37,10 @@ type ServiceRepository struct {
 	keystoreManagementRepository
 	keyManagementRepository
 
-	catalog *catalog.Catalog
+	RawCatalog *catalog.Catalog
 }
 
-func (repo *ServiceRepository) Plugins() map[string]catalog.PluginRepo {
+func (repo *Repository) Plugins() map[string]catalog.PluginRepo {
 	return map[string]catalog.PluginRepo{
 		identityManagementType:        &repo.identityManagementRepository,
 		identityManagementServiceType: &repo.identityManagementRepository,
@@ -55,35 +55,29 @@ func (repo *ServiceRepository) Plugins() map[string]catalog.PluginRepo {
 	}
 }
 
-func (repo *ServiceRepository) Services() []catalog.ServiceRepo {
+func (repo *Repository) Services() []catalog.ServiceRepo {
 	return nil
 }
 
-func (repo *ServiceRepository) Reconfigure(ctx context.Context) {
-	repo.catalog.Reconfigure(ctx)
+func (repo *Repository) Reconfigure(ctx context.Context) {
+	repo.RawCatalog.Reconfigure(ctx)
 }
 
-func (repo *ServiceRepository) Close() error {
-	if repo.catalog == nil {
+func (repo *Repository) Close() error {
+	if repo.RawCatalog == nil {
 		return nil
 	}
 
-	return repo.catalog.Close()
+	return repo.RawCatalog.Close()
 }
 
-func CreateCatalog(ctx context.Context, config catalog.Config, builtIns ...catalog.BuiltInPlugin) (_ *catalog.Catalog, err error) {
-	repo := &ServiceRepository{}
+func CreateServiceRepository(ctx context.Context, config catalog.Config, builtIns ...catalog.BuiltInPlugin) (_ *Repository, err error) {
+	repo := &Repository{}
 
-	repo.catalog, err = catalog.BuildCatalog(ctx, config, repo, builtIns...)
+	repo.RawCatalog, err = catalog.BuildCatalog(ctx, config, repo, builtIns...)
 	if err != nil {
 		return nil, err
 	}
 
-	return repo.catalog, nil
-}
-
-func WrapAsServiceRepository(c *catalog.Catalog) *ServiceRepository {
-	return &ServiceRepository{
-		catalog: c,
-	}
+	return &Repository{}, nil
 }
