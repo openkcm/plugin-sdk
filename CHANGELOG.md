@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.9.3](https://github.com/openkcm/plugin-sdk/compare/v0.9.2...v0.9.3) (2026-02-15)
+
+
+### Bug Fixes
+
+* change the registry functions ([#101](https://github.com/openkcm/plugin-sdk/issues/101)) ([ef280ea](https://github.com/openkcm/plugin-sdk/commit/ef280eaaf0007eaa17696c46dfcec75da9668499))
+* new way using grpc service apis ([#95](https://github.com/openkcm/plugin-sdk/issues/95)) ([8b7369f](https://github.com/openkcm/plugin-sdk/commit/8b7369fa9872aac94d5e5aa35b3a1cf86ff1bc3a))
+* respond with error when getting back the success false ([#100](https://github.com/openkcm/plugin-sdk/issues/100)) ([6d01ffe](https://github.com/openkcm/plugin-sdk/commit/6d01ffef9059069e5822144fab43ed5adb68af19))
+
 ## [0.9.2](https://github.com/openkcm/plugin-sdk/compare/v0.9.1...v0.9.2) (2026-02-09)
 
 
