@@ -27,27 +27,27 @@ type DeliveryChannel int32
 
 const (
 	DeliveryChannel_DELIVERY_CHANNEL_UNSPECIFIED DeliveryChannel = 0
-	DeliveryChannel_EMAIL                        DeliveryChannel = 1
-	DeliveryChannel_SMS                          DeliveryChannel = 2
-	DeliveryChannel_PUSH                         DeliveryChannel = 3
-	DeliveryChannel_IN_APP                       DeliveryChannel = 4
+	DeliveryChannel_DELIVERY_CHANNEL_EMAIL       DeliveryChannel = 1
+	DeliveryChannel_DELIVERY_CHANNEL_SMS         DeliveryChannel = 2
+	DeliveryChannel_DELIVERY_CHANNEL_PUSH        DeliveryChannel = 3
+	DeliveryChannel_DELIVERY_CHANNEL_IN_APP      DeliveryChannel = 4
 )
 
 // Enum value maps for DeliveryChannel.
 var (
 	DeliveryChannel_name = map[int32]string{
 		0: "DELIVERY_CHANNEL_UNSPECIFIED",
-		1: "EMAIL",
-		2: "SMS",
-		3: "PUSH",
-		4: "IN_APP",
+		1: "DELIVERY_CHANNEL_EMAIL",
+		2: "DELIVERY_CHANNEL_SMS",
+		3: "DELIVERY_CHANNEL_PUSH",
+		4: "DELIVERY_CHANNEL_IN_APP",
 	}
 	DeliveryChannel_value = map[string]int32{
 		"DELIVERY_CHANNEL_UNSPECIFIED": 0,
-		"EMAIL":                        1,
-		"SMS":                          2,
-		"PUSH":                         3,
-		"IN_APP":                       4,
+		"DELIVERY_CHANNEL_EMAIL":       1,
+		"DELIVERY_CHANNEL_SMS":         2,
+		"DELIVERY_CHANNEL_PUSH":        3,
+		"DELIVERY_CHANNEL_IN_APP":      4,
 	}
 )
 
@@ -605,14 +605,13 @@ const file_plugin_notification_v1_notification_proto_rawDesc = "" +
 	"\x10partial_failures\x18\x02 \x03(\v2'.plugin.notification.v1.DeliveryFailureR\x0fpartialFailures\"u\n" +
 	"\x0fDeliveryFailure\x12?\n" +
 	"\trecipient\x18\x01 \x01(\v2!.plugin.notification.v1.RecipientR\trecipient\x12!\n" +
-	"\ferror_reason\x18\x02 \x01(\tR\verrorReason*]\n" +
+	"\ferror_reason\x18\x02 \x01(\tR\verrorReason*\xa1\x01\n" +
 	"\x0fDeliveryChannel\x12 \n" +
-	"\x1cDELIVERY_CHANNEL_UNSPECIFIED\x10\x00\x12\t\n" +
-	"\x05EMAIL\x10\x01\x12\a\n" +
-	"\x03SMS\x10\x02\x12\b\n" +
-	"\x04PUSH\x10\x03\x12\n" +
-	"\n" +
-	"\x06IN_APP\x10\x042y\n" +
+	"\x1cDELIVERY_CHANNEL_UNSPECIFIED\x10\x00\x12\x1a\n" +
+	"\x16DELIVERY_CHANNEL_EMAIL\x10\x01\x12\x18\n" +
+	"\x14DELIVERY_CHANNEL_SMS\x10\x02\x12\x19\n" +
+	"\x15DELIVERY_CHANNEL_PUSH\x10\x03\x12\x1b\n" +
+	"\x17DELIVERY_CHANNEL_IN_APP\x10\x042y\n" +
 	"\fNotification\x12i\n" +
 	"\x04Send\x12/.plugin.notification.v1.SendNotificationRequest\x1a0.plugin.notification.v1.SendNotificationResponseB\xf4\x01\n" +
 	"\x1acom.plugin.notification.v1B\x11NotificationProtoP\x01ZIgithub.com/openkcm/plugin-sdk/proto/plugin/notification/v1;notificationv1\xa2\x02\x03PNX\xaa\x02\x16Plugin.Notification.V1\xca\x02\x16Plugin\\Notification\\V1\xe2\x02\"Plugin\\Notification\\V1\\GPBMetadata\xea\x02\x18Plugin::Notification::V1b\x06proto3"

@@ -29,24 +29,24 @@ type IssueCertificateRequest_CertificateFormat int32
 
 const (
 	IssueCertificateRequest_CERTIFICATE_FORMAT_UNSPECIFIED IssueCertificateRequest_CertificateFormat = 0
-	IssueCertificateRequest_PEM                            IssueCertificateRequest_CertificateFormat = 1
-	IssueCertificateRequest_DER                            IssueCertificateRequest_CertificateFormat = 2
-	IssueCertificateRequest_PKCS7                          IssueCertificateRequest_CertificateFormat = 3
+	IssueCertificateRequest_CERTIFICATE_FORMAT_PEM         IssueCertificateRequest_CertificateFormat = 1
+	IssueCertificateRequest_CERTIFICATE_FORMAT_DER         IssueCertificateRequest_CertificateFormat = 2
+	IssueCertificateRequest_CERTIFICATE_FORMAT_PKCS7       IssueCertificateRequest_CertificateFormat = 3
 )
 
 // Enum value maps for IssueCertificateRequest_CertificateFormat.
 var (
 	IssueCertificateRequest_CertificateFormat_name = map[int32]string{
 		0: "CERTIFICATE_FORMAT_UNSPECIFIED",
-		1: "PEM",
-		2: "DER",
-		3: "PKCS7",
+		1: "CERTIFICATE_FORMAT_PEM",
+		2: "CERTIFICATE_FORMAT_DER",
+		3: "CERTIFICATE_FORMAT_PKCS7",
 	}
 	IssueCertificateRequest_CertificateFormat_value = map[string]int32{
 		"CERTIFICATE_FORMAT_UNSPECIFIED": 0,
-		"PEM":                            1,
-		"DER":                            2,
-		"PKCS7":                          3,
+		"CERTIFICATE_FORMAT_PEM":         1,
+		"CERTIFICATE_FORMAT_DER":         2,
+		"CERTIFICATE_FORMAT_PKCS7":       3,
 	}
 )
 
@@ -81,24 +81,24 @@ type PrivateKey_KeyFormat int32
 
 const (
 	PrivateKey_KEY_FORMAT_UNSPECIFIED PrivateKey_KeyFormat = 0
-	PrivateKey_PKCS1                  PrivateKey_KeyFormat = 1
-	PrivateKey_PKCS8                  PrivateKey_KeyFormat = 2
-	PrivateKey_SEC1                   PrivateKey_KeyFormat = 3
+	PrivateKey_KEY_FORMAT_PKCS1       PrivateKey_KeyFormat = 1
+	PrivateKey_KEY_FORMAT_PKCS8       PrivateKey_KeyFormat = 2
+	PrivateKey_KEY_FORMAT_SEC1        PrivateKey_KeyFormat = 3
 )
 
 // Enum value maps for PrivateKey_KeyFormat.
 var (
 	PrivateKey_KeyFormat_name = map[int32]string{
 		0: "KEY_FORMAT_UNSPECIFIED",
-		1: "PKCS1",
-		2: "PKCS8",
-		3: "SEC1",
+		1: "KEY_FORMAT_PKCS1",
+		2: "KEY_FORMAT_PKCS8",
+		3: "KEY_FORMAT_SEC1",
 	}
 	PrivateKey_KeyFormat_value = map[string]int32{
 		"KEY_FORMAT_UNSPECIFIED": 0,
-		"PKCS1":                  1,
-		"PKCS8":                  2,
-		"SEC1":                   3,
+		"KEY_FORMAT_PKCS1":       1,
+		"KEY_FORMAT_PKCS8":       2,
+		"KEY_FORMAT_SEC1":        3,
 	}
 )
 
@@ -133,24 +133,24 @@ type RelativeValidity_ValidityUnit int32
 
 const (
 	RelativeValidity_VALIDITY_UNIT_UNSPECIFIED RelativeValidity_ValidityUnit = 0
-	RelativeValidity_DAYS                      RelativeValidity_ValidityUnit = 1
-	RelativeValidity_MONTHS                    RelativeValidity_ValidityUnit = 2
-	RelativeValidity_YEARS                     RelativeValidity_ValidityUnit = 3
+	RelativeValidity_VALIDITY_UNIT_DAYS        RelativeValidity_ValidityUnit = 1
+	RelativeValidity_VALIDITY_UNIT_MONTHS      RelativeValidity_ValidityUnit = 2
+	RelativeValidity_VALIDITY_UNIT_YEARS       RelativeValidity_ValidityUnit = 3
 )
 
 // Enum value maps for RelativeValidity_ValidityUnit.
 var (
 	RelativeValidity_ValidityUnit_name = map[int32]string{
 		0: "VALIDITY_UNIT_UNSPECIFIED",
-		1: "DAYS",
-		2: "MONTHS",
-		3: "YEARS",
+		1: "VALIDITY_UNIT_DAYS",
+		2: "VALIDITY_UNIT_MONTHS",
+		3: "VALIDITY_UNIT_YEARS",
 	}
 	RelativeValidity_ValidityUnit_value = map[string]int32{
 		"VALIDITY_UNIT_UNSPECIFIED": 0,
-		"DAYS":                      1,
-		"MONTHS":                    2,
-		"YEARS":                     3,
+		"VALIDITY_UNIT_DAYS":        1,
+		"VALIDITY_UNIT_MONTHS":      2,
+		"VALIDITY_UNIT_YEARS":       3,
 	}
 )
 
@@ -620,18 +620,18 @@ var File_plugin_certificate_issuer_v1_certificate_issuer_proto protoreflect.File
 
 const file_plugin_certificate_issuer_v1_certificate_issuer_proto_rawDesc = "" +
 	"\n" +
-	"5plugin/certificate_issuer/v1/certificate_issuer.proto\x12\x1cplugin.certificate_issuer.v1\x1a\x1egoogle/protobuf/duration.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1bbuf/validate/validate.proto\"\xd3\x03\n" +
+	"5plugin/certificate_issuer/v1/certificate_issuer.proto\x12\x1cplugin.certificate_issuer.v1\x1a\x1egoogle/protobuf/duration.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1bbuf/validate/validate.proto\"\x8d\x04\n" +
 	"\x17IssueCertificateRequest\x12M\n" +
 	"\blifetime\x18\x01 \x01(\v21.plugin.certificate_issuer.v1.CertificateLifetimeR\blifetime\x12?\n" +
 	"\asubject\x18\x02 \x01(\v2%.plugin.certificate_issuer.v1.SubjectR\asubject\x12N\n" +
 	"\vprivate_key\x18\x03 \x01(\v2(.plugin.certificate_issuer.v1.PrivateKeyH\x00R\n" +
 	"privateKey\x88\x01\x01\x12r\n" +
-	"\x10preferred_format\x18\x04 \x01(\x0e2G.plugin.certificate_issuer.v1.IssueCertificateRequest.CertificateFormatR\x0fpreferredFormat\"T\n" +
+	"\x10preferred_format\x18\x04 \x01(\x0e2G.plugin.certificate_issuer.v1.IssueCertificateRequest.CertificateFormatR\x0fpreferredFormat\"\x8d\x01\n" +
 	"\x11CertificateFormat\x12\"\n" +
-	"\x1eCERTIFICATE_FORMAT_UNSPECIFIED\x10\x00\x12\a\n" +
-	"\x03PEM\x10\x01\x12\a\n" +
-	"\x03DER\x10\x02\x12\t\n" +
-	"\x05PKCS7\x10\x03B\x0e\n" +
+	"\x1eCERTIFICATE_FORMAT_UNSPECIFIED\x10\x00\x12\x1a\n" +
+	"\x16CERTIFICATE_FORMAT_PEM\x10\x01\x12\x1a\n" +
+	"\x16CERTIFICATE_FORMAT_DER\x10\x02\x12\x1c\n" +
+	"\x18CERTIFICATE_FORMAT_PKCS7\x10\x03B\x0e\n" +
 	"\f_private_key\"\xc1\x01\n" +
 	"\x18IssueCertificateResponse\x12)\n" +
 	"\x10certificate_data\x18\x01 \x01(\fR\x0fcertificateData\x12_\n" +
@@ -639,32 +639,31 @@ const file_plugin_certificate_issuer_v1_certificate_issuer_proto_rawDesc = "" +
 	"\bca_chain\x18\x03 \x03(\fR\acaChain\"*\n" +
 	"\aSubject\x12\x1f\n" +
 	"\vcommon_name\x18\x01 \x01(\tR\n" +
-	"commonName\"\xb5\x01\n" +
+	"commonName\"\xd6\x01\n" +
 	"\n" +
 	"PrivateKey\x12\x12\n" +
 	"\x04data\x18\x01 \x01(\fR\x04data\x12J\n" +
-	"\x06format\x18\x02 \x01(\x0e22.plugin.certificate_issuer.v1.PrivateKey.KeyFormatR\x06format\"G\n" +
+	"\x06format\x18\x02 \x01(\x0e22.plugin.certificate_issuer.v1.PrivateKey.KeyFormatR\x06format\"h\n" +
 	"\tKeyFormat\x12\x1a\n" +
-	"\x16KEY_FORMAT_UNSPECIFIED\x10\x00\x12\t\n" +
-	"\x05PKCS1\x10\x01\x12\t\n" +
-	"\x05PKCS8\x10\x02\x12\b\n" +
-	"\x04SEC1\x10\x03\"\xe3\x01\n" +
+	"\x16KEY_FORMAT_UNSPECIFIED\x10\x00\x12\x14\n" +
+	"\x10KEY_FORMAT_PKCS1\x10\x01\x12\x14\n" +
+	"\x10KEY_FORMAT_PKCS8\x10\x02\x12\x13\n" +
+	"\x0fKEY_FORMAT_SEC1\x10\x03\"\xe3\x01\n" +
 	"\x13CertificateLifetime\x127\n" +
 	"\bduration\x18\x01 \x01(\v2\x19.google.protobuf.DurationH\x00R\bduration\x129\n" +
 	"\tnot_after\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampH\x00R\bnotAfter\x12L\n" +
 	"\brelative\x18\x03 \x01(\v2..plugin.certificate_issuer.v1.RelativeValidityH\x00R\brelativeB\n" +
 	"\n" +
-	"\blifetime\"\xbe\x03\n" +
+	"\blifetime\"\xe8\x03\n" +
 	"\x10RelativeValidity\x12\x1d\n" +
 	"\x05value\x18\x01 \x01(\x05B\a\xbaH\x04\x1a\x02 \x00R\x05value\x12[\n" +
 	"\x04unit\x18\x02 \x01(\x0e2;.plugin.certificate_issuer.v1.RelativeValidity.ValidityUnitB\n" +
-	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\x04unit\"N\n" +
+	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\x04unit\"x\n" +
 	"\fValidityUnit\x12\x1d\n" +
-	"\x19VALIDITY_UNIT_UNSPECIFIED\x10\x00\x12\b\n" +
-	"\x04DAYS\x10\x01\x12\n" +
-	"\n" +
-	"\x06MONTHS\x10\x02\x12\t\n" +
-	"\x05YEARS\x10\x03:\xdd\x01\xbaH\xd9\x01\x1a\xd6\x01\n" +
+	"\x19VALIDITY_UNIT_UNSPECIFIED\x10\x00\x12\x16\n" +
+	"\x12VALIDITY_UNIT_DAYS\x10\x01\x12\x18\n" +
+	"\x14VALIDITY_UNIT_MONTHS\x10\x02\x12\x17\n" +
+	"\x13VALIDITY_UNIT_YEARS\x10\x03:\xdd\x01\xbaH\xd9\x01\x1a\xd6\x01\n" +
 	"\x15max_duration_one_year\x12GValidity duration cannot exceed 1 year (365 days, 12 months, or 1 year)\x1at(this.unit == 1 && this.value <= 365) || (this.unit == 2 && this.value <= 12) || (this.unit == 3 && this.value <= 1)\"\xbc\x01\n" +
 	"\x18SupportedKeyFormatsError\x12'\n" +
 	"\x0frejected_format\x18\x01 \x01(\tR\x0erejectedFormat\x12_\n" +

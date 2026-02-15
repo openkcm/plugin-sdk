@@ -18,9 +18,9 @@ message IssueCertificateRequest {
 
   enum CertificateFormat {
     CERTIFICATE_FORMAT_UNSPECIFIED = 0;
-    PEM = 1;
-    DER = 2;
-    PKCS7 = 3;
+    CERTIFICATE_FORMAT_PEM = 1;
+    CERTIFICATE_FORMAT_DER = 2;
+    CERTIFICATE_FORMAT_PKCS7 = 3;
   }
 }
 
@@ -54,9 +54,9 @@ message PrivateKey {
 
   enum KeyFormat {
     KEY_FORMAT_UNSPECIFIED = 0;
-    PKCS1 = 1;
-    PKCS8 = 2;
-    SEC1 = 3;
+    KEY_FORMAT_PKCS1 = 1;
+    KEY_FORMAT_PKCS8 = 2;
+    KEY_FORMAT_SEC1 = 3;
   }
 }
 
@@ -94,9 +94,9 @@ message RelativeValidity {
 
   enum ValidityUnit {
     VALIDITY_UNIT_UNSPECIFIED = 0;
-    DAYS = 1;
-    MONTHS = 2;
-    YEARS = 3;
+    VALIDITY_UNIT_DAYS = 1;
+    VALIDITY_UNIT_MONTHS = 2;
+    VALIDITY_UNIT_YEARS = 3;
   }
 }
 

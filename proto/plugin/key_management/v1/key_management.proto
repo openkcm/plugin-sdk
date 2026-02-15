@@ -47,16 +47,16 @@ service KeyManagement {
 // Algorithm defines the supported key algorithms across all operations
 enum KeyAlgorithm {
   KEY_ALGORITHM_UNKNOWN = 0;
-  AES256 = 1;
-  RSA3072 = 2;
-  RSA4096 = 3;
+  KEY_ALGORITHM_AES256 = 1;
+  KEY_ALGORITHM_RSA3072 = 2;
+  KEY_ALGORITHM_RSA4096 = 3;
 }
 
 enum KeyType {
-  KEYTYPE_UNSPECIFIED = 0;
-  SYSTEM_MANAGED = 1; // System-managed key
-  BYOK = 2; // Bring Your Own Key
-  HYOK = 3; // Hold Your Own Key
+  KEY_TYPE_UNSPECIFIED = 0;
+  KEY_TYPE_SYSTEM_MANAGED = 1; // System-managed key
+  KEY_TYPE_BYOK = 2; // Bring Your Own Key
+  KEY_TYPE_HYOK = 3; // Hold Your Own Key
 }
 
 // RequestParameters contains the common fields needed for most key operations

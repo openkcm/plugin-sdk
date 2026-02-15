@@ -30,24 +30,24 @@ type KeyAlgorithm int32
 
 const (
 	KeyAlgorithm_KEY_ALGORITHM_UNKNOWN KeyAlgorithm = 0
-	KeyAlgorithm_AES256                KeyAlgorithm = 1
-	KeyAlgorithm_RSA3072               KeyAlgorithm = 2
-	KeyAlgorithm_RSA4096               KeyAlgorithm = 3
+	KeyAlgorithm_KEY_ALGORITHM_AES256  KeyAlgorithm = 1
+	KeyAlgorithm_KEY_ALGORITHM_RSA3072 KeyAlgorithm = 2
+	KeyAlgorithm_KEY_ALGORITHM_RSA4096 KeyAlgorithm = 3
 )
 
 // Enum value maps for KeyAlgorithm.
 var (
 	KeyAlgorithm_name = map[int32]string{
 		0: "KEY_ALGORITHM_UNKNOWN",
-		1: "AES256",
-		2: "RSA3072",
-		3: "RSA4096",
+		1: "KEY_ALGORITHM_AES256",
+		2: "KEY_ALGORITHM_RSA3072",
+		3: "KEY_ALGORITHM_RSA4096",
 	}
 	KeyAlgorithm_value = map[string]int32{
 		"KEY_ALGORITHM_UNKNOWN": 0,
-		"AES256":                1,
-		"RSA3072":               2,
-		"RSA4096":               3,
+		"KEY_ALGORITHM_AES256":  1,
+		"KEY_ALGORITHM_RSA3072": 2,
+		"KEY_ALGORITHM_RSA4096": 3,
 	}
 )
 
@@ -81,25 +81,25 @@ func (KeyAlgorithm) EnumDescriptor() ([]byte, []int) {
 type KeyType int32
 
 const (
-	KeyType_KEYTYPE_UNSPECIFIED KeyType = 0
-	KeyType_SYSTEM_MANAGED      KeyType = 1 // System-managed key
-	KeyType_BYOK                KeyType = 2 // Bring Your Own Key
-	KeyType_HYOK                KeyType = 3 // Hold Your Own Key
+	KeyType_KEY_TYPE_UNSPECIFIED    KeyType = 0
+	KeyType_KEY_TYPE_SYSTEM_MANAGED KeyType = 1 // System-managed key
+	KeyType_KEY_TYPE_BYOK           KeyType = 2 // Bring Your Own Key
+	KeyType_KEY_TYPE_HYOK           KeyType = 3 // Hold Your Own Key
 )
 
 // Enum value maps for KeyType.
 var (
 	KeyType_name = map[int32]string{
-		0: "KEYTYPE_UNSPECIFIED",
-		1: "SYSTEM_MANAGED",
-		2: "BYOK",
-		3: "HYOK",
+		0: "KEY_TYPE_UNSPECIFIED",
+		1: "KEY_TYPE_SYSTEM_MANAGED",
+		2: "KEY_TYPE_BYOK",
+		3: "KEY_TYPE_HYOK",
 	}
 	KeyType_value = map[string]int32{
-		"KEYTYPE_UNSPECIFIED": 0,
-		"SYSTEM_MANAGED":      1,
-		"BYOK":                2,
-		"HYOK":                3,
+		"KEY_TYPE_UNSPECIFIED":    0,
+		"KEY_TYPE_SYSTEM_MANAGED": 1,
+		"KEY_TYPE_BYOK":           2,
+		"KEY_TYPE_HYOK":           3,
 	}
 )
 
@@ -370,7 +370,7 @@ func (x *CreateKeyRequest) GetKeyType() KeyType {
 	if x != nil {
 		return x.KeyType
 	}
-	return KeyType_KEYTYPE_UNSPECIFIED
+	return KeyType_KEY_TYPE_UNSPECIFIED
 }
 
 type CreateKeyResponse struct {
@@ -925,7 +925,7 @@ func (x *ValidateKeyRequest) GetKeyType() KeyType {
 	if x != nil {
 		return x.KeyType
 	}
-	return KeyType_KEYTYPE_UNSPECIFIED
+	return KeyType_KEY_TYPE_UNSPECIFIED
 }
 
 func (x *ValidateKeyRequest) GetAlgorithm() KeyAlgorithm {
@@ -1392,18 +1392,17 @@ const file_plugin_key_management_v1_key_management_proto_rawDesc = "" +
 	"\rnative_key_id\x18\x01 \x01(\tR\vnativeKeyId\x12M\n" +
 	"\x16management_access_data\x18\x02 \x01(\v2\x17.google.protobuf.StructR\x14managementAccessData\"2\n" +
 	"\x18ExtractKeyRegionResponse\x12\x16\n" +
-	"\x06region\x18\x01 \x01(\tR\x06region*O\n" +
+	"\x06region\x18\x01 \x01(\tR\x06region*y\n" +
 	"\fKeyAlgorithm\x12\x19\n" +
-	"\x15KEY_ALGORITHM_UNKNOWN\x10\x00\x12\n" +
-	"\n" +
-	"\x06AES256\x10\x01\x12\v\n" +
-	"\aRSA3072\x10\x02\x12\v\n" +
-	"\aRSA4096\x10\x03*J\n" +
-	"\aKeyType\x12\x17\n" +
-	"\x13KEYTYPE_UNSPECIFIED\x10\x00\x12\x12\n" +
-	"\x0eSYSTEM_MANAGED\x10\x01\x12\b\n" +
-	"\x04BYOK\x10\x02\x12\b\n" +
-	"\x04HYOK\x10\x032\x93\n" +
+	"\x15KEY_ALGORITHM_UNKNOWN\x10\x00\x12\x18\n" +
+	"\x14KEY_ALGORITHM_AES256\x10\x01\x12\x19\n" +
+	"\x15KEY_ALGORITHM_RSA3072\x10\x02\x12\x19\n" +
+	"\x15KEY_ALGORITHM_RSA4096\x10\x03*f\n" +
+	"\aKeyType\x12\x18\n" +
+	"\x14KEY_TYPE_UNSPECIFIED\x10\x00\x12\x1b\n" +
+	"\x17KEY_TYPE_SYSTEM_MANAGED\x10\x01\x12\x11\n" +
+	"\rKEY_TYPE_BYOK\x10\x02\x12\x11\n" +
+	"\rKEY_TYPE_HYOK\x10\x032\x93\n" +
 	"\n" +
 	"\rKeyManagement\x12[\n" +
 	"\x06GetKey\x12'.plugin.key_management.v1.GetKeyRequest\x1a(.plugin.key_management.v1.GetKeyResponse\x12d\n" +
