@@ -12,6 +12,10 @@ import (
 	"github.com/openkcm/plugin-sdk/service/api/identitymanagement"
 )
 
+const (
+	errFailedValidationMsg = "failed validation: %w"
+)
+
 type V1 struct {
 	plugin.Facade
 	grpcidentitymanagementv1.IdentityManagementServicePluginClient
@@ -25,13 +29,16 @@ func (v1 *V1) ServiceInfo() api.Info {
 	return v1.Info
 }
 
-func (v1 *V1) GetGroup(ctx context.Context, req *identitymanagement.GetGroupRequest) (*identitymanagement.GetGroupResponse, error) {
+func (v1 *V1) GetGroup(
+	ctx context.Context,
+	req *identitymanagement.GetGroupRequest,
+) (*identitymanagement.GetGroupResponse, error) {
 	in := &grpcidentitymanagementv1.GetGroupRequest{
 		GroupName:   req.GroupName,
 		AuthContext: AuthContextToGRPC(&req.AuthContext),
 	}
 	if err := protovalidate.Validate(in); err != nil {
-		return nil, fmt.Errorf("failed validation: %v", err)
+		return nil, fmt.Errorf(errFailedValidationMsg, err)
 	}
 
 	grpcResp, err := v1.IdentityManagementServicePluginClient.GetGroup(ctx, in)
@@ -43,12 +50,15 @@ func (v1 *V1) GetGroup(ctx context.Context, req *identitymanagement.GetGroupRequ
 	}, nil
 }
 
-func (v1 *V1) ListGroups(ctx context.Context, req *identitymanagement.ListGroupsRequest) (*identitymanagement.ListGroupsResponse, error) {
+func (v1 *V1) ListGroups(
+	ctx context.Context,
+	req *identitymanagement.ListGroupsRequest,
+) (*identitymanagement.ListGroupsResponse, error) {
 	in := &grpcidentitymanagementv1.GetAllGroupsRequest{
 		AuthContext: AuthContextToGRPC(&req.AuthContext),
 	}
 	if err := protovalidate.Validate(in); err != nil {
-		return nil, fmt.Errorf("failed validation: %v", err)
+		return nil, fmt.Errorf(errFailedValidationMsg, err)
 	}
 
 	grpcResp, err := v1.GetAllGroups(ctx, in)
@@ -60,13 +70,16 @@ func (v1 *V1) ListGroups(ctx context.Context, req *identitymanagement.ListGroups
 	}, nil
 }
 
-func (v1 *V1) ListGroupUsers(ctx context.Context, req *identitymanagement.ListGroupUsersRequest) (*identitymanagement.ListGroupUsersResponse, error) {
+func (v1 *V1) ListGroupUsers(
+	ctx context.Context,
+	req *identitymanagement.ListGroupUsersRequest,
+) (*identitymanagement.ListGroupUsersResponse, error) {
 	in := &grpcidentitymanagementv1.GetUsersForGroupRequest{
 		GroupId:     req.GroupID,
 		AuthContext: AuthContextToGRPC(&req.AuthContext),
 	}
 	if err := protovalidate.Validate(in); err != nil {
-		return nil, fmt.Errorf("failed validation: %v", err)
+		return nil, fmt.Errorf(errFailedValidationMsg, err)
 	}
 
 	grpcResp, err := v1.GetUsersForGroup(ctx, in)
@@ -78,13 +91,16 @@ func (v1 *V1) ListGroupUsers(ctx context.Context, req *identitymanagement.ListGr
 	}, nil
 }
 
-func (v1 *V1) ListUserGroups(ctx context.Context, req *identitymanagement.ListUserGroupsRequest) (*identitymanagement.ListUserGroupsResponse, error) {
+func (v1 *V1) ListUserGroups(
+	ctx context.Context,
+	req *identitymanagement.ListUserGroupsRequest,
+) (*identitymanagement.ListUserGroupsResponse, error) {
 	in := &grpcidentitymanagementv1.GetGroupsForUserRequest{
 		UserId:      req.UserID,
 		AuthContext: AuthContextToGRPC(&req.AuthContext),
 	}
 	if err := protovalidate.Validate(in); err != nil {
-		return nil, fmt.Errorf("failed validation: %v", err)
+		return nil, fmt.Errorf(errFailedValidationMsg, err)
 	}
 
 	grpcResp, err := v1.GetGroupsForUser(ctx, in)
@@ -110,13 +126,13 @@ func FromGRPCGroup(v *grpcidentitymanagementv1.Group) identitymanagement.Group {
 		return identitymanagement.Group{}
 	}
 	return identitymanagement.Group{
-		ID:   v.Id,
-		Name: v.Name,
+		ID:   v.GetId(),
+		Name: v.GetName(),
 	}
 }
 
 func FromGRPCGroups(groups []*grpcidentitymanagementv1.Group) []identitymanagement.Group {
-	var wrapperGroups []identitymanagement.Group
+	wrapperGroups := make([]identitymanagement.Group, 0, len(groups))
 	for _, group := range groups {
 		wrapperGroups = append(wrapperGroups, FromGRPCGroup(group))
 	}
@@ -128,14 +144,14 @@ func FromGRPCUser(v *grpcidentitymanagementv1.User) identitymanagement.User {
 		return identitymanagement.User{}
 	}
 	return identitymanagement.User{
-		ID:    v.Id,
-		Name:  v.Name,
-		Email: v.Email,
+		ID:    v.GetId(),
+		Name:  v.GetName(),
+		Email: v.GetEmail(),
 	}
 }
 
 func FromGRPCUsers(users []*grpcidentitymanagementv1.User) []identitymanagement.User {
-	var wrapperUsers []identitymanagement.User
+	wrapperUsers := make([]identitymanagement.User, 0, len(users))
 	for _, user := range users {
 		wrapperUsers = append(wrapperUsers, FromGRPCUser(user))
 	}

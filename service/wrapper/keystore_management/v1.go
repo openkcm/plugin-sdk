@@ -15,6 +15,11 @@ import (
 	"github.com/openkcm/plugin-sdk/service/api/keystoremanagement"
 )
 
+const (
+	errFailedValidationMsg        = "failed validation: %w"
+	errFailedVParseProtoStructMsg = "failed to parse values into proto struct: %w"
+)
+
 type V1 struct {
 	plugin.Facade
 	grpckeystoremanagementv1.KeystoreProviderPluginClient
@@ -28,17 +33,20 @@ func (v1 *V1) ServiceInfo() api.Info {
 	return v1.Info
 }
 
-func (v1 *V1) CreateKeystore(ctx context.Context, req *keystoremanagement.CreateKeystoreRequest) (*keystoremanagement.CreateKeystoreResponse, error) {
+func (v1 *V1) CreateKeystore(
+	ctx context.Context,
+	req *keystoremanagement.CreateKeystoreRequest,
+) (*keystoremanagement.CreateKeystoreResponse, error) {
 	value, err := structpb.NewStruct(req.Values)
 	if err != nil {
-		return nil, fmt.Errorf("failed to parse values: %v", err)
+		return nil, fmt.Errorf(errFailedVParseProtoStructMsg, err)
 	}
 
 	in := &grpckeystoremanagementv1.CreateKeystoreRequest{
 		Values: value,
 	}
 	if err := protovalidate.Validate(in); err != nil {
-		return nil, fmt.Errorf("failed validation: %v", err)
+		return nil, fmt.Errorf(errFailedValidationMsg, err)
 	}
 
 	grpcResp, err := v1.KeystoreProviderPluginClient.CreateKeystore(ctx, in)
@@ -56,10 +64,13 @@ func (v1 *V1) CreateKeystore(ctx context.Context, req *keystoremanagement.Create
 	return resp, nil
 }
 
-func (v1 *V1) DeleteKeystore(ctx context.Context, req *keystoremanagement.DeleteKeystoreRequest) (*keystoremanagement.DeleteKeystoreResponse, error) {
+func (v1 *V1) DeleteKeystore(
+	ctx context.Context,
+	req *keystoremanagement.DeleteKeystoreRequest,
+) (*keystoremanagement.DeleteKeystoreResponse, error) {
 	value, err := structpb.NewStruct(req.Config.Values)
 	if err != nil {
-		return nil, fmt.Errorf("failed to parse values: %v", err)
+		return nil, fmt.Errorf(errFailedVParseProtoStructMsg, err)
 	}
 	in := &grpckeystoremanagementv1.DeleteKeystoreRequest{
 		Config: &grpccommonv1.KeystoreInstanceConfig{
@@ -67,7 +78,7 @@ func (v1 *V1) DeleteKeystore(ctx context.Context, req *keystoremanagement.Delete
 		},
 	}
 	if err := protovalidate.Validate(in); err != nil {
-		return nil, fmt.Errorf("failed validation: %v", err)
+		return nil, fmt.Errorf(errFailedValidationMsg, err)
 	}
 
 	_, err = v1.KeystoreProviderPluginClient.DeleteKeystore(ctx, in)

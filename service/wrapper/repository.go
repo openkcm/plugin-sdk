@@ -8,26 +8,20 @@ import (
 )
 
 const (
-	certificateIssuerType = "CertificateIssuer"
-	// TODO: value should go away after plugin proto refactoring
+	certificateIssuerType        = "CertificateIssuer"
 	certificateIssuerServiceType = "CertificateIssuerService"
 
-	notificationType = "Notification"
-	// TODO: value should go away after plugin proto refactoring
+	notificationType        = "Notification"
 	notificationServiceType = "NotificationService"
 
-	systemInformationType = "SystemInformation"
-	// TODO: value should go away after plugin proto refactoring
+	systemInformationType        = "SystemInformation"
 	systemInformationServiceType = "SystemInformationService"
 
-	identityManagementType = "IdentityManagement"
-	// TODO: value should go away after plugin proto refactoring
+	identityManagementType        = "IdentityManagement"
 	identityManagementServiceType = "IdentityManagementService"
 
-	// TODO: value should become `KeystoreManagement` after plugin proto refactoring
 	keystoreManagementType = "KeystoreProvider"
-	// TODO: value should become `KeyManagement` after plugin proto refactoring
-	keyManagementType = "KeystoreInstanceKeyOperation"
+	keyManagementType      = "KeystoreInstanceKeyOperation"
 )
 
 type Repository struct {
@@ -72,9 +66,14 @@ func (repo *Repository) Close() error {
 	return repo.RawCatalog.Close()
 }
 
-func CreateServiceRepository(ctx context.Context, config catalog.Config, builtIns ...catalog.BuiltInPlugin) (_ *Repository, err error) {
+func CreateServiceRepository(
+	ctx context.Context,
+	config catalog.Config,
+	builtIns ...catalog.BuiltInPlugin,
+) (*Repository, error) {
 	repo := &Repository{}
 
+	var err error
 	repo.RawCatalog, err = catalog.New(ctx, config, repo, builtIns...)
 	if err != nil {
 		return nil, err

@@ -25,13 +25,16 @@ func (v1 *V1) ServiceInfo() api.Info {
 	return v1.Info
 }
 
-func (v1 *V1) GetSystemInfo(ctx context.Context, req *systeminformation.GetSystemInfoRequest) (*systeminformation.GetSystemInfoResponse, error) {
+func (v1 *V1) GetSystemInfo(
+	ctx context.Context,
+	req *systeminformation.GetSystemInfoRequest,
+) (*systeminformation.GetSystemInfoResponse, error) {
 	in := &systeminformationv1.GetRequest{
 		Id:   req.ID,
 		Type: req.Type,
 	}
 	if err := protovalidate.Validate(in); err != nil {
-		return nil, fmt.Errorf("failed validation: %v", err)
+		return nil, fmt.Errorf("failed validation: %w", err)
 	}
 
 	grpcResp, err := v1.Get(ctx, in)

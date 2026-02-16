@@ -13,6 +13,10 @@ import (
 	"github.com/openkcm/plugin-sdk/service/api/notification"
 )
 
+var (
+	ErrFailedSendNotification = errors.New("failed to send notification")
+)
+
 type V1 struct {
 	plugin.Facade
 	grpcnotification1.NotificationServicePluginClient
@@ -26,7 +30,10 @@ func (v1 *V1) ServiceInfo() api.Info {
 	return v1.Info
 }
 
-func (v1 *V1) Send(ctx context.Context, req *notification.SendNotificationRequest) (*notification.SendNotificationResponse, error) {
+func (v1 *V1) Send(
+	ctx context.Context,
+	req *notification.SendNotificationRequest,
+) (*notification.SendNotificationResponse, error) {
 	in := &grpcnotification1.SendNotificationRequest{
 		NotificationType: grpcnotification1.NotificationType(req.Type),
 		Recipients:       req.Recipients,
@@ -34,7 +41,7 @@ func (v1 *V1) Send(ctx context.Context, req *notification.SendNotificationReques
 		Body:             req.Body,
 	}
 	if err := protovalidate.Validate(in); err != nil {
-		return nil, fmt.Errorf("failed validation: %v", err)
+		return nil, fmt.Errorf("failed validation: %w", err)
 	}
 
 	grpcResp, err := v1.SendNotification(ctx, in)
@@ -43,7 +50,7 @@ func (v1 *V1) Send(ctx context.Context, req *notification.SendNotificationReques
 	}
 
 	if !grpcResp.GetSuccess() {
-		return nil, errors.New(grpcResp.GetMessage())
+		return nil, fmt.Errorf("%s: %w", grpcResp.GetMessage(), ErrFailedSendNotification)
 	}
 
 	return &notification.SendNotificationResponse{}, nil
