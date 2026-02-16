@@ -14,6 +14,11 @@ import (
 	"github.com/openkcm/plugin-sdk/service/api/keymanagement"
 )
 
+const (
+	errFailedValidationMsg        = "failed validation: %w"
+	errFailedVParseProtoStructMsg = "failed to parse values into proto struct: %w"
+)
+
 type V1 struct {
 	plugin.Facade
 	grpckeymanagerv1.KeystoreInstanceKeyOperationPluginClient
@@ -30,7 +35,7 @@ func (v1 *V1) ServiceInfo() api.Info {
 func (v1 *V1) GetKey(ctx context.Context, req *keymanagement.GetKeyRequest) (*keymanagement.GetKeyResponse, error) {
 	value, err := structpb.NewStruct(req.Parameters.Config.Values)
 	if err != nil {
-		return nil, fmt.Errorf("failed to parse values: %v", err)
+		return nil, fmt.Errorf(errFailedVParseProtoStructMsg, err)
 	}
 
 	in := &grpckeymanagerv1.GetKeyRequest{
@@ -54,10 +59,13 @@ func (v1 *V1) GetKey(ctx context.Context, req *keymanagement.GetKeyRequest) (*ke
 	}, nil
 }
 
-func (v1 *V1) CreateKey(ctx context.Context, req *keymanagement.CreateKeyRequest) (*keymanagement.CreateKeyResponse, error) {
+func (v1 *V1) CreateKey(
+	ctx context.Context,
+	req *keymanagement.CreateKeyRequest,
+) (*keymanagement.CreateKeyResponse, error) {
 	value, err := structpb.NewStruct(req.Config.Values)
 	if err != nil {
-		return nil, fmt.Errorf("failed to parse values: %v", err)
+		return nil, fmt.Errorf(errFailedVParseProtoStructMsg, err)
 	}
 
 	in := &grpckeymanagerv1.CreateKeyRequest{
@@ -70,7 +78,7 @@ func (v1 *V1) CreateKey(ctx context.Context, req *keymanagement.CreateKeyRequest
 		KeyType:   grpckeymanagerv1.KeyType(req.KeyType),
 	}
 	if err := protovalidate.Validate(in); err != nil {
-		return nil, fmt.Errorf("failed validation: %v", err)
+		return nil, fmt.Errorf(errFailedValidationMsg, err)
 	}
 
 	grpcResp, err := v1.KeystoreInstanceKeyOperationPluginClient.CreateKey(ctx, in)
@@ -84,10 +92,13 @@ func (v1 *V1) CreateKey(ctx context.Context, req *keymanagement.CreateKeyRequest
 	}, nil
 }
 
-func (v1 *V1) DeleteKey(ctx context.Context, req *keymanagement.DeleteKeyRequest) (*keymanagement.DeleteKeyResponse, error) {
+func (v1 *V1) DeleteKey(
+	ctx context.Context,
+	req *keymanagement.DeleteKeyRequest,
+) (*keymanagement.DeleteKeyResponse, error) {
 	value, err := structpb.NewStruct(req.Parameters.Config.Values)
 	if err != nil {
-		return nil, fmt.Errorf("failed to parse values: %v", err)
+		return nil, fmt.Errorf(errFailedVParseProtoStructMsg, err)
 	}
 
 	in := &grpckeymanagerv1.DeleteKeyRequest{
@@ -100,7 +111,7 @@ func (v1 *V1) DeleteKey(ctx context.Context, req *keymanagement.DeleteKeyRequest
 		Window: req.Window,
 	}
 	if err := protovalidate.Validate(in); err != nil {
-		return nil, fmt.Errorf("failed validation: %v", err)
+		return nil, fmt.Errorf(errFailedValidationMsg, err)
 	}
 
 	_, err = v1.KeystoreInstanceKeyOperationPluginClient.DeleteKey(ctx, in)
@@ -111,10 +122,13 @@ func (v1 *V1) DeleteKey(ctx context.Context, req *keymanagement.DeleteKeyRequest
 	return &keymanagement.DeleteKeyResponse{}, nil
 }
 
-func (v1 *V1) EnableKey(ctx context.Context, req *keymanagement.EnableKeyRequest) (*keymanagement.EnableKeyResponse, error) {
+func (v1 *V1) EnableKey(
+	ctx context.Context,
+	req *keymanagement.EnableKeyRequest,
+) (*keymanagement.EnableKeyResponse, error) {
 	value, err := structpb.NewStruct(req.Parameters.Config.Values)
 	if err != nil {
-		return nil, fmt.Errorf("failed to parse values: %v", err)
+		return nil, fmt.Errorf(errFailedVParseProtoStructMsg, err)
 	}
 
 	in := &grpckeymanagerv1.EnableKeyRequest{
@@ -126,7 +140,7 @@ func (v1 *V1) EnableKey(ctx context.Context, req *keymanagement.EnableKeyRequest
 		},
 	}
 	if err := protovalidate.Validate(in); err != nil {
-		return nil, fmt.Errorf("failed validation: %v", err)
+		return nil, fmt.Errorf(errFailedValidationMsg, err)
 	}
 
 	_, err = v1.KeystoreInstanceKeyOperationPluginClient.EnableKey(ctx, in)
@@ -137,10 +151,13 @@ func (v1 *V1) EnableKey(ctx context.Context, req *keymanagement.EnableKeyRequest
 	return &keymanagement.EnableKeyResponse{}, nil
 }
 
-func (v1 *V1) GetImportParameters(ctx context.Context, req *keymanagement.GetImportParametersRequest) (*keymanagement.GetImportParametersResponse, error) {
+func (v1 *V1) GetImportParameters(
+	ctx context.Context,
+	req *keymanagement.GetImportParametersRequest,
+) (*keymanagement.GetImportParametersResponse, error) {
 	value, err := structpb.NewStruct(req.Parameters.Config.Values)
 	if err != nil {
-		return nil, fmt.Errorf("failed to parse values: %v", err)
+		return nil, fmt.Errorf(errFailedVParseProtoStructMsg, err)
 	}
 
 	in := &grpckeymanagerv1.GetImportParametersRequest{
@@ -153,7 +170,7 @@ func (v1 *V1) GetImportParameters(ctx context.Context, req *keymanagement.GetImp
 		Algorithm: grpckeymanagerv1.KeyAlgorithm(req.KeyAlgorithm),
 	}
 	if err := protovalidate.Validate(in); err != nil {
-		return nil, fmt.Errorf("failed validation: %v", err)
+		return nil, fmt.Errorf(errFailedValidationMsg, err)
 	}
 
 	grpcResp, err := v1.KeystoreInstanceKeyOperationPluginClient.GetImportParameters(ctx, in)
@@ -167,15 +184,18 @@ func (v1 *V1) GetImportParameters(ctx context.Context, req *keymanagement.GetImp
 	}, nil
 }
 
-func (v1 *V1) ImportKeyMaterial(ctx context.Context, req *keymanagement.ImportKeyMaterialRequest) (*keymanagement.ImportKeyMaterialResponse, error) {
+func (v1 *V1) ImportKeyMaterial(
+	ctx context.Context,
+	req *keymanagement.ImportKeyMaterialRequest,
+) (*keymanagement.ImportKeyMaterialResponse, error) {
 	value, err := structpb.NewStruct(req.Parameters.Config.Values)
 	if err != nil {
-		return nil, fmt.Errorf("failed to parse values: %v", err)
+		return nil, fmt.Errorf(errFailedVParseProtoStructMsg, err)
 	}
 
 	importParams, err := structpb.NewStruct(req.ImportParameters)
 	if err != nil {
-		return nil, fmt.Errorf("failed to parse values: %v", err)
+		return nil, fmt.Errorf(errFailedVParseProtoStructMsg, err)
 	}
 
 	in := &grpckeymanagerv1.ImportKeyMaterialRequest{
@@ -188,7 +208,7 @@ func (v1 *V1) ImportKeyMaterial(ctx context.Context, req *keymanagement.ImportKe
 		ImportParameters: importParams,
 	}
 	if err := protovalidate.Validate(in); err != nil {
-		return nil, fmt.Errorf("failed validation: %v", err)
+		return nil, fmt.Errorf(errFailedValidationMsg, err)
 	}
 
 	_, err = v1.KeystoreInstanceKeyOperationPluginClient.ImportKeyMaterial(ctx, in)
@@ -199,7 +219,10 @@ func (v1 *V1) ImportKeyMaterial(ctx context.Context, req *keymanagement.ImportKe
 	return &keymanagement.ImportKeyMaterialResponse{}, nil
 }
 
-func (v1 *V1) ValidateKey(ctx context.Context, req *keymanagement.ValidateKeyRequest) (*keymanagement.ValidateKeyResponse, error) {
+func (v1 *V1) ValidateKey(
+	ctx context.Context,
+	req *keymanagement.ValidateKeyRequest,
+) (*keymanagement.ValidateKeyResponse, error) {
 	in := &grpckeymanagerv1.ValidateKeyRequest{
 		KeyType:     grpckeymanagerv1.KeyType(req.KeyType),
 		Algorithm:   grpckeymanagerv1.KeyAlgorithm(req.KeyAlgorithm),
@@ -207,7 +230,7 @@ func (v1 *V1) ValidateKey(ctx context.Context, req *keymanagement.ValidateKeyReq
 		NativeKeyId: req.NativeKeyID,
 	}
 	if err := protovalidate.Validate(in); err != nil {
-		return nil, fmt.Errorf("failed validation: %v", err)
+		return nil, fmt.Errorf(errFailedValidationMsg, err)
 	}
 
 	grpcResp, err := v1.KeystoreInstanceKeyOperationPluginClient.ValidateKey(ctx, in)
@@ -221,14 +244,17 @@ func (v1 *V1) ValidateKey(ctx context.Context, req *keymanagement.ValidateKeyReq
 	}, nil
 }
 
-func (v1 *V1) ValidateKeyAccessData(ctx context.Context, req *keymanagement.ValidateKeyAccessDataRequest) (*keymanagement.ValidateKeyAccessDataResponse, error) {
+func (v1 *V1) ValidateKeyAccessData(
+	ctx context.Context,
+	req *keymanagement.ValidateKeyAccessDataRequest,
+) (*keymanagement.ValidateKeyAccessDataResponse, error) {
 	management, err := structpb.NewStruct(req.Management)
 	if err != nil {
-		return nil, fmt.Errorf("failed to parse values: %v", err)
+		return nil, fmt.Errorf(errFailedVParseProtoStructMsg, err)
 	}
 	crypto, err := structpb.NewStruct(req.Crypto)
 	if err != nil {
-		return nil, fmt.Errorf("failed to parse values: %v", err)
+		return nil, fmt.Errorf(errFailedVParseProtoStructMsg, err)
 	}
 
 	in := &grpckeymanagerv1.ValidateKeyAccessDataRequest{
@@ -236,7 +262,7 @@ func (v1 *V1) ValidateKeyAccessData(ctx context.Context, req *keymanagement.Vali
 		Crypto:     crypto,
 	}
 	if err := protovalidate.Validate(in); err != nil {
-		return nil, fmt.Errorf("failed validation: %v", err)
+		return nil, fmt.Errorf(errFailedValidationMsg, err)
 	}
 
 	grpcResp, err := v1.KeystoreInstanceKeyOperationPluginClient.ValidateKeyAccessData(ctx, in)
@@ -250,13 +276,16 @@ func (v1 *V1) ValidateKeyAccessData(ctx context.Context, req *keymanagement.Vali
 	}, nil
 }
 
-func (v1 *V1) TransformCryptoAccessData(ctx context.Context, req *keymanagement.TransformCryptoAccessDataRequest) (*keymanagement.TransformCryptoAccessDataResponse, error) {
+func (v1 *V1) TransformCryptoAccessData(
+	ctx context.Context,
+	req *keymanagement.TransformCryptoAccessDataRequest,
+) (*keymanagement.TransformCryptoAccessDataResponse, error) {
 	in := &grpckeymanagerv1.TransformCryptoAccessDataRequest{
 		NativeKeyId: req.NativeKeyID,
 		AccessData:  req.AccessData,
 	}
 	if err := protovalidate.Validate(in); err != nil {
-		return nil, fmt.Errorf("failed validation: %v", err)
+		return nil, fmt.Errorf(errFailedValidationMsg, err)
 	}
 
 	grpcResp, err := v1.KeystoreInstanceKeyOperationPluginClient.TransformCryptoAccessData(ctx, in)
@@ -269,10 +298,12 @@ func (v1 *V1) TransformCryptoAccessData(ctx context.Context, req *keymanagement.
 	}, nil
 }
 
-func (v1 *V1) ExtractKeyRegion(ctx context.Context, req *keymanagement.ExtractKeyRegionRequest) (*keymanagement.ExtractKeyRegionResponse, error) {
+func (v1 *V1) ExtractKeyRegion(ctx context.Context,
+	req *keymanagement.ExtractKeyRegionRequest,
+) (*keymanagement.ExtractKeyRegionResponse, error) {
 	management, err := structpb.NewStruct(req.ManagementAccessData)
 	if err != nil {
-		return nil, fmt.Errorf("failed to parse values: %v", err)
+		return nil, fmt.Errorf(errFailedVParseProtoStructMsg, err)
 	}
 
 	in := &grpckeymanagerv1.ExtractKeyRegionRequest{
@@ -280,7 +311,7 @@ func (v1 *V1) ExtractKeyRegion(ctx context.Context, req *keymanagement.ExtractKe
 		ManagementAccessData: management,
 	}
 	if err := protovalidate.Validate(in); err != nil {
-		return nil, fmt.Errorf("failed validation: %v", err)
+		return nil, fmt.Errorf(errFailedValidationMsg, err)
 	}
 
 	grpcResp, err := v1.KeystoreInstanceKeyOperationPluginClient.ExtractKeyRegion(ctx, in)

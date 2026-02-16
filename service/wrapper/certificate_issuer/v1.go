@@ -25,7 +25,10 @@ func (v1 *V1) ServiceInfo() api.Info {
 	return v1.Info
 }
 
-func (v1 *V1) IssueCertificate(ctx context.Context, req *certificateissuer.IssueCertificateRequest) (*certificateissuer.IssueCertificateResponse, error) {
+func (v1 *V1) IssueCertificate(
+	ctx context.Context,
+	req *certificateissuer.IssueCertificateRequest,
+) (*certificateissuer.IssueCertificateResponse, error) {
 	in := &grpccertificateissuerv1.GetCertificateRequest{
 		CommonName: req.CommonName,
 		Locality:   req.Localities,
@@ -33,7 +36,7 @@ func (v1 *V1) IssueCertificate(ctx context.Context, req *certificateissuer.Issue
 		PrivateKey: CertificatePrivateKeyToGRPC(req.PrivateKey),
 	}
 	if err := protovalidate.Validate(in); err != nil {
-		return nil, fmt.Errorf("failed validation: %v", err)
+		return nil, fmt.Errorf("failed validation: %w", err)
 	}
 
 	grpcResp, err := v1.GetCertificate(ctx, in)
@@ -41,11 +44,13 @@ func (v1 *V1) IssueCertificate(ctx context.Context, req *certificateissuer.Issue
 		return nil, err
 	}
 	return &certificateissuer.IssueCertificateResponse{
-		ChainPem: grpcResp.CertificateChain,
+		ChainPem: grpcResp.GetCertificateChain(),
 	}, nil
 }
 
-func CertificateValidityToGRPC(v *certificateissuer.CertificateValidity) *grpccertificateissuerv1.GetCertificateValidity {
+func CertificateValidityToGRPC(
+	v *certificateissuer.CertificateValidity,
+) *grpccertificateissuerv1.GetCertificateValidity {
 	if v == nil {
 		return nil
 	}

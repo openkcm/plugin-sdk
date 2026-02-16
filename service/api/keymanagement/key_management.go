@@ -17,8 +17,14 @@ type KeyManagement interface {
 	GetImportParameters(ctx context.Context, req *GetImportParametersRequest) (*GetImportParametersResponse, error)
 	ImportKeyMaterial(ctx context.Context, req *ImportKeyMaterialRequest) (*ImportKeyMaterialResponse, error)
 	ValidateKey(ctx context.Context, req *ValidateKeyRequest) (*ValidateKeyResponse, error)
-	ValidateKeyAccessData(ctx context.Context, req *ValidateKeyAccessDataRequest) (*ValidateKeyAccessDataResponse, error)
-	TransformCryptoAccessData(ctx context.Context, req *TransformCryptoAccessDataRequest) (*TransformCryptoAccessDataResponse, error)
+	ValidateKeyAccessData(
+		ctx context.Context,
+		req *ValidateKeyAccessDataRequest,
+	) (*ValidateKeyAccessDataResponse, error)
+	TransformCryptoAccessData(
+		ctx context.Context,
+		req *TransformCryptoAccessDataRequest,
+	) (*TransformCryptoAccessDataResponse, error)
 	ExtractKeyRegion(ctx context.Context, req *ExtractKeyRegionRequest) (*ExtractKeyRegionResponse, error)
 }
 
