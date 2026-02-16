@@ -1,0 +1,10 @@
+syntax = "proto3";
+package plugin.common.v1;
+
+import "google/protobuf/struct.proto";
+
+// KeystoreConfig represents the configuration for a key store instance
+// This is shared between management and operations plugins
+message KeystoreConfig {
+  google.protobuf.Struct configuration_parameters = 1;
+}

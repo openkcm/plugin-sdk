@@ -162,27 +162,27 @@ func (x *GetGroupResponse) GetGroup() *Group {
 	return nil
 }
 
-type GetAllGroupsRequest struct {
+type ListGroupsRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	AuthContext   *AuthContext           `protobuf:"bytes,99,opt,name=auth_context,json=authContext,proto3" json:"auth_context,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *GetAllGroupsRequest) Reset() {
-	*x = GetAllGroupsRequest{}
+func (x *ListGroupsRequest) Reset() {
+	*x = ListGroupsRequest{}
 	mi := &file_plugin_identity_management_v1_identity_management_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *GetAllGroupsRequest) String() string {
+func (x *ListGroupsRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetAllGroupsRequest) ProtoMessage() {}
+func (*ListGroupsRequest) ProtoMessage() {}
 
-func (x *GetAllGroupsRequest) ProtoReflect() protoreflect.Message {
+func (x *ListGroupsRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_plugin_identity_management_v1_identity_management_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -194,39 +194,39 @@ func (x *GetAllGroupsRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetAllGroupsRequest.ProtoReflect.Descriptor instead.
-func (*GetAllGroupsRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use ListGroupsRequest.ProtoReflect.Descriptor instead.
+func (*ListGroupsRequest) Descriptor() ([]byte, []int) {
 	return file_plugin_identity_management_v1_identity_management_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *GetAllGroupsRequest) GetAuthContext() *AuthContext {
+func (x *ListGroupsRequest) GetAuthContext() *AuthContext {
 	if x != nil {
 		return x.AuthContext
 	}
 	return nil
 }
 
-type GetAllGroupsResponse struct {
+type ListGroupsResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Groups        []*Group               `protobuf:"bytes,1,rep,name=groups,proto3" json:"groups,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *GetAllGroupsResponse) Reset() {
-	*x = GetAllGroupsResponse{}
+func (x *ListGroupsResponse) Reset() {
+	*x = ListGroupsResponse{}
 	mi := &file_plugin_identity_management_v1_identity_management_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *GetAllGroupsResponse) String() string {
+func (x *ListGroupsResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetAllGroupsResponse) ProtoMessage() {}
+func (*ListGroupsResponse) ProtoMessage() {}
 
-func (x *GetAllGroupsResponse) ProtoReflect() protoreflect.Message {
+func (x *ListGroupsResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_plugin_identity_management_v1_identity_management_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -238,19 +238,19 @@ func (x *GetAllGroupsResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetAllGroupsResponse.ProtoReflect.Descriptor instead.
-func (*GetAllGroupsResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use ListGroupsResponse.ProtoReflect.Descriptor instead.
+func (*ListGroupsResponse) Descriptor() ([]byte, []int) {
 	return file_plugin_identity_management_v1_identity_management_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *GetAllGroupsResponse) GetGroups() []*Group {
+func (x *ListGroupsResponse) GetGroups() []*Group {
 	if x != nil {
 		return x.Groups
 	}
 	return nil
 }
 
-type GetUsersForGroupRequest struct {
+type ListGroupUsersRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	GroupId       string                 `protobuf:"bytes,1,opt,name=group_id,json=groupId,proto3" json:"group_id,omitempty"`
 	AuthContext   *AuthContext           `protobuf:"bytes,99,opt,name=auth_context,json=authContext,proto3" json:"auth_context,omitempty"`
@@ -258,20 +258,20 @@ type GetUsersForGroupRequest struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *GetUsersForGroupRequest) Reset() {
-	*x = GetUsersForGroupRequest{}
+func (x *ListGroupUsersRequest) Reset() {
+	*x = ListGroupUsersRequest{}
 	mi := &file_plugin_identity_management_v1_identity_management_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *GetUsersForGroupRequest) String() string {
+func (x *ListGroupUsersRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetUsersForGroupRequest) ProtoMessage() {}
+func (*ListGroupUsersRequest) ProtoMessage() {}
 
-func (x *GetUsersForGroupRequest) ProtoReflect() protoreflect.Message {
+func (x *ListGroupUsersRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_plugin_identity_management_v1_identity_management_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -283,46 +283,46 @@ func (x *GetUsersForGroupRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetUsersForGroupRequest.ProtoReflect.Descriptor instead.
-func (*GetUsersForGroupRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use ListGroupUsersRequest.ProtoReflect.Descriptor instead.
+func (*ListGroupUsersRequest) Descriptor() ([]byte, []int) {
 	return file_plugin_identity_management_v1_identity_management_proto_rawDescGZIP(), []int{5}
 }
 
-func (x *GetUsersForGroupRequest) GetGroupId() string {
+func (x *ListGroupUsersRequest) GetGroupId() string {
 	if x != nil {
 		return x.GroupId
 	}
 	return ""
 }
 
-func (x *GetUsersForGroupRequest) GetAuthContext() *AuthContext {
+func (x *ListGroupUsersRequest) GetAuthContext() *AuthContext {
 	if x != nil {
 		return x.AuthContext
 	}
 	return nil
 }
 
-type GetUsersForGroupResponse struct {
+type ListGroupUsersResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Users         []*User                `protobuf:"bytes,1,rep,name=users,proto3" json:"users,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *GetUsersForGroupResponse) Reset() {
-	*x = GetUsersForGroupResponse{}
+func (x *ListGroupUsersResponse) Reset() {
+	*x = ListGroupUsersResponse{}
 	mi := &file_plugin_identity_management_v1_identity_management_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *GetUsersForGroupResponse) String() string {
+func (x *ListGroupUsersResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetUsersForGroupResponse) ProtoMessage() {}
+func (*ListGroupUsersResponse) ProtoMessage() {}
 
-func (x *GetUsersForGroupResponse) ProtoReflect() protoreflect.Message {
+func (x *ListGroupUsersResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_plugin_identity_management_v1_identity_management_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -334,12 +334,12 @@ func (x *GetUsersForGroupResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetUsersForGroupResponse.ProtoReflect.Descriptor instead.
-func (*GetUsersForGroupResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use ListGroupUsersResponse.ProtoReflect.Descriptor instead.
+func (*ListGroupUsersResponse) Descriptor() ([]byte, []int) {
 	return file_plugin_identity_management_v1_identity_management_proto_rawDescGZIP(), []int{6}
 }
 
-func (x *GetUsersForGroupResponse) GetUsers() []*User {
+func (x *ListGroupUsersResponse) GetUsers() []*User {
 	if x != nil {
 		return x.Users
 	}
@@ -406,7 +406,7 @@ func (x *User) GetEmail() string {
 	return ""
 }
 
-type GetGroupsForUserRequest struct {
+type ListUserGroupsRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	AuthContext   *AuthContext           `protobuf:"bytes,99,opt,name=auth_context,json=authContext,proto3" json:"auth_context,omitempty"`
@@ -414,20 +414,20 @@ type GetGroupsForUserRequest struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *GetGroupsForUserRequest) Reset() {
-	*x = GetGroupsForUserRequest{}
+func (x *ListUserGroupsRequest) Reset() {
+	*x = ListUserGroupsRequest{}
 	mi := &file_plugin_identity_management_v1_identity_management_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *GetGroupsForUserRequest) String() string {
+func (x *ListUserGroupsRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetGroupsForUserRequest) ProtoMessage() {}
+func (*ListUserGroupsRequest) ProtoMessage() {}
 
-func (x *GetGroupsForUserRequest) ProtoReflect() protoreflect.Message {
+func (x *ListUserGroupsRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_plugin_identity_management_v1_identity_management_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -439,46 +439,46 @@ func (x *GetGroupsForUserRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetGroupsForUserRequest.ProtoReflect.Descriptor instead.
-func (*GetGroupsForUserRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use ListUserGroupsRequest.ProtoReflect.Descriptor instead.
+func (*ListUserGroupsRequest) Descriptor() ([]byte, []int) {
 	return file_plugin_identity_management_v1_identity_management_proto_rawDescGZIP(), []int{8}
 }
 
-func (x *GetGroupsForUserRequest) GetUserId() string {
+func (x *ListUserGroupsRequest) GetUserId() string {
 	if x != nil {
 		return x.UserId
 	}
 	return ""
 }
 
-func (x *GetGroupsForUserRequest) GetAuthContext() *AuthContext {
+func (x *ListUserGroupsRequest) GetAuthContext() *AuthContext {
 	if x != nil {
 		return x.AuthContext
 	}
 	return nil
 }
 
-type GetGroupsForUserResponse struct {
+type ListUserGroupsResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Groups        []*Group               `protobuf:"bytes,1,rep,name=groups,proto3" json:"groups,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *GetGroupsForUserResponse) Reset() {
-	*x = GetGroupsForUserResponse{}
+func (x *ListUserGroupsResponse) Reset() {
+	*x = ListUserGroupsResponse{}
 	mi := &file_plugin_identity_management_v1_identity_management_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *GetGroupsForUserResponse) String() string {
+func (x *ListUserGroupsResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetGroupsForUserResponse) ProtoMessage() {}
+func (*ListUserGroupsResponse) ProtoMessage() {}
 
-func (x *GetGroupsForUserResponse) ProtoReflect() protoreflect.Message {
+func (x *ListUserGroupsResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_plugin_identity_management_v1_identity_management_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -490,12 +490,12 @@ func (x *GetGroupsForUserResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetGroupsForUserResponse.ProtoReflect.Descriptor instead.
-func (*GetGroupsForUserResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use ListUserGroupsResponse.ProtoReflect.Descriptor instead.
+func (*ListUserGroupsResponse) Descriptor() ([]byte, []int) {
 	return file_plugin_identity_management_v1_identity_management_proto_rawDescGZIP(), []int{9}
 }
 
-func (x *GetGroupsForUserResponse) GetGroups() []*Group {
+func (x *ListUserGroupsResponse) GetGroups() []*Group {
 	if x != nil {
 		return x.Groups
 	}
@@ -569,33 +569,34 @@ const file_plugin_identity_management_v1_identity_management_proto_rawDesc = "" 
 	"group_name\x18\x01 \x01(\tR\tgroupName\x12M\n" +
 	"\fauth_context\x18c \x01(\v2*.plugin.identity_management.v1.AuthContextR\vauthContext\"N\n" +
 	"\x10GetGroupResponse\x12:\n" +
-	"\x05group\x18\x01 \x01(\v2$.plugin.identity_management.v1.GroupR\x05group\"d\n" +
-	"\x13GetAllGroupsRequest\x12M\n" +
-	"\fauth_context\x18c \x01(\v2*.plugin.identity_management.v1.AuthContextR\vauthContext\"T\n" +
-	"\x14GetAllGroupsResponse\x12<\n" +
-	"\x06groups\x18\x01 \x03(\v2$.plugin.identity_management.v1.GroupR\x06groups\"\x83\x01\n" +
-	"\x17GetUsersForGroupRequest\x12\x19\n" +
+	"\x05group\x18\x01 \x01(\v2$.plugin.identity_management.v1.GroupR\x05group\"b\n" +
+	"\x11ListGroupsRequest\x12M\n" +
+	"\fauth_context\x18c \x01(\v2*.plugin.identity_management.v1.AuthContextR\vauthContext\"R\n" +
+	"\x12ListGroupsResponse\x12<\n" +
+	"\x06groups\x18\x01 \x03(\v2$.plugin.identity_management.v1.GroupR\x06groups\"\x81\x01\n" +
+	"\x15ListGroupUsersRequest\x12\x19\n" +
 	"\bgroup_id\x18\x01 \x01(\tR\agroupId\x12M\n" +
-	"\fauth_context\x18c \x01(\v2*.plugin.identity_management.v1.AuthContextR\vauthContext\"U\n" +
-	"\x18GetUsersForGroupResponse\x129\n" +
+	"\fauth_context\x18c \x01(\v2*.plugin.identity_management.v1.AuthContextR\vauthContext\"S\n" +
+	"\x16ListGroupUsersResponse\x129\n" +
 	"\x05users\x18\x01 \x03(\v2#.plugin.identity_management.v1.UserR\x05users\"@\n" +
 	"\x04User\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x14\n" +
-	"\x05email\x18\x03 \x01(\tR\x05email\"\x81\x01\n" +
-	"\x17GetGroupsForUserRequest\x12\x17\n" +
+	"\x05email\x18\x03 \x01(\tR\x05email\"\x7f\n" +
+	"\x15ListUserGroupsRequest\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\x12M\n" +
-	"\fauth_context\x18c \x01(\v2*.plugin.identity_management.v1.AuthContextR\vauthContext\"X\n" +
-	"\x18GetGroupsForUserResponse\x12<\n" +
+	"\fauth_context\x18c \x01(\v2*.plugin.identity_management.v1.AuthContextR\vauthContext\"V\n" +
+	"\x16ListUserGroupsResponse\x12<\n" +
 	"\x06groups\x18\x01 \x03(\v2$.plugin.identity_management.v1.GroupR\x06groups\"+\n" +
 	"\x05Group\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
-	"\x04name\x18\x02 \x01(\tR\x04name2\x8d\x04\n" +
-	"\x19IdentityManagementService\x12k\n" +
-	"\bGetGroup\x12..plugin.identity_management.v1.GetGroupRequest\x1a/.plugin.identity_management.v1.GetGroupResponse\x12w\n" +
-	"\fGetAllGroups\x122.plugin.identity_management.v1.GetAllGroupsRequest\x1a3.plugin.identity_management.v1.GetAllGroupsResponse\x12\x83\x01\n" +
-	"\x10GetUsersForGroup\x126.plugin.identity_management.v1.GetUsersForGroupRequest\x1a7.plugin.identity_management.v1.GetUsersForGroupResponse\x12\x83\x01\n" +
-	"\x10GetGroupsForUser\x126.plugin.identity_management.v1.GetGroupsForUserRequest\x1a7.plugin.identity_management.v1.GetGroupsForUserResponseB\xa7\x02\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name2\xf2\x03\n" +
+	"\x12IdentityManagement\x12k\n" +
+	"\bGetGroup\x12..plugin.identity_management.v1.GetGroupRequest\x1a/.plugin.identity_management.v1.GetGroupResponse\x12q\n" +
+	"\n" +
+	"ListGroups\x120.plugin.identity_management.v1.ListGroupsRequest\x1a1.plugin.identity_management.v1.ListGroupsResponse\x12}\n" +
+	"\x0eListGroupUsers\x124.plugin.identity_management.v1.ListGroupUsersRequest\x1a5.plugin.identity_management.v1.ListGroupUsersResponse\x12}\n" +
+	"\x0eListUserGroups\x124.plugin.identity_management.v1.ListUserGroupsRequest\x1a5.plugin.identity_management.v1.ListUserGroupsResponseB\xa7\x02\n" +
 	"!com.plugin.identity_management.v1B\x17IdentityManagementProtoP\x01ZWgithub.com/openkcm/plugin-sdk/proto/plugin/identity_management/v1;identity_managementv1\xa2\x02\x03PIX\xaa\x02\x1cPlugin.IdentityManagement.V1\xca\x02\x1cPlugin\\IdentityManagement\\V1\xe2\x02(Plugin\\IdentityManagement\\V1\\GPBMetadata\xea\x02\x1ePlugin::IdentityManagement::V1b\x06proto3"
 
 var (
@@ -612,37 +613,37 @@ func file_plugin_identity_management_v1_identity_management_proto_rawDescGZIP() 
 
 var file_plugin_identity_management_v1_identity_management_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
 var file_plugin_identity_management_v1_identity_management_proto_goTypes = []any{
-	(*AuthContext)(nil),              // 0: plugin.identity_management.v1.AuthContext
-	(*GetGroupRequest)(nil),          // 1: plugin.identity_management.v1.GetGroupRequest
-	(*GetGroupResponse)(nil),         // 2: plugin.identity_management.v1.GetGroupResponse
-	(*GetAllGroupsRequest)(nil),      // 3: plugin.identity_management.v1.GetAllGroupsRequest
-	(*GetAllGroupsResponse)(nil),     // 4: plugin.identity_management.v1.GetAllGroupsResponse
-	(*GetUsersForGroupRequest)(nil),  // 5: plugin.identity_management.v1.GetUsersForGroupRequest
-	(*GetUsersForGroupResponse)(nil), // 6: plugin.identity_management.v1.GetUsersForGroupResponse
-	(*User)(nil),                     // 7: plugin.identity_management.v1.User
-	(*GetGroupsForUserRequest)(nil),  // 8: plugin.identity_management.v1.GetGroupsForUserRequest
-	(*GetGroupsForUserResponse)(nil), // 9: plugin.identity_management.v1.GetGroupsForUserResponse
-	(*Group)(nil),                    // 10: plugin.identity_management.v1.Group
-	nil,                              // 11: plugin.identity_management.v1.AuthContext.DataEntry
+	(*AuthContext)(nil),            // 0: plugin.identity_management.v1.AuthContext
+	(*GetGroupRequest)(nil),        // 1: plugin.identity_management.v1.GetGroupRequest
+	(*GetGroupResponse)(nil),       // 2: plugin.identity_management.v1.GetGroupResponse
+	(*ListGroupsRequest)(nil),      // 3: plugin.identity_management.v1.ListGroupsRequest
+	(*ListGroupsResponse)(nil),     // 4: plugin.identity_management.v1.ListGroupsResponse
+	(*ListGroupUsersRequest)(nil),  // 5: plugin.identity_management.v1.ListGroupUsersRequest
+	(*ListGroupUsersResponse)(nil), // 6: plugin.identity_management.v1.ListGroupUsersResponse
+	(*User)(nil),                   // 7: plugin.identity_management.v1.User
+	(*ListUserGroupsRequest)(nil),  // 8: plugin.identity_management.v1.ListUserGroupsRequest
+	(*ListUserGroupsResponse)(nil), // 9: plugin.identity_management.v1.ListUserGroupsResponse
+	(*Group)(nil),                  // 10: plugin.identity_management.v1.Group
+	nil,                            // 11: plugin.identity_management.v1.AuthContext.DataEntry
 }
 var file_plugin_identity_management_v1_identity_management_proto_depIdxs = []int32{
 	11, // 0: plugin.identity_management.v1.AuthContext.data:type_name -> plugin.identity_management.v1.AuthContext.DataEntry
 	0,  // 1: plugin.identity_management.v1.GetGroupRequest.auth_context:type_name -> plugin.identity_management.v1.AuthContext
 	10, // 2: plugin.identity_management.v1.GetGroupResponse.group:type_name -> plugin.identity_management.v1.Group
-	0,  // 3: plugin.identity_management.v1.GetAllGroupsRequest.auth_context:type_name -> plugin.identity_management.v1.AuthContext
-	10, // 4: plugin.identity_management.v1.GetAllGroupsResponse.groups:type_name -> plugin.identity_management.v1.Group
-	0,  // 5: plugin.identity_management.v1.GetUsersForGroupRequest.auth_context:type_name -> plugin.identity_management.v1.AuthContext
-	7,  // 6: plugin.identity_management.v1.GetUsersForGroupResponse.users:type_name -> plugin.identity_management.v1.User
-	0,  // 7: plugin.identity_management.v1.GetGroupsForUserRequest.auth_context:type_name -> plugin.identity_management.v1.AuthContext
-	10, // 8: plugin.identity_management.v1.GetGroupsForUserResponse.groups:type_name -> plugin.identity_management.v1.Group
-	1,  // 9: plugin.identity_management.v1.IdentityManagementService.GetGroup:input_type -> plugin.identity_management.v1.GetGroupRequest
-	3,  // 10: plugin.identity_management.v1.IdentityManagementService.GetAllGroups:input_type -> plugin.identity_management.v1.GetAllGroupsRequest
-	5,  // 11: plugin.identity_management.v1.IdentityManagementService.GetUsersForGroup:input_type -> plugin.identity_management.v1.GetUsersForGroupRequest
-	8,  // 12: plugin.identity_management.v1.IdentityManagementService.GetGroupsForUser:input_type -> plugin.identity_management.v1.GetGroupsForUserRequest
-	2,  // 13: plugin.identity_management.v1.IdentityManagementService.GetGroup:output_type -> plugin.identity_management.v1.GetGroupResponse
-	4,  // 14: plugin.identity_management.v1.IdentityManagementService.GetAllGroups:output_type -> plugin.identity_management.v1.GetAllGroupsResponse
-	6,  // 15: plugin.identity_management.v1.IdentityManagementService.GetUsersForGroup:output_type -> plugin.identity_management.v1.GetUsersForGroupResponse
-	9,  // 16: plugin.identity_management.v1.IdentityManagementService.GetGroupsForUser:output_type -> plugin.identity_management.v1.GetGroupsForUserResponse
+	0,  // 3: plugin.identity_management.v1.ListGroupsRequest.auth_context:type_name -> plugin.identity_management.v1.AuthContext
+	10, // 4: plugin.identity_management.v1.ListGroupsResponse.groups:type_name -> plugin.identity_management.v1.Group
+	0,  // 5: plugin.identity_management.v1.ListGroupUsersRequest.auth_context:type_name -> plugin.identity_management.v1.AuthContext
+	7,  // 6: plugin.identity_management.v1.ListGroupUsersResponse.users:type_name -> plugin.identity_management.v1.User
+	0,  // 7: plugin.identity_management.v1.ListUserGroupsRequest.auth_context:type_name -> plugin.identity_management.v1.AuthContext
+	10, // 8: plugin.identity_management.v1.ListUserGroupsResponse.groups:type_name -> plugin.identity_management.v1.Group
+	1,  // 9: plugin.identity_management.v1.IdentityManagement.GetGroup:input_type -> plugin.identity_management.v1.GetGroupRequest
+	3,  // 10: plugin.identity_management.v1.IdentityManagement.ListGroups:input_type -> plugin.identity_management.v1.ListGroupsRequest
+	5,  // 11: plugin.identity_management.v1.IdentityManagement.ListGroupUsers:input_type -> plugin.identity_management.v1.ListGroupUsersRequest
+	8,  // 12: plugin.identity_management.v1.IdentityManagement.ListUserGroups:input_type -> plugin.identity_management.v1.ListUserGroupsRequest
+	2,  // 13: plugin.identity_management.v1.IdentityManagement.GetGroup:output_type -> plugin.identity_management.v1.GetGroupResponse
+	4,  // 14: plugin.identity_management.v1.IdentityManagement.ListGroups:output_type -> plugin.identity_management.v1.ListGroupsResponse
+	6,  // 15: plugin.identity_management.v1.IdentityManagement.ListGroupUsers:output_type -> plugin.identity_management.v1.ListGroupUsersResponse
+	9,  // 16: plugin.identity_management.v1.IdentityManagement.ListUserGroups:output_type -> plugin.identity_management.v1.ListUserGroupsResponse
 	13, // [13:17] is the sub-list for method output_type
 	9,  // [9:13] is the sub-list for method input_type
 	9,  // [9:9] is the sub-list for extension type_name

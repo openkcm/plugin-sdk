@@ -1,33 +1,107 @@
 syntax = "proto3";
 package plugin.certificate_issuer.v1;
 
-service CertificateIssuerService {
-  rpc GetCertificate(GetCertificateRequest) returns (GetCertificateResponse);
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+
+import "buf/validate/validate.proto";
+
+service CertificateIssuer {
+  rpc IssueCertificate(IssueCertificateRequest) returns (IssueCertificateResponse);
 }
 
-message GetCertificateRequest {
-  string common_name = 1;
-  repeated string locality = 2;
-  GetCertificateValidity validity = 3;
-  PrivateKey private_key = 4;
+message IssueCertificateRequest {
+  CertificateLifetime lifetime = 1;
+  Subject subject = 2;
+  optional PrivateKey private_key = 3;
+  CertificateFormat preferred_format = 4;
+
+  enum CertificateFormat {
+    CERTIFICATE_FORMAT_UNSPECIFIED = 0;
+    CERTIFICATE_FORMAT_PEM = 1;
+    CERTIFICATE_FORMAT_DER = 2;
+    CERTIFICATE_FORMAT_PKCS7 = 3;
+  }
 }
 
-message GetCertificateValidity {
-  int64 value = 1;
-  ValidityType type = 2;
+message IssueCertificateResponse {
+  bytes certificate_data = 1;
+  IssueCertificateRequest.CertificateFormat format = 2;
+  repeated bytes ca_chain = 3;
 }
 
-enum ValidityType {
-  VALIDITY_TYPE_UNSPECIFIED = 0;
-  VALIDITY_TYPE_DAYS = 1;
-  VALIDITY_TYPE_MONTHS = 2;
-  VALIDITY_TYPE_YEARS = 3;
+message Subject {
+  string common_name = 1;                  // CN
+//  repeated string organizational_unit = 2; // OU
+//  repeated string organization = 3;        // O
+//  repeated string locality = 4;            // L
+//  repeated string province = 5;            // ST
+//  repeated string country = 6;             // C
+
+  // Nest the advanced attributes cleanly inside the main Subject
+//  optional AdvancedSubjectAttributes advanced_attributes = 7;
 }
+
+//message AdvancedSubjectAttributes {
+//  optional string serial_number = 1;       // SERIALNUMBER
+//  repeated string postal_code = 2;         // PC
+//  repeated string street_address = 3;      // STREET
+//}
 
 message PrivateKey {
   bytes data = 1;
+  KeyFormat format = 2;
+
+  enum KeyFormat {
+    KEY_FORMAT_UNSPECIFIED = 0;
+    KEY_FORMAT_PKCS1 = 1;
+    KEY_FORMAT_PKCS8 = 2;
+    KEY_FORMAT_SEC1 = 3;
+  }
 }
 
-message GetCertificateResponse {
-  string certificate_chain = 1;
+message CertificateLifetime {
+  oneof lifetime {
+    google.protobuf.Duration duration = 1;
+    google.protobuf.Timestamp not_after = 2;
+    RelativeValidity relative = 3;
+  }
+}
+
+
+
+message RelativeValidity {
+  // Message-level validation using CEL (Common Expression Language)
+  // handles the cross-field logic for the 1-year maximum constraint.
+  option (buf.validate.message).cel = {
+    id: "max_duration_one_year",
+    message: "Validity duration cannot exceed 1 year (365 days, 12 months, or 1 year)",
+    // 1 = DAYS, 2 = MONTHS, 3 = YEARS
+    expression: "(this.unit == 1 && this.value <= 365) || (this.unit == 2 && this.value <= 12) || (this.unit == 3 && this.value <= 1)"
+  };
+
+  // Ensure the value is a strictly positive number
+  int32 value = 1 [
+    (buf.validate.field).int32 = { gt: 0 }
+  ];
+
+  ValidityUnit unit = 2 [
+    (buf.validate.field).enum = {
+      defined_only: true,
+      not_in: [0]         // Ensures VALIDITY_UNIT_UNSPECIFIED is rejected
+    }
+  ];
+
+  enum ValidityUnit {
+    VALIDITY_UNIT_UNSPECIFIED = 0;
+    VALIDITY_UNIT_DAYS = 1;
+    VALIDITY_UNIT_MONTHS = 2;
+    VALIDITY_UNIT_YEARS = 3;
+  }
+}
+
+message SupportedKeyFormatsError {
+  string rejected_format = 1;
+  repeated PrivateKey.KeyFormat supported_formats = 2;
+  string reason = 3;
 }

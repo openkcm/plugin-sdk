@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	Type                = "TestService"
+	Type                = "Test"
 	GRPCServiceFullName = "plugin.test.v1.TestService"
 )
 
