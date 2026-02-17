@@ -367,6 +367,8 @@ func (p *pluginImpl) bindRepo(repo bindableServiceRepo, grpcServiceNames map[str
 
 		if impl != nil && facade.Version() == p.info.Version() {
 			break
+		} else {
+			impl = nil
 		}
 	}
 
