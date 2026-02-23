@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.9.6](https://github.com/openkcm/plugin-sdk/compare/v0.9.5...v0.9.6) (2026-02-23)
+
+
+### Bug Fixes
+
+* services constraints for existing plugins ([#114](https://github.com/openkcm/plugin-sdk/issues/114)) ([cd96be8](https://github.com/openkcm/plugin-sdk/commit/cd96be89079f794fb945246ad7c345e2d341e256))
+
 ## [0.9.5](https://github.com/openkcm/plugin-sdk/compare/v0.9.4...v0.9.5) (2026-02-23)
 
 
