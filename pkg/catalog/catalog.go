@@ -136,6 +136,10 @@ func New(ctx context.Context, config Config, repo api.Repository, builtIns ...Bu
 			return nil, fmt.Errorf("failed to bind plugin %q: %w", pluginConfig.Name, err)
 		}
 
+		if pluginConfig.DataSource == nil {
+			pluginConfig.DataSource = FixedData(pluginConfig.YamlConfiguration)
+		}
+
 		reconfigurer, err := configurePlugin(ctx, plugin.Logger(), cfrer, pluginConfig.DataSource)
 		if err != nil {
 			plugin.Logger().Error("Failed to configure plugin", "error", err)
