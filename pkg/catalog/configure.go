@@ -4,7 +4,6 @@ import (
 	"context"
 	"crypto/sha512"
 	"encoding/hex"
-	"errors"
 	"fmt"
 	"io"
 	"log/slog"
@@ -82,8 +81,8 @@ func configurePlugin(ctx context.Context, pluginLog *slog.Logger, configurer Con
 		// The plugin doesn't support configuration and no data source was configured. Nothing to do.
 		return nil, nil
 	case configurer == nil && dataSource != nil:
-		// The plugin does not support configuration but a data source was configured. This is a failure.
-		return nil, errors.New("no supported configuration interface found")
+		// The plugin does not support configuration but a data source was configured. Nothing to do.
+		return nil, nil
 	case configurer != nil && dataSource == nil:
 		// The plugin supports configuration but no data source was configured. Default to an empty, fixed configuration.
 		dataSource = FixedData("")
