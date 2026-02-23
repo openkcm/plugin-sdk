@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.9.5](https://github.com/openkcm/plugin-sdk/compare/v0.9.4...v0.9.5) (2026-02-23)
+
+
+### Bug Fixes
+
+* in case if plugin is not implementing the configure ignore the failure ([#112](https://github.com/openkcm/plugin-sdk/issues/112)) ([b1d6cde](https://github.com/openkcm/plugin-sdk/commit/b1d6cdeaa774f8f306336ffbf29bcf52abfe44a8))
+
 ## [0.9.4](https://github.com/openkcm/plugin-sdk/compare/v0.9.3...v0.9.4) (2026-02-23)
 
 
