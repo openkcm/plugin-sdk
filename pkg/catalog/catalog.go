@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"log/slog"
+	"strings"
 
 	"github.com/openkcm/plugin-sdk/api"
 )
@@ -136,7 +137,8 @@ func New(ctx context.Context, config Config, repo api.Repository, builtIns ...Bu
 			return nil, fmt.Errorf("failed to bind plugin %q: %w", pluginConfig.Name, err)
 		}
 
-		if pluginConfig.DataSource == nil {
+		externalYamlConfiguration := strings.TrimSpace(pluginConfig.YamlConfiguration)
+		if pluginConfig.DataSource == nil && len(externalYamlConfiguration) > 0 {
 			pluginConfig.DataSource = FixedData(pluginConfig.YamlConfiguration)
 		}
 
