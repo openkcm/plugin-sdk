@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.9.4](https://github.com/openkcm/plugin-sdk/compare/v0.9.3...v0.9.4) (2026-02-23)
+
+
+### Bug Fixes
+
+* code formatting on the service wrappers ([#106](https://github.com/openkcm/plugin-sdk/issues/106)) ([f9b6a43](https://github.com/openkcm/plugin-sdk/commit/f9b6a4363be0b587dff5efedba3a50eae93a056a))
+* **deps:** bump buf.build/go/protovalidate from 1.1.2 to 1.1.3 ([#109](https://github.com/openkcm/plugin-sdk/issues/109)) ([1126831](https://github.com/openkcm/plugin-sdk/commit/112683129502b390d109d48af9ac1739288a2c3f))
+* on binding reset the impl on nil ([#107](https://github.com/openkcm/plugin-sdk/issues/107)) ([1f85daa](https://github.com/openkcm/plugin-sdk/commit/1f85daa628cb208fcded14ba529972ba8069ca30))
+* use the yaml configuration if plugin configuration data source was not configured ([#110](https://github.com/openkcm/plugin-sdk/issues/110)) ([808af74](https://github.com/openkcm/plugin-sdk/commit/808af74f5da30db2a817b2af3585a2304f95ff55))
+
 ## [0.9.3](https://github.com/openkcm/plugin-sdk/compare/v0.9.2...v0.9.3) (2026-02-16)
 
 
