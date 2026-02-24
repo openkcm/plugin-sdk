@@ -68,7 +68,7 @@ type Reconfigurable struct {
 }
 
 func (r *Reconfigurable) Reconfigure(ctx context.Context) {
-	if r.DataSource == nil || strings.TrimSpace(r.LastHash) == "" {
+	if r.DataSource == nil {
 		return
 	}
 
