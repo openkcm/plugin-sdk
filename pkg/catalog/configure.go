@@ -68,6 +68,10 @@ type Reconfigurable struct {
 }
 
 func (r *Reconfigurable) Reconfigure(ctx context.Context) {
+	if r.DataSource == nil || strings.TrimSpace(r.LastHash) == "" {
+		return
+	}
+
 	if dataHash, err := ConfigurePlugin(ctx, r.Configurer, r.DataSource, r.LastHash); err != nil {
 		r.Log.Error("Failed to reconfigure plugin", "error", err)
 	} else if dataHash == r.LastHash {
@@ -100,7 +104,11 @@ func configurePlugin(ctx context.Context, pluginLog *slog.Logger, configurer Con
 
 	if !dataSource.IsDynamic() {
 		pluginLog.With("reconfigurable", false).Info("Configured plugin")
-		return nil, nil
+
+		return &Reconfigurable{
+			Log:        pluginLog,
+			Configurer: configurer,
+		}, nil
 	}
 
 	pluginLog.With("reconfigurable", true).With("hash", dataHash).Info("Configured plugin")
