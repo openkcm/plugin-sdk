@@ -155,7 +155,19 @@ func New(ctx context.Context, config Config, repo api.Repository, builtIns ...Bu
 		buildInfoSetter, okBuildInfoSetter := plugin.Info().(BuildInfoSetter)
 		metadata, okMetadata := cfrer.(MetadataRetriever)
 		if okBuildInfoSetter && okMetadata {
-			buildInfoSetter.SetValue(metadata.Metadata()[BuildInfoMetadata])
+			value := metadata.GetMetadataByKey(BuildInfoMetadata)
+			if value == nil {
+				value = ""
+			}
+			if buildInfo, ok := value.(string); ok && buildInfo != "" {
+				buildInfoSetter.SetValue(buildInfo)
+			}
+		}
+		if !okBuildInfoSetter {
+			plugin.Logger().Warn("Plugin does not has support for setting the build info")
+		}
+		if !okMetadata {
+			plugin.Logger().Warn("Plugin configurer does not has support for getting the build info as metadata")
 		}
 
 		plugin.Logger().Info("Loaded plugin")

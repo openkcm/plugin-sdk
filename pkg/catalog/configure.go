@@ -17,14 +17,6 @@ import (
 	configv1 "github.com/openkcm/plugin-sdk/proto/service/common/config/v1"
 )
 
-const (
-	BuildInfoMetadata = "BuildInfo"
-)
-
-type MetadataRetriever interface {
-	Metadata() map[string]string
-}
-
 type Configurer interface {
 	Configure(ctx context.Context, configuration string) error
 }
@@ -176,8 +168,11 @@ func (v1 *configurerV1) Version() uint {
 	return 1
 }
 
-func (v1 *configurerV1) Metadata() map[string]string {
-	return v1.metadata
+func (v1 *configurerV1) GetMetadataByKey(key string) any {
+	if metadata, ok := v1.metadata[key]; ok {
+		return metadata
+	}
+	return nil
 }
 
 func (v1 *configurerV1) Configure(ctx context.Context, data string) error {
