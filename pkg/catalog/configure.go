@@ -9,6 +9,9 @@ import (
 	"log/slog"
 	"strings"
 
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
+
 	"github.com/openkcm/plugin-sdk/api"
 	"github.com/openkcm/plugin-sdk/pkg/plugin"
 	configv1 "github.com/openkcm/plugin-sdk/proto/service/common/config/v1"
@@ -155,10 +158,18 @@ func (v1 *configurerV1) Version() uint {
 	return 1
 }
 
-func (v1 *configurerV1) Configure(ctx context.Context, yamlConfiguration string) error {
-	_, err := v1.ConfigServiceClient.Configure(ctx, &configv1.ConfigureRequest{
-		YamlConfiguration: yamlConfiguration,
+func (v1 *configurerV1) Configure(ctx context.Context, data string) error {
+	resp, err := v1.ConfigServiceClient.Configure(ctx, &configv1.ConfigureRequest{
+		YamlConfiguration: data,
 	})
+	switch status.Code(err) {
+	case codes.OK:
+		sbi, ok := v1.Info.(Build)
+		if ok {
+			sbi.SetValue(extractBuildInfo(resp))
+		}
+	}
+
 	return err
 }
 
@@ -166,4 +177,16 @@ func hashData(data string) string {
 	h := sha512.New()
 	_, _ = io.Copy(h, strings.NewReader(data))
 	return hex.EncodeToString(h.Sum(nil)[:16])
+}
+
+func extractBuildInfo(resp *configv1.ConfigureResponse) string {
+	defer func() {
+		_ = recover()
+	}()
+
+	if resp == nil {
+		return ""
+	}
+
+	return strings.TrimSpace(resp.GetBuildInfo())
 }
