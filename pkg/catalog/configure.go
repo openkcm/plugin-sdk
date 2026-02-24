@@ -144,6 +144,8 @@ type configurerV1 struct {
 	plugin.Facade
 
 	configv1.ConfigServiceClient
+
+	metadata map[string]string
 }
 
 var _ Configurer = (*configurerV1)(nil)
@@ -164,10 +166,10 @@ func (v1 *configurerV1) Configure(ctx context.Context, data string) error {
 	})
 	switch status.Code(err) {
 	case codes.OK:
-		sbi, ok := v1.Info.(Build)
-		if ok {
-			sbi.SetValue(extractBuildInfo(resp))
+		if v1.metadata == nil {
+			v1.metadata = make(map[string]string)
 		}
+		v1.metadata["BuildInfo"] = extractBuildInfo(resp)
 	}
 
 	return err
