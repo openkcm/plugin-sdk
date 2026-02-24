@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.9.7](https://github.com/openkcm/plugin-sdk/compare/v0.9.6...v0.9.7) (2026-02-24)
+
+
+### Bug Fixes
+
+* added back the reporting the plugin version ([#116](https://github.com/openkcm/plugin-sdk/issues/116)) ([bcb9a5c](https://github.com/openkcm/plugin-sdk/commit/bcb9a5cc0a277044756754418550030b2eed3f13))
+
 ## [0.9.6](https://github.com/openkcm/plugin-sdk/compare/v0.9.5...v0.9.6) (2026-02-23)
 
 
