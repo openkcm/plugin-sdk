@@ -9,6 +9,9 @@ import (
 	"log/slog"
 	"strings"
 
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
+
 	"github.com/openkcm/plugin-sdk/api"
 	"github.com/openkcm/plugin-sdk/pkg/plugin"
 	configv1 "github.com/openkcm/plugin-sdk/proto/service/common/config/v1"
@@ -65,6 +68,10 @@ type Reconfigurable struct {
 }
 
 func (r *Reconfigurable) Reconfigure(ctx context.Context) {
+	if r.DataSource == nil {
+		return
+	}
+
 	if dataHash, err := ConfigurePlugin(ctx, r.Configurer, r.DataSource, r.LastHash); err != nil {
 		r.Log.Error("Failed to reconfigure plugin", "error", err)
 	} else if dataHash == r.LastHash {
@@ -97,7 +104,11 @@ func configurePlugin(ctx context.Context, pluginLog *slog.Logger, configurer Con
 
 	if !dataSource.IsDynamic() {
 		pluginLog.With("reconfigurable", false).Info("Configured plugin")
-		return nil, nil
+
+		return &Reconfigurable{
+			Log:        pluginLog,
+			Configurer: configurer,
+		}, nil
 	}
 
 	pluginLog.With("reconfigurable", true).With("hash", dataHash).Info("Configured plugin")
@@ -141,6 +152,8 @@ type configurerV1 struct {
 	plugin.Facade
 
 	configv1.ConfigServiceClient
+
+	metadata map[string]string
 }
 
 var _ Configurer = (*configurerV1)(nil)
@@ -155,10 +168,25 @@ func (v1 *configurerV1) Version() uint {
 	return 1
 }
 
-func (v1 *configurerV1) Configure(ctx context.Context, yamlConfiguration string) error {
-	_, err := v1.ConfigServiceClient.Configure(ctx, &configv1.ConfigureRequest{
-		YamlConfiguration: yamlConfiguration,
+func (v1 *configurerV1) GetMetadataByKey(key string) any {
+	if metadata, ok := v1.metadata[key]; ok {
+		return metadata
+	}
+	return nil
+}
+
+func (v1 *configurerV1) Configure(ctx context.Context, data string) error {
+	resp, err := v1.ConfigServiceClient.Configure(ctx, &configv1.ConfigureRequest{
+		YamlConfiguration: data,
 	})
+	switch status.Code(err) {
+	case codes.OK:
+		if v1.metadata == nil {
+			v1.metadata = make(map[string]string)
+		}
+		v1.metadata[BuildInfoMetadata] = extractBuildInfo(resp)
+	}
+
 	return err
 }
 
@@ -166,4 +194,16 @@ func hashData(data string) string {
 	h := sha512.New()
 	_, _ = io.Copy(h, strings.NewReader(data))
 	return hex.EncodeToString(h.Sum(nil)[:16])
+}
+
+func extractBuildInfo(resp *configv1.ConfigureResponse) string {
+	defer func() {
+		_ = recover()
+	}()
+
+	if resp == nil {
+		return ""
+	}
+
+	return strings.TrimSpace(resp.GetBuildInfo())
 }

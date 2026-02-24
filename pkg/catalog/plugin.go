@@ -97,7 +97,7 @@ func (d FileData) IsDynamic() bool {
 	return true
 }
 
-type Build interface {
+type BuildInfoSetter interface {
 	SetValue(string)
 }
 
