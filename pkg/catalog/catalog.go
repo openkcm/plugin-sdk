@@ -151,6 +151,13 @@ func New(ctx context.Context, config Config, repo api.Repository, builtIns ...Bu
 			reconfigurers = append(reconfigurers, reconfigurer)
 		}
 
+		// Inject the plugin build information
+		buildInfoSetter, okBuildInfoSetter := plugin.Info().(BuildInfoSetter)
+		metadata, okMetadata := cfrer.(MetadataRetriever)
+		if okBuildInfoSetter && okMetadata {
+			buildInfoSetter.SetValue(metadata.Metadata()[BuildInfoMetadata])
+		}
+
 		plugin.Logger().Info("Loaded plugin")
 		pluginCounts[pluginConfig.Type]++
 	}

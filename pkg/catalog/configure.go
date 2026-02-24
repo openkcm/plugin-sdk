@@ -17,6 +17,14 @@ import (
 	configv1 "github.com/openkcm/plugin-sdk/proto/service/common/config/v1"
 )
 
+const (
+	BuildInfoMetadata = "BuildInfo"
+)
+
+type MetadataRetriever interface {
+	Metadata() map[string]string
+}
+
 type Configurer interface {
 	Configure(ctx context.Context, configuration string) error
 }
@@ -168,6 +176,10 @@ func (v1 *configurerV1) Version() uint {
 	return 1
 }
 
+func (v1 *configurerV1) Metadata() map[string]string {
+	return v1.metadata
+}
+
 func (v1 *configurerV1) Configure(ctx context.Context, data string) error {
 	resp, err := v1.ConfigServiceClient.Configure(ctx, &configv1.ConfigureRequest{
 		YamlConfiguration: data,
@@ -177,7 +189,7 @@ func (v1 *configurerV1) Configure(ctx context.Context, data string) error {
 		if v1.metadata == nil {
 			v1.metadata = make(map[string]string)
 		}
-		v1.metadata["BuildInfo"] = extractBuildInfo(resp)
+		v1.metadata[BuildInfoMetadata] = extractBuildInfo(resp)
 	}
 
 	return err
