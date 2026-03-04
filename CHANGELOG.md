@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.9.8](https://github.com/openkcm/plugin-sdk/compare/v0.9.7...v0.9.8) (2026-03-04)
+
+
+### Bug Fixes
+
+* include the tags from plugin configuration into the builtin pluginInfo ([#120](https://github.com/openkcm/plugin-sdk/issues/120)) ([14503ef](https://github.com/openkcm/plugin-sdk/commit/14503efe463a92ed4d4664d4f9a94446d34b2036))
+* remove the service package folder as should be not on plugin-sdk ([#119](https://github.com/openkcm/plugin-sdk/issues/119)) ([a65531e](https://github.com/openkcm/plugin-sdk/commit/a65531ef1c216b337784d19d845e350d90491ca0))
+
 ## [0.9.7](https://github.com/openkcm/plugin-sdk/compare/v0.9.6...v0.9.7) (2026-02-24)
 
 
