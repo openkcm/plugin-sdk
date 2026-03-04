@@ -109,9 +109,9 @@ func loadBuiltInPlugin(ctx context.Context, builtIn BuiltInPlugin, pluginConfig 
 		version = uint(pluginConfig.Version)
 	}
 	info := &pluginInfo{
-		name:      builtIn.Name(),
-		typ:       builtIn.Type(),
-		tags:      builtIn.Tags(),
+		name:      pluginConfig.Name,
+		typ:       pluginConfig.Type,
+		tags:      pluginConfig.Tags,
 		buildInfo: builtIn.Build(),
 		version:   version,
 	}
