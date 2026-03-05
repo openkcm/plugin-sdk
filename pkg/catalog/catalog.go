@@ -232,7 +232,7 @@ func loadPluginAsBuiltIn(ctx context.Context, logger *slog.Logger, pluginConfig 
 	}
 
 	for _, builtin := range builtIns {
-		if builtin.Name() == pluginConfig.Name {
+		if builtin.Name() == pluginConfig.Name && builtin.Name() == pluginConfig.Type {
 			pluginConfig.Logger = logger.With(
 				Name, pluginConfig.Name,
 				Type, builtin.Type(),
