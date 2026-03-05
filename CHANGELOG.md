@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.9.9](https://github.com/openkcm/plugin-sdk/compare/v0.9.8...v0.9.9) (2026-03-05)
+
+
+### Bug Fixes
+
+* builtin override on name and type ([#123](https://github.com/openkcm/plugin-sdk/issues/123)) ([9776d9c](https://github.com/openkcm/plugin-sdk/commit/9776d9cd2bb37ecdb620bf8abd2a4f475e15c53d))
+* change the workflow pemissions to contents: write ([#124](https://github.com/openkcm/plugin-sdk/issues/124)) ([617912b](https://github.com/openkcm/plugin-sdk/commit/617912b6d312ca558fd2831d6841073935851c92))
+
 ## [0.9.8](https://github.com/openkcm/plugin-sdk/compare/v0.9.7...v0.9.8) (2026-03-04)
 
 
