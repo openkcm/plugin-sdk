@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package plugin.cipher_wrapper.v1;
 
+import "buf/validate/validate.proto";
+
 // KeyWrapper defines the universal envelope encryption interface for CMK.
 // It allows the core engine to delegate cryptographic wrapping and unwrapping
 // to any external provider (AWS KMS, Google Cloud KMS, Azure Key Vault,
@@ -18,7 +20,10 @@ service CipherWrapper {
 // WrapRequest contains the raw key material and the context needed to encrypt it.
 message WrapRequest {
   // REQUIRED: The raw cryptographic material to be wrapped.
-  bytes plaintext = 1;
+  bytes plaintext = 1 [
+    (buf.validate.field).required = true,
+    (buf.validate.field).string.min_len = 1
+  ];
 
   // OPTIONAL: Standard Additional Authenticated Data (AAD) byte buffer.
   // Kept in proto because AAD often changes per request (e.g., binding to a specific Tenant ID).
@@ -51,7 +56,10 @@ message WrapResponse {
 // originally used during the Wrap operation.
 message UnwrapRequest {
   // REQUIRED: The opaque ciphertext retrieved from the CMK persistent storage.
-  bytes ciphertext = 1;
+  bytes ciphertext = 1 [
+    (buf.validate.field).required = true,
+    (buf.validate.field).string.min_len = 1
+  ];
 
   // OPTIONAL: Standard Additional Authenticated Data (AAD) byte buffer.
   optional bytes aad = 2;

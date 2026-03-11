@@ -11,6 +11,7 @@ import (
 	sync "sync"
 	unsafe "unsafe"
 
+	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 )
@@ -290,9 +291,10 @@ var File_plugin_cipher_wrapper_v1_cipher_wrapper_proto protoreflect.FileDescript
 
 const file_plugin_cipher_wrapper_v1_cipher_wrapper_proto_rawDesc = "" +
 	"\n" +
-	"-plugin/cipher_wrapper/v1/cipher_wrapper.proto\x12\x18plugin.cipher_wrapper.v1\"\x8e\x02\n" +
-	"\vWrapRequest\x12\x1c\n" +
-	"\tplaintext\x18\x01 \x01(\fR\tplaintext\x12\x15\n" +
+	"-plugin/cipher_wrapper/v1/cipher_wrapper.proto\x12\x18plugin.cipher_wrapper.v1\x1a\x1bbuf/validate/validate.proto\"\x9a\x02\n" +
+	"\vWrapRequest\x12(\n" +
+	"\tplaintext\x18\x01 \x01(\fB\n" +
+	"\xbaH\a\xc8\x01\x01r\x02\x10\x01R\tplaintext\x12\x15\n" +
 	"\x03aad\x18\x02 \x01(\fH\x00R\x03aad\x88\x01\x01\x12\x13\n" +
 	"\x02iv\x18\x03 \x01(\fH\x01R\x02iv\x88\x01\x01\x12c\n" +
 	"\x0fdynamic_context\x18\x84\a \x03(\v29.plugin.cipher_wrapper.v1.WrapRequest.DynamicContextEntryR\x0edynamicContext\x1aA\n" +
@@ -308,10 +310,11 @@ const file_plugin_cipher_wrapper_v1_cipher_wrapper_proto_rawDesc = "" +
 	"\x0ekey_version_id\x18\x02 \x01(\tH\x00R\fkeyVersionId\x88\x01\x01\x12\x13\n" +
 	"\x02iv\x18\x03 \x01(\fH\x01R\x02iv\x88\x01\x01B\x11\n" +
 	"\x0f_key_version_idB\x05\n" +
-	"\x03_iv\"\x94\x02\n" +
-	"\rUnwrapRequest\x12\x1e\n" +
+	"\x03_iv\"\xa0\x02\n" +
+	"\rUnwrapRequest\x12*\n" +
 	"\n" +
-	"ciphertext\x18\x01 \x01(\fR\n" +
+	"ciphertext\x18\x01 \x01(\fB\n" +
+	"\xbaH\a\xc8\x01\x01r\x02\x10\x01R\n" +
 	"ciphertext\x12\x15\n" +
 	"\x03aad\x18\x02 \x01(\fH\x00R\x03aad\x88\x01\x01\x12\x13\n" +
 	"\x02iv\x18\x03 \x01(\fH\x01R\x02iv\x88\x01\x01\x12e\n" +
