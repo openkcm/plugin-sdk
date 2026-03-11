@@ -24,40 +24,21 @@ import (
 type PluginConfigs []PluginConfig
 
 type PluginConfig struct {
-	// Name of the plugin
-	Name string
+	Name              string            `yaml:"name" json:"name"`
+	Type              string            `yaml:"type" json:"type"`
+	Path              string            `yaml:"path" json:"path"`
+	Args              []string          `yaml:"args" json:"args"`
+	Env               map[string]string `yaml:"env" json:"env"`
+	Checksum          string            `yaml:"checksum" json:"checksum"`
+	Version           uint32            `yaml:"version" json:"version"`
+	YamlConfiguration string            `yaml:"yamlConfiguration" json:"yamlConfiguration"`
+	LogLevel          string            `yaml:"logLevel" json:"logLevel"`
+	Disabled          bool              `yaml:"disabled" json:"disabled"`
+	Tags              []string          `yaml:"tags" json:"tags"`
 
-	// Type is the plugin type
-	Type string
-
-	// Path is the path on disk to the plugin.
-	Path string
-
-	// Args are the command line arguments to supply to the plugin
-	Args []string
-
-	// Env is the environment variables to supply to the plugin
-	Env map[string]string
-
-	// Checksum is the hex-encoded SHA256 hash of the plugin binary.
-	Checksum string
-
-	Version uint32
-
-	DataSource DataSource
-
-	YamlConfiguration string
-
-	LogLevel string
-
-	Disabled bool
-
-	Logger *slog.Logger
-
+	Logger       *slog.Logger
+	DataSource   DataSource
 	HostServices []api.ServiceServer
-
-	// Tags are the metadata associated with a plugin these can be used to filter plugins later e.g. ['FeatureA'] on client side.
-	Tags []string
 }
 
 func (c *PluginConfig) IsExternal() bool {
