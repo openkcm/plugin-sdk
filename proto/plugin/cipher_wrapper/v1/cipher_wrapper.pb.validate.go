@@ -59,18 +59,10 @@ func (m *WrapRequest) validate(all bool) error {
 
 	// no validation rules for Plaintext
 
-	// no validation rules for KeyUri
-
-	// no validation rules for EncryptionContext
-
-	// no validation rules for Options
+	// no validation rules for DynamicContext
 
 	if m.Aad != nil {
 		// no validation rules for Aad
-	}
-
-	if m.Mechanism != nil {
-		// no validation rules for Mechanism
 	}
 
 	if m.Iv != nil {
@@ -177,8 +169,6 @@ func (m *WrapResponse) validate(all bool) error {
 	var errors []error
 
 	// no validation rules for Ciphertext
-
-	// no validation rules for Metadata
 
 	if m.KeyVersionId != nil {
 		// no validation rules for KeyVersionId
@@ -289,18 +279,10 @@ func (m *UnwrapRequest) validate(all bool) error {
 
 	// no validation rules for Ciphertext
 
-	// no validation rules for KeyUri
-
-	// no validation rules for EncryptionContext
-
-	// no validation rules for Options
+	// no validation rules for DynamicContext
 
 	if m.Aad != nil {
 		// no validation rules for Aad
-	}
-
-	if m.Mechanism != nil {
-		// no validation rules for Mechanism
 	}
 
 	if m.Iv != nil {
@@ -408,8 +390,6 @@ func (m *UnwrapResponse) validate(all bool) error {
 	var errors []error
 
 	// no validation rules for Plaintext
-
-	// no validation rules for Metadata
 
 	if len(errors) > 0 {
 		return UnwrapResponseMultiError(errors)
