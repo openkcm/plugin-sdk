@@ -22,7 +22,7 @@ message WrapRequest {
   // REQUIRED: The raw cryptographic material to be wrapped.
   bytes plaintext = 1 [
     (buf.validate.field).required = true,
-    (buf.validate.field).string.min_len = 1
+    (buf.validate.field).bytes.min_len = 1
   ];
 
   // OPTIONAL: Standard Additional Authenticated Data (AAD) byte buffer.
@@ -58,7 +58,7 @@ message UnwrapRequest {
   // REQUIRED: The opaque ciphertext retrieved from the CMK persistent storage.
   bytes ciphertext = 1 [
     (buf.validate.field).required = true,
-    (buf.validate.field).string.min_len = 1
+    (buf.validate.field).bytes.min_len = 1
   ];
 
   // OPTIONAL: Standard Additional Authenticated Data (AAD) byte buffer.

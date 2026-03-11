@@ -294,7 +294,7 @@ const file_plugin_cipher_wrapper_v1_cipher_wrapper_proto_rawDesc = "" +
 	"-plugin/cipher_wrapper/v1/cipher_wrapper.proto\x12\x18plugin.cipher_wrapper.v1\x1a\x1bbuf/validate/validate.proto\"\x9a\x02\n" +
 	"\vWrapRequest\x12(\n" +
 	"\tplaintext\x18\x01 \x01(\fB\n" +
-	"\xbaH\a\xc8\x01\x01r\x02\x10\x01R\tplaintext\x12\x15\n" +
+	"\xbaH\a\xc8\x01\x01z\x02\x10\x01R\tplaintext\x12\x15\n" +
 	"\x03aad\x18\x02 \x01(\fH\x00R\x03aad\x88\x01\x01\x12\x13\n" +
 	"\x02iv\x18\x03 \x01(\fH\x01R\x02iv\x88\x01\x01\x12c\n" +
 	"\x0fdynamic_context\x18\x84\a \x03(\v29.plugin.cipher_wrapper.v1.WrapRequest.DynamicContextEntryR\x0edynamicContext\x1aA\n" +
@@ -314,7 +314,7 @@ const file_plugin_cipher_wrapper_v1_cipher_wrapper_proto_rawDesc = "" +
 	"\rUnwrapRequest\x12*\n" +
 	"\n" +
 	"ciphertext\x18\x01 \x01(\fB\n" +
-	"\xbaH\a\xc8\x01\x01r\x02\x10\x01R\n" +
+	"\xbaH\a\xc8\x01\x01z\x02\x10\x01R\n" +
 	"ciphertext\x12\x15\n" +
 	"\x03aad\x18\x02 \x01(\fH\x00R\x03aad\x88\x01\x01\x12\x13\n" +
 	"\x02iv\x18\x03 \x01(\fH\x01R\x02iv\x88\x01\x01\x12e\n" +
