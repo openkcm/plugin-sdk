@@ -32,7 +32,10 @@ type KeyMaterial struct {
 	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	// REQUIRED: The opaque data blob.
 	// This typically contains the encrypted/wrapped key material.
-	Data          []byte `protobuf:"bytes,2,opt,name=data,proto3" json:"data,omitempty"`
+	Data []byte `protobuf:"bytes,2,opt,name=data,proto3" json:"data,omitempty"`
+	// REQUIRED: The name of algorithm
+	// This typically contains the encrypted/wrapped key material.
+	Algorithm     []byte `protobuf:"bytes,3,opt,name=algorithm,proto3" json:"algorithm,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -77,6 +80,13 @@ func (x *KeyMaterial) GetId() string {
 func (x *KeyMaterial) GetData() []byte {
 	if x != nil {
 		return x.Data
+	}
+	return nil
+}
+
+func (x *KeyMaterial) GetAlgorithm() []byte {
+	if x != nil {
+		return x.Algorithm
 	}
 	return nil
 }
@@ -440,12 +450,14 @@ var File_plugin_key_material_storage_v1_key_material_storage_proto protoreflect.
 
 const file_plugin_key_material_storage_v1_key_material_storage_proto_rawDesc = "" +
 	"\n" +
-	"9plugin/key_material_storage/v1/key_material_storage.proto\x12\x1eplugin.key_material_storage.v1\x1a\x1bbuf/validate/validate.proto\"I\n" +
+	"9plugin/key_material_storage/v1/key_material_storage.proto\x12\x1eplugin.key_material_storage.v1\x1a\x1bbuf/validate/validate.proto\"s\n" +
 	"\vKeyMaterial\x12\x1a\n" +
 	"\x02id\x18\x01 \x01(\tB\n" +
 	"\xbaH\a\xc8\x01\x01r\x02\x10\x01R\x02id\x12\x1e\n" +
 	"\x04data\x18\x02 \x01(\fB\n" +
-	"\xbaH\a\xc8\x01\x01z\x02\x10\x01R\x04data\"\x90\x01\n" +
+	"\xbaH\a\xc8\x01\x01z\x02\x10\x01R\x04data\x12(\n" +
+	"\talgorithm\x18\x03 \x01(\fB\n" +
+	"\xbaH\a\xc8\x01\x01r\x02\x10\x01R\talgorithm\"\x90\x01\n" +
 	"\fStoreRequest\x12(\n" +
 	"\tnamespace\x18\x01 \x01(\tB\n" +
 	"\xbaH\a\xc8\x01\x01r\x02\x10\x01R\tnamespace\x12V\n" +

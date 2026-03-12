@@ -35,6 +35,13 @@ message KeyMaterial {
     (buf.validate.field).required = true,
     (buf.validate.field).bytes.min_len = 1
   ];
+
+  // REQUIRED: The name of algorithm
+  // This typically contains the encrypted/wrapped key material.
+  bytes algorithm = 3 [
+    (buf.validate.field).required = true,
+    (buf.validate.field).string.min_len = 1
+  ];
 }
 
 // --- Store RPC Messages ---

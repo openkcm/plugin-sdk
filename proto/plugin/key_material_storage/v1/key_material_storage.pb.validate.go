@@ -61,6 +61,8 @@ func (m *KeyMaterial) validate(all bool) error {
 
 	// no validation rules for Data
 
+	// no validation rules for Algorithm
+
 	if len(errors) > 0 {
 		return KeyMaterialMultiError(errors)
 	}
