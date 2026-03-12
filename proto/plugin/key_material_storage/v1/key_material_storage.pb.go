@@ -35,7 +35,7 @@ type KeyMaterial struct {
 	Data []byte `protobuf:"bytes,2,opt,name=data,proto3" json:"data,omitempty"`
 	// REQUIRED: The name of algorithm
 	// This typically contains the encrypted/wrapped key material.
-	Algorithm     []byte `protobuf:"bytes,3,opt,name=algorithm,proto3" json:"algorithm,omitempty"`
+	Algorithm     string `protobuf:"bytes,3,opt,name=algorithm,proto3" json:"algorithm,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -84,11 +84,11 @@ func (x *KeyMaterial) GetData() []byte {
 	return nil
 }
 
-func (x *KeyMaterial) GetAlgorithm() []byte {
+func (x *KeyMaterial) GetAlgorithm() string {
 	if x != nil {
 		return x.Algorithm
 	}
-	return nil
+	return ""
 }
 
 type StoreRequest struct {
@@ -456,7 +456,7 @@ const file_plugin_key_material_storage_v1_key_material_storage_proto_rawDesc = "
 	"\xbaH\a\xc8\x01\x01r\x02\x10\x01R\x02id\x12\x1e\n" +
 	"\x04data\x18\x02 \x01(\fB\n" +
 	"\xbaH\a\xc8\x01\x01z\x02\x10\x01R\x04data\x12(\n" +
-	"\talgorithm\x18\x03 \x01(\fB\n" +
+	"\talgorithm\x18\x03 \x01(\tB\n" +
 	"\xbaH\a\xc8\x01\x01r\x02\x10\x01R\talgorithm\"\x90\x01\n" +
 	"\fStoreRequest\x12(\n" +
 	"\tnamespace\x18\x01 \x01(\tB\n" +

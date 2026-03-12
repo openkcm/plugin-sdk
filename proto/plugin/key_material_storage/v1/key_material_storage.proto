@@ -38,7 +38,7 @@ message KeyMaterial {
 
   // REQUIRED: The name of algorithm
   // This typically contains the encrypted/wrapped key material.
-  bytes algorithm = 3 [
+  string algorithm = 3 [
     (buf.validate.field).required = true,
     (buf.validate.field).string.min_len = 1
   ];
