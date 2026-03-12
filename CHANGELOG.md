@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.10.0](https://github.com/openkcm/plugin-sdk/compare/v0.9.9...v0.10.0) (2026-03-12)
+
+
+### Features
+
+* include key version details in get key response ([#131](https://github.com/openkcm/plugin-sdk/issues/131)) ([041b15a](https://github.com/openkcm/plugin-sdk/commit/041b15aff6ca0ede19be39db6ac9f7c6239a4f99))
+
+
+### Bug Fixes
+
+* Update dependabot config ([#133](https://github.com/openkcm/plugin-sdk/issues/133)) ([d805531](https://github.com/openkcm/plugin-sdk/commit/d80553109abc6b59a40a7905f9cffa86f4dc1fc4))
+
 ## [0.9.9](https://github.com/openkcm/plugin-sdk/compare/v0.9.8...v0.9.9) (2026-03-05)
 
 
