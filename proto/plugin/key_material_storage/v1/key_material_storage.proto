@@ -1,0 +1,75 @@
+syntax = "proto3";
+
+package plugin.key_material_storage.v1;
+
+import "buf/validate/validate.proto";
+
+// KeyMaterialStorage defines the universal interface for persisting and
+// retrieving opaque blobs of data, typically wrapped key material.
+// This allows Krypton to delegate storage to any backend (DB, Vault, File)
+// in a completely generic way.
+service KeyMaterialStorage {
+  // Store persists a single item. This operation must be idempotent.
+  rpc Store(StoreRequest) returns (StoreResponse);
+
+  // Load retrieves a single item by its unique ID.
+  rpc Load(LoadRequest) returns (LoadResponse);
+}
+
+// KeyMaterial represents a single unit of stored data.
+// It is intentionally generic and algorithm-agnostic.
+message KeyMaterial {
+  // REQUIRED: The unique identifier for this item.
+  // e.g., "L2_01H8XGJWBWBAQ9Z7J6C6XJ6C6X"
+  string id = 1 [
+    (buf.validate.field).required = true,
+    (buf.validate.field).string.min_len = 1
+  ];
+
+  // REQUIRED: The opaque data blob.
+  // This typically contains the encrypted/wrapped key material.
+  bytes data = 2 [
+    (buf.validate.field).required = true,
+    (buf.validate.field).bytes.min_len = 1
+  ];
+}
+
+// --- Store RPC Messages ---
+
+message StoreRequest {
+  // REQUIRED: The namespace for this key material. This provides isolation
+  // and can be mapped to a tenant, project, or customer ID.
+  string namespace = 1 [
+    (buf.validate.field).required = true,
+    (buf.validate.field).string.min_len = 1
+  ];
+
+  // REQUIRED: The item to be stored.
+  KeyMaterial key_material = 2 [(buf.validate.field).required = true];
+}
+
+message StoreResponse {
+  // This response is empty on success. Errors are communicated via gRPC status codes.
+}
+
+// --- Load RPC Messages ---
+
+message LoadRequest {
+  // REQUIRED: The namespace for the item.
+  string namespace = 1 [
+    (buf.validate.field).required = true,
+    (buf.validate.field).string.min_len = 1
+  ];
+
+  // REQUIRED: The unique ID of the item to retrieve.
+  string id = 2 [
+    (buf.validate.field).required = true,
+    (buf.validate.field).string.min_len = 1
+  ];
+}
+
+message LoadResponse {
+  // The retrieved key material.
+  // If the key is not found, the RPC will return a `NOT_FOUND` gRPC error.
+  KeyMaterial key_material = 1;
+}
