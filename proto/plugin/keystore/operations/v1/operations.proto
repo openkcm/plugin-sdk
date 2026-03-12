@@ -2,6 +2,7 @@ syntax = "proto3";
 package plugin.keystore.operations.v1;
 
 import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
 import "plugin/keystore/common/v1/common.proto";
 
 // KeystoreInstanceKeyOperation service defines the operations available for key management
@@ -75,6 +76,8 @@ message GetKeyResponse {
   KeyAlgorithm algorithm = 2; // The algorithm used for the key
   string status = 3; // The current status of the key (e.g., enabled, disabled)
   string usage = 4; // The intended usage of the key (e.g., encryption, signing)
+  string latest_key_version_id = 5; // The ID of the latest key version
+  optional google.protobuf.Timestamp latest_rotation_time = 6; // The timestamp of the latest key rotation
 }
 
 // CreateKeyRequest contains parameters for key creation
