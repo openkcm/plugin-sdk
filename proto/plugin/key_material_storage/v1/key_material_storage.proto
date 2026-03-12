@@ -23,7 +23,7 @@ service KeyMaterialStorage {
 // It is intentionally generic and algorithm-agnostic.
 message KeyMaterial {
   // REQUIRED: The unique identifier for this item.
-  // e.g., "L2_01H8XGJWBWBAQ9Z7J6C6XJ6C6X"
+  // e.g., "L2/01H8XGJWBWBAQ9Z7J6C6XJ6C6X"
   string id = 1 [
     (buf.validate.field).required = true,
     (buf.validate.field).string.min_len = 1
@@ -42,6 +42,8 @@ message KeyMaterial {
     (buf.validate.field).required = true,
     (buf.validate.field).string.min_len = 1
   ];
+
+  optional string previous_version_id = 4;
 }
 
 // --- Store RPC Messages ---

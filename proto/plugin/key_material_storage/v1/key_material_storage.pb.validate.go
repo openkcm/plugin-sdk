@@ -63,6 +63,10 @@ func (m *KeyMaterial) validate(all bool) error {
 
 	// no validation rules for Algorithm
 
+	if m.PreviousVersionId != nil {
+		// no validation rules for PreviousVersionId
+	}
+
 	if len(errors) > 0 {
 		return KeyMaterialMultiError(errors)
 	}
