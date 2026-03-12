@@ -18,7 +18,7 @@ const (
 var (
 	flags     flag.FlagSet
 	kind      = flags.String("kind", "plugin", `generation kind (either "plugin" or "service")`)
-	submodule = flags.String("submodule", "", `package location`)
+	submodule = flags.String("submodule", "", `package locationw`)
 )
 
 func main() {
