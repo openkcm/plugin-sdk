@@ -272,6 +272,170 @@ func (x *LoadResponse) GetKeyMaterial() *KeyMaterial {
 	return nil
 }
 
+type ListIDsRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// REQUIRED: The namespace to search in.
+	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	// OPTIONAL: Filter criteria for listing IDs.
+	// If not provided, all IDs in the namespace are returned.
+	Filter        *Filter `protobuf:"bytes,2,opt,name=filter,proto3,oneof" json:"filter,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListIDsRequest) Reset() {
+	*x = ListIDsRequest{}
+	mi := &file_plugin_key_material_storage_v1_key_material_storage_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListIDsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListIDsRequest) ProtoMessage() {}
+
+func (x *ListIDsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_plugin_key_material_storage_v1_key_material_storage_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListIDsRequest.ProtoReflect.Descriptor instead.
+func (*ListIDsRequest) Descriptor() ([]byte, []int) {
+	return file_plugin_key_material_storage_v1_key_material_storage_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *ListIDsRequest) GetNamespace() string {
+	if x != nil {
+		return x.Namespace
+	}
+	return ""
+}
+
+func (x *ListIDsRequest) GetFilter() *Filter {
+	if x != nil {
+		return x.Filter
+	}
+	return nil
+}
+
+type Filter struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// OPTIONAL: Filter IDs that start with this string.
+	Prefix *string `protobuf:"bytes,1,opt,name=prefix,proto3,oneof" json:"prefix,omitempty"`
+	// OPTIONAL: Filter IDs that end with this string.
+	Suffix *string `protobuf:"bytes,2,opt,name=suffix,proto3,oneof" json:"suffix,omitempty"`
+	// OPTIONAL: Filter IDs that contain this string.
+	Contains      *string `protobuf:"bytes,3,opt,name=contains,proto3,oneof" json:"contains,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Filter) Reset() {
+	*x = Filter{}
+	mi := &file_plugin_key_material_storage_v1_key_material_storage_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Filter) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Filter) ProtoMessage() {}
+
+func (x *Filter) ProtoReflect() protoreflect.Message {
+	mi := &file_plugin_key_material_storage_v1_key_material_storage_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Filter.ProtoReflect.Descriptor instead.
+func (*Filter) Descriptor() ([]byte, []int) {
+	return file_plugin_key_material_storage_v1_key_material_storage_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *Filter) GetPrefix() string {
+	if x != nil && x.Prefix != nil {
+		return *x.Prefix
+	}
+	return ""
+}
+
+func (x *Filter) GetSuffix() string {
+	if x != nil && x.Suffix != nil {
+		return *x.Suffix
+	}
+	return ""
+}
+
+func (x *Filter) GetContains() string {
+	if x != nil && x.Contains != nil {
+		return *x.Contains
+	}
+	return ""
+}
+
+type ListIDsResponse struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// A list of key material IDs that match the request criteria.
+	// The server may stream multiple responses, each containing a batch of IDs.
+	Ids           []string `protobuf:"bytes,1,rep,name=ids,proto3" json:"ids,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListIDsResponse) Reset() {
+	*x = ListIDsResponse{}
+	mi := &file_plugin_key_material_storage_v1_key_material_storage_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListIDsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListIDsResponse) ProtoMessage() {}
+
+func (x *ListIDsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_plugin_key_material_storage_v1_key_material_storage_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListIDsResponse.ProtoReflect.Descriptor instead.
+func (*ListIDsResponse) Descriptor() ([]byte, []int) {
+	return file_plugin_key_material_storage_v1_key_material_storage_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *ListIDsResponse) GetIds() []string {
+	if x != nil {
+		return x.Ids
+	}
+	return nil
+}
+
 var File_plugin_key_material_storage_v1_key_material_storage_proto protoreflect.FileDescriptor
 
 const file_plugin_key_material_storage_v1_key_material_storage_proto_rawDesc = "" +
@@ -293,10 +457,25 @@ const file_plugin_key_material_storage_v1_key_material_storage_proto_rawDesc = "
 	"\x02id\x18\x02 \x01(\tB\n" +
 	"\xbaH\a\xc8\x01\x01r\x02\x10\x01R\x02id\"^\n" +
 	"\fLoadResponse\x12N\n" +
-	"\fkey_material\x18\x01 \x01(\v2+.plugin.key_material_storage.v1.KeyMaterialR\vkeyMaterial2\xdd\x01\n" +
+	"\fkey_material\x18\x01 \x01(\v2+.plugin.key_material_storage.v1.KeyMaterialR\vkeyMaterial\"\x8a\x01\n" +
+	"\x0eListIDsRequest\x12(\n" +
+	"\tnamespace\x18\x01 \x01(\tB\n" +
+	"\xbaH\a\xc8\x01\x01r\x02\x10\x01R\tnamespace\x12C\n" +
+	"\x06filter\x18\x02 \x01(\v2&.plugin.key_material_storage.v1.FilterH\x00R\x06filter\x88\x01\x01B\t\n" +
+	"\a_filter\"\x86\x01\n" +
+	"\x06Filter\x12\x1b\n" +
+	"\x06prefix\x18\x01 \x01(\tH\x00R\x06prefix\x88\x01\x01\x12\x1b\n" +
+	"\x06suffix\x18\x02 \x01(\tH\x01R\x06suffix\x88\x01\x01\x12\x1f\n" +
+	"\bcontains\x18\x03 \x01(\tH\x02R\bcontains\x88\x01\x01B\t\n" +
+	"\a_prefixB\t\n" +
+	"\a_suffixB\v\n" +
+	"\t_contains\"#\n" +
+	"\x0fListIDsResponse\x12\x10\n" +
+	"\x03ids\x18\x01 \x03(\tR\x03ids2\xcb\x02\n" +
 	"\x12KeyMaterialStorage\x12d\n" +
 	"\x05Store\x12,.plugin.key_material_storage.v1.StoreRequest\x1a-.plugin.key_material_storage.v1.StoreResponse\x12a\n" +
-	"\x04Load\x12+.plugin.key_material_storage.v1.LoadRequest\x1a,.plugin.key_material_storage.v1.LoadResponseB\xaa\x02\n" +
+	"\x04Load\x12+.plugin.key_material_storage.v1.LoadRequest\x1a,.plugin.key_material_storage.v1.LoadResponse\x12l\n" +
+	"\aListIDs\x12..plugin.key_material_storage.v1.ListIDsRequest\x1a/.plugin.key_material_storage.v1.ListIDsResponse0\x01B\xaa\x02\n" +
 	"\"com.plugin.key_material_storage.v1B\x17KeyMaterialStorageProtoP\x01ZYgithub.com/openkcm/plugin-sdk/proto/plugin/key_material_storage/v1;key_material_storagev1\xa2\x02\x03PKX\xaa\x02\x1cPlugin.KeyMaterialStorage.V1\xca\x02\x1cPlugin\\KeyMaterialStorage\\V1\xe2\x02(Plugin\\KeyMaterialStorage\\V1\\GPBMetadata\xea\x02\x1ePlugin::KeyMaterialStorage::V1b\x06proto3"
 
 var (
@@ -311,26 +490,32 @@ func file_plugin_key_material_storage_v1_key_material_storage_proto_rawDescGZIP(
 	return file_plugin_key_material_storage_v1_key_material_storage_proto_rawDescData
 }
 
-var file_plugin_key_material_storage_v1_key_material_storage_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_plugin_key_material_storage_v1_key_material_storage_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_plugin_key_material_storage_v1_key_material_storage_proto_goTypes = []any{
-	(*KeyMaterial)(nil),   // 0: plugin.key_material_storage.v1.KeyMaterial
-	(*StoreRequest)(nil),  // 1: plugin.key_material_storage.v1.StoreRequest
-	(*StoreResponse)(nil), // 2: plugin.key_material_storage.v1.StoreResponse
-	(*LoadRequest)(nil),   // 3: plugin.key_material_storage.v1.LoadRequest
-	(*LoadResponse)(nil),  // 4: plugin.key_material_storage.v1.LoadResponse
+	(*KeyMaterial)(nil),     // 0: plugin.key_material_storage.v1.KeyMaterial
+	(*StoreRequest)(nil),    // 1: plugin.key_material_storage.v1.StoreRequest
+	(*StoreResponse)(nil),   // 2: plugin.key_material_storage.v1.StoreResponse
+	(*LoadRequest)(nil),     // 3: plugin.key_material_storage.v1.LoadRequest
+	(*LoadResponse)(nil),    // 4: plugin.key_material_storage.v1.LoadResponse
+	(*ListIDsRequest)(nil),  // 5: plugin.key_material_storage.v1.ListIDsRequest
+	(*Filter)(nil),          // 6: plugin.key_material_storage.v1.Filter
+	(*ListIDsResponse)(nil), // 7: plugin.key_material_storage.v1.ListIDsResponse
 }
 var file_plugin_key_material_storage_v1_key_material_storage_proto_depIdxs = []int32{
 	0, // 0: plugin.key_material_storage.v1.StoreRequest.key_material:type_name -> plugin.key_material_storage.v1.KeyMaterial
 	0, // 1: plugin.key_material_storage.v1.LoadResponse.key_material:type_name -> plugin.key_material_storage.v1.KeyMaterial
-	1, // 2: plugin.key_material_storage.v1.KeyMaterialStorage.Store:input_type -> plugin.key_material_storage.v1.StoreRequest
-	3, // 3: plugin.key_material_storage.v1.KeyMaterialStorage.Load:input_type -> plugin.key_material_storage.v1.LoadRequest
-	2, // 4: plugin.key_material_storage.v1.KeyMaterialStorage.Store:output_type -> plugin.key_material_storage.v1.StoreResponse
-	4, // 5: plugin.key_material_storage.v1.KeyMaterialStorage.Load:output_type -> plugin.key_material_storage.v1.LoadResponse
-	4, // [4:6] is the sub-list for method output_type
-	2, // [2:4] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	6, // 2: plugin.key_material_storage.v1.ListIDsRequest.filter:type_name -> plugin.key_material_storage.v1.Filter
+	1, // 3: plugin.key_material_storage.v1.KeyMaterialStorage.Store:input_type -> plugin.key_material_storage.v1.StoreRequest
+	3, // 4: plugin.key_material_storage.v1.KeyMaterialStorage.Load:input_type -> plugin.key_material_storage.v1.LoadRequest
+	5, // 5: plugin.key_material_storage.v1.KeyMaterialStorage.ListIDs:input_type -> plugin.key_material_storage.v1.ListIDsRequest
+	2, // 6: plugin.key_material_storage.v1.KeyMaterialStorage.Store:output_type -> plugin.key_material_storage.v1.StoreResponse
+	4, // 7: plugin.key_material_storage.v1.KeyMaterialStorage.Load:output_type -> plugin.key_material_storage.v1.LoadResponse
+	7, // 8: plugin.key_material_storage.v1.KeyMaterialStorage.ListIDs:output_type -> plugin.key_material_storage.v1.ListIDsResponse
+	6, // [6:9] is the sub-list for method output_type
+	3, // [3:6] is the sub-list for method input_type
+	3, // [3:3] is the sub-list for extension type_name
+	3, // [3:3] is the sub-list for extension extendee
+	0, // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_plugin_key_material_storage_v1_key_material_storage_proto_init() }
@@ -338,13 +523,15 @@ func file_plugin_key_material_storage_v1_key_material_storage_proto_init() {
 	if File_plugin_key_material_storage_v1_key_material_storage_proto != nil {
 		return
 	}
+	file_plugin_key_material_storage_v1_key_material_storage_proto_msgTypes[5].OneofWrappers = []any{}
+	file_plugin_key_material_storage_v1_key_material_storage_proto_msgTypes[6].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_plugin_key_material_storage_v1_key_material_storage_proto_rawDesc), len(file_plugin_key_material_storage_v1_key_material_storage_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   5,
+			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

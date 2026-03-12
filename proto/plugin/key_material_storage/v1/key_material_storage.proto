@@ -14,6 +14,9 @@ service KeyMaterialStorage {
 
   // Load retrieves a single item by its unique ID.
   rpc Load(LoadRequest) returns (LoadResponse);
+
+  // ListIDs streams back all IDs that match a given prefix within a namespace.
+  rpc ListIDs(ListIDsRequest) returns (stream ListIDsResponse);
 }
 
 // KeyMaterial represents a single unit of stored data.
@@ -72,4 +75,33 @@ message LoadResponse {
   // The retrieved key material.
   // If the key is not found, the RPC will return a `NOT_FOUND` gRPC error.
   KeyMaterial key_material = 1;
+}
+
+message ListIDsRequest {
+  // REQUIRED: The namespace to search in.
+  string namespace = 1 [
+    (buf.validate.field).required = true,
+    (buf.validate.field).string.min_len = 1
+  ];
+
+  // OPTIONAL: Filter criteria for listing IDs.
+  // If not provided, all IDs in the namespace are returned.
+  optional Filter filter = 2;
+}
+
+message Filter {
+  // OPTIONAL: Filter IDs that start with this string.
+  optional string prefix = 1;
+
+  // OPTIONAL: Filter IDs that end with this string.
+  optional string suffix = 2;
+
+  // OPTIONAL: Filter IDs that contain this string.
+  optional string contains = 3;
+}
+
+message ListIDsResponse {
+  // A list of key material IDs that match the request criteria.
+  // The server may stream multiple responses, each containing a batch of IDs.
+  repeated string ids = 1;
 }

@@ -20,8 +20,9 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	KeyMaterialStorage_Store_FullMethodName = "/plugin.key_material_storage.v1.KeyMaterialStorage/Store"
-	KeyMaterialStorage_Load_FullMethodName  = "/plugin.key_material_storage.v1.KeyMaterialStorage/Load"
+	KeyMaterialStorage_Store_FullMethodName   = "/plugin.key_material_storage.v1.KeyMaterialStorage/Store"
+	KeyMaterialStorage_Load_FullMethodName    = "/plugin.key_material_storage.v1.KeyMaterialStorage/Load"
+	KeyMaterialStorage_ListIDs_FullMethodName = "/plugin.key_material_storage.v1.KeyMaterialStorage/ListIDs"
 )
 
 // KeyMaterialStorageClient is the client API for KeyMaterialStorage service.
@@ -37,6 +38,8 @@ type KeyMaterialStorageClient interface {
 	Store(ctx context.Context, in *StoreRequest, opts ...grpc.CallOption) (*StoreResponse, error)
 	// Load retrieves a single item by its unique ID.
 	Load(ctx context.Context, in *LoadRequest, opts ...grpc.CallOption) (*LoadResponse, error)
+	// ListIDs streams back all IDs that match a given prefix within a namespace.
+	ListIDs(ctx context.Context, in *ListIDsRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[ListIDsResponse], error)
 }
 
 type keyMaterialStorageClient struct {
@@ -67,6 +70,25 @@ func (c *keyMaterialStorageClient) Load(ctx context.Context, in *LoadRequest, op
 	return out, nil
 }
 
+func (c *keyMaterialStorageClient) ListIDs(ctx context.Context, in *ListIDsRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[ListIDsResponse], error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	stream, err := c.cc.NewStream(ctx, &KeyMaterialStorage_ServiceDesc.Streams[0], KeyMaterialStorage_ListIDs_FullMethodName, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &grpc.GenericClientStream[ListIDsRequest, ListIDsResponse]{ClientStream: stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type KeyMaterialStorage_ListIDsClient = grpc.ServerStreamingClient[ListIDsResponse]
+
 // KeyMaterialStorageServer is the server API for KeyMaterialStorage service.
 // All implementations must embed UnimplementedKeyMaterialStorageServer
 // for forward compatibility.
@@ -80,6 +102,8 @@ type KeyMaterialStorageServer interface {
 	Store(context.Context, *StoreRequest) (*StoreResponse, error)
 	// Load retrieves a single item by its unique ID.
 	Load(context.Context, *LoadRequest) (*LoadResponse, error)
+	// ListIDs streams back all IDs that match a given prefix within a namespace.
+	ListIDs(*ListIDsRequest, grpc.ServerStreamingServer[ListIDsResponse]) error
 	mustEmbedUnimplementedKeyMaterialStorageServer()
 }
 
@@ -95,6 +119,9 @@ func (UnimplementedKeyMaterialStorageServer) Store(context.Context, *StoreReques
 }
 func (UnimplementedKeyMaterialStorageServer) Load(context.Context, *LoadRequest) (*LoadResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method Load not implemented")
+}
+func (UnimplementedKeyMaterialStorageServer) ListIDs(*ListIDsRequest, grpc.ServerStreamingServer[ListIDsResponse]) error {
+	return status.Error(codes.Unimplemented, "method ListIDs not implemented")
 }
 func (UnimplementedKeyMaterialStorageServer) mustEmbedUnimplementedKeyMaterialStorageServer() {}
 func (UnimplementedKeyMaterialStorageServer) testEmbeddedByValue()                            {}
@@ -153,6 +180,17 @@ func _KeyMaterialStorage_Load_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _KeyMaterialStorage_ListIDs_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(ListIDsRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(KeyMaterialStorageServer).ListIDs(m, &grpc.GenericServerStream[ListIDsRequest, ListIDsResponse]{ServerStream: stream})
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type KeyMaterialStorage_ListIDsServer = grpc.ServerStreamingServer[ListIDsResponse]
+
 // KeyMaterialStorage_ServiceDesc is the grpc.ServiceDesc for KeyMaterialStorage service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -169,6 +207,12 @@ var KeyMaterialStorage_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _KeyMaterialStorage_Load_Handler,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "ListIDs",
+			Handler:       _KeyMaterialStorage_ListIDs_Handler,
+			ServerStreams: true,
+		},
+	},
 	Metadata: "plugin/key_material_storage/v1/key_material_storage.proto",
 }
