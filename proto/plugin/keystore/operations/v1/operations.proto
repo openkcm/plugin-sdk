@@ -14,8 +14,8 @@ service KeystoreInstanceKeyOperation {
   // if the key does not exist
   rpc GetKey(GetKeyRequest) returns (GetKeyResponse);
 
-  // CreateKey generates a new key with the specified algorithm
-  rpc CreateKey(CreateKeyRequest) returns (CreateKeyResponse);
+  // CreateKeyForImport generates an empty key in pending import state
+  rpc CreateKeyForImport(CreateKeyForImportRequest) returns (CreateKeyForImportResponse);
 
   // DeleteKey removes a key, optionally with a deletion window
   rpc DeleteKey(DeleteKeyRequest) returns (DeleteKeyResponse);
@@ -55,7 +55,8 @@ enum KeyAlgorithm {
 
 enum KeyType {
   KEY_TYPE_UNSPECIFIED = 0;
-  KEY_TYPE_SYSTEM_MANAGED = 1; // System-managed key
+  reserved 1;
+  reserved "KEY_TYPE_SYSTEM_MANAGED";
   KEY_TYPE_BYOK = 2; // Bring Your Own Key
   KEY_TYPE_HYOK = 3; // Hold Your Own Key
 }
@@ -81,15 +82,16 @@ message GetKeyResponse {
 }
 
 // CreateKeyRequest contains parameters for key creation
-message CreateKeyRequest {
+message CreateKeyForImportRequest {
   plugin.keystore.common.v1.KeystoreInstanceConfig config = 1;
   KeyAlgorithm algorithm = 2;
   optional string id = 3; // Optional predefined key ID
   string region = 4; // The region in which to create the key
-  KeyType key_type = 5; // Key type (system-managed or BYOK)
+  reserved 5;
+  reserved "key_type";
 }
 
-message CreateKeyResponse {
+message CreateKeyForImportResponse {
   string key_id = 1; // The ID of the created key
   string status = 2; // The current status of the key (e.g., enabled, disabled)
 }

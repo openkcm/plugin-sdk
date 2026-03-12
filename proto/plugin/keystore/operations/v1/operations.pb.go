@@ -82,25 +82,22 @@ func (KeyAlgorithm) EnumDescriptor() ([]byte, []int) {
 type KeyType int32
 
 const (
-	KeyType_KEY_TYPE_UNSPECIFIED    KeyType = 0
-	KeyType_KEY_TYPE_SYSTEM_MANAGED KeyType = 1 // System-managed key
-	KeyType_KEY_TYPE_BYOK           KeyType = 2 // Bring Your Own Key
-	KeyType_KEY_TYPE_HYOK           KeyType = 3 // Hold Your Own Key
+	KeyType_KEY_TYPE_UNSPECIFIED KeyType = 0
+	KeyType_KEY_TYPE_BYOK        KeyType = 2 // Bring Your Own Key
+	KeyType_KEY_TYPE_HYOK        KeyType = 3 // Hold Your Own Key
 )
 
 // Enum value maps for KeyType.
 var (
 	KeyType_name = map[int32]string{
 		0: "KEY_TYPE_UNSPECIFIED",
-		1: "KEY_TYPE_SYSTEM_MANAGED",
 		2: "KEY_TYPE_BYOK",
 		3: "KEY_TYPE_HYOK",
 	}
 	KeyType_value = map[string]int32{
-		"KEY_TYPE_UNSPECIFIED":    0,
-		"KEY_TYPE_SYSTEM_MANAGED": 1,
-		"KEY_TYPE_BYOK":           2,
-		"KEY_TYPE_HYOK":           3,
+		"KEY_TYPE_UNSPECIFIED": 0,
+		"KEY_TYPE_BYOK":        2,
+		"KEY_TYPE_HYOK":        3,
 	}
 )
 
@@ -314,31 +311,30 @@ func (x *GetKeyResponse) GetLatestRotationTime() *timestamppb.Timestamp {
 }
 
 // CreateKeyRequest contains parameters for key creation
-type CreateKeyRequest struct {
+type CreateKeyForImportRequest struct {
 	state         protoimpl.MessageState     `protogen:"open.v1"`
 	Config        *v1.KeystoreInstanceConfig `protobuf:"bytes,1,opt,name=config,proto3" json:"config,omitempty"`
 	Algorithm     KeyAlgorithm               `protobuf:"varint,2,opt,name=algorithm,proto3,enum=plugin.keystore.operations.v1.KeyAlgorithm" json:"algorithm,omitempty"`
-	Id            *string                    `protobuf:"bytes,3,opt,name=id,proto3,oneof" json:"id,omitempty"`                                                                // Optional predefined key ID
-	Region        string                     `protobuf:"bytes,4,opt,name=region,proto3" json:"region,omitempty"`                                                              // The region in which to create the key
-	KeyType       KeyType                    `protobuf:"varint,5,opt,name=key_type,json=keyType,proto3,enum=plugin.keystore.operations.v1.KeyType" json:"key_type,omitempty"` // Key type (system-managed or BYOK)
+	Id            *string                    `protobuf:"bytes,3,opt,name=id,proto3,oneof" json:"id,omitempty"`   // Optional predefined key ID
+	Region        string                     `protobuf:"bytes,4,opt,name=region,proto3" json:"region,omitempty"` // The region in which to create the key
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *CreateKeyRequest) Reset() {
-	*x = CreateKeyRequest{}
+func (x *CreateKeyForImportRequest) Reset() {
+	*x = CreateKeyForImportRequest{}
 	mi := &file_plugin_keystore_operations_v1_operations_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *CreateKeyRequest) String() string {
+func (x *CreateKeyForImportRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*CreateKeyRequest) ProtoMessage() {}
+func (*CreateKeyForImportRequest) ProtoMessage() {}
 
-func (x *CreateKeyRequest) ProtoReflect() protoreflect.Message {
+func (x *CreateKeyForImportRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_plugin_keystore_operations_v1_operations_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -350,47 +346,40 @@ func (x *CreateKeyRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CreateKeyRequest.ProtoReflect.Descriptor instead.
-func (*CreateKeyRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use CreateKeyForImportRequest.ProtoReflect.Descriptor instead.
+func (*CreateKeyForImportRequest) Descriptor() ([]byte, []int) {
 	return file_plugin_keystore_operations_v1_operations_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *CreateKeyRequest) GetConfig() *v1.KeystoreInstanceConfig {
+func (x *CreateKeyForImportRequest) GetConfig() *v1.KeystoreInstanceConfig {
 	if x != nil {
 		return x.Config
 	}
 	return nil
 }
 
-func (x *CreateKeyRequest) GetAlgorithm() KeyAlgorithm {
+func (x *CreateKeyForImportRequest) GetAlgorithm() KeyAlgorithm {
 	if x != nil {
 		return x.Algorithm
 	}
 	return KeyAlgorithm_KEY_ALGORITHM_UNSPECIFIED
 }
 
-func (x *CreateKeyRequest) GetId() string {
+func (x *CreateKeyForImportRequest) GetId() string {
 	if x != nil && x.Id != nil {
 		return *x.Id
 	}
 	return ""
 }
 
-func (x *CreateKeyRequest) GetRegion() string {
+func (x *CreateKeyForImportRequest) GetRegion() string {
 	if x != nil {
 		return x.Region
 	}
 	return ""
 }
 
-func (x *CreateKeyRequest) GetKeyType() KeyType {
-	if x != nil {
-		return x.KeyType
-	}
-	return KeyType_KEY_TYPE_UNSPECIFIED
-}
-
-type CreateKeyResponse struct {
+type CreateKeyForImportResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	KeyId         string                 `protobuf:"bytes,1,opt,name=key_id,json=keyId,proto3" json:"key_id,omitempty"` // The ID of the created key
 	Status        string                 `protobuf:"bytes,2,opt,name=status,proto3" json:"status,omitempty"`            // The current status of the key (e.g., enabled, disabled)
@@ -398,20 +387,20 @@ type CreateKeyResponse struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *CreateKeyResponse) Reset() {
-	*x = CreateKeyResponse{}
+func (x *CreateKeyForImportResponse) Reset() {
+	*x = CreateKeyForImportResponse{}
 	mi := &file_plugin_keystore_operations_v1_operations_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *CreateKeyResponse) String() string {
+func (x *CreateKeyForImportResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*CreateKeyResponse) ProtoMessage() {}
+func (*CreateKeyForImportResponse) ProtoMessage() {}
 
-func (x *CreateKeyResponse) ProtoReflect() protoreflect.Message {
+func (x *CreateKeyForImportResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_plugin_keystore_operations_v1_operations_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -423,19 +412,19 @@ func (x *CreateKeyResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CreateKeyResponse.ProtoReflect.Descriptor instead.
-func (*CreateKeyResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use CreateKeyForImportResponse.ProtoReflect.Descriptor instead.
+func (*CreateKeyForImportResponse) Descriptor() ([]byte, []int) {
 	return file_plugin_keystore_operations_v1_operations_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *CreateKeyResponse) GetKeyId() string {
+func (x *CreateKeyForImportResponse) GetKeyId() string {
 	if x != nil {
 		return x.KeyId
 	}
 	return ""
 }
 
-func (x *CreateKeyResponse) GetStatus() string {
+func (x *CreateKeyForImportResponse) GetStatus() string {
 	if x != nil {
 		return x.Status
 	}
@@ -1340,15 +1329,14 @@ const file_plugin_keystore_operations_v1_operations_proto_rawDesc = "" +
 	"\x05usage\x18\x04 \x01(\tR\x05usage\x121\n" +
 	"\x15latest_key_version_id\x18\x05 \x01(\tR\x12latestKeyVersionId\x12Q\n" +
 	"\x14latest_rotation_time\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampH\x00R\x12latestRotationTime\x88\x01\x01B\x17\n" +
-	"\x15_latest_rotation_time\"\x9f\x02\n" +
-	"\x10CreateKeyRequest\x12I\n" +
+	"\x15_latest_rotation_time\"\xf5\x01\n" +
+	"\x19CreateKeyForImportRequest\x12I\n" +
 	"\x06config\x18\x01 \x01(\v21.plugin.keystore.common.v1.KeystoreInstanceConfigR\x06config\x12I\n" +
 	"\talgorithm\x18\x02 \x01(\x0e2+.plugin.keystore.operations.v1.KeyAlgorithmR\talgorithm\x12\x13\n" +
 	"\x02id\x18\x03 \x01(\tH\x00R\x02id\x88\x01\x01\x12\x16\n" +
-	"\x06region\x18\x04 \x01(\tR\x06region\x12A\n" +
-	"\bkey_type\x18\x05 \x01(\x0e2&.plugin.keystore.operations.v1.KeyTypeR\akeyTypeB\x05\n" +
-	"\x03_id\"B\n" +
-	"\x11CreateKeyResponse\x12\x15\n" +
+	"\x06region\x18\x04 \x01(\tR\x06regionB\x05\n" +
+	"\x03_idJ\x04\b\x05\x10\x06R\bkey_type\"K\n" +
+	"\x1aCreateKeyForImportResponse\x12\x15\n" +
 	"\x06key_id\x18\x01 \x01(\tR\x05keyId\x12\x16\n" +
 	"\x06status\x18\x02 \x01(\tR\x06status\"\x8c\x01\n" +
 	"\x10DeleteKeyRequest\x12P\n" +
@@ -1417,15 +1405,14 @@ const file_plugin_keystore_operations_v1_operations_proto_rawDesc = "" +
 	"\x19KEY_ALGORITHM_UNSPECIFIED\x10\x00\x12\x18\n" +
 	"\x14KEY_ALGORITHM_AES256\x10\x01\x12\x19\n" +
 	"\x15KEY_ALGORITHM_RSA3072\x10\x02\x12\x19\n" +
-	"\x15KEY_ALGORITHM_RSA4096\x10\x03*f\n" +
+	"\x15KEY_ALGORITHM_RSA4096\x10\x03*h\n" +
 	"\aKeyType\x12\x18\n" +
-	"\x14KEY_TYPE_UNSPECIFIED\x10\x00\x12\x1b\n" +
-	"\x17KEY_TYPE_SYSTEM_MANAGED\x10\x01\x12\x11\n" +
+	"\x14KEY_TYPE_UNSPECIFIED\x10\x00\x12\x11\n" +
 	"\rKEY_TYPE_BYOK\x10\x02\x12\x11\n" +
-	"\rKEY_TYPE_HYOK\x10\x032\x92\v\n" +
+	"\rKEY_TYPE_HYOK\x10\x03\"\x04\b\x01\x10\x01*\x17KEY_TYPE_SYSTEM_MANAGED2\xae\v\n" +
 	"\x1cKeystoreInstanceKeyOperation\x12e\n" +
-	"\x06GetKey\x12,.plugin.keystore.operations.v1.GetKeyRequest\x1a-.plugin.keystore.operations.v1.GetKeyResponse\x12n\n" +
-	"\tCreateKey\x12/.plugin.keystore.operations.v1.CreateKeyRequest\x1a0.plugin.keystore.operations.v1.CreateKeyResponse\x12n\n" +
+	"\x06GetKey\x12,.plugin.keystore.operations.v1.GetKeyRequest\x1a-.plugin.keystore.operations.v1.GetKeyResponse\x12\x89\x01\n" +
+	"\x12CreateKeyForImport\x128.plugin.keystore.operations.v1.CreateKeyForImportRequest\x1a9.plugin.keystore.operations.v1.CreateKeyForImportResponse\x12n\n" +
 	"\tDeleteKey\x12/.plugin.keystore.operations.v1.DeleteKeyRequest\x1a0.plugin.keystore.operations.v1.DeleteKeyResponse\x12n\n" +
 	"\tEnableKey\x12/.plugin.keystore.operations.v1.EnableKeyRequest\x1a0.plugin.keystore.operations.v1.EnableKeyResponse\x12q\n" +
 	"\n" +
@@ -1458,8 +1445,8 @@ var file_plugin_keystore_operations_v1_operations_proto_goTypes = []any{
 	(*RequestParameters)(nil),                 // 2: plugin.keystore.operations.v1.RequestParameters
 	(*GetKeyRequest)(nil),                     // 3: plugin.keystore.operations.v1.GetKeyRequest
 	(*GetKeyResponse)(nil),                    // 4: plugin.keystore.operations.v1.GetKeyResponse
-	(*CreateKeyRequest)(nil),                  // 5: plugin.keystore.operations.v1.CreateKeyRequest
-	(*CreateKeyResponse)(nil),                 // 6: plugin.keystore.operations.v1.CreateKeyResponse
+	(*CreateKeyForImportRequest)(nil),         // 5: plugin.keystore.operations.v1.CreateKeyForImportRequest
+	(*CreateKeyForImportResponse)(nil),        // 6: plugin.keystore.operations.v1.CreateKeyForImportResponse
 	(*DeleteKeyRequest)(nil),                  // 7: plugin.keystore.operations.v1.DeleteKeyRequest
 	(*DeleteKeyResponse)(nil),                 // 8: plugin.keystore.operations.v1.DeleteKeyResponse
 	(*EnableKeyRequest)(nil),                  // 9: plugin.keystore.operations.v1.EnableKeyRequest
@@ -1488,50 +1475,49 @@ var file_plugin_keystore_operations_v1_operations_proto_depIdxs = []int32{
 	2,  // 1: plugin.keystore.operations.v1.GetKeyRequest.parameters:type_name -> plugin.keystore.operations.v1.RequestParameters
 	0,  // 2: plugin.keystore.operations.v1.GetKeyResponse.algorithm:type_name -> plugin.keystore.operations.v1.KeyAlgorithm
 	27, // 3: plugin.keystore.operations.v1.GetKeyResponse.latest_rotation_time:type_name -> google.protobuf.Timestamp
-	26, // 4: plugin.keystore.operations.v1.CreateKeyRequest.config:type_name -> plugin.keystore.common.v1.KeystoreInstanceConfig
-	0,  // 5: plugin.keystore.operations.v1.CreateKeyRequest.algorithm:type_name -> plugin.keystore.operations.v1.KeyAlgorithm
-	1,  // 6: plugin.keystore.operations.v1.CreateKeyRequest.key_type:type_name -> plugin.keystore.operations.v1.KeyType
-	2,  // 7: plugin.keystore.operations.v1.DeleteKeyRequest.parameters:type_name -> plugin.keystore.operations.v1.RequestParameters
-	2,  // 8: plugin.keystore.operations.v1.EnableKeyRequest.parameters:type_name -> plugin.keystore.operations.v1.RequestParameters
-	2,  // 9: plugin.keystore.operations.v1.DisableKeyRequest.parameters:type_name -> plugin.keystore.operations.v1.RequestParameters
-	2,  // 10: plugin.keystore.operations.v1.GetImportParametersRequest.parameters:type_name -> plugin.keystore.operations.v1.RequestParameters
-	0,  // 11: plugin.keystore.operations.v1.GetImportParametersRequest.algorithm:type_name -> plugin.keystore.operations.v1.KeyAlgorithm
-	28, // 12: plugin.keystore.operations.v1.GetImportParametersResponse.import_parameters:type_name -> google.protobuf.Struct
-	2,  // 13: plugin.keystore.operations.v1.ImportKeyMaterialRequest.parameters:type_name -> plugin.keystore.operations.v1.RequestParameters
-	28, // 14: plugin.keystore.operations.v1.ImportKeyMaterialRequest.import_parameters:type_name -> google.protobuf.Struct
-	1,  // 15: plugin.keystore.operations.v1.ValidateKeyRequest.key_type:type_name -> plugin.keystore.operations.v1.KeyType
-	0,  // 16: plugin.keystore.operations.v1.ValidateKeyRequest.algorithm:type_name -> plugin.keystore.operations.v1.KeyAlgorithm
-	28, // 17: plugin.keystore.operations.v1.ValidateKeyAccessDataRequest.management:type_name -> google.protobuf.Struct
-	28, // 18: plugin.keystore.operations.v1.ValidateKeyAccessDataRequest.crypto:type_name -> google.protobuf.Struct
-	25, // 19: plugin.keystore.operations.v1.TransformCryptoAccessDataResponse.transformed_access_data:type_name -> plugin.keystore.operations.v1.TransformCryptoAccessDataResponse.TransformedAccessDataEntry
-	28, // 20: plugin.keystore.operations.v1.ExtractKeyRegionRequest.management_access_data:type_name -> google.protobuf.Struct
-	3,  // 21: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.GetKey:input_type -> plugin.keystore.operations.v1.GetKeyRequest
-	5,  // 22: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.CreateKey:input_type -> plugin.keystore.operations.v1.CreateKeyRequest
-	7,  // 23: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.DeleteKey:input_type -> plugin.keystore.operations.v1.DeleteKeyRequest
-	9,  // 24: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.EnableKey:input_type -> plugin.keystore.operations.v1.EnableKeyRequest
-	11, // 25: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.DisableKey:input_type -> plugin.keystore.operations.v1.DisableKeyRequest
-	13, // 26: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.GetImportParameters:input_type -> plugin.keystore.operations.v1.GetImportParametersRequest
-	15, // 27: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.ImportKeyMaterial:input_type -> plugin.keystore.operations.v1.ImportKeyMaterialRequest
-	17, // 28: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.ValidateKey:input_type -> plugin.keystore.operations.v1.ValidateKeyRequest
-	19, // 29: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.ValidateKeyAccessData:input_type -> plugin.keystore.operations.v1.ValidateKeyAccessDataRequest
-	21, // 30: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.TransformCryptoAccessData:input_type -> plugin.keystore.operations.v1.TransformCryptoAccessDataRequest
-	23, // 31: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.ExtractKeyRegion:input_type -> plugin.keystore.operations.v1.ExtractKeyRegionRequest
-	4,  // 32: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.GetKey:output_type -> plugin.keystore.operations.v1.GetKeyResponse
-	6,  // 33: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.CreateKey:output_type -> plugin.keystore.operations.v1.CreateKeyResponse
-	8,  // 34: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.DeleteKey:output_type -> plugin.keystore.operations.v1.DeleteKeyResponse
-	10, // 35: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.EnableKey:output_type -> plugin.keystore.operations.v1.EnableKeyResponse
-	12, // 36: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.DisableKey:output_type -> plugin.keystore.operations.v1.DisableKeyResponse
-	14, // 37: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.GetImportParameters:output_type -> plugin.keystore.operations.v1.GetImportParametersResponse
-	16, // 38: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.ImportKeyMaterial:output_type -> plugin.keystore.operations.v1.ImportKeyMaterialResponse
-	18, // 39: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.ValidateKey:output_type -> plugin.keystore.operations.v1.ValidateKeyResponse
-	20, // 40: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.ValidateKeyAccessData:output_type -> plugin.keystore.operations.v1.ValidateKeyAccessDataResponse
-	22, // 41: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.TransformCryptoAccessData:output_type -> plugin.keystore.operations.v1.TransformCryptoAccessDataResponse
-	24, // 42: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.ExtractKeyRegion:output_type -> plugin.keystore.operations.v1.ExtractKeyRegionResponse
-	32, // [32:43] is the sub-list for method output_type
-	21, // [21:32] is the sub-list for method input_type
-	21, // [21:21] is the sub-list for extension type_name
-	21, // [21:21] is the sub-list for extension extendee
-	0,  // [0:21] is the sub-list for field type_name
+	26, // 4: plugin.keystore.operations.v1.CreateKeyForImportRequest.config:type_name -> plugin.keystore.common.v1.KeystoreInstanceConfig
+	0,  // 5: plugin.keystore.operations.v1.CreateKeyForImportRequest.algorithm:type_name -> plugin.keystore.operations.v1.KeyAlgorithm
+	2,  // 6: plugin.keystore.operations.v1.DeleteKeyRequest.parameters:type_name -> plugin.keystore.operations.v1.RequestParameters
+	2,  // 7: plugin.keystore.operations.v1.EnableKeyRequest.parameters:type_name -> plugin.keystore.operations.v1.RequestParameters
+	2,  // 8: plugin.keystore.operations.v1.DisableKeyRequest.parameters:type_name -> plugin.keystore.operations.v1.RequestParameters
+	2,  // 9: plugin.keystore.operations.v1.GetImportParametersRequest.parameters:type_name -> plugin.keystore.operations.v1.RequestParameters
+	0,  // 10: plugin.keystore.operations.v1.GetImportParametersRequest.algorithm:type_name -> plugin.keystore.operations.v1.KeyAlgorithm
+	28, // 11: plugin.keystore.operations.v1.GetImportParametersResponse.import_parameters:type_name -> google.protobuf.Struct
+	2,  // 12: plugin.keystore.operations.v1.ImportKeyMaterialRequest.parameters:type_name -> plugin.keystore.operations.v1.RequestParameters
+	28, // 13: plugin.keystore.operations.v1.ImportKeyMaterialRequest.import_parameters:type_name -> google.protobuf.Struct
+	1,  // 14: plugin.keystore.operations.v1.ValidateKeyRequest.key_type:type_name -> plugin.keystore.operations.v1.KeyType
+	0,  // 15: plugin.keystore.operations.v1.ValidateKeyRequest.algorithm:type_name -> plugin.keystore.operations.v1.KeyAlgorithm
+	28, // 16: plugin.keystore.operations.v1.ValidateKeyAccessDataRequest.management:type_name -> google.protobuf.Struct
+	28, // 17: plugin.keystore.operations.v1.ValidateKeyAccessDataRequest.crypto:type_name -> google.protobuf.Struct
+	25, // 18: plugin.keystore.operations.v1.TransformCryptoAccessDataResponse.transformed_access_data:type_name -> plugin.keystore.operations.v1.TransformCryptoAccessDataResponse.TransformedAccessDataEntry
+	28, // 19: plugin.keystore.operations.v1.ExtractKeyRegionRequest.management_access_data:type_name -> google.protobuf.Struct
+	3,  // 20: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.GetKey:input_type -> plugin.keystore.operations.v1.GetKeyRequest
+	5,  // 21: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.CreateKeyForImport:input_type -> plugin.keystore.operations.v1.CreateKeyForImportRequest
+	7,  // 22: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.DeleteKey:input_type -> plugin.keystore.operations.v1.DeleteKeyRequest
+	9,  // 23: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.EnableKey:input_type -> plugin.keystore.operations.v1.EnableKeyRequest
+	11, // 24: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.DisableKey:input_type -> plugin.keystore.operations.v1.DisableKeyRequest
+	13, // 25: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.GetImportParameters:input_type -> plugin.keystore.operations.v1.GetImportParametersRequest
+	15, // 26: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.ImportKeyMaterial:input_type -> plugin.keystore.operations.v1.ImportKeyMaterialRequest
+	17, // 27: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.ValidateKey:input_type -> plugin.keystore.operations.v1.ValidateKeyRequest
+	19, // 28: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.ValidateKeyAccessData:input_type -> plugin.keystore.operations.v1.ValidateKeyAccessDataRequest
+	21, // 29: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.TransformCryptoAccessData:input_type -> plugin.keystore.operations.v1.TransformCryptoAccessDataRequest
+	23, // 30: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.ExtractKeyRegion:input_type -> plugin.keystore.operations.v1.ExtractKeyRegionRequest
+	4,  // 31: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.GetKey:output_type -> plugin.keystore.operations.v1.GetKeyResponse
+	6,  // 32: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.CreateKeyForImport:output_type -> plugin.keystore.operations.v1.CreateKeyForImportResponse
+	8,  // 33: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.DeleteKey:output_type -> plugin.keystore.operations.v1.DeleteKeyResponse
+	10, // 34: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.EnableKey:output_type -> plugin.keystore.operations.v1.EnableKeyResponse
+	12, // 35: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.DisableKey:output_type -> plugin.keystore.operations.v1.DisableKeyResponse
+	14, // 36: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.GetImportParameters:output_type -> plugin.keystore.operations.v1.GetImportParametersResponse
+	16, // 37: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.ImportKeyMaterial:output_type -> plugin.keystore.operations.v1.ImportKeyMaterialResponse
+	18, // 38: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.ValidateKey:output_type -> plugin.keystore.operations.v1.ValidateKeyResponse
+	20, // 39: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.ValidateKeyAccessData:output_type -> plugin.keystore.operations.v1.ValidateKeyAccessDataResponse
+	22, // 40: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.TransformCryptoAccessData:output_type -> plugin.keystore.operations.v1.TransformCryptoAccessDataResponse
+	24, // 41: plugin.keystore.operations.v1.KeystoreInstanceKeyOperation.ExtractKeyRegion:output_type -> plugin.keystore.operations.v1.ExtractKeyRegionResponse
+	31, // [31:42] is the sub-list for method output_type
+	20, // [20:31] is the sub-list for method input_type
+	20, // [20:20] is the sub-list for extension type_name
+	20, // [20:20] is the sub-list for extension extendee
+	0,  // [0:20] is the sub-list for field type_name
 }
 
 func init() { file_plugin_keystore_operations_v1_operations_proto_init() }

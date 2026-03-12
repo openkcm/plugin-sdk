@@ -440,22 +440,22 @@ var _ interface {
 	ErrorName() string
 } = GetKeyResponseValidationError{}
 
-// Validate checks the field values on CreateKeyRequest with the rules defined
-// in the proto definition for this message. If any rules are violated, the
-// first error encountered is returned, or nil if there are no violations.
-func (m *CreateKeyRequest) Validate() error {
+// Validate checks the field values on CreateKeyForImportRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *CreateKeyForImportRequest) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on CreateKeyRequest with the rules
-// defined in the proto definition for this message. If any rules are
+// ValidateAll checks the field values on CreateKeyForImportRequest with the
+// rules defined in the proto definition for this message. If any rules are
 // violated, the result is a list of violation errors wrapped in
-// CreateKeyRequestMultiError, or nil if none found.
-func (m *CreateKeyRequest) ValidateAll() error {
+// CreateKeyForImportRequestMultiError, or nil if none found.
+func (m *CreateKeyForImportRequest) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *CreateKeyRequest) validate(all bool) error {
+func (m *CreateKeyForImportRequest) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -466,7 +466,7 @@ func (m *CreateKeyRequest) validate(all bool) error {
 		switch v := interface{}(m.GetConfig()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, CreateKeyRequestValidationError{
+				errors = append(errors, CreateKeyForImportRequestValidationError{
 					field:  "Config",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -474,7 +474,7 @@ func (m *CreateKeyRequest) validate(all bool) error {
 			}
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
-				errors = append(errors, CreateKeyRequestValidationError{
+				errors = append(errors, CreateKeyForImportRequestValidationError{
 					field:  "Config",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -483,7 +483,7 @@ func (m *CreateKeyRequest) validate(all bool) error {
 		}
 	} else if v, ok := interface{}(m.GetConfig()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
-			return CreateKeyRequestValidationError{
+			return CreateKeyForImportRequestValidationError{
 				field:  "Config",
 				reason: "embedded message failed validation",
 				cause:  err,
@@ -495,26 +495,24 @@ func (m *CreateKeyRequest) validate(all bool) error {
 
 	// no validation rules for Region
 
-	// no validation rules for KeyType
-
 	if m.Id != nil {
 		// no validation rules for Id
 	}
 
 	if len(errors) > 0 {
-		return CreateKeyRequestMultiError(errors)
+		return CreateKeyForImportRequestMultiError(errors)
 	}
 
 	return nil
 }
 
-// CreateKeyRequestMultiError is an error wrapping multiple validation errors
-// returned by CreateKeyRequest.ValidateAll() if the designated constraints
-// aren't met.
-type CreateKeyRequestMultiError []error
+// CreateKeyForImportRequestMultiError is an error wrapping multiple validation
+// errors returned by CreateKeyForImportRequest.ValidateAll() if the
+// designated constraints aren't met.
+type CreateKeyForImportRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m CreateKeyRequestMultiError) Error() string {
+func (m CreateKeyForImportRequestMultiError) Error() string {
 	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -523,11 +521,11 @@ func (m CreateKeyRequestMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m CreateKeyRequestMultiError) AllErrors() []error { return m }
+func (m CreateKeyForImportRequestMultiError) AllErrors() []error { return m }
 
-// CreateKeyRequestValidationError is the validation error returned by
-// CreateKeyRequest.Validate if the designated constraints aren't met.
-type CreateKeyRequestValidationError struct {
+// CreateKeyForImportRequestValidationError is the validation error returned by
+// CreateKeyForImportRequest.Validate if the designated constraints aren't met.
+type CreateKeyForImportRequestValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -535,22 +533,24 @@ type CreateKeyRequestValidationError struct {
 }
 
 // Field function returns field value.
-func (e CreateKeyRequestValidationError) Field() string { return e.field }
+func (e CreateKeyForImportRequestValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e CreateKeyRequestValidationError) Reason() string { return e.reason }
+func (e CreateKeyForImportRequestValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e CreateKeyRequestValidationError) Cause() error { return e.cause }
+func (e CreateKeyForImportRequestValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e CreateKeyRequestValidationError) Key() bool { return e.key }
+func (e CreateKeyForImportRequestValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e CreateKeyRequestValidationError) ErrorName() string { return "CreateKeyRequestValidationError" }
+func (e CreateKeyForImportRequestValidationError) ErrorName() string {
+	return "CreateKeyForImportRequestValidationError"
+}
 
 // Error satisfies the builtin error interface
-func (e CreateKeyRequestValidationError) Error() string {
+func (e CreateKeyForImportRequestValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -562,14 +562,14 @@ func (e CreateKeyRequestValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sCreateKeyRequest.%s: %s%s",
+		"invalid %sCreateKeyForImportRequest.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = CreateKeyRequestValidationError{}
+var _ error = CreateKeyForImportRequestValidationError{}
 
 var _ interface {
 	Field() string
@@ -577,24 +577,24 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = CreateKeyRequestValidationError{}
+} = CreateKeyForImportRequestValidationError{}
 
-// Validate checks the field values on CreateKeyResponse with the rules defined
-// in the proto definition for this message. If any rules are violated, the
-// first error encountered is returned, or nil if there are no violations.
-func (m *CreateKeyResponse) Validate() error {
+// Validate checks the field values on CreateKeyForImportResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *CreateKeyForImportResponse) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on CreateKeyResponse with the rules
-// defined in the proto definition for this message. If any rules are
+// ValidateAll checks the field values on CreateKeyForImportResponse with the
+// rules defined in the proto definition for this message. If any rules are
 // violated, the result is a list of violation errors wrapped in
-// CreateKeyResponseMultiError, or nil if none found.
-func (m *CreateKeyResponse) ValidateAll() error {
+// CreateKeyForImportResponseMultiError, or nil if none found.
+func (m *CreateKeyForImportResponse) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *CreateKeyResponse) validate(all bool) error {
+func (m *CreateKeyForImportResponse) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -606,19 +606,19 @@ func (m *CreateKeyResponse) validate(all bool) error {
 	// no validation rules for Status
 
 	if len(errors) > 0 {
-		return CreateKeyResponseMultiError(errors)
+		return CreateKeyForImportResponseMultiError(errors)
 	}
 
 	return nil
 }
 
-// CreateKeyResponseMultiError is an error wrapping multiple validation errors
-// returned by CreateKeyResponse.ValidateAll() if the designated constraints
-// aren't met.
-type CreateKeyResponseMultiError []error
+// CreateKeyForImportResponseMultiError is an error wrapping multiple
+// validation errors returned by CreateKeyForImportResponse.ValidateAll() if
+// the designated constraints aren't met.
+type CreateKeyForImportResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m CreateKeyResponseMultiError) Error() string {
+func (m CreateKeyForImportResponseMultiError) Error() string {
 	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -627,11 +627,11 @@ func (m CreateKeyResponseMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m CreateKeyResponseMultiError) AllErrors() []error { return m }
+func (m CreateKeyForImportResponseMultiError) AllErrors() []error { return m }
 
-// CreateKeyResponseValidationError is the validation error returned by
-// CreateKeyResponse.Validate if the designated constraints aren't met.
-type CreateKeyResponseValidationError struct {
+// CreateKeyForImportResponseValidationError is the validation error returned
+// by CreateKeyForImportResponse.Validate if the designated constraints aren't met.
+type CreateKeyForImportResponseValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -639,24 +639,24 @@ type CreateKeyResponseValidationError struct {
 }
 
 // Field function returns field value.
-func (e CreateKeyResponseValidationError) Field() string { return e.field }
+func (e CreateKeyForImportResponseValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e CreateKeyResponseValidationError) Reason() string { return e.reason }
+func (e CreateKeyForImportResponseValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e CreateKeyResponseValidationError) Cause() error { return e.cause }
+func (e CreateKeyForImportResponseValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e CreateKeyResponseValidationError) Key() bool { return e.key }
+func (e CreateKeyForImportResponseValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e CreateKeyResponseValidationError) ErrorName() string {
-	return "CreateKeyResponseValidationError"
+func (e CreateKeyForImportResponseValidationError) ErrorName() string {
+	return "CreateKeyForImportResponseValidationError"
 }
 
 // Error satisfies the builtin error interface
-func (e CreateKeyResponseValidationError) Error() string {
+func (e CreateKeyForImportResponseValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -668,14 +668,14 @@ func (e CreateKeyResponseValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sCreateKeyResponse.%s: %s%s",
+		"invalid %sCreateKeyForImportResponse.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = CreateKeyResponseValidationError{}
+var _ error = CreateKeyForImportResponseValidationError{}
 
 var _ interface {
 	Field() string
@@ -683,7 +683,7 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = CreateKeyResponseValidationError{}
+} = CreateKeyForImportResponseValidationError{}
 
 // Validate checks the field values on DeleteKeyRequest with the rules defined
 // in the proto definition for this message. If any rules are violated, the
