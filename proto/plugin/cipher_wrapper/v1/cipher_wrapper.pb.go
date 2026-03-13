@@ -23,17 +23,79 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type KeyReference struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	KeyId         string                 `protobuf:"bytes,1,opt,name=key_id,json=keyId,proto3" json:"key_id,omitempty"`
+	Version       *string                `protobuf:"bytes,2,opt,name=version,proto3,oneof" json:"version,omitempty"`
+	Properties    map[string]string      `protobuf:"bytes,3,rep,name=properties,proto3" json:"properties,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *KeyReference) Reset() {
+	*x = KeyReference{}
+	mi := &file_plugin_cipher_wrapper_v1_cipher_wrapper_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *KeyReference) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*KeyReference) ProtoMessage() {}
+
+func (x *KeyReference) ProtoReflect() protoreflect.Message {
+	mi := &file_plugin_cipher_wrapper_v1_cipher_wrapper_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use KeyReference.ProtoReflect.Descriptor instead.
+func (*KeyReference) Descriptor() ([]byte, []int) {
+	return file_plugin_cipher_wrapper_v1_cipher_wrapper_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *KeyReference) GetKeyId() string {
+	if x != nil {
+		return x.KeyId
+	}
+	return ""
+}
+
+func (x *KeyReference) GetVersion() string {
+	if x != nil && x.Version != nil {
+		return *x.Version
+	}
+	return ""
+}
+
+func (x *KeyReference) GetProperties() map[string]string {
+	if x != nil {
+		return x.Properties
+	}
+	return nil
+}
+
 // WrapRequest contains the raw key material and the context needed to encrypt it.
 type WrapRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
+	// OPTIONAL/REQUIRED: The structured definition of the key to use.
+	Key *KeyReference `protobuf:"bytes,1,opt,name=key,proto3" json:"key,omitempty"`
 	// REQUIRED: The raw cryptographic material to be wrapped.
-	Plaintext []byte `protobuf:"bytes,1,opt,name=plaintext,proto3" json:"plaintext,omitempty"`
+	Plaintext []byte `protobuf:"bytes,2,opt,name=plaintext,proto3" json:"plaintext,omitempty"`
 	// OPTIONAL: Standard Additional Authenticated Data (AAD) byte buffer.
 	// Kept in proto because AAD often changes per request (e.g., binding to a specific Tenant ID).
-	Aad []byte `protobuf:"bytes,2,opt,name=aad,proto3,oneof" json:"aad,omitempty"`
+	Aad []byte `protobuf:"bytes,3,opt,name=aad,proto3,oneof" json:"aad,omitempty"`
 	// OPTIONAL: Initialization Vector (IV) or Nonce.
 	// Cryptographically dynamic, must remain in proto.
-	Iv []byte `protobuf:"bytes,3,opt,name=iv,proto3,oneof" json:"iv,omitempty"`
+	Iv []byte `protobuf:"bytes,4,opt,name=iv,proto3,oneof" json:"iv,omitempty"`
 	// OPTIONAL: Per-request dynamic context (if needed).
 	// Kept as an escape hatch for truly dynamic per-request overrides.
 	DynamicContext map[string]string `protobuf:"bytes,900,rep,name=dynamic_context,json=dynamicContext,proto3" json:"dynamic_context,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
@@ -43,7 +105,7 @@ type WrapRequest struct {
 
 func (x *WrapRequest) Reset() {
 	*x = WrapRequest{}
-	mi := &file_plugin_cipher_wrapper_v1_cipher_wrapper_proto_msgTypes[0]
+	mi := &file_plugin_cipher_wrapper_v1_cipher_wrapper_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -55,7 +117,7 @@ func (x *WrapRequest) String() string {
 func (*WrapRequest) ProtoMessage() {}
 
 func (x *WrapRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_cipher_wrapper_v1_cipher_wrapper_proto_msgTypes[0]
+	mi := &file_plugin_cipher_wrapper_v1_cipher_wrapper_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -68,7 +130,14 @@ func (x *WrapRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use WrapRequest.ProtoReflect.Descriptor instead.
 func (*WrapRequest) Descriptor() ([]byte, []int) {
-	return file_plugin_cipher_wrapper_v1_cipher_wrapper_proto_rawDescGZIP(), []int{0}
+	return file_plugin_cipher_wrapper_v1_cipher_wrapper_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *WrapRequest) GetKey() *KeyReference {
+	if x != nil {
+		return x.Key
+	}
+	return nil
 }
 
 func (x *WrapRequest) GetPlaintext() []byte {
@@ -116,7 +185,7 @@ type WrapResponse struct {
 
 func (x *WrapResponse) Reset() {
 	*x = WrapResponse{}
-	mi := &file_plugin_cipher_wrapper_v1_cipher_wrapper_proto_msgTypes[1]
+	mi := &file_plugin_cipher_wrapper_v1_cipher_wrapper_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -128,7 +197,7 @@ func (x *WrapResponse) String() string {
 func (*WrapResponse) ProtoMessage() {}
 
 func (x *WrapResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_cipher_wrapper_v1_cipher_wrapper_proto_msgTypes[1]
+	mi := &file_plugin_cipher_wrapper_v1_cipher_wrapper_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -141,7 +210,7 @@ func (x *WrapResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use WrapResponse.ProtoReflect.Descriptor instead.
 func (*WrapResponse) Descriptor() ([]byte, []int) {
-	return file_plugin_cipher_wrapper_v1_cipher_wrapper_proto_rawDescGZIP(), []int{1}
+	return file_plugin_cipher_wrapper_v1_cipher_wrapper_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *WrapResponse) GetCiphertext() []byte {
@@ -169,13 +238,15 @@ func (x *WrapResponse) GetIv() []byte {
 // originally used during the Wrap operation.
 type UnwrapRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
+	// OPTIONAL/REQUIRED: The structured definition of the key to use.
+	Key *KeyReference `protobuf:"bytes,1,opt,name=key,proto3" json:"key,omitempty"`
 	// REQUIRED: The opaque ciphertext retrieved from the CMK persistent storage.
-	Ciphertext []byte `protobuf:"bytes,1,opt,name=ciphertext,proto3" json:"ciphertext,omitempty"`
+	Ciphertext []byte `protobuf:"bytes,2,opt,name=ciphertext,proto3" json:"ciphertext,omitempty"`
 	// OPTIONAL: Standard Additional Authenticated Data (AAD) byte buffer.
-	Aad []byte `protobuf:"bytes,2,opt,name=aad,proto3,oneof" json:"aad,omitempty"`
+	Aad []byte `protobuf:"bytes,3,opt,name=aad,proto3,oneof" json:"aad,omitempty"`
 	// OPTIONAL: Initialization Vector (IV) or Nonce.
 	// Must be provided if it was returned in the WrapResponse.
-	Iv []byte `protobuf:"bytes,3,opt,name=iv,proto3,oneof" json:"iv,omitempty"`
+	Iv []byte `protobuf:"bytes,4,opt,name=iv,proto3,oneof" json:"iv,omitempty"`
 	// OPTIONAL: Per-request dynamic context (if needed).
 	// Kept as an escape hatch for truly dynamic per-request overrides.
 	DynamicContext map[string]string `protobuf:"bytes,900,rep,name=dynamic_context,json=dynamicContext,proto3" json:"dynamic_context,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
@@ -185,7 +256,7 @@ type UnwrapRequest struct {
 
 func (x *UnwrapRequest) Reset() {
 	*x = UnwrapRequest{}
-	mi := &file_plugin_cipher_wrapper_v1_cipher_wrapper_proto_msgTypes[2]
+	mi := &file_plugin_cipher_wrapper_v1_cipher_wrapper_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -197,7 +268,7 @@ func (x *UnwrapRequest) String() string {
 func (*UnwrapRequest) ProtoMessage() {}
 
 func (x *UnwrapRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_cipher_wrapper_v1_cipher_wrapper_proto_msgTypes[2]
+	mi := &file_plugin_cipher_wrapper_v1_cipher_wrapper_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -210,7 +281,14 @@ func (x *UnwrapRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UnwrapRequest.ProtoReflect.Descriptor instead.
 func (*UnwrapRequest) Descriptor() ([]byte, []int) {
-	return file_plugin_cipher_wrapper_v1_cipher_wrapper_proto_rawDescGZIP(), []int{2}
+	return file_plugin_cipher_wrapper_v1_cipher_wrapper_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *UnwrapRequest) GetKey() *KeyReference {
+	if x != nil {
+		return x.Key
+	}
+	return nil
 }
 
 func (x *UnwrapRequest) GetCiphertext() []byte {
@@ -252,7 +330,7 @@ type UnwrapResponse struct {
 
 func (x *UnwrapResponse) Reset() {
 	*x = UnwrapResponse{}
-	mi := &file_plugin_cipher_wrapper_v1_cipher_wrapper_proto_msgTypes[3]
+	mi := &file_plugin_cipher_wrapper_v1_cipher_wrapper_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -264,7 +342,7 @@ func (x *UnwrapResponse) String() string {
 func (*UnwrapResponse) ProtoMessage() {}
 
 func (x *UnwrapResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_cipher_wrapper_v1_cipher_wrapper_proto_msgTypes[3]
+	mi := &file_plugin_cipher_wrapper_v1_cipher_wrapper_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -277,7 +355,7 @@ func (x *UnwrapResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UnwrapResponse.ProtoReflect.Descriptor instead.
 func (*UnwrapResponse) Descriptor() ([]byte, []int) {
-	return file_plugin_cipher_wrapper_v1_cipher_wrapper_proto_rawDescGZIP(), []int{3}
+	return file_plugin_cipher_wrapper_v1_cipher_wrapper_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *UnwrapResponse) GetPlaintext() []byte {
@@ -291,12 +369,24 @@ var File_plugin_cipher_wrapper_v1_cipher_wrapper_proto protoreflect.FileDescript
 
 const file_plugin_cipher_wrapper_v1_cipher_wrapper_proto_rawDesc = "" +
 	"\n" +
-	"-plugin/cipher_wrapper/v1/cipher_wrapper.proto\x12\x18plugin.cipher_wrapper.v1\x1a\x1bbuf/validate/validate.proto\"\x9a\x02\n" +
-	"\vWrapRequest\x12(\n" +
-	"\tplaintext\x18\x01 \x01(\fB\n" +
+	"-plugin/cipher_wrapper/v1/cipher_wrapper.proto\x12\x18plugin.cipher_wrapper.v1\x1a\x1bbuf/validate/validate.proto\"\xe7\x01\n" +
+	"\fKeyReference\x12\x15\n" +
+	"\x06key_id\x18\x01 \x01(\tR\x05keyId\x12\x1d\n" +
+	"\aversion\x18\x02 \x01(\tH\x00R\aversion\x88\x01\x01\x12V\n" +
+	"\n" +
+	"properties\x18\x03 \x03(\v26.plugin.cipher_wrapper.v1.KeyReference.PropertiesEntryR\n" +
+	"properties\x1a=\n" +
+	"\x0fPropertiesEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01B\n" +
+	"\n" +
+	"\b_version\"\xdc\x02\n" +
+	"\vWrapRequest\x12@\n" +
+	"\x03key\x18\x01 \x01(\v2&.plugin.cipher_wrapper.v1.KeyReferenceB\x06\xbaH\x03\xc8\x01\x01R\x03key\x12(\n" +
+	"\tplaintext\x18\x02 \x01(\fB\n" +
 	"\xbaH\a\xc8\x01\x01z\x02\x10\x01R\tplaintext\x12\x15\n" +
-	"\x03aad\x18\x02 \x01(\fH\x00R\x03aad\x88\x01\x01\x12\x13\n" +
-	"\x02iv\x18\x03 \x01(\fH\x01R\x02iv\x88\x01\x01\x12c\n" +
+	"\x03aad\x18\x03 \x01(\fH\x00R\x03aad\x88\x01\x01\x12\x13\n" +
+	"\x02iv\x18\x04 \x01(\fH\x01R\x02iv\x88\x01\x01\x12c\n" +
 	"\x0fdynamic_context\x18\x84\a \x03(\v29.plugin.cipher_wrapper.v1.WrapRequest.DynamicContextEntryR\x0edynamicContext\x1aA\n" +
 	"\x13DynamicContextEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
@@ -310,14 +400,15 @@ const file_plugin_cipher_wrapper_v1_cipher_wrapper_proto_rawDesc = "" +
 	"\x0ekey_version_id\x18\x02 \x01(\tH\x00R\fkeyVersionId\x88\x01\x01\x12\x13\n" +
 	"\x02iv\x18\x03 \x01(\fH\x01R\x02iv\x88\x01\x01B\x11\n" +
 	"\x0f_key_version_idB\x05\n" +
-	"\x03_iv\"\xa0\x02\n" +
-	"\rUnwrapRequest\x12*\n" +
+	"\x03_iv\"\xe2\x02\n" +
+	"\rUnwrapRequest\x12@\n" +
+	"\x03key\x18\x01 \x01(\v2&.plugin.cipher_wrapper.v1.KeyReferenceB\x06\xbaH\x03\xc8\x01\x01R\x03key\x12*\n" +
 	"\n" +
-	"ciphertext\x18\x01 \x01(\fB\n" +
+	"ciphertext\x18\x02 \x01(\fB\n" +
 	"\xbaH\a\xc8\x01\x01z\x02\x10\x01R\n" +
 	"ciphertext\x12\x15\n" +
-	"\x03aad\x18\x02 \x01(\fH\x00R\x03aad\x88\x01\x01\x12\x13\n" +
-	"\x02iv\x18\x03 \x01(\fH\x01R\x02iv\x88\x01\x01\x12e\n" +
+	"\x03aad\x18\x03 \x01(\fH\x00R\x03aad\x88\x01\x01\x12\x13\n" +
+	"\x02iv\x18\x04 \x01(\fH\x01R\x02iv\x88\x01\x01\x12e\n" +
 	"\x0fdynamic_context\x18\x84\a \x03(\v2;.plugin.cipher_wrapper.v1.UnwrapRequest.DynamicContextEntryR\x0edynamicContext\x1aA\n" +
 	"\x13DynamicContextEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
@@ -343,27 +434,32 @@ func file_plugin_cipher_wrapper_v1_cipher_wrapper_proto_rawDescGZIP() []byte {
 	return file_plugin_cipher_wrapper_v1_cipher_wrapper_proto_rawDescData
 }
 
-var file_plugin_cipher_wrapper_v1_cipher_wrapper_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_plugin_cipher_wrapper_v1_cipher_wrapper_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_plugin_cipher_wrapper_v1_cipher_wrapper_proto_goTypes = []any{
-	(*WrapRequest)(nil),    // 0: plugin.cipher_wrapper.v1.WrapRequest
-	(*WrapResponse)(nil),   // 1: plugin.cipher_wrapper.v1.WrapResponse
-	(*UnwrapRequest)(nil),  // 2: plugin.cipher_wrapper.v1.UnwrapRequest
-	(*UnwrapResponse)(nil), // 3: plugin.cipher_wrapper.v1.UnwrapResponse
-	nil,                    // 4: plugin.cipher_wrapper.v1.WrapRequest.DynamicContextEntry
-	nil,                    // 5: plugin.cipher_wrapper.v1.UnwrapRequest.DynamicContextEntry
+	(*KeyReference)(nil),   // 0: plugin.cipher_wrapper.v1.KeyReference
+	(*WrapRequest)(nil),    // 1: plugin.cipher_wrapper.v1.WrapRequest
+	(*WrapResponse)(nil),   // 2: plugin.cipher_wrapper.v1.WrapResponse
+	(*UnwrapRequest)(nil),  // 3: plugin.cipher_wrapper.v1.UnwrapRequest
+	(*UnwrapResponse)(nil), // 4: plugin.cipher_wrapper.v1.UnwrapResponse
+	nil,                    // 5: plugin.cipher_wrapper.v1.KeyReference.PropertiesEntry
+	nil,                    // 6: plugin.cipher_wrapper.v1.WrapRequest.DynamicContextEntry
+	nil,                    // 7: plugin.cipher_wrapper.v1.UnwrapRequest.DynamicContextEntry
 }
 var file_plugin_cipher_wrapper_v1_cipher_wrapper_proto_depIdxs = []int32{
-	4, // 0: plugin.cipher_wrapper.v1.WrapRequest.dynamic_context:type_name -> plugin.cipher_wrapper.v1.WrapRequest.DynamicContextEntry
-	5, // 1: plugin.cipher_wrapper.v1.UnwrapRequest.dynamic_context:type_name -> plugin.cipher_wrapper.v1.UnwrapRequest.DynamicContextEntry
-	0, // 2: plugin.cipher_wrapper.v1.CipherWrapper.Wrap:input_type -> plugin.cipher_wrapper.v1.WrapRequest
-	2, // 3: plugin.cipher_wrapper.v1.CipherWrapper.Unwrap:input_type -> plugin.cipher_wrapper.v1.UnwrapRequest
-	1, // 4: plugin.cipher_wrapper.v1.CipherWrapper.Wrap:output_type -> plugin.cipher_wrapper.v1.WrapResponse
-	3, // 5: plugin.cipher_wrapper.v1.CipherWrapper.Unwrap:output_type -> plugin.cipher_wrapper.v1.UnwrapResponse
-	4, // [4:6] is the sub-list for method output_type
-	2, // [2:4] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	5, // 0: plugin.cipher_wrapper.v1.KeyReference.properties:type_name -> plugin.cipher_wrapper.v1.KeyReference.PropertiesEntry
+	0, // 1: plugin.cipher_wrapper.v1.WrapRequest.key:type_name -> plugin.cipher_wrapper.v1.KeyReference
+	6, // 2: plugin.cipher_wrapper.v1.WrapRequest.dynamic_context:type_name -> plugin.cipher_wrapper.v1.WrapRequest.DynamicContextEntry
+	0, // 3: plugin.cipher_wrapper.v1.UnwrapRequest.key:type_name -> plugin.cipher_wrapper.v1.KeyReference
+	7, // 4: plugin.cipher_wrapper.v1.UnwrapRequest.dynamic_context:type_name -> plugin.cipher_wrapper.v1.UnwrapRequest.DynamicContextEntry
+	1, // 5: plugin.cipher_wrapper.v1.CipherWrapper.Wrap:input_type -> plugin.cipher_wrapper.v1.WrapRequest
+	3, // 6: plugin.cipher_wrapper.v1.CipherWrapper.Unwrap:input_type -> plugin.cipher_wrapper.v1.UnwrapRequest
+	2, // 7: plugin.cipher_wrapper.v1.CipherWrapper.Wrap:output_type -> plugin.cipher_wrapper.v1.WrapResponse
+	4, // 8: plugin.cipher_wrapper.v1.CipherWrapper.Unwrap:output_type -> plugin.cipher_wrapper.v1.UnwrapResponse
+	7, // [7:9] is the sub-list for method output_type
+	5, // [5:7] is the sub-list for method input_type
+	5, // [5:5] is the sub-list for extension type_name
+	5, // [5:5] is the sub-list for extension extendee
+	0, // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_plugin_cipher_wrapper_v1_cipher_wrapper_proto_init() }
@@ -374,13 +470,14 @@ func file_plugin_cipher_wrapper_v1_cipher_wrapper_proto_init() {
 	file_plugin_cipher_wrapper_v1_cipher_wrapper_proto_msgTypes[0].OneofWrappers = []any{}
 	file_plugin_cipher_wrapper_v1_cipher_wrapper_proto_msgTypes[1].OneofWrappers = []any{}
 	file_plugin_cipher_wrapper_v1_cipher_wrapper_proto_msgTypes[2].OneofWrappers = []any{}
+	file_plugin_cipher_wrapper_v1_cipher_wrapper_proto_msgTypes[3].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_plugin_cipher_wrapper_v1_cipher_wrapper_proto_rawDesc), len(file_plugin_cipher_wrapper_v1_cipher_wrapper_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   6,
+			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

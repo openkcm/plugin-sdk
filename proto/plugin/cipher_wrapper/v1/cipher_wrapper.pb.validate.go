@@ -35,6 +35,113 @@ var (
 	_ = sort.Sort
 )
 
+// Validate checks the field values on KeyReference with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *KeyReference) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on KeyReference with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in KeyReferenceMultiError, or
+// nil if none found.
+func (m *KeyReference) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *KeyReference) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for KeyId
+
+	// no validation rules for Properties
+
+	if m.Version != nil {
+		// no validation rules for Version
+	}
+
+	if len(errors) > 0 {
+		return KeyReferenceMultiError(errors)
+	}
+
+	return nil
+}
+
+// KeyReferenceMultiError is an error wrapping multiple validation errors
+// returned by KeyReference.ValidateAll() if the designated constraints aren't met.
+type KeyReferenceMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m KeyReferenceMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m KeyReferenceMultiError) AllErrors() []error { return m }
+
+// KeyReferenceValidationError is the validation error returned by
+// KeyReference.Validate if the designated constraints aren't met.
+type KeyReferenceValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e KeyReferenceValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e KeyReferenceValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e KeyReferenceValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e KeyReferenceValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e KeyReferenceValidationError) ErrorName() string { return "KeyReferenceValidationError" }
+
+// Error satisfies the builtin error interface
+func (e KeyReferenceValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sKeyReference.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = KeyReferenceValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = KeyReferenceValidationError{}
+
 // Validate checks the field values on WrapRequest with the rules defined in
 // the proto definition for this message. If any rules are violated, the first
 // error encountered is returned, or nil if there are no violations.
@@ -56,6 +163,35 @@ func (m *WrapRequest) validate(all bool) error {
 	}
 
 	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetKey()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, WrapRequestValidationError{
+					field:  "Key",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, WrapRequestValidationError{
+					field:  "Key",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetKey()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return WrapRequestValidationError{
+				field:  "Key",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
 
 	// no validation rules for Plaintext
 
@@ -276,6 +412,35 @@ func (m *UnwrapRequest) validate(all bool) error {
 	}
 
 	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetKey()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, UnwrapRequestValidationError{
+					field:  "Key",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, UnwrapRequestValidationError{
+					field:  "Key",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetKey()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return UnwrapRequestValidationError{
+				field:  "Key",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
 
 	// no validation rules for Ciphertext
 

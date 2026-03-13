@@ -17,21 +17,30 @@ service CipherWrapper {
   rpc Unwrap(UnwrapRequest) returns (UnwrapResponse);
 }
 
+message KeyReference {
+  string key_id = 1;
+  optional string version = 2;
+  map<string, string> properties = 3;
+}
+
 // WrapRequest contains the raw key material and the context needed to encrypt it.
 message WrapRequest {
+  // OPTIONAL/REQUIRED: The structured definition of the key to use.
+  KeyReference key = 1 [(buf.validate.field).required = true];
+
   // REQUIRED: The raw cryptographic material to be wrapped.
-  bytes plaintext = 1 [
+  bytes plaintext = 2 [
     (buf.validate.field).required = true,
     (buf.validate.field).bytes.min_len = 1
   ];
 
   // OPTIONAL: Standard Additional Authenticated Data (AAD) byte buffer.
   // Kept in proto because AAD often changes per request (e.g., binding to a specific Tenant ID).
-  optional bytes aad = 2;
+  optional bytes aad = 3;
 
   // OPTIONAL: Initialization Vector (IV) or Nonce.
   // Cryptographically dynamic, must remain in proto.
-  optional bytes iv = 3;
+  optional bytes iv = 4;
 
   // OPTIONAL: Per-request dynamic context (if needed).
   // Kept as an escape hatch for truly dynamic per-request overrides.
@@ -55,18 +64,21 @@ message WrapResponse {
 // UnwrapRequest contains the opaque ciphertext and the exact parameters
 // originally used during the Wrap operation.
 message UnwrapRequest {
+  // OPTIONAL/REQUIRED: The structured definition of the key to use.
+  KeyReference key = 1 [(buf.validate.field).required = true];
+
   // REQUIRED: The opaque ciphertext retrieved from the CMK persistent storage.
-  bytes ciphertext = 1 [
+  bytes ciphertext = 2 [
     (buf.validate.field).required = true,
     (buf.validate.field).bytes.min_len = 1
   ];
 
   // OPTIONAL: Standard Additional Authenticated Data (AAD) byte buffer.
-  optional bytes aad = 2;
+  optional bytes aad = 3;
 
   // OPTIONAL: Initialization Vector (IV) or Nonce.
   // Must be provided if it was returned in the WrapResponse.
-  optional bytes iv = 3;
+  optional bytes iv = 4;
 
   // OPTIONAL: Per-request dynamic context (if needed).
   // Kept as an escape hatch for truly dynamic per-request overrides.
