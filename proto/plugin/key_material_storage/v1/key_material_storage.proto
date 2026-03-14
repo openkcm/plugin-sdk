@@ -3,6 +3,7 @@ syntax = "proto3";
 package plugin.key_material_storage.v1;
 
 import "buf/validate/validate.proto";
+import "google/protobuf/timestamp.proto";
 
 // KeyMaterialStorage defines the universal interface for persisting and
 // retrieving opaque blobs of data, typically wrapped key material.
@@ -44,6 +45,12 @@ message KeyMaterial {
   ];
 
   optional string previous_version_id = 4;
+
+  optional string checksum = 5;
+
+  optional google.protobuf.Timestamp created_at = 6;
+
+  map<string, string> tags = 100;
 }
 
 // --- Store RPC Messages ---

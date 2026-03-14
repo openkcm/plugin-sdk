@@ -14,6 +14,7 @@ import (
 	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 const (
@@ -35,8 +36,11 @@ type KeyMaterial struct {
 	Data []byte `protobuf:"bytes,2,opt,name=data,proto3" json:"data,omitempty"`
 	// REQUIRED: The name of algorithm
 	// This typically contains the encrypted/wrapped key material.
-	Algorithm         string  `protobuf:"bytes,3,opt,name=algorithm,proto3" json:"algorithm,omitempty"`
-	PreviousVersionId *string `protobuf:"bytes,4,opt,name=previous_version_id,json=previousVersionId,proto3,oneof" json:"previous_version_id,omitempty"`
+	Algorithm         string                 `protobuf:"bytes,3,opt,name=algorithm,proto3" json:"algorithm,omitempty"`
+	PreviousVersionId *string                `protobuf:"bytes,4,opt,name=previous_version_id,json=previousVersionId,proto3,oneof" json:"previous_version_id,omitempty"`
+	Checksum          *string                `protobuf:"bytes,5,opt,name=checksum,proto3,oneof" json:"checksum,omitempty"`
+	CreatedAt         *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=created_at,json=createdAt,proto3,oneof" json:"created_at,omitempty"`
+	Tags              map[string]string      `protobuf:"bytes,100,rep,name=tags,proto3" json:"tags,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	unknownFields     protoimpl.UnknownFields
 	sizeCache         protoimpl.SizeCache
 }
@@ -97,6 +101,27 @@ func (x *KeyMaterial) GetPreviousVersionId() string {
 		return *x.PreviousVersionId
 	}
 	return ""
+}
+
+func (x *KeyMaterial) GetChecksum() string {
+	if x != nil && x.Checksum != nil {
+		return *x.Checksum
+	}
+	return ""
+}
+
+func (x *KeyMaterial) GetCreatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return nil
+}
+
+func (x *KeyMaterial) GetTags() map[string]string {
+	if x != nil {
+		return x.Tags
+	}
+	return nil
 }
 
 type StoreRequest struct {
@@ -458,7 +483,7 @@ var File_plugin_key_material_storage_v1_key_material_storage_proto protoreflect.
 
 const file_plugin_key_material_storage_v1_key_material_storage_proto_rawDesc = "" +
 	"\n" +
-	"9plugin/key_material_storage/v1/key_material_storage.proto\x12\x1eplugin.key_material_storage.v1\x1a\x1bbuf/validate/validate.proto\"\xc0\x01\n" +
+	"9plugin/key_material_storage/v1/key_material_storage.proto\x12\x1eplugin.key_material_storage.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc1\x03\n" +
 	"\vKeyMaterial\x12\x1a\n" +
 	"\x02id\x18\x01 \x01(\tB\n" +
 	"\xbaH\a\xc8\x01\x01r\x02\x10\x01R\x02id\x12\x1e\n" +
@@ -466,8 +491,17 @@ const file_plugin_key_material_storage_v1_key_material_storage_proto_rawDesc = "
 	"\xbaH\a\xc8\x01\x01z\x02\x10\x01R\x04data\x12(\n" +
 	"\talgorithm\x18\x03 \x01(\tB\n" +
 	"\xbaH\a\xc8\x01\x01r\x02\x10\x01R\talgorithm\x123\n" +
-	"\x13previous_version_id\x18\x04 \x01(\tH\x00R\x11previousVersionId\x88\x01\x01B\x16\n" +
-	"\x14_previous_version_id\"\x90\x01\n" +
+	"\x13previous_version_id\x18\x04 \x01(\tH\x00R\x11previousVersionId\x88\x01\x01\x12\x1f\n" +
+	"\bchecksum\x18\x05 \x01(\tH\x01R\bchecksum\x88\x01\x01\x12>\n" +
+	"\n" +
+	"created_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampH\x02R\tcreatedAt\x88\x01\x01\x12I\n" +
+	"\x04tags\x18d \x03(\v25.plugin.key_material_storage.v1.KeyMaterial.TagsEntryR\x04tags\x1a7\n" +
+	"\tTagsEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01B\x16\n" +
+	"\x14_previous_version_idB\v\n" +
+	"\t_checksumB\r\n" +
+	"\v_created_at\"\x90\x01\n" +
 	"\fStoreRequest\x12(\n" +
 	"\tnamespace\x18\x01 \x01(\tB\n" +
 	"\xbaH\a\xc8\x01\x01r\x02\x10\x01R\tnamespace\x12V\n" +
@@ -512,32 +546,36 @@ func file_plugin_key_material_storage_v1_key_material_storage_proto_rawDescGZIP(
 	return file_plugin_key_material_storage_v1_key_material_storage_proto_rawDescData
 }
 
-var file_plugin_key_material_storage_v1_key_material_storage_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
+var file_plugin_key_material_storage_v1_key_material_storage_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
 var file_plugin_key_material_storage_v1_key_material_storage_proto_goTypes = []any{
-	(*KeyMaterial)(nil),     // 0: plugin.key_material_storage.v1.KeyMaterial
-	(*StoreRequest)(nil),    // 1: plugin.key_material_storage.v1.StoreRequest
-	(*StoreResponse)(nil),   // 2: plugin.key_material_storage.v1.StoreResponse
-	(*LoadRequest)(nil),     // 3: plugin.key_material_storage.v1.LoadRequest
-	(*LoadResponse)(nil),    // 4: plugin.key_material_storage.v1.LoadResponse
-	(*ListIDsRequest)(nil),  // 5: plugin.key_material_storage.v1.ListIDsRequest
-	(*Filter)(nil),          // 6: plugin.key_material_storage.v1.Filter
-	(*ListIDsResponse)(nil), // 7: plugin.key_material_storage.v1.ListIDsResponse
+	(*KeyMaterial)(nil),           // 0: plugin.key_material_storage.v1.KeyMaterial
+	(*StoreRequest)(nil),          // 1: plugin.key_material_storage.v1.StoreRequest
+	(*StoreResponse)(nil),         // 2: plugin.key_material_storage.v1.StoreResponse
+	(*LoadRequest)(nil),           // 3: plugin.key_material_storage.v1.LoadRequest
+	(*LoadResponse)(nil),          // 4: plugin.key_material_storage.v1.LoadResponse
+	(*ListIDsRequest)(nil),        // 5: plugin.key_material_storage.v1.ListIDsRequest
+	(*Filter)(nil),                // 6: plugin.key_material_storage.v1.Filter
+	(*ListIDsResponse)(nil),       // 7: plugin.key_material_storage.v1.ListIDsResponse
+	nil,                           // 8: plugin.key_material_storage.v1.KeyMaterial.TagsEntry
+	(*timestamppb.Timestamp)(nil), // 9: google.protobuf.Timestamp
 }
 var file_plugin_key_material_storage_v1_key_material_storage_proto_depIdxs = []int32{
-	0, // 0: plugin.key_material_storage.v1.StoreRequest.key_material:type_name -> plugin.key_material_storage.v1.KeyMaterial
-	0, // 1: plugin.key_material_storage.v1.LoadResponse.key_material:type_name -> plugin.key_material_storage.v1.KeyMaterial
-	6, // 2: plugin.key_material_storage.v1.ListIDsRequest.filter:type_name -> plugin.key_material_storage.v1.Filter
-	1, // 3: plugin.key_material_storage.v1.KeyMaterialStorage.Store:input_type -> plugin.key_material_storage.v1.StoreRequest
-	3, // 4: plugin.key_material_storage.v1.KeyMaterialStorage.Load:input_type -> plugin.key_material_storage.v1.LoadRequest
-	5, // 5: plugin.key_material_storage.v1.KeyMaterialStorage.ListIDs:input_type -> plugin.key_material_storage.v1.ListIDsRequest
-	2, // 6: plugin.key_material_storage.v1.KeyMaterialStorage.Store:output_type -> plugin.key_material_storage.v1.StoreResponse
-	4, // 7: plugin.key_material_storage.v1.KeyMaterialStorage.Load:output_type -> plugin.key_material_storage.v1.LoadResponse
-	7, // 8: plugin.key_material_storage.v1.KeyMaterialStorage.ListIDs:output_type -> plugin.key_material_storage.v1.ListIDsResponse
-	6, // [6:9] is the sub-list for method output_type
-	3, // [3:6] is the sub-list for method input_type
-	3, // [3:3] is the sub-list for extension type_name
-	3, // [3:3] is the sub-list for extension extendee
-	0, // [0:3] is the sub-list for field type_name
+	9, // 0: plugin.key_material_storage.v1.KeyMaterial.created_at:type_name -> google.protobuf.Timestamp
+	8, // 1: plugin.key_material_storage.v1.KeyMaterial.tags:type_name -> plugin.key_material_storage.v1.KeyMaterial.TagsEntry
+	0, // 2: plugin.key_material_storage.v1.StoreRequest.key_material:type_name -> plugin.key_material_storage.v1.KeyMaterial
+	0, // 3: plugin.key_material_storage.v1.LoadResponse.key_material:type_name -> plugin.key_material_storage.v1.KeyMaterial
+	6, // 4: plugin.key_material_storage.v1.ListIDsRequest.filter:type_name -> plugin.key_material_storage.v1.Filter
+	1, // 5: plugin.key_material_storage.v1.KeyMaterialStorage.Store:input_type -> plugin.key_material_storage.v1.StoreRequest
+	3, // 6: plugin.key_material_storage.v1.KeyMaterialStorage.Load:input_type -> plugin.key_material_storage.v1.LoadRequest
+	5, // 7: plugin.key_material_storage.v1.KeyMaterialStorage.ListIDs:input_type -> plugin.key_material_storage.v1.ListIDsRequest
+	2, // 8: plugin.key_material_storage.v1.KeyMaterialStorage.Store:output_type -> plugin.key_material_storage.v1.StoreResponse
+	4, // 9: plugin.key_material_storage.v1.KeyMaterialStorage.Load:output_type -> plugin.key_material_storage.v1.LoadResponse
+	7, // 10: plugin.key_material_storage.v1.KeyMaterialStorage.ListIDs:output_type -> plugin.key_material_storage.v1.ListIDsResponse
+	8, // [8:11] is the sub-list for method output_type
+	5, // [5:8] is the sub-list for method input_type
+	5, // [5:5] is the sub-list for extension type_name
+	5, // [5:5] is the sub-list for extension extendee
+	0, // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_plugin_key_material_storage_v1_key_material_storage_proto_init() }
@@ -554,7 +592,7 @@ func file_plugin_key_material_storage_v1_key_material_storage_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_plugin_key_material_storage_v1_key_material_storage_proto_rawDesc), len(file_plugin_key_material_storage_v1_key_material_storage_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   8,
+			NumMessages:   9,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
