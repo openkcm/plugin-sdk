@@ -7,117 +7,91 @@ import "google/protobuf/timestamp.proto";
 
 // KeyMaterialStorage defines the universal interface for persisting and
 // retrieving opaque blobs of data, typically wrapped key material.
-// This allows Krypton to delegate storage to any backend (DB, Vault, File)
-// in a completely generic way.
 service KeyMaterialStorage {
-  // Store persists a single item. This operation must be idempotent.
   rpc Store(StoreRequest) returns (StoreResponse);
-
-  // Load retrieves a single item by its unique ID.
   rpc Load(LoadRequest) returns (LoadResponse);
+  rpc Delete(DeleteRequest) returns (DeleteResponse);
 
-  // ListIDs streams back all IDs that match a given prefix within a namespace.
+  // ListIDs returns batches of IDs matching the criteria.
   rpc ListIDs(ListIDsRequest) returns (stream ListIDsResponse);
 }
 
 // KeyMaterial represents a single unit of stored data.
-// It is intentionally generic and algorithm-agnostic.
 message KeyMaterial {
-  // REQUIRED: The unique identifier for this item.
-  // e.g., "L2/01H8XGJWBWBAQ9Z7J6C6XJ6C6X"
-  string id = 1 [
-    (buf.validate.field).required = true,
-    (buf.validate.field).string.min_len = 1
-  ];
-
-  // REQUIRED: The opaque data blob.
-  // This typically contains the encrypted/wrapped key material.
-  bytes data = 2 [
-    (buf.validate.field).required = true,
-    (buf.validate.field).bytes.min_len = 1
-  ];
-
-  // REQUIRED: The name of algorithm
-  // This typically contains the encrypted/wrapped key material.
-  string algorithm = 3 [
-    (buf.validate.field).required = true,
-    (buf.validate.field).string.min_len = 1
-  ];
+  string id = 1 [(buf.validate.field).string.min_len = 1];
+  bytes data = 2 [(buf.validate.field).bytes.min_len = 1];
+  string algorithm = 3 [(buf.validate.field).string.min_len = 1];
 
   optional string previous_version_id = 4;
-
   optional string checksum = 5;
-
-  optional google.protobuf.Timestamp created_at = 6;
-
-  map<string, string> tags = 100;
+  google.protobuf.Timestamp created_at = 6;
+  map<string, string> tags = 7;
 }
 
-// --- Store RPC Messages ---
-
-message StoreRequest {
-  // REQUIRED: The namespace for this key material. This provides isolation
-  // and can be mapped to a tenant, project, or customer ID.
-  string namespace = 1 [
-    (buf.validate.field).required = true,
-    (buf.validate.field).string.min_len = 1
-  ];
-
-  // REQUIRED: The item to be stored.
-  KeyMaterial key_material = 2 [(buf.validate.field).required = true];
-}
-
-message StoreResponse {
-  // This response is empty on success. Errors are communicated via gRPC status codes.
-}
-
-// --- Load RPC Messages ---
-
-message LoadRequest {
-  // REQUIRED: The namespace for the item.
-  string namespace = 1 [
-    (buf.validate.field).required = true,
-    (buf.validate.field).string.min_len = 1
-  ];
-
-  // REQUIRED: The unique ID of the item to retrieve.
-  string id = 2 [
-    (buf.validate.field).required = true,
-    (buf.validate.field).string.min_len = 1
-  ];
-}
-
-message LoadResponse {
-  // The retrieved key material.
-  // If the key is not found, the RPC will return a `NOT_FOUND` gRPC error.
-  KeyMaterial key_material = 1;
-}
-
-message ListIDsRequest {
-  // REQUIRED: The namespace to search in.
-  string namespace = 1 [
-    (buf.validate.field).required = true,
-    (buf.validate.field).string.min_len = 1
-  ];
-
-  // OPTIONAL: Filter criteria for listing IDs.
-  // If not provided, all IDs in the namespace are returned.
-  optional Filter filter = 2;
-}
+// --- Filter Refactor ---
 
 message Filter {
-  // OPTIONAL: Filter IDs that start with this string.
-  optional string prefix = 1;
+  // Pattern-based matching for the primary Key ID.
+  message StringMatch {
+    oneof type {
+      string prefix = 1;
+      string suffix = 2;
+      string contains = 3;
+      string exact = 4;
+    }
+  }
+  optional StringMatch id = 1;
 
-  // OPTIONAL: Filter IDs that end with this string.
-  optional string suffix = 2;
+  // Filter by cryptographic algorithm (e.g., "AES-256-GCM").
+  optional string algorithm = 2;
 
-  // OPTIONAL: Filter IDs that contain this string.
-  optional string contains = 3;
+  // Filter by metadata tags (e.g., {"env": "prod"}).
+  // Match is typically performed as "contains all".
+  map<string, string> tags = 3;
+
+  // Filter by the time the key was created.
+  message TimeRange {
+    google.protobuf.Timestamp from = 1;
+    google.protobuf.Timestamp to = 2;
+  }
+  optional TimeRange created_at = 4;
+}
+
+// --- RPC Messages ---
+
+message ListIDsRequest {
+  string namespace = 1 [(buf.validate.field).string.min_len = 1];
+  optional Filter filter = 2;
+
+  // Pagination support
+  uint32 page_size = 3;
+  string page_token = 4;
 }
 
 message ListIDsResponse {
-  // A list of key material IDs that match the request criteria.
-  // The server may stream multiple responses, each containing a batch of IDs.
   repeated string ids = 1;
+  string next_page_token = 2;
 }
+
+message StoreRequest {
+  string namespace = 1 [(buf.validate.field).string.min_len = 1];
+  KeyMaterial key_material = 2 [(buf.validate.field).required = true];
+}
+
+message StoreResponse {}
+
+message LoadRequest {
+  string namespace = 1 [(buf.validate.field).string.min_len = 1];
+  string id = 2 [(buf.validate.field).string.min_len = 1];
+}
+
+message LoadResponse {
+  KeyMaterial key_material = 1;
+}
+
+message DeleteRequest {
+  string namespace = 1 [(buf.validate.field).string.min_len = 1];
+  string id = 2 [(buf.validate.field).string.min_len = 1];
+}
+
+message DeleteResponse {}

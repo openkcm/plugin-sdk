@@ -22,6 +22,7 @@ const _ = grpc.SupportPackageIsVersion9
 const (
 	KeyMaterialStorage_Store_FullMethodName   = "/plugin.key_material_storage.v1.KeyMaterialStorage/Store"
 	KeyMaterialStorage_Load_FullMethodName    = "/plugin.key_material_storage.v1.KeyMaterialStorage/Load"
+	KeyMaterialStorage_Delete_FullMethodName  = "/plugin.key_material_storage.v1.KeyMaterialStorage/Delete"
 	KeyMaterialStorage_ListIDs_FullMethodName = "/plugin.key_material_storage.v1.KeyMaterialStorage/ListIDs"
 )
 
@@ -31,14 +32,11 @@ const (
 //
 // KeyMaterialStorage defines the universal interface for persisting and
 // retrieving opaque blobs of data, typically wrapped key material.
-// This allows Krypton to delegate storage to any backend (DB, Vault, File)
-// in a completely generic way.
 type KeyMaterialStorageClient interface {
-	// Store persists a single item. This operation must be idempotent.
 	Store(ctx context.Context, in *StoreRequest, opts ...grpc.CallOption) (*StoreResponse, error)
-	// Load retrieves a single item by its unique ID.
 	Load(ctx context.Context, in *LoadRequest, opts ...grpc.CallOption) (*LoadResponse, error)
-	// ListIDs streams back all IDs that match a given prefix within a namespace.
+	Delete(ctx context.Context, in *DeleteRequest, opts ...grpc.CallOption) (*DeleteResponse, error)
+	// ListIDs returns batches of IDs matching the criteria.
 	ListIDs(ctx context.Context, in *ListIDsRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[ListIDsResponse], error)
 }
 
@@ -70,6 +68,16 @@ func (c *keyMaterialStorageClient) Load(ctx context.Context, in *LoadRequest, op
 	return out, nil
 }
 
+func (c *keyMaterialStorageClient) Delete(ctx context.Context, in *DeleteRequest, opts ...grpc.CallOption) (*DeleteResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteResponse)
+	err := c.cc.Invoke(ctx, KeyMaterialStorage_Delete_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *keyMaterialStorageClient) ListIDs(ctx context.Context, in *ListIDsRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[ListIDsResponse], error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	stream, err := c.cc.NewStream(ctx, &KeyMaterialStorage_ServiceDesc.Streams[0], KeyMaterialStorage_ListIDs_FullMethodName, cOpts...)
@@ -95,14 +103,11 @@ type KeyMaterialStorage_ListIDsClient = grpc.ServerStreamingClient[ListIDsRespon
 //
 // KeyMaterialStorage defines the universal interface for persisting and
 // retrieving opaque blobs of data, typically wrapped key material.
-// This allows Krypton to delegate storage to any backend (DB, Vault, File)
-// in a completely generic way.
 type KeyMaterialStorageServer interface {
-	// Store persists a single item. This operation must be idempotent.
 	Store(context.Context, *StoreRequest) (*StoreResponse, error)
-	// Load retrieves a single item by its unique ID.
 	Load(context.Context, *LoadRequest) (*LoadResponse, error)
-	// ListIDs streams back all IDs that match a given prefix within a namespace.
+	Delete(context.Context, *DeleteRequest) (*DeleteResponse, error)
+	// ListIDs returns batches of IDs matching the criteria.
 	ListIDs(*ListIDsRequest, grpc.ServerStreamingServer[ListIDsResponse]) error
 	mustEmbedUnimplementedKeyMaterialStorageServer()
 }
@@ -119,6 +124,9 @@ func (UnimplementedKeyMaterialStorageServer) Store(context.Context, *StoreReques
 }
 func (UnimplementedKeyMaterialStorageServer) Load(context.Context, *LoadRequest) (*LoadResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method Load not implemented")
+}
+func (UnimplementedKeyMaterialStorageServer) Delete(context.Context, *DeleteRequest) (*DeleteResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method Delete not implemented")
 }
 func (UnimplementedKeyMaterialStorageServer) ListIDs(*ListIDsRequest, grpc.ServerStreamingServer[ListIDsResponse]) error {
 	return status.Error(codes.Unimplemented, "method ListIDs not implemented")
@@ -180,6 +188,24 @@ func _KeyMaterialStorage_Load_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _KeyMaterialStorage_Delete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(KeyMaterialStorageServer).Delete(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: KeyMaterialStorage_Delete_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(KeyMaterialStorageServer).Delete(ctx, req.(*DeleteRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _KeyMaterialStorage_ListIDs_Handler(srv interface{}, stream grpc.ServerStream) error {
 	m := new(ListIDsRequest)
 	if err := stream.RecvMsg(m); err != nil {
@@ -205,6 +231,10 @@ var KeyMaterialStorage_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Load",
 			Handler:    _KeyMaterialStorage_Load_Handler,
+		},
+		{
+			MethodName: "Delete",
+			Handler:    _KeyMaterialStorage_Delete_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

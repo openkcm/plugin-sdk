@@ -63,6 +63,35 @@ func (m *KeyMaterial) validate(all bool) error {
 
 	// no validation rules for Algorithm
 
+	if all {
+		switch v := interface{}(m.GetCreatedAt()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, KeyMaterialValidationError{
+					field:  "CreatedAt",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, KeyMaterialValidationError{
+					field:  "CreatedAt",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetCreatedAt()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return KeyMaterialValidationError{
+				field:  "CreatedAt",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
 	// no validation rules for Tags
 
 	if m.PreviousVersionId != nil {
@@ -71,39 +100,6 @@ func (m *KeyMaterial) validate(all bool) error {
 
 	if m.Checksum != nil {
 		// no validation rules for Checksum
-	}
-
-	if m.CreatedAt != nil {
-
-		if all {
-			switch v := interface{}(m.GetCreatedAt()).(type) {
-			case interface{ ValidateAll() error }:
-				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, KeyMaterialValidationError{
-						field:  "CreatedAt",
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			case interface{ Validate() error }:
-				if err := v.Validate(); err != nil {
-					errors = append(errors, KeyMaterialValidationError{
-						field:  "CreatedAt",
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			}
-		} else if v, ok := interface{}(m.GetCreatedAt()).(interface{ Validate() error }); ok {
-			if err := v.Validate(); err != nil {
-				return KeyMaterialValidationError{
-					field:  "CreatedAt",
-					reason: "embedded message failed validation",
-					cause:  err,
-				}
-			}
-		}
-
 	}
 
 	if len(errors) > 0 {
@@ -182,6 +178,417 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = KeyMaterialValidationError{}
+
+// Validate checks the field values on Filter with the rules defined in the
+// proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *Filter) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on Filter with the rules defined in the
+// proto definition for this message. If any rules are violated, the result is
+// a list of violation errors wrapped in FilterMultiError, or nil if none found.
+func (m *Filter) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *Filter) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Tags
+
+	if m.Id != nil {
+
+		if all {
+			switch v := interface{}(m.GetId()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, FilterValidationError{
+						field:  "Id",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, FilterValidationError{
+						field:  "Id",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetId()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return FilterValidationError{
+					field:  "Id",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if m.Algorithm != nil {
+		// no validation rules for Algorithm
+	}
+
+	if m.CreatedAt != nil {
+
+		if all {
+			switch v := interface{}(m.GetCreatedAt()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, FilterValidationError{
+						field:  "CreatedAt",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, FilterValidationError{
+						field:  "CreatedAt",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetCreatedAt()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return FilterValidationError{
+					field:  "CreatedAt",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return FilterMultiError(errors)
+	}
+
+	return nil
+}
+
+// FilterMultiError is an error wrapping multiple validation errors returned by
+// Filter.ValidateAll() if the designated constraints aren't met.
+type FilterMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m FilterMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m FilterMultiError) AllErrors() []error { return m }
+
+// FilterValidationError is the validation error returned by Filter.Validate if
+// the designated constraints aren't met.
+type FilterValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e FilterValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e FilterValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e FilterValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e FilterValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e FilterValidationError) ErrorName() string { return "FilterValidationError" }
+
+// Error satisfies the builtin error interface
+func (e FilterValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sFilter.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = FilterValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = FilterValidationError{}
+
+// Validate checks the field values on ListIDsRequest with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *ListIDsRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ListIDsRequest with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in ListIDsRequestMultiError,
+// or nil if none found.
+func (m *ListIDsRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ListIDsRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Namespace
+
+	// no validation rules for PageSize
+
+	// no validation rules for PageToken
+
+	if m.Filter != nil {
+
+		if all {
+			switch v := interface{}(m.GetFilter()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, ListIDsRequestValidationError{
+						field:  "Filter",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, ListIDsRequestValidationError{
+						field:  "Filter",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetFilter()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return ListIDsRequestValidationError{
+					field:  "Filter",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return ListIDsRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// ListIDsRequestMultiError is an error wrapping multiple validation errors
+// returned by ListIDsRequest.ValidateAll() if the designated constraints
+// aren't met.
+type ListIDsRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ListIDsRequestMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ListIDsRequestMultiError) AllErrors() []error { return m }
+
+// ListIDsRequestValidationError is the validation error returned by
+// ListIDsRequest.Validate if the designated constraints aren't met.
+type ListIDsRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ListIDsRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ListIDsRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ListIDsRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ListIDsRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ListIDsRequestValidationError) ErrorName() string { return "ListIDsRequestValidationError" }
+
+// Error satisfies the builtin error interface
+func (e ListIDsRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sListIDsRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ListIDsRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ListIDsRequestValidationError{}
+
+// Validate checks the field values on ListIDsResponse with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *ListIDsResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ListIDsResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// ListIDsResponseMultiError, or nil if none found.
+func (m *ListIDsResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ListIDsResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for NextPageToken
+
+	if len(errors) > 0 {
+		return ListIDsResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// ListIDsResponseMultiError is an error wrapping multiple validation errors
+// returned by ListIDsResponse.ValidateAll() if the designated constraints
+// aren't met.
+type ListIDsResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ListIDsResponseMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ListIDsResponseMultiError) AllErrors() []error { return m }
+
+// ListIDsResponseValidationError is the validation error returned by
+// ListIDsResponse.Validate if the designated constraints aren't met.
+type ListIDsResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ListIDsResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ListIDsResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ListIDsResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ListIDsResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ListIDsResponseValidationError) ErrorName() string { return "ListIDsResponseValidationError" }
+
+// Error satisfies the builtin error interface
+func (e ListIDsResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sListIDsResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ListIDsResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ListIDsResponseValidationError{}
 
 // Validate checks the field values on StoreRequest with the rules defined in
 // the proto definition for this message. If any rules are violated, the first
@@ -644,22 +1051,22 @@ var _ interface {
 	ErrorName() string
 } = LoadResponseValidationError{}
 
-// Validate checks the field values on ListIDsRequest with the rules defined in
+// Validate checks the field values on DeleteRequest with the rules defined in
 // the proto definition for this message. If any rules are violated, the first
 // error encountered is returned, or nil if there are no violations.
-func (m *ListIDsRequest) Validate() error {
+func (m *DeleteRequest) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on ListIDsRequest with the rules defined
+// ValidateAll checks the field values on DeleteRequest with the rules defined
 // in the proto definition for this message. If any rules are violated, the
-// result is a list of violation errors wrapped in ListIDsRequestMultiError,
-// or nil if none found.
-func (m *ListIDsRequest) ValidateAll() error {
+// result is a list of violation errors wrapped in DeleteRequestMultiError, or
+// nil if none found.
+func (m *DeleteRequest) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *ListIDsRequest) validate(all bool) error {
+func (m *DeleteRequest) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -668,53 +1075,22 @@ func (m *ListIDsRequest) validate(all bool) error {
 
 	// no validation rules for Namespace
 
-	if m.Filter != nil {
-
-		if all {
-			switch v := interface{}(m.GetFilter()).(type) {
-			case interface{ ValidateAll() error }:
-				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, ListIDsRequestValidationError{
-						field:  "Filter",
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			case interface{ Validate() error }:
-				if err := v.Validate(); err != nil {
-					errors = append(errors, ListIDsRequestValidationError{
-						field:  "Filter",
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			}
-		} else if v, ok := interface{}(m.GetFilter()).(interface{ Validate() error }); ok {
-			if err := v.Validate(); err != nil {
-				return ListIDsRequestValidationError{
-					field:  "Filter",
-					reason: "embedded message failed validation",
-					cause:  err,
-				}
-			}
-		}
-
-	}
+	// no validation rules for Id
 
 	if len(errors) > 0 {
-		return ListIDsRequestMultiError(errors)
+		return DeleteRequestMultiError(errors)
 	}
 
 	return nil
 }
 
-// ListIDsRequestMultiError is an error wrapping multiple validation errors
-// returned by ListIDsRequest.ValidateAll() if the designated constraints
+// DeleteRequestMultiError is an error wrapping multiple validation errors
+// returned by DeleteRequest.ValidateAll() if the designated constraints
 // aren't met.
-type ListIDsRequestMultiError []error
+type DeleteRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m ListIDsRequestMultiError) Error() string {
+func (m DeleteRequestMultiError) Error() string {
 	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -723,11 +1099,11 @@ func (m ListIDsRequestMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m ListIDsRequestMultiError) AllErrors() []error { return m }
+func (m DeleteRequestMultiError) AllErrors() []error { return m }
 
-// ListIDsRequestValidationError is the validation error returned by
-// ListIDsRequest.Validate if the designated constraints aren't met.
-type ListIDsRequestValidationError struct {
+// DeleteRequestValidationError is the validation error returned by
+// DeleteRequest.Validate if the designated constraints aren't met.
+type DeleteRequestValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -735,22 +1111,22 @@ type ListIDsRequestValidationError struct {
 }
 
 // Field function returns field value.
-func (e ListIDsRequestValidationError) Field() string { return e.field }
+func (e DeleteRequestValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e ListIDsRequestValidationError) Reason() string { return e.reason }
+func (e DeleteRequestValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e ListIDsRequestValidationError) Cause() error { return e.cause }
+func (e DeleteRequestValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e ListIDsRequestValidationError) Key() bool { return e.key }
+func (e DeleteRequestValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e ListIDsRequestValidationError) ErrorName() string { return "ListIDsRequestValidationError" }
+func (e DeleteRequestValidationError) ErrorName() string { return "DeleteRequestValidationError" }
 
 // Error satisfies the builtin error interface
-func (e ListIDsRequestValidationError) Error() string {
+func (e DeleteRequestValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -762,14 +1138,14 @@ func (e ListIDsRequestValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sListIDsRequest.%s: %s%s",
+		"invalid %sDeleteRequest.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = ListIDsRequestValidationError{}
+var _ error = DeleteRequestValidationError{}
 
 var _ interface {
 	Field() string
@@ -777,54 +1153,44 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = ListIDsRequestValidationError{}
+} = DeleteRequestValidationError{}
 
-// Validate checks the field values on Filter with the rules defined in the
-// proto definition for this message. If any rules are violated, the first
+// Validate checks the field values on DeleteResponse with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
 // error encountered is returned, or nil if there are no violations.
-func (m *Filter) Validate() error {
+func (m *DeleteResponse) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on Filter with the rules defined in the
-// proto definition for this message. If any rules are violated, the result is
-// a list of violation errors wrapped in FilterMultiError, or nil if none found.
-func (m *Filter) ValidateAll() error {
+// ValidateAll checks the field values on DeleteResponse with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in DeleteResponseMultiError,
+// or nil if none found.
+func (m *DeleteResponse) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *Filter) validate(all bool) error {
+func (m *DeleteResponse) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
 
 	var errors []error
 
-	if m.Prefix != nil {
-		// no validation rules for Prefix
-	}
-
-	if m.Suffix != nil {
-		// no validation rules for Suffix
-	}
-
-	if m.Contains != nil {
-		// no validation rules for Contains
-	}
-
 	if len(errors) > 0 {
-		return FilterMultiError(errors)
+		return DeleteResponseMultiError(errors)
 	}
 
 	return nil
 }
 
-// FilterMultiError is an error wrapping multiple validation errors returned by
-// Filter.ValidateAll() if the designated constraints aren't met.
-type FilterMultiError []error
+// DeleteResponseMultiError is an error wrapping multiple validation errors
+// returned by DeleteResponse.ValidateAll() if the designated constraints
+// aren't met.
+type DeleteResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m FilterMultiError) Error() string {
+func (m DeleteResponseMultiError) Error() string {
 	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -833,11 +1199,11 @@ func (m FilterMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m FilterMultiError) AllErrors() []error { return m }
+func (m DeleteResponseMultiError) AllErrors() []error { return m }
 
-// FilterValidationError is the validation error returned by Filter.Validate if
-// the designated constraints aren't met.
-type FilterValidationError struct {
+// DeleteResponseValidationError is the validation error returned by
+// DeleteResponse.Validate if the designated constraints aren't met.
+type DeleteResponseValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -845,22 +1211,22 @@ type FilterValidationError struct {
 }
 
 // Field function returns field value.
-func (e FilterValidationError) Field() string { return e.field }
+func (e DeleteResponseValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e FilterValidationError) Reason() string { return e.reason }
+func (e DeleteResponseValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e FilterValidationError) Cause() error { return e.cause }
+func (e DeleteResponseValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e FilterValidationError) Key() bool { return e.key }
+func (e DeleteResponseValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e FilterValidationError) ErrorName() string { return "FilterValidationError" }
+func (e DeleteResponseValidationError) ErrorName() string { return "DeleteResponseValidationError" }
 
 // Error satisfies the builtin error interface
-func (e FilterValidationError) Error() string {
+func (e DeleteResponseValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -872,14 +1238,14 @@ func (e FilterValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sFilter.%s: %s%s",
+		"invalid %sDeleteResponse.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = FilterValidationError{}
+var _ error = DeleteResponseValidationError{}
 
 var _ interface {
 	Field() string
@@ -887,44 +1253,97 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = FilterValidationError{}
+} = DeleteResponseValidationError{}
 
-// Validate checks the field values on ListIDsResponse with the rules defined
-// in the proto definition for this message. If any rules are violated, the
-// first error encountered is returned, or nil if there are no violations.
-func (m *ListIDsResponse) Validate() error {
+// Validate checks the field values on Filter_StringMatch with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *Filter_StringMatch) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on ListIDsResponse with the rules
+// ValidateAll checks the field values on Filter_StringMatch with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the result is a list of violation errors wrapped in
-// ListIDsResponseMultiError, or nil if none found.
-func (m *ListIDsResponse) ValidateAll() error {
+// Filter_StringMatchMultiError, or nil if none found.
+func (m *Filter_StringMatch) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *ListIDsResponse) validate(all bool) error {
+func (m *Filter_StringMatch) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
 
 	var errors []error
 
+	switch v := m.Type.(type) {
+	case *Filter_StringMatch_Prefix:
+		if v == nil {
+			err := Filter_StringMatchValidationError{
+				field:  "Type",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+		// no validation rules for Prefix
+	case *Filter_StringMatch_Suffix:
+		if v == nil {
+			err := Filter_StringMatchValidationError{
+				field:  "Type",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+		// no validation rules for Suffix
+	case *Filter_StringMatch_Contains:
+		if v == nil {
+			err := Filter_StringMatchValidationError{
+				field:  "Type",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+		// no validation rules for Contains
+	case *Filter_StringMatch_Exact:
+		if v == nil {
+			err := Filter_StringMatchValidationError{
+				field:  "Type",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+		// no validation rules for Exact
+	default:
+		_ = v // ensures v is used
+	}
+
 	if len(errors) > 0 {
-		return ListIDsResponseMultiError(errors)
+		return Filter_StringMatchMultiError(errors)
 	}
 
 	return nil
 }
 
-// ListIDsResponseMultiError is an error wrapping multiple validation errors
-// returned by ListIDsResponse.ValidateAll() if the designated constraints
+// Filter_StringMatchMultiError is an error wrapping multiple validation errors
+// returned by Filter_StringMatch.ValidateAll() if the designated constraints
 // aren't met.
-type ListIDsResponseMultiError []error
+type Filter_StringMatchMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m ListIDsResponseMultiError) Error() string {
+func (m Filter_StringMatchMultiError) Error() string {
 	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -933,11 +1352,11 @@ func (m ListIDsResponseMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m ListIDsResponseMultiError) AllErrors() []error { return m }
+func (m Filter_StringMatchMultiError) AllErrors() []error { return m }
 
-// ListIDsResponseValidationError is the validation error returned by
-// ListIDsResponse.Validate if the designated constraints aren't met.
-type ListIDsResponseValidationError struct {
+// Filter_StringMatchValidationError is the validation error returned by
+// Filter_StringMatch.Validate if the designated constraints aren't met.
+type Filter_StringMatchValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -945,22 +1364,24 @@ type ListIDsResponseValidationError struct {
 }
 
 // Field function returns field value.
-func (e ListIDsResponseValidationError) Field() string { return e.field }
+func (e Filter_StringMatchValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e ListIDsResponseValidationError) Reason() string { return e.reason }
+func (e Filter_StringMatchValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e ListIDsResponseValidationError) Cause() error { return e.cause }
+func (e Filter_StringMatchValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e ListIDsResponseValidationError) Key() bool { return e.key }
+func (e Filter_StringMatchValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e ListIDsResponseValidationError) ErrorName() string { return "ListIDsResponseValidationError" }
+func (e Filter_StringMatchValidationError) ErrorName() string {
+	return "Filter_StringMatchValidationError"
+}
 
 // Error satisfies the builtin error interface
-func (e ListIDsResponseValidationError) Error() string {
+func (e Filter_StringMatchValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -972,14 +1393,14 @@ func (e ListIDsResponseValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sListIDsResponse.%s: %s%s",
+		"invalid %sFilter_StringMatch.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = ListIDsResponseValidationError{}
+var _ error = Filter_StringMatchValidationError{}
 
 var _ interface {
 	Field() string
@@ -987,4 +1408,162 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = ListIDsResponseValidationError{}
+} = Filter_StringMatchValidationError{}
+
+// Validate checks the field values on Filter_TimeRange with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *Filter_TimeRange) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on Filter_TimeRange with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// Filter_TimeRangeMultiError, or nil if none found.
+func (m *Filter_TimeRange) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *Filter_TimeRange) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetFrom()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, Filter_TimeRangeValidationError{
+					field:  "From",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, Filter_TimeRangeValidationError{
+					field:  "From",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetFrom()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return Filter_TimeRangeValidationError{
+				field:  "From",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetTo()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, Filter_TimeRangeValidationError{
+					field:  "To",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, Filter_TimeRangeValidationError{
+					field:  "To",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetTo()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return Filter_TimeRangeValidationError{
+				field:  "To",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return Filter_TimeRangeMultiError(errors)
+	}
+
+	return nil
+}
+
+// Filter_TimeRangeMultiError is an error wrapping multiple validation errors
+// returned by Filter_TimeRange.ValidateAll() if the designated constraints
+// aren't met.
+type Filter_TimeRangeMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m Filter_TimeRangeMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m Filter_TimeRangeMultiError) AllErrors() []error { return m }
+
+// Filter_TimeRangeValidationError is the validation error returned by
+// Filter_TimeRange.Validate if the designated constraints aren't met.
+type Filter_TimeRangeValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e Filter_TimeRangeValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e Filter_TimeRangeValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e Filter_TimeRangeValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e Filter_TimeRangeValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e Filter_TimeRangeValidationError) ErrorName() string { return "Filter_TimeRangeValidationError" }
+
+// Error satisfies the builtin error interface
+func (e Filter_TimeRangeValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sFilter_TimeRange.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = Filter_TimeRangeValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = Filter_TimeRangeValidationError{}

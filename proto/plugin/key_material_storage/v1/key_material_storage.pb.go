@@ -25,22 +25,15 @@ const (
 )
 
 // KeyMaterial represents a single unit of stored data.
-// It is intentionally generic and algorithm-agnostic.
 type KeyMaterial struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// REQUIRED: The unique identifier for this item.
-	// e.g., "L2/01H8XGJWBWBAQ9Z7J6C6XJ6C6X"
-	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	// REQUIRED: The opaque data blob.
-	// This typically contains the encrypted/wrapped key material.
-	Data []byte `protobuf:"bytes,2,opt,name=data,proto3" json:"data,omitempty"`
-	// REQUIRED: The name of algorithm
-	// This typically contains the encrypted/wrapped key material.
+	state             protoimpl.MessageState `protogen:"open.v1"`
+	Id                string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Data              []byte                 `protobuf:"bytes,2,opt,name=data,proto3" json:"data,omitempty"`
 	Algorithm         string                 `protobuf:"bytes,3,opt,name=algorithm,proto3" json:"algorithm,omitempty"`
 	PreviousVersionId *string                `protobuf:"bytes,4,opt,name=previous_version_id,json=previousVersionId,proto3,oneof" json:"previous_version_id,omitempty"`
 	Checksum          *string                `protobuf:"bytes,5,opt,name=checksum,proto3,oneof" json:"checksum,omitempty"`
-	CreatedAt         *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=created_at,json=createdAt,proto3,oneof" json:"created_at,omitempty"`
-	Tags              map[string]string      `protobuf:"bytes,100,rep,name=tags,proto3" json:"tags,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	CreatedAt         *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	Tags              map[string]string      `protobuf:"bytes,7,rep,name=tags,proto3" json:"tags,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	unknownFields     protoimpl.UnknownFields
 	sizeCache         protoimpl.SizeCache
 }
@@ -124,20 +117,209 @@ func (x *KeyMaterial) GetTags() map[string]string {
 	return nil
 }
 
-type StoreRequest struct {
+type Filter struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// REQUIRED: The namespace for this key material. This provides isolation
-	// and can be mapped to a tenant, project, or customer ID.
-	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	// REQUIRED: The item to be stored.
-	KeyMaterial   *KeyMaterial `protobuf:"bytes,2,opt,name=key_material,json=keyMaterial,proto3" json:"key_material,omitempty"`
+	Id    *Filter_StringMatch    `protobuf:"bytes,1,opt,name=id,proto3,oneof" json:"id,omitempty"`
+	// Filter by cryptographic algorithm (e.g., "AES-256-GCM").
+	Algorithm *string `protobuf:"bytes,2,opt,name=algorithm,proto3,oneof" json:"algorithm,omitempty"`
+	// Filter by metadata tags (e.g., {"env": "prod"}).
+	// Match is typically performed as "contains all".
+	Tags          map[string]string `protobuf:"bytes,3,rep,name=tags,proto3" json:"tags,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	CreatedAt     *Filter_TimeRange `protobuf:"bytes,4,opt,name=created_at,json=createdAt,proto3,oneof" json:"created_at,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Filter) Reset() {
+	*x = Filter{}
+	mi := &file_plugin_key_material_storage_v1_key_material_storage_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Filter) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Filter) ProtoMessage() {}
+
+func (x *Filter) ProtoReflect() protoreflect.Message {
+	mi := &file_plugin_key_material_storage_v1_key_material_storage_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Filter.ProtoReflect.Descriptor instead.
+func (*Filter) Descriptor() ([]byte, []int) {
+	return file_plugin_key_material_storage_v1_key_material_storage_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *Filter) GetId() *Filter_StringMatch {
+	if x != nil {
+		return x.Id
+	}
+	return nil
+}
+
+func (x *Filter) GetAlgorithm() string {
+	if x != nil && x.Algorithm != nil {
+		return *x.Algorithm
+	}
+	return ""
+}
+
+func (x *Filter) GetTags() map[string]string {
+	if x != nil {
+		return x.Tags
+	}
+	return nil
+}
+
+func (x *Filter) GetCreatedAt() *Filter_TimeRange {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return nil
+}
+
+type ListIDsRequest struct {
+	state     protoimpl.MessageState `protogen:"open.v1"`
+	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	Filter    *Filter                `protobuf:"bytes,2,opt,name=filter,proto3,oneof" json:"filter,omitempty"`
+	// Pagination support
+	PageSize      uint32 `protobuf:"varint,3,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	PageToken     string `protobuf:"bytes,4,opt,name=page_token,json=pageToken,proto3" json:"page_token,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListIDsRequest) Reset() {
+	*x = ListIDsRequest{}
+	mi := &file_plugin_key_material_storage_v1_key_material_storage_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListIDsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListIDsRequest) ProtoMessage() {}
+
+func (x *ListIDsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_plugin_key_material_storage_v1_key_material_storage_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListIDsRequest.ProtoReflect.Descriptor instead.
+func (*ListIDsRequest) Descriptor() ([]byte, []int) {
+	return file_plugin_key_material_storage_v1_key_material_storage_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *ListIDsRequest) GetNamespace() string {
+	if x != nil {
+		return x.Namespace
+	}
+	return ""
+}
+
+func (x *ListIDsRequest) GetFilter() *Filter {
+	if x != nil {
+		return x.Filter
+	}
+	return nil
+}
+
+func (x *ListIDsRequest) GetPageSize() uint32 {
+	if x != nil {
+		return x.PageSize
+	}
+	return 0
+}
+
+func (x *ListIDsRequest) GetPageToken() string {
+	if x != nil {
+		return x.PageToken
+	}
+	return ""
+}
+
+type ListIDsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Ids           []string               `protobuf:"bytes,1,rep,name=ids,proto3" json:"ids,omitempty"`
+	NextPageToken string                 `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListIDsResponse) Reset() {
+	*x = ListIDsResponse{}
+	mi := &file_plugin_key_material_storage_v1_key_material_storage_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListIDsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListIDsResponse) ProtoMessage() {}
+
+func (x *ListIDsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_plugin_key_material_storage_v1_key_material_storage_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListIDsResponse.ProtoReflect.Descriptor instead.
+func (*ListIDsResponse) Descriptor() ([]byte, []int) {
+	return file_plugin_key_material_storage_v1_key_material_storage_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *ListIDsResponse) GetIds() []string {
+	if x != nil {
+		return x.Ids
+	}
+	return nil
+}
+
+func (x *ListIDsResponse) GetNextPageToken() string {
+	if x != nil {
+		return x.NextPageToken
+	}
+	return ""
+}
+
+type StoreRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Namespace     string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	KeyMaterial   *KeyMaterial           `protobuf:"bytes,2,opt,name=key_material,json=keyMaterial,proto3" json:"key_material,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *StoreRequest) Reset() {
 	*x = StoreRequest{}
-	mi := &file_plugin_key_material_storage_v1_key_material_storage_proto_msgTypes[1]
+	mi := &file_plugin_key_material_storage_v1_key_material_storage_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -149,7 +331,7 @@ func (x *StoreRequest) String() string {
 func (*StoreRequest) ProtoMessage() {}
 
 func (x *StoreRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_key_material_storage_v1_key_material_storage_proto_msgTypes[1]
+	mi := &file_plugin_key_material_storage_v1_key_material_storage_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -162,7 +344,7 @@ func (x *StoreRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StoreRequest.ProtoReflect.Descriptor instead.
 func (*StoreRequest) Descriptor() ([]byte, []int) {
-	return file_plugin_key_material_storage_v1_key_material_storage_proto_rawDescGZIP(), []int{1}
+	return file_plugin_key_material_storage_v1_key_material_storage_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *StoreRequest) GetNamespace() string {
@@ -187,7 +369,7 @@ type StoreResponse struct {
 
 func (x *StoreResponse) Reset() {
 	*x = StoreResponse{}
-	mi := &file_plugin_key_material_storage_v1_key_material_storage_proto_msgTypes[2]
+	mi := &file_plugin_key_material_storage_v1_key_material_storage_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -199,7 +381,7 @@ func (x *StoreResponse) String() string {
 func (*StoreResponse) ProtoMessage() {}
 
 func (x *StoreResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_key_material_storage_v1_key_material_storage_proto_msgTypes[2]
+	mi := &file_plugin_key_material_storage_v1_key_material_storage_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -212,22 +394,20 @@ func (x *StoreResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StoreResponse.ProtoReflect.Descriptor instead.
 func (*StoreResponse) Descriptor() ([]byte, []int) {
-	return file_plugin_key_material_storage_v1_key_material_storage_proto_rawDescGZIP(), []int{2}
+	return file_plugin_key_material_storage_v1_key_material_storage_proto_rawDescGZIP(), []int{5}
 }
 
 type LoadRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// REQUIRED: The namespace for the item.
-	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	// REQUIRED: The unique ID of the item to retrieve.
-	Id            string `protobuf:"bytes,2,opt,name=id,proto3" json:"id,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Namespace     string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	Id            string                 `protobuf:"bytes,2,opt,name=id,proto3" json:"id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *LoadRequest) Reset() {
 	*x = LoadRequest{}
-	mi := &file_plugin_key_material_storage_v1_key_material_storage_proto_msgTypes[3]
+	mi := &file_plugin_key_material_storage_v1_key_material_storage_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -239,7 +419,7 @@ func (x *LoadRequest) String() string {
 func (*LoadRequest) ProtoMessage() {}
 
 func (x *LoadRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_key_material_storage_v1_key_material_storage_proto_msgTypes[3]
+	mi := &file_plugin_key_material_storage_v1_key_material_storage_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -252,7 +432,7 @@ func (x *LoadRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LoadRequest.ProtoReflect.Descriptor instead.
 func (*LoadRequest) Descriptor() ([]byte, []int) {
-	return file_plugin_key_material_storage_v1_key_material_storage_proto_rawDescGZIP(), []int{3}
+	return file_plugin_key_material_storage_v1_key_material_storage_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *LoadRequest) GetNamespace() string {
@@ -270,17 +450,15 @@ func (x *LoadRequest) GetId() string {
 }
 
 type LoadResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// The retrieved key material.
-	// If the key is not found, the RPC will return a `NOT_FOUND` gRPC error.
-	KeyMaterial   *KeyMaterial `protobuf:"bytes,1,opt,name=key_material,json=keyMaterial,proto3" json:"key_material,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	KeyMaterial   *KeyMaterial           `protobuf:"bytes,1,opt,name=key_material,json=keyMaterial,proto3" json:"key_material,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *LoadResponse) Reset() {
 	*x = LoadResponse{}
-	mi := &file_plugin_key_material_storage_v1_key_material_storage_proto_msgTypes[4]
+	mi := &file_plugin_key_material_storage_v1_key_material_storage_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -292,7 +470,7 @@ func (x *LoadResponse) String() string {
 func (*LoadResponse) ProtoMessage() {}
 
 func (x *LoadResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_key_material_storage_v1_key_material_storage_proto_msgTypes[4]
+	mi := &file_plugin_key_material_storage_v1_key_material_storage_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -305,7 +483,7 @@ func (x *LoadResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LoadResponse.ProtoReflect.Descriptor instead.
 func (*LoadResponse) Descriptor() ([]byte, []int) {
-	return file_plugin_key_material_storage_v1_key_material_storage_proto_rawDescGZIP(), []int{4}
+	return file_plugin_key_material_storage_v1_key_material_storage_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *LoadResponse) GetKeyMaterial() *KeyMaterial {
@@ -315,32 +493,29 @@ func (x *LoadResponse) GetKeyMaterial() *KeyMaterial {
 	return nil
 }
 
-type ListIDsRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// REQUIRED: The namespace to search in.
-	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	// OPTIONAL: Filter criteria for listing IDs.
-	// If not provided, all IDs in the namespace are returned.
-	Filter        *Filter `protobuf:"bytes,2,opt,name=filter,proto3,oneof" json:"filter,omitempty"`
+type DeleteRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Namespace     string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	Id            string                 `protobuf:"bytes,2,opt,name=id,proto3" json:"id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *ListIDsRequest) Reset() {
-	*x = ListIDsRequest{}
-	mi := &file_plugin_key_material_storage_v1_key_material_storage_proto_msgTypes[5]
+func (x *DeleteRequest) Reset() {
+	*x = DeleteRequest{}
+	mi := &file_plugin_key_material_storage_v1_key_material_storage_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *ListIDsRequest) String() string {
+func (x *DeleteRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ListIDsRequest) ProtoMessage() {}
+func (*DeleteRequest) ProtoMessage() {}
 
-func (x *ListIDsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_key_material_storage_v1_key_material_storage_proto_msgTypes[5]
+func (x *DeleteRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_plugin_key_material_storage_v1_key_material_storage_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -351,52 +526,200 @@ func (x *ListIDsRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ListIDsRequest.ProtoReflect.Descriptor instead.
-func (*ListIDsRequest) Descriptor() ([]byte, []int) {
-	return file_plugin_key_material_storage_v1_key_material_storage_proto_rawDescGZIP(), []int{5}
+// Deprecated: Use DeleteRequest.ProtoReflect.Descriptor instead.
+func (*DeleteRequest) Descriptor() ([]byte, []int) {
+	return file_plugin_key_material_storage_v1_key_material_storage_proto_rawDescGZIP(), []int{8}
 }
 
-func (x *ListIDsRequest) GetNamespace() string {
+func (x *DeleteRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
 	}
 	return ""
 }
 
-func (x *ListIDsRequest) GetFilter() *Filter {
+func (x *DeleteRequest) GetId() string {
 	if x != nil {
-		return x.Filter
+		return x.Id
+	}
+	return ""
+}
+
+type DeleteResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteResponse) Reset() {
+	*x = DeleteResponse{}
+	mi := &file_plugin_key_material_storage_v1_key_material_storage_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteResponse) ProtoMessage() {}
+
+func (x *DeleteResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_plugin_key_material_storage_v1_key_material_storage_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteResponse.ProtoReflect.Descriptor instead.
+func (*DeleteResponse) Descriptor() ([]byte, []int) {
+	return file_plugin_key_material_storage_v1_key_material_storage_proto_rawDescGZIP(), []int{9}
+}
+
+// Pattern-based matching for the primary Key ID.
+type Filter_StringMatch struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Types that are valid to be assigned to Type:
+	//
+	//	*Filter_StringMatch_Prefix
+	//	*Filter_StringMatch_Suffix
+	//	*Filter_StringMatch_Contains
+	//	*Filter_StringMatch_Exact
+	Type          isFilter_StringMatch_Type `protobuf_oneof:"type"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Filter_StringMatch) Reset() {
+	*x = Filter_StringMatch{}
+	mi := &file_plugin_key_material_storage_v1_key_material_storage_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Filter_StringMatch) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Filter_StringMatch) ProtoMessage() {}
+
+func (x *Filter_StringMatch) ProtoReflect() protoreflect.Message {
+	mi := &file_plugin_key_material_storage_v1_key_material_storage_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Filter_StringMatch.ProtoReflect.Descriptor instead.
+func (*Filter_StringMatch) Descriptor() ([]byte, []int) {
+	return file_plugin_key_material_storage_v1_key_material_storage_proto_rawDescGZIP(), []int{1, 0}
+}
+
+func (x *Filter_StringMatch) GetType() isFilter_StringMatch_Type {
+	if x != nil {
+		return x.Type
 	}
 	return nil
 }
 
-type Filter struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// OPTIONAL: Filter IDs that start with this string.
-	Prefix *string `protobuf:"bytes,1,opt,name=prefix,proto3,oneof" json:"prefix,omitempty"`
-	// OPTIONAL: Filter IDs that end with this string.
-	Suffix *string `protobuf:"bytes,2,opt,name=suffix,proto3,oneof" json:"suffix,omitempty"`
-	// OPTIONAL: Filter IDs that contain this string.
-	Contains      *string `protobuf:"bytes,3,opt,name=contains,proto3,oneof" json:"contains,omitempty"`
+func (x *Filter_StringMatch) GetPrefix() string {
+	if x != nil {
+		if x, ok := x.Type.(*Filter_StringMatch_Prefix); ok {
+			return x.Prefix
+		}
+	}
+	return ""
+}
+
+func (x *Filter_StringMatch) GetSuffix() string {
+	if x != nil {
+		if x, ok := x.Type.(*Filter_StringMatch_Suffix); ok {
+			return x.Suffix
+		}
+	}
+	return ""
+}
+
+func (x *Filter_StringMatch) GetContains() string {
+	if x != nil {
+		if x, ok := x.Type.(*Filter_StringMatch_Contains); ok {
+			return x.Contains
+		}
+	}
+	return ""
+}
+
+func (x *Filter_StringMatch) GetExact() string {
+	if x != nil {
+		if x, ok := x.Type.(*Filter_StringMatch_Exact); ok {
+			return x.Exact
+		}
+	}
+	return ""
+}
+
+type isFilter_StringMatch_Type interface {
+	isFilter_StringMatch_Type()
+}
+
+type Filter_StringMatch_Prefix struct {
+	Prefix string `protobuf:"bytes,1,opt,name=prefix,proto3,oneof"`
+}
+
+type Filter_StringMatch_Suffix struct {
+	Suffix string `protobuf:"bytes,2,opt,name=suffix,proto3,oneof"`
+}
+
+type Filter_StringMatch_Contains struct {
+	Contains string `protobuf:"bytes,3,opt,name=contains,proto3,oneof"`
+}
+
+type Filter_StringMatch_Exact struct {
+	Exact string `protobuf:"bytes,4,opt,name=exact,proto3,oneof"`
+}
+
+func (*Filter_StringMatch_Prefix) isFilter_StringMatch_Type() {}
+
+func (*Filter_StringMatch_Suffix) isFilter_StringMatch_Type() {}
+
+func (*Filter_StringMatch_Contains) isFilter_StringMatch_Type() {}
+
+func (*Filter_StringMatch_Exact) isFilter_StringMatch_Type() {}
+
+// Filter by the time the key was created.
+type Filter_TimeRange struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	From          *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=from,proto3" json:"from,omitempty"`
+	To            *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=to,proto3" json:"to,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *Filter) Reset() {
-	*x = Filter{}
-	mi := &file_plugin_key_material_storage_v1_key_material_storage_proto_msgTypes[6]
+func (x *Filter_TimeRange) Reset() {
+	*x = Filter_TimeRange{}
+	mi := &file_plugin_key_material_storage_v1_key_material_storage_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *Filter) String() string {
+func (x *Filter_TimeRange) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*Filter) ProtoMessage() {}
+func (*Filter_TimeRange) ProtoMessage() {}
 
-func (x *Filter) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_key_material_storage_v1_key_material_storage_proto_msgTypes[6]
+func (x *Filter_TimeRange) ProtoReflect() protoreflect.Message {
+	mi := &file_plugin_key_material_storage_v1_key_material_storage_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -407,74 +730,21 @@ func (x *Filter) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Filter.ProtoReflect.Descriptor instead.
-func (*Filter) Descriptor() ([]byte, []int) {
-	return file_plugin_key_material_storage_v1_key_material_storage_proto_rawDescGZIP(), []int{6}
+// Deprecated: Use Filter_TimeRange.ProtoReflect.Descriptor instead.
+func (*Filter_TimeRange) Descriptor() ([]byte, []int) {
+	return file_plugin_key_material_storage_v1_key_material_storage_proto_rawDescGZIP(), []int{1, 2}
 }
 
-func (x *Filter) GetPrefix() string {
-	if x != nil && x.Prefix != nil {
-		return *x.Prefix
-	}
-	return ""
-}
-
-func (x *Filter) GetSuffix() string {
-	if x != nil && x.Suffix != nil {
-		return *x.Suffix
-	}
-	return ""
-}
-
-func (x *Filter) GetContains() string {
-	if x != nil && x.Contains != nil {
-		return *x.Contains
-	}
-	return ""
-}
-
-type ListIDsResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// A list of key material IDs that match the request criteria.
-	// The server may stream multiple responses, each containing a batch of IDs.
-	Ids           []string `protobuf:"bytes,1,rep,name=ids,proto3" json:"ids,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *ListIDsResponse) Reset() {
-	*x = ListIDsResponse{}
-	mi := &file_plugin_key_material_storage_v1_key_material_storage_proto_msgTypes[7]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ListIDsResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ListIDsResponse) ProtoMessage() {}
-
-func (x *ListIDsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_key_material_storage_v1_key_material_storage_proto_msgTypes[7]
+func (x *Filter_TimeRange) GetFrom() *timestamppb.Timestamp {
 	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
+		return x.From
 	}
-	return mi.MessageOf(x)
+	return nil
 }
 
-// Deprecated: Use ListIDsResponse.ProtoReflect.Descriptor instead.
-func (*ListIDsResponse) Descriptor() ([]byte, []int) {
-	return file_plugin_key_material_storage_v1_key_material_storage_proto_rawDescGZIP(), []int{7}
-}
-
-func (x *ListIDsResponse) GetIds() []string {
+func (x *Filter_TimeRange) GetTo() *timestamppb.Timestamp {
 	if x != nil {
-		return x.Ids
+		return x.To
 	}
 	return nil
 }
@@ -483,54 +753,70 @@ var File_plugin_key_material_storage_v1_key_material_storage_proto protoreflect.
 
 const file_plugin_key_material_storage_v1_key_material_storage_proto_rawDesc = "" +
 	"\n" +
-	"9plugin/key_material_storage/v1/key_material_storage.proto\x12\x1eplugin.key_material_storage.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc1\x03\n" +
-	"\vKeyMaterial\x12\x1a\n" +
-	"\x02id\x18\x01 \x01(\tB\n" +
-	"\xbaH\a\xc8\x01\x01r\x02\x10\x01R\x02id\x12\x1e\n" +
-	"\x04data\x18\x02 \x01(\fB\n" +
-	"\xbaH\a\xc8\x01\x01z\x02\x10\x01R\x04data\x12(\n" +
-	"\talgorithm\x18\x03 \x01(\tB\n" +
-	"\xbaH\a\xc8\x01\x01r\x02\x10\x01R\talgorithm\x123\n" +
+	"9plugin/key_material_storage/v1/key_material_storage.proto\x12\x1eplugin.key_material_storage.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xa4\x03\n" +
+	"\vKeyMaterial\x12\x17\n" +
+	"\x02id\x18\x01 \x01(\tB\a\xbaH\x04r\x02\x10\x01R\x02id\x12\x1b\n" +
+	"\x04data\x18\x02 \x01(\fB\a\xbaH\x04z\x02\x10\x01R\x04data\x12%\n" +
+	"\talgorithm\x18\x03 \x01(\tB\a\xbaH\x04r\x02\x10\x01R\talgorithm\x123\n" +
 	"\x13previous_version_id\x18\x04 \x01(\tH\x00R\x11previousVersionId\x88\x01\x01\x12\x1f\n" +
-	"\bchecksum\x18\x05 \x01(\tH\x01R\bchecksum\x88\x01\x01\x12>\n" +
+	"\bchecksum\x18\x05 \x01(\tH\x01R\bchecksum\x88\x01\x01\x129\n" +
 	"\n" +
-	"created_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampH\x02R\tcreatedAt\x88\x01\x01\x12I\n" +
-	"\x04tags\x18d \x03(\v25.plugin.key_material_storage.v1.KeyMaterial.TagsEntryR\x04tags\x1a7\n" +
+	"created_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x12I\n" +
+	"\x04tags\x18\a \x03(\v25.plugin.key_material_storage.v1.KeyMaterial.TagsEntryR\x04tags\x1a7\n" +
 	"\tTagsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01B\x16\n" +
 	"\x14_previous_version_idB\v\n" +
-	"\t_checksumB\r\n" +
-	"\v_created_at\"\x90\x01\n" +
-	"\fStoreRequest\x12(\n" +
-	"\tnamespace\x18\x01 \x01(\tB\n" +
-	"\xbaH\a\xc8\x01\x01r\x02\x10\x01R\tnamespace\x12V\n" +
-	"\fkey_material\x18\x02 \x01(\v2+.plugin.key_material_storage.v1.KeyMaterialB\x06\xbaH\x03\xc8\x01\x01R\vkeyMaterial\"\x0f\n" +
-	"\rStoreResponse\"S\n" +
-	"\vLoadRequest\x12(\n" +
-	"\tnamespace\x18\x01 \x01(\tB\n" +
-	"\xbaH\a\xc8\x01\x01r\x02\x10\x01R\tnamespace\x12\x1a\n" +
-	"\x02id\x18\x02 \x01(\tB\n" +
-	"\xbaH\a\xc8\x01\x01r\x02\x10\x01R\x02id\"^\n" +
-	"\fLoadResponse\x12N\n" +
-	"\fkey_material\x18\x01 \x01(\v2+.plugin.key_material_storage.v1.KeyMaterialR\vkeyMaterial\"\x8a\x01\n" +
-	"\x0eListIDsRequest\x12(\n" +
-	"\tnamespace\x18\x01 \x01(\tB\n" +
-	"\xbaH\a\xc8\x01\x01r\x02\x10\x01R\tnamespace\x12C\n" +
-	"\x06filter\x18\x02 \x01(\v2&.plugin.key_material_storage.v1.FilterH\x00R\x06filter\x88\x01\x01B\t\n" +
-	"\a_filter\"\x86\x01\n" +
-	"\x06Filter\x12\x1b\n" +
-	"\x06prefix\x18\x01 \x01(\tH\x00R\x06prefix\x88\x01\x01\x12\x1b\n" +
-	"\x06suffix\x18\x02 \x01(\tH\x01R\x06suffix\x88\x01\x01\x12\x1f\n" +
-	"\bcontains\x18\x03 \x01(\tH\x02R\bcontains\x88\x01\x01B\t\n" +
-	"\a_prefixB\t\n" +
-	"\a_suffixB\v\n" +
-	"\t_contains\"#\n" +
+	"\t_checksum\"\xd7\x04\n" +
+	"\x06Filter\x12G\n" +
+	"\x02id\x18\x01 \x01(\v22.plugin.key_material_storage.v1.Filter.StringMatchH\x00R\x02id\x88\x01\x01\x12!\n" +
+	"\talgorithm\x18\x02 \x01(\tH\x01R\talgorithm\x88\x01\x01\x12D\n" +
+	"\x04tags\x18\x03 \x03(\v20.plugin.key_material_storage.v1.Filter.TagsEntryR\x04tags\x12T\n" +
+	"\n" +
+	"created_at\x18\x04 \x01(\v20.plugin.key_material_storage.v1.Filter.TimeRangeH\x02R\tcreatedAt\x88\x01\x01\x1a\x7f\n" +
+	"\vStringMatch\x12\x18\n" +
+	"\x06prefix\x18\x01 \x01(\tH\x00R\x06prefix\x12\x18\n" +
+	"\x06suffix\x18\x02 \x01(\tH\x00R\x06suffix\x12\x1c\n" +
+	"\bcontains\x18\x03 \x01(\tH\x00R\bcontains\x12\x16\n" +
+	"\x05exact\x18\x04 \x01(\tH\x00R\x05exactB\x06\n" +
+	"\x04type\x1a7\n" +
+	"\tTagsEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\x1ag\n" +
+	"\tTimeRange\x12.\n" +
+	"\x04from\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampR\x04from\x12*\n" +
+	"\x02to\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\x02toB\x05\n" +
+	"\x03_idB\f\n" +
+	"\n" +
+	"_algorithmB\r\n" +
+	"\v_created_at\"\xc3\x01\n" +
+	"\x0eListIDsRequest\x12%\n" +
+	"\tnamespace\x18\x01 \x01(\tB\a\xbaH\x04r\x02\x10\x01R\tnamespace\x12C\n" +
+	"\x06filter\x18\x02 \x01(\v2&.plugin.key_material_storage.v1.FilterH\x00R\x06filter\x88\x01\x01\x12\x1b\n" +
+	"\tpage_size\x18\x03 \x01(\rR\bpageSize\x12\x1d\n" +
+	"\n" +
+	"page_token\x18\x04 \x01(\tR\tpageTokenB\t\n" +
+	"\a_filter\"K\n" +
 	"\x0fListIDsResponse\x12\x10\n" +
-	"\x03ids\x18\x01 \x03(\tR\x03ids2\xcb\x02\n" +
+	"\x03ids\x18\x01 \x03(\tR\x03ids\x12&\n" +
+	"\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken\"\x8d\x01\n" +
+	"\fStoreRequest\x12%\n" +
+	"\tnamespace\x18\x01 \x01(\tB\a\xbaH\x04r\x02\x10\x01R\tnamespace\x12V\n" +
+	"\fkey_material\x18\x02 \x01(\v2+.plugin.key_material_storage.v1.KeyMaterialB\x06\xbaH\x03\xc8\x01\x01R\vkeyMaterial\"\x0f\n" +
+	"\rStoreResponse\"M\n" +
+	"\vLoadRequest\x12%\n" +
+	"\tnamespace\x18\x01 \x01(\tB\a\xbaH\x04r\x02\x10\x01R\tnamespace\x12\x17\n" +
+	"\x02id\x18\x02 \x01(\tB\a\xbaH\x04r\x02\x10\x01R\x02id\"^\n" +
+	"\fLoadResponse\x12N\n" +
+	"\fkey_material\x18\x01 \x01(\v2+.plugin.key_material_storage.v1.KeyMaterialR\vkeyMaterial\"O\n" +
+	"\rDeleteRequest\x12%\n" +
+	"\tnamespace\x18\x01 \x01(\tB\a\xbaH\x04r\x02\x10\x01R\tnamespace\x12\x17\n" +
+	"\x02id\x18\x02 \x01(\tB\a\xbaH\x04r\x02\x10\x01R\x02id\"\x10\n" +
+	"\x0eDeleteResponse2\xb4\x03\n" +
 	"\x12KeyMaterialStorage\x12d\n" +
 	"\x05Store\x12,.plugin.key_material_storage.v1.StoreRequest\x1a-.plugin.key_material_storage.v1.StoreResponse\x12a\n" +
-	"\x04Load\x12+.plugin.key_material_storage.v1.LoadRequest\x1a,.plugin.key_material_storage.v1.LoadResponse\x12l\n" +
+	"\x04Load\x12+.plugin.key_material_storage.v1.LoadRequest\x1a,.plugin.key_material_storage.v1.LoadResponse\x12g\n" +
+	"\x06Delete\x12-.plugin.key_material_storage.v1.DeleteRequest\x1a..plugin.key_material_storage.v1.DeleteResponse\x12l\n" +
 	"\aListIDs\x12..plugin.key_material_storage.v1.ListIDsRequest\x1a/.plugin.key_material_storage.v1.ListIDsResponse0\x01B\xaa\x02\n" +
 	"\"com.plugin.key_material_storage.v1B\x17KeyMaterialStorageProtoP\x01ZYgithub.com/openkcm/plugin-sdk/proto/plugin/key_material_storage/v1;key_material_storagev1\xa2\x02\x03PKX\xaa\x02\x1cPlugin.KeyMaterialStorage.V1\xca\x02\x1cPlugin\\KeyMaterialStorage\\V1\xe2\x02(Plugin\\KeyMaterialStorage\\V1\\GPBMetadata\xea\x02\x1ePlugin::KeyMaterialStorage::V1b\x06proto3"
 
@@ -546,36 +832,48 @@ func file_plugin_key_material_storage_v1_key_material_storage_proto_rawDescGZIP(
 	return file_plugin_key_material_storage_v1_key_material_storage_proto_rawDescData
 }
 
-var file_plugin_key_material_storage_v1_key_material_storage_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
+var file_plugin_key_material_storage_v1_key_material_storage_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
 var file_plugin_key_material_storage_v1_key_material_storage_proto_goTypes = []any{
 	(*KeyMaterial)(nil),           // 0: plugin.key_material_storage.v1.KeyMaterial
-	(*StoreRequest)(nil),          // 1: plugin.key_material_storage.v1.StoreRequest
-	(*StoreResponse)(nil),         // 2: plugin.key_material_storage.v1.StoreResponse
-	(*LoadRequest)(nil),           // 3: plugin.key_material_storage.v1.LoadRequest
-	(*LoadResponse)(nil),          // 4: plugin.key_material_storage.v1.LoadResponse
-	(*ListIDsRequest)(nil),        // 5: plugin.key_material_storage.v1.ListIDsRequest
-	(*Filter)(nil),                // 6: plugin.key_material_storage.v1.Filter
-	(*ListIDsResponse)(nil),       // 7: plugin.key_material_storage.v1.ListIDsResponse
-	nil,                           // 8: plugin.key_material_storage.v1.KeyMaterial.TagsEntry
-	(*timestamppb.Timestamp)(nil), // 9: google.protobuf.Timestamp
+	(*Filter)(nil),                // 1: plugin.key_material_storage.v1.Filter
+	(*ListIDsRequest)(nil),        // 2: plugin.key_material_storage.v1.ListIDsRequest
+	(*ListIDsResponse)(nil),       // 3: plugin.key_material_storage.v1.ListIDsResponse
+	(*StoreRequest)(nil),          // 4: plugin.key_material_storage.v1.StoreRequest
+	(*StoreResponse)(nil),         // 5: plugin.key_material_storage.v1.StoreResponse
+	(*LoadRequest)(nil),           // 6: plugin.key_material_storage.v1.LoadRequest
+	(*LoadResponse)(nil),          // 7: plugin.key_material_storage.v1.LoadResponse
+	(*DeleteRequest)(nil),         // 8: plugin.key_material_storage.v1.DeleteRequest
+	(*DeleteResponse)(nil),        // 9: plugin.key_material_storage.v1.DeleteResponse
+	nil,                           // 10: plugin.key_material_storage.v1.KeyMaterial.TagsEntry
+	(*Filter_StringMatch)(nil),    // 11: plugin.key_material_storage.v1.Filter.StringMatch
+	nil,                           // 12: plugin.key_material_storage.v1.Filter.TagsEntry
+	(*Filter_TimeRange)(nil),      // 13: plugin.key_material_storage.v1.Filter.TimeRange
+	(*timestamppb.Timestamp)(nil), // 14: google.protobuf.Timestamp
 }
 var file_plugin_key_material_storage_v1_key_material_storage_proto_depIdxs = []int32{
-	9, // 0: plugin.key_material_storage.v1.KeyMaterial.created_at:type_name -> google.protobuf.Timestamp
-	8, // 1: plugin.key_material_storage.v1.KeyMaterial.tags:type_name -> plugin.key_material_storage.v1.KeyMaterial.TagsEntry
-	0, // 2: plugin.key_material_storage.v1.StoreRequest.key_material:type_name -> plugin.key_material_storage.v1.KeyMaterial
-	0, // 3: plugin.key_material_storage.v1.LoadResponse.key_material:type_name -> plugin.key_material_storage.v1.KeyMaterial
-	6, // 4: plugin.key_material_storage.v1.ListIDsRequest.filter:type_name -> plugin.key_material_storage.v1.Filter
-	1, // 5: plugin.key_material_storage.v1.KeyMaterialStorage.Store:input_type -> plugin.key_material_storage.v1.StoreRequest
-	3, // 6: plugin.key_material_storage.v1.KeyMaterialStorage.Load:input_type -> plugin.key_material_storage.v1.LoadRequest
-	5, // 7: plugin.key_material_storage.v1.KeyMaterialStorage.ListIDs:input_type -> plugin.key_material_storage.v1.ListIDsRequest
-	2, // 8: plugin.key_material_storage.v1.KeyMaterialStorage.Store:output_type -> plugin.key_material_storage.v1.StoreResponse
-	4, // 9: plugin.key_material_storage.v1.KeyMaterialStorage.Load:output_type -> plugin.key_material_storage.v1.LoadResponse
-	7, // 10: plugin.key_material_storage.v1.KeyMaterialStorage.ListIDs:output_type -> plugin.key_material_storage.v1.ListIDsResponse
-	8, // [8:11] is the sub-list for method output_type
-	5, // [5:8] is the sub-list for method input_type
-	5, // [5:5] is the sub-list for extension type_name
-	5, // [5:5] is the sub-list for extension extendee
-	0, // [0:5] is the sub-list for field type_name
+	14, // 0: plugin.key_material_storage.v1.KeyMaterial.created_at:type_name -> google.protobuf.Timestamp
+	10, // 1: plugin.key_material_storage.v1.KeyMaterial.tags:type_name -> plugin.key_material_storage.v1.KeyMaterial.TagsEntry
+	11, // 2: plugin.key_material_storage.v1.Filter.id:type_name -> plugin.key_material_storage.v1.Filter.StringMatch
+	12, // 3: plugin.key_material_storage.v1.Filter.tags:type_name -> plugin.key_material_storage.v1.Filter.TagsEntry
+	13, // 4: plugin.key_material_storage.v1.Filter.created_at:type_name -> plugin.key_material_storage.v1.Filter.TimeRange
+	1,  // 5: plugin.key_material_storage.v1.ListIDsRequest.filter:type_name -> plugin.key_material_storage.v1.Filter
+	0,  // 6: plugin.key_material_storage.v1.StoreRequest.key_material:type_name -> plugin.key_material_storage.v1.KeyMaterial
+	0,  // 7: plugin.key_material_storage.v1.LoadResponse.key_material:type_name -> plugin.key_material_storage.v1.KeyMaterial
+	14, // 8: plugin.key_material_storage.v1.Filter.TimeRange.from:type_name -> google.protobuf.Timestamp
+	14, // 9: plugin.key_material_storage.v1.Filter.TimeRange.to:type_name -> google.protobuf.Timestamp
+	4,  // 10: plugin.key_material_storage.v1.KeyMaterialStorage.Store:input_type -> plugin.key_material_storage.v1.StoreRequest
+	6,  // 11: plugin.key_material_storage.v1.KeyMaterialStorage.Load:input_type -> plugin.key_material_storage.v1.LoadRequest
+	8,  // 12: plugin.key_material_storage.v1.KeyMaterialStorage.Delete:input_type -> plugin.key_material_storage.v1.DeleteRequest
+	2,  // 13: plugin.key_material_storage.v1.KeyMaterialStorage.ListIDs:input_type -> plugin.key_material_storage.v1.ListIDsRequest
+	5,  // 14: plugin.key_material_storage.v1.KeyMaterialStorage.Store:output_type -> plugin.key_material_storage.v1.StoreResponse
+	7,  // 15: plugin.key_material_storage.v1.KeyMaterialStorage.Load:output_type -> plugin.key_material_storage.v1.LoadResponse
+	9,  // 16: plugin.key_material_storage.v1.KeyMaterialStorage.Delete:output_type -> plugin.key_material_storage.v1.DeleteResponse
+	3,  // 17: plugin.key_material_storage.v1.KeyMaterialStorage.ListIDs:output_type -> plugin.key_material_storage.v1.ListIDsResponse
+	14, // [14:18] is the sub-list for method output_type
+	10, // [10:14] is the sub-list for method input_type
+	10, // [10:10] is the sub-list for extension type_name
+	10, // [10:10] is the sub-list for extension extendee
+	0,  // [0:10] is the sub-list for field type_name
 }
 
 func init() { file_plugin_key_material_storage_v1_key_material_storage_proto_init() }
@@ -584,15 +882,21 @@ func file_plugin_key_material_storage_v1_key_material_storage_proto_init() {
 		return
 	}
 	file_plugin_key_material_storage_v1_key_material_storage_proto_msgTypes[0].OneofWrappers = []any{}
-	file_plugin_key_material_storage_v1_key_material_storage_proto_msgTypes[5].OneofWrappers = []any{}
-	file_plugin_key_material_storage_v1_key_material_storage_proto_msgTypes[6].OneofWrappers = []any{}
+	file_plugin_key_material_storage_v1_key_material_storage_proto_msgTypes[1].OneofWrappers = []any{}
+	file_plugin_key_material_storage_v1_key_material_storage_proto_msgTypes[2].OneofWrappers = []any{}
+	file_plugin_key_material_storage_v1_key_material_storage_proto_msgTypes[11].OneofWrappers = []any{
+		(*Filter_StringMatch_Prefix)(nil),
+		(*Filter_StringMatch_Suffix)(nil),
+		(*Filter_StringMatch_Contains)(nil),
+		(*Filter_StringMatch_Exact)(nil),
+	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_plugin_key_material_storage_v1_key_material_storage_proto_rawDesc), len(file_plugin_key_material_storage_v1_key_material_storage_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   9,
+			NumMessages:   14,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
