@@ -1,0 +1,97 @@
+syntax = "proto3";
+
+package plugin.key_material_storage.v1;
+
+import "buf/validate/validate.proto";
+import "google/protobuf/timestamp.proto";
+
+// KeyMaterialStorage defines the universal interface for persisting and
+// retrieving opaque blobs of data, typically wrapped key material.
+service KeyMaterialStorage {
+  rpc Store(StoreRequest) returns (StoreResponse);
+  rpc Load(LoadRequest) returns (LoadResponse);
+  rpc Delete(DeleteRequest) returns (DeleteResponse);
+
+  // ListIDs returns batches of IDs matching the criteria.
+  rpc ListIDs(ListIDsRequest) returns (stream ListIDsResponse);
+}
+
+// KeyMaterial represents a single unit of stored data.
+message KeyMaterial {
+  string id = 1 [(buf.validate.field).string.min_len = 1];
+  bytes data = 2 [(buf.validate.field).bytes.min_len = 1];
+  string algorithm = 3 [(buf.validate.field).string.min_len = 1];
+
+  optional string previous_version_id = 4;
+  optional string checksum = 5;
+  google.protobuf.Timestamp created_at = 6;
+  map<string, string> tags = 7;
+}
+
+// --- Filter Refactor ---
+
+message Filter {
+  // Pattern-based matching for the primary Key ID.
+  message StringMatch {
+    oneof type {
+      string prefix = 1;
+      string suffix = 2;
+      string contains = 3;
+      string exact = 4;
+    }
+  }
+  optional StringMatch id = 1;
+
+  // Filter by cryptographic algorithm (e.g., "AES-256-GCM").
+  optional string algorithm = 2;
+
+  // Filter by metadata tags (e.g., {"env": "prod"}).
+  // Match is typically performed as "contains all".
+  map<string, string> tags = 3;
+
+  // Filter by the time the key was created.
+  message TimeRange {
+    google.protobuf.Timestamp from = 1;
+    google.protobuf.Timestamp to = 2;
+  }
+  optional TimeRange created_at = 4;
+}
+
+// --- RPC Messages ---
+
+message ListIDsRequest {
+  string namespace = 1 [(buf.validate.field).string.min_len = 1];
+  optional Filter filter = 2;
+
+  // Pagination support
+  uint32 page_size = 3;
+  string page_token = 4;
+}
+
+message ListIDsResponse {
+  repeated string ids = 1;
+  string next_page_token = 2;
+}
+
+message StoreRequest {
+  string namespace = 1 [(buf.validate.field).string.min_len = 1];
+  KeyMaterial key_material = 2 [(buf.validate.field).required = true];
+}
+
+message StoreResponse {}
+
+message LoadRequest {
+  string namespace = 1 [(buf.validate.field).string.min_len = 1];
+  string id = 2 [(buf.validate.field).string.min_len = 1];
+}
+
+message LoadResponse {
+  KeyMaterial key_material = 1;
+}
+
+message DeleteRequest {
+  string namespace = 1 [(buf.validate.field).string.min_len = 1];
+  string id = 2 [(buf.validate.field).string.min_len = 1];
+}
+
+message DeleteResponse {}
