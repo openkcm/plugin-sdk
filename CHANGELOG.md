@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.10.2](https://github.com/openkcm/plugin-sdk/compare/v0.10.1...v0.10.2) (2026-03-24)
+
+
+### Bug Fixes
+
+* revert managed keys ([#142](https://github.com/openkcm/plugin-sdk/issues/142)) ([5052979](https://github.com/openkcm/plugin-sdk/commit/5052979fa14ecfb4baaf2e499801ee9c98bb14ce))
+
 ## [0.10.1](https://github.com/openkcm/plugin-sdk/compare/v0.10.0...v0.10.1) (2026-03-18)
 
 
