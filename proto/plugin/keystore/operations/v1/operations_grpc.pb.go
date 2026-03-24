@@ -22,7 +22,6 @@ const _ = grpc.SupportPackageIsVersion9
 const (
 	KeystoreInstanceKeyOperation_GetKey_FullMethodName                    = "/plugin.keystore.operations.v1.KeystoreInstanceKeyOperation/GetKey"
 	KeystoreInstanceKeyOperation_CreateKey_FullMethodName                 = "/plugin.keystore.operations.v1.KeystoreInstanceKeyOperation/CreateKey"
-	KeystoreInstanceKeyOperation_CreateKeyForImport_FullMethodName        = "/plugin.keystore.operations.v1.KeystoreInstanceKeyOperation/CreateKeyForImport"
 	KeystoreInstanceKeyOperation_DeleteKey_FullMethodName                 = "/plugin.keystore.operations.v1.KeystoreInstanceKeyOperation/DeleteKey"
 	KeystoreInstanceKeyOperation_EnableKey_FullMethodName                 = "/plugin.keystore.operations.v1.KeystoreInstanceKeyOperation/EnableKey"
 	KeystoreInstanceKeyOperation_DisableKey_FullMethodName                = "/plugin.keystore.operations.v1.KeystoreInstanceKeyOperation/DisableKey"
@@ -46,12 +45,8 @@ type KeystoreInstanceKeyOperationClient interface {
 	// * Returns error "code = NotFound desc = key not found in the keystore provider"
 	// if the key does not exist
 	GetKey(ctx context.Context, in *GetKeyRequest, opts ...grpc.CallOption) (*GetKeyResponse, error)
-	// Deprecated: Do not use.
 	// CreateKey generates a new key with the specified algorithm
-	// Deprecated: Use CreateKeyForImport instead
 	CreateKey(ctx context.Context, in *CreateKeyRequest, opts ...grpc.CallOption) (*CreateKeyResponse, error)
-	// CreateKeyForImport generates a new key with the specified algorithm
-	CreateKeyForImport(ctx context.Context, in *CreateKeyForImportRequest, opts ...grpc.CallOption) (*CreateKeyForImportResponse, error)
 	// DeleteKey removes a key, optionally with a deletion window
 	DeleteKey(ctx context.Context, in *DeleteKeyRequest, opts ...grpc.CallOption) (*DeleteKeyResponse, error)
 	// EnableKey activates a previously disabled key
@@ -90,21 +85,10 @@ func (c *keystoreInstanceKeyOperationClient) GetKey(ctx context.Context, in *Get
 	return out, nil
 }
 
-// Deprecated: Do not use.
 func (c *keystoreInstanceKeyOperationClient) CreateKey(ctx context.Context, in *CreateKeyRequest, opts ...grpc.CallOption) (*CreateKeyResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(CreateKeyResponse)
 	err := c.cc.Invoke(ctx, KeystoreInstanceKeyOperation_CreateKey_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *keystoreInstanceKeyOperationClient) CreateKeyForImport(ctx context.Context, in *CreateKeyForImportRequest, opts ...grpc.CallOption) (*CreateKeyForImportResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(CreateKeyForImportResponse)
-	err := c.cc.Invoke(ctx, KeystoreInstanceKeyOperation_CreateKeyForImport_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -213,12 +197,8 @@ type KeystoreInstanceKeyOperationServer interface {
 	// * Returns error "code = NotFound desc = key not found in the keystore provider"
 	// if the key does not exist
 	GetKey(context.Context, *GetKeyRequest) (*GetKeyResponse, error)
-	// Deprecated: Do not use.
 	// CreateKey generates a new key with the specified algorithm
-	// Deprecated: Use CreateKeyForImport instead
 	CreateKey(context.Context, *CreateKeyRequest) (*CreateKeyResponse, error)
-	// CreateKeyForImport generates a new key with the specified algorithm
-	CreateKeyForImport(context.Context, *CreateKeyForImportRequest) (*CreateKeyForImportResponse, error)
 	// DeleteKey removes a key, optionally with a deletion window
 	DeleteKey(context.Context, *DeleteKeyRequest) (*DeleteKeyResponse, error)
 	// EnableKey activates a previously disabled key
@@ -252,9 +232,6 @@ func (UnimplementedKeystoreInstanceKeyOperationServer) GetKey(context.Context, *
 }
 func (UnimplementedKeystoreInstanceKeyOperationServer) CreateKey(context.Context, *CreateKeyRequest) (*CreateKeyResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method CreateKey not implemented")
-}
-func (UnimplementedKeystoreInstanceKeyOperationServer) CreateKeyForImport(context.Context, *CreateKeyForImportRequest) (*CreateKeyForImportResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method CreateKeyForImport not implemented")
 }
 func (UnimplementedKeystoreInstanceKeyOperationServer) DeleteKey(context.Context, *DeleteKeyRequest) (*DeleteKeyResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method DeleteKey not implemented")
@@ -337,24 +314,6 @@ func _KeystoreInstanceKeyOperation_CreateKey_Handler(srv interface{}, ctx contex
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(KeystoreInstanceKeyOperationServer).CreateKey(ctx, req.(*CreateKeyRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _KeystoreInstanceKeyOperation_CreateKeyForImport_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateKeyForImportRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(KeystoreInstanceKeyOperationServer).CreateKeyForImport(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: KeystoreInstanceKeyOperation_CreateKeyForImport_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(KeystoreInstanceKeyOperationServer).CreateKeyForImport(ctx, req.(*CreateKeyForImportRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -535,10 +494,6 @@ var KeystoreInstanceKeyOperation_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateKey",
 			Handler:    _KeystoreInstanceKeyOperation_CreateKey_Handler,
-		},
-		{
-			MethodName: "CreateKeyForImport",
-			Handler:    _KeystoreInstanceKeyOperation_CreateKeyForImport_Handler,
 		},
 		{
 			MethodName: "DeleteKey",

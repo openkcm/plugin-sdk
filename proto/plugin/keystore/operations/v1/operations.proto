@@ -15,13 +15,7 @@ service KeystoreInstanceKeyOperation {
   rpc GetKey(GetKeyRequest) returns (GetKeyResponse);
 
   // CreateKey generates a new key with the specified algorithm
-  // Deprecated: Use CreateKeyForImport instead
-  rpc CreateKey(CreateKeyRequest) returns (CreateKeyResponse) {
-    option deprecated = true;
-  }
-
-  // CreateKeyForImport generates a new key with the specified algorithm
-  rpc CreateKeyForImport(CreateKeyForImportRequest) returns (CreateKeyForImportResponse);
+  rpc CreateKey(CreateKeyRequest) returns (CreateKeyResponse);
 
   // DeleteKey removes a key, optionally with a deletion window
   rpc DeleteKey(DeleteKeyRequest) returns (DeleteKeyResponse);
@@ -61,8 +55,7 @@ enum KeyAlgorithm {
 
 enum KeyType {
   KEY_TYPE_UNSPECIFIED = 0;
-  reserved 1;
-  reserved "KEY_TYPE_SYSTEM_MANAGED";
+  KEY_TYPE_SYSTEM_MANAGED = 1; // System-managed key
   KEY_TYPE_BYOK = 2; // Bring Your Own Key
   KEY_TYPE_HYOK = 3; // Hold Your Own Key
 }
@@ -88,31 +81,15 @@ message GetKeyResponse {
 }
 
 // CreateKeyRequest contains parameters for key creation
-// Deprecated: Use CreateKeyForImportRequest instead
 message CreateKeyRequest {
-  option deprecated = true;
   plugin.keystore.common.v1.KeystoreInstanceConfig config = 1;
   KeyAlgorithm algorithm = 2;
   optional string id = 3; // Optional predefined key ID
   string region = 4; // The region in which to create the key
-  KeyType key_type = 5;
+  KeyType key_type = 5; // Key type (system-managed or BYOK)
 }
 
 message CreateKeyResponse {
-  option deprecated = true;
-  string key_id = 1; // The ID of the created key
-  string status = 2; // The current status of the key (e.g., enabled, disabled)
-}
-
-// CreateKeyForImportRequest contains parameters for key creation
-message CreateKeyForImportRequest {
-  plugin.keystore.common.v1.KeystoreInstanceConfig config = 1;
-  KeyAlgorithm algorithm = 2;
-  optional string id = 3; // Optional predefined key ID
-  string region = 4; // The region in which to create the key
-}
-
-message CreateKeyForImportResponse {
   string key_id = 1; // The ID of the created key
   string status = 2; // The current status of the key (e.g., enabled, disabled)
 }
