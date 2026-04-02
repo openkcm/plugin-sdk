@@ -66,6 +66,102 @@ func (x *AuthContext) GetData() map[string]string {
 	return nil
 }
 
+type GetUserRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	AuthContext   *AuthContext           `protobuf:"bytes,99,opt,name=auth_context,json=authContext,proto3" json:"auth_context,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetUserRequest) Reset() {
+	*x = GetUserRequest{}
+	mi := &file_plugin_identity_management_v1_identity_management_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetUserRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUserRequest) ProtoMessage() {}
+
+func (x *GetUserRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_plugin_identity_management_v1_identity_management_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUserRequest.ProtoReflect.Descriptor instead.
+func (*GetUserRequest) Descriptor() ([]byte, []int) {
+	return file_plugin_identity_management_v1_identity_management_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *GetUserRequest) GetUserId() string {
+	if x != nil {
+		return x.UserId
+	}
+	return ""
+}
+
+func (x *GetUserRequest) GetAuthContext() *AuthContext {
+	if x != nil {
+		return x.AuthContext
+	}
+	return nil
+}
+
+type GetUserResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	User          *User                  `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetUserResponse) Reset() {
+	*x = GetUserResponse{}
+	mi := &file_plugin_identity_management_v1_identity_management_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetUserResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUserResponse) ProtoMessage() {}
+
+func (x *GetUserResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_plugin_identity_management_v1_identity_management_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUserResponse.ProtoReflect.Descriptor instead.
+func (*GetUserResponse) Descriptor() ([]byte, []int) {
+	return file_plugin_identity_management_v1_identity_management_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *GetUserResponse) GetUser() *User {
+	if x != nil {
+		return x.User
+	}
+	return nil
+}
+
 type GetGroupRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	GroupName     string                 `protobuf:"bytes,1,opt,name=group_name,json=groupName,proto3" json:"group_name,omitempty"`
@@ -76,7 +172,7 @@ type GetGroupRequest struct {
 
 func (x *GetGroupRequest) Reset() {
 	*x = GetGroupRequest{}
-	mi := &file_plugin_identity_management_v1_identity_management_proto_msgTypes[1]
+	mi := &file_plugin_identity_management_v1_identity_management_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -88,7 +184,7 @@ func (x *GetGroupRequest) String() string {
 func (*GetGroupRequest) ProtoMessage() {}
 
 func (x *GetGroupRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_identity_management_v1_identity_management_proto_msgTypes[1]
+	mi := &file_plugin_identity_management_v1_identity_management_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -101,7 +197,7 @@ func (x *GetGroupRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetGroupRequest.ProtoReflect.Descriptor instead.
 func (*GetGroupRequest) Descriptor() ([]byte, []int) {
-	return file_plugin_identity_management_v1_identity_management_proto_rawDescGZIP(), []int{1}
+	return file_plugin_identity_management_v1_identity_management_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *GetGroupRequest) GetGroupName() string {
@@ -127,7 +223,7 @@ type GetGroupResponse struct {
 
 func (x *GetGroupResponse) Reset() {
 	*x = GetGroupResponse{}
-	mi := &file_plugin_identity_management_v1_identity_management_proto_msgTypes[2]
+	mi := &file_plugin_identity_management_v1_identity_management_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -139,7 +235,7 @@ func (x *GetGroupResponse) String() string {
 func (*GetGroupResponse) ProtoMessage() {}
 
 func (x *GetGroupResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_identity_management_v1_identity_management_proto_msgTypes[2]
+	mi := &file_plugin_identity_management_v1_identity_management_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -152,7 +248,7 @@ func (x *GetGroupResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetGroupResponse.ProtoReflect.Descriptor instead.
 func (*GetGroupResponse) Descriptor() ([]byte, []int) {
-	return file_plugin_identity_management_v1_identity_management_proto_rawDescGZIP(), []int{2}
+	return file_plugin_identity_management_v1_identity_management_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *GetGroupResponse) GetGroup() *Group {
@@ -171,7 +267,7 @@ type GetAllGroupsRequest struct {
 
 func (x *GetAllGroupsRequest) Reset() {
 	*x = GetAllGroupsRequest{}
-	mi := &file_plugin_identity_management_v1_identity_management_proto_msgTypes[3]
+	mi := &file_plugin_identity_management_v1_identity_management_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -183,7 +279,7 @@ func (x *GetAllGroupsRequest) String() string {
 func (*GetAllGroupsRequest) ProtoMessage() {}
 
 func (x *GetAllGroupsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_identity_management_v1_identity_management_proto_msgTypes[3]
+	mi := &file_plugin_identity_management_v1_identity_management_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -196,7 +292,7 @@ func (x *GetAllGroupsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetAllGroupsRequest.ProtoReflect.Descriptor instead.
 func (*GetAllGroupsRequest) Descriptor() ([]byte, []int) {
-	return file_plugin_identity_management_v1_identity_management_proto_rawDescGZIP(), []int{3}
+	return file_plugin_identity_management_v1_identity_management_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *GetAllGroupsRequest) GetAuthContext() *AuthContext {
@@ -215,7 +311,7 @@ type GetAllGroupsResponse struct {
 
 func (x *GetAllGroupsResponse) Reset() {
 	*x = GetAllGroupsResponse{}
-	mi := &file_plugin_identity_management_v1_identity_management_proto_msgTypes[4]
+	mi := &file_plugin_identity_management_v1_identity_management_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -227,7 +323,7 @@ func (x *GetAllGroupsResponse) String() string {
 func (*GetAllGroupsResponse) ProtoMessage() {}
 
 func (x *GetAllGroupsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_identity_management_v1_identity_management_proto_msgTypes[4]
+	mi := &file_plugin_identity_management_v1_identity_management_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -240,7 +336,7 @@ func (x *GetAllGroupsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetAllGroupsResponse.ProtoReflect.Descriptor instead.
 func (*GetAllGroupsResponse) Descriptor() ([]byte, []int) {
-	return file_plugin_identity_management_v1_identity_management_proto_rawDescGZIP(), []int{4}
+	return file_plugin_identity_management_v1_identity_management_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *GetAllGroupsResponse) GetGroups() []*Group {
@@ -260,7 +356,7 @@ type GetUsersForGroupRequest struct {
 
 func (x *GetUsersForGroupRequest) Reset() {
 	*x = GetUsersForGroupRequest{}
-	mi := &file_plugin_identity_management_v1_identity_management_proto_msgTypes[5]
+	mi := &file_plugin_identity_management_v1_identity_management_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -272,7 +368,7 @@ func (x *GetUsersForGroupRequest) String() string {
 func (*GetUsersForGroupRequest) ProtoMessage() {}
 
 func (x *GetUsersForGroupRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_identity_management_v1_identity_management_proto_msgTypes[5]
+	mi := &file_plugin_identity_management_v1_identity_management_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -285,7 +381,7 @@ func (x *GetUsersForGroupRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUsersForGroupRequest.ProtoReflect.Descriptor instead.
 func (*GetUsersForGroupRequest) Descriptor() ([]byte, []int) {
-	return file_plugin_identity_management_v1_identity_management_proto_rawDescGZIP(), []int{5}
+	return file_plugin_identity_management_v1_identity_management_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *GetUsersForGroupRequest) GetGroupId() string {
@@ -311,7 +407,7 @@ type GetUsersForGroupResponse struct {
 
 func (x *GetUsersForGroupResponse) Reset() {
 	*x = GetUsersForGroupResponse{}
-	mi := &file_plugin_identity_management_v1_identity_management_proto_msgTypes[6]
+	mi := &file_plugin_identity_management_v1_identity_management_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -323,7 +419,7 @@ func (x *GetUsersForGroupResponse) String() string {
 func (*GetUsersForGroupResponse) ProtoMessage() {}
 
 func (x *GetUsersForGroupResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_identity_management_v1_identity_management_proto_msgTypes[6]
+	mi := &file_plugin_identity_management_v1_identity_management_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -336,7 +432,7 @@ func (x *GetUsersForGroupResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUsersForGroupResponse.ProtoReflect.Descriptor instead.
 func (*GetUsersForGroupResponse) Descriptor() ([]byte, []int) {
-	return file_plugin_identity_management_v1_identity_management_proto_rawDescGZIP(), []int{6}
+	return file_plugin_identity_management_v1_identity_management_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *GetUsersForGroupResponse) GetUsers() []*User {
@@ -357,7 +453,7 @@ type User struct {
 
 func (x *User) Reset() {
 	*x = User{}
-	mi := &file_plugin_identity_management_v1_identity_management_proto_msgTypes[7]
+	mi := &file_plugin_identity_management_v1_identity_management_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -369,7 +465,7 @@ func (x *User) String() string {
 func (*User) ProtoMessage() {}
 
 func (x *User) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_identity_management_v1_identity_management_proto_msgTypes[7]
+	mi := &file_plugin_identity_management_v1_identity_management_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -382,7 +478,7 @@ func (x *User) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use User.ProtoReflect.Descriptor instead.
 func (*User) Descriptor() ([]byte, []int) {
-	return file_plugin_identity_management_v1_identity_management_proto_rawDescGZIP(), []int{7}
+	return file_plugin_identity_management_v1_identity_management_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *User) GetId() string {
@@ -416,7 +512,7 @@ type GetGroupsForUserRequest struct {
 
 func (x *GetGroupsForUserRequest) Reset() {
 	*x = GetGroupsForUserRequest{}
-	mi := &file_plugin_identity_management_v1_identity_management_proto_msgTypes[8]
+	mi := &file_plugin_identity_management_v1_identity_management_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -428,7 +524,7 @@ func (x *GetGroupsForUserRequest) String() string {
 func (*GetGroupsForUserRequest) ProtoMessage() {}
 
 func (x *GetGroupsForUserRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_identity_management_v1_identity_management_proto_msgTypes[8]
+	mi := &file_plugin_identity_management_v1_identity_management_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -441,7 +537,7 @@ func (x *GetGroupsForUserRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetGroupsForUserRequest.ProtoReflect.Descriptor instead.
 func (*GetGroupsForUserRequest) Descriptor() ([]byte, []int) {
-	return file_plugin_identity_management_v1_identity_management_proto_rawDescGZIP(), []int{8}
+	return file_plugin_identity_management_v1_identity_management_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *GetGroupsForUserRequest) GetUserId() string {
@@ -467,7 +563,7 @@ type GetGroupsForUserResponse struct {
 
 func (x *GetGroupsForUserResponse) Reset() {
 	*x = GetGroupsForUserResponse{}
-	mi := &file_plugin_identity_management_v1_identity_management_proto_msgTypes[9]
+	mi := &file_plugin_identity_management_v1_identity_management_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -479,7 +575,7 @@ func (x *GetGroupsForUserResponse) String() string {
 func (*GetGroupsForUserResponse) ProtoMessage() {}
 
 func (x *GetGroupsForUserResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_identity_management_v1_identity_management_proto_msgTypes[9]
+	mi := &file_plugin_identity_management_v1_identity_management_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -492,7 +588,7 @@ func (x *GetGroupsForUserResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetGroupsForUserResponse.ProtoReflect.Descriptor instead.
 func (*GetGroupsForUserResponse) Descriptor() ([]byte, []int) {
-	return file_plugin_identity_management_v1_identity_management_proto_rawDescGZIP(), []int{9}
+	return file_plugin_identity_management_v1_identity_management_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *GetGroupsForUserResponse) GetGroups() []*Group {
@@ -512,7 +608,7 @@ type Group struct {
 
 func (x *Group) Reset() {
 	*x = Group{}
-	mi := &file_plugin_identity_management_v1_identity_management_proto_msgTypes[10]
+	mi := &file_plugin_identity_management_v1_identity_management_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -524,7 +620,7 @@ func (x *Group) String() string {
 func (*Group) ProtoMessage() {}
 
 func (x *Group) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_identity_management_v1_identity_management_proto_msgTypes[10]
+	mi := &file_plugin_identity_management_v1_identity_management_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -537,7 +633,7 @@ func (x *Group) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Group.ProtoReflect.Descriptor instead.
 func (*Group) Descriptor() ([]byte, []int) {
-	return file_plugin_identity_management_v1_identity_management_proto_rawDescGZIP(), []int{10}
+	return file_plugin_identity_management_v1_identity_management_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *Group) GetId() string {
@@ -563,7 +659,12 @@ const file_plugin_identity_management_v1_identity_management_proto_rawDesc = "" 
 	"\x04data\x18\x01 \x03(\v24.plugin.identity_management.v1.AuthContext.DataEntryR\x04data\x1a7\n" +
 	"\tDataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\x7f\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"x\n" +
+	"\x0eGetUserRequest\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\x12M\n" +
+	"\fauth_context\x18c \x01(\v2*.plugin.identity_management.v1.AuthContextR\vauthContext\"J\n" +
+	"\x0fGetUserResponse\x127\n" +
+	"\x04user\x18\x01 \x01(\v2#.plugin.identity_management.v1.UserR\x04user\"\x7f\n" +
 	"\x0fGetGroupRequest\x12\x1d\n" +
 	"\n" +
 	"group_name\x18\x01 \x01(\tR\tgroupName\x12M\n" +
@@ -590,8 +691,9 @@ const file_plugin_identity_management_v1_identity_management_proto_rawDesc = "" 
 	"\x06groups\x18\x01 \x03(\v2$.plugin.identity_management.v1.GroupR\x06groups\"+\n" +
 	"\x05Group\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
-	"\x04name\x18\x02 \x01(\tR\x04name2\x8d\x04\n" +
-	"\x19IdentityManagementService\x12k\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name2\xf7\x04\n" +
+	"\x19IdentityManagementService\x12h\n" +
+	"\aGetUser\x12-.plugin.identity_management.v1.GetUserRequest\x1a..plugin.identity_management.v1.GetUserResponse\x12k\n" +
 	"\bGetGroup\x12..plugin.identity_management.v1.GetGroupRequest\x1a/.plugin.identity_management.v1.GetGroupResponse\x12w\n" +
 	"\fGetAllGroups\x122.plugin.identity_management.v1.GetAllGroupsRequest\x1a3.plugin.identity_management.v1.GetAllGroupsResponse\x12\x83\x01\n" +
 	"\x10GetUsersForGroup\x126.plugin.identity_management.v1.GetUsersForGroupRequest\x1a7.plugin.identity_management.v1.GetUsersForGroupResponse\x12\x83\x01\n" +
@@ -610,44 +712,50 @@ func file_plugin_identity_management_v1_identity_management_proto_rawDescGZIP() 
 	return file_plugin_identity_management_v1_identity_management_proto_rawDescData
 }
 
-var file_plugin_identity_management_v1_identity_management_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
+var file_plugin_identity_management_v1_identity_management_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
 var file_plugin_identity_management_v1_identity_management_proto_goTypes = []any{
 	(*AuthContext)(nil),              // 0: plugin.identity_management.v1.AuthContext
-	(*GetGroupRequest)(nil),          // 1: plugin.identity_management.v1.GetGroupRequest
-	(*GetGroupResponse)(nil),         // 2: plugin.identity_management.v1.GetGroupResponse
-	(*GetAllGroupsRequest)(nil),      // 3: plugin.identity_management.v1.GetAllGroupsRequest
-	(*GetAllGroupsResponse)(nil),     // 4: plugin.identity_management.v1.GetAllGroupsResponse
-	(*GetUsersForGroupRequest)(nil),  // 5: plugin.identity_management.v1.GetUsersForGroupRequest
-	(*GetUsersForGroupResponse)(nil), // 6: plugin.identity_management.v1.GetUsersForGroupResponse
-	(*User)(nil),                     // 7: plugin.identity_management.v1.User
-	(*GetGroupsForUserRequest)(nil),  // 8: plugin.identity_management.v1.GetGroupsForUserRequest
-	(*GetGroupsForUserResponse)(nil), // 9: plugin.identity_management.v1.GetGroupsForUserResponse
-	(*Group)(nil),                    // 10: plugin.identity_management.v1.Group
-	nil,                              // 11: plugin.identity_management.v1.AuthContext.DataEntry
+	(*GetUserRequest)(nil),           // 1: plugin.identity_management.v1.GetUserRequest
+	(*GetUserResponse)(nil),          // 2: plugin.identity_management.v1.GetUserResponse
+	(*GetGroupRequest)(nil),          // 3: plugin.identity_management.v1.GetGroupRequest
+	(*GetGroupResponse)(nil),         // 4: plugin.identity_management.v1.GetGroupResponse
+	(*GetAllGroupsRequest)(nil),      // 5: plugin.identity_management.v1.GetAllGroupsRequest
+	(*GetAllGroupsResponse)(nil),     // 6: plugin.identity_management.v1.GetAllGroupsResponse
+	(*GetUsersForGroupRequest)(nil),  // 7: plugin.identity_management.v1.GetUsersForGroupRequest
+	(*GetUsersForGroupResponse)(nil), // 8: plugin.identity_management.v1.GetUsersForGroupResponse
+	(*User)(nil),                     // 9: plugin.identity_management.v1.User
+	(*GetGroupsForUserRequest)(nil),  // 10: plugin.identity_management.v1.GetGroupsForUserRequest
+	(*GetGroupsForUserResponse)(nil), // 11: plugin.identity_management.v1.GetGroupsForUserResponse
+	(*Group)(nil),                    // 12: plugin.identity_management.v1.Group
+	nil,                              // 13: plugin.identity_management.v1.AuthContext.DataEntry
 }
 var file_plugin_identity_management_v1_identity_management_proto_depIdxs = []int32{
-	11, // 0: plugin.identity_management.v1.AuthContext.data:type_name -> plugin.identity_management.v1.AuthContext.DataEntry
-	0,  // 1: plugin.identity_management.v1.GetGroupRequest.auth_context:type_name -> plugin.identity_management.v1.AuthContext
-	10, // 2: plugin.identity_management.v1.GetGroupResponse.group:type_name -> plugin.identity_management.v1.Group
-	0,  // 3: plugin.identity_management.v1.GetAllGroupsRequest.auth_context:type_name -> plugin.identity_management.v1.AuthContext
-	10, // 4: plugin.identity_management.v1.GetAllGroupsResponse.groups:type_name -> plugin.identity_management.v1.Group
-	0,  // 5: plugin.identity_management.v1.GetUsersForGroupRequest.auth_context:type_name -> plugin.identity_management.v1.AuthContext
-	7,  // 6: plugin.identity_management.v1.GetUsersForGroupResponse.users:type_name -> plugin.identity_management.v1.User
-	0,  // 7: plugin.identity_management.v1.GetGroupsForUserRequest.auth_context:type_name -> plugin.identity_management.v1.AuthContext
-	10, // 8: plugin.identity_management.v1.GetGroupsForUserResponse.groups:type_name -> plugin.identity_management.v1.Group
-	1,  // 9: plugin.identity_management.v1.IdentityManagementService.GetGroup:input_type -> plugin.identity_management.v1.GetGroupRequest
-	3,  // 10: plugin.identity_management.v1.IdentityManagementService.GetAllGroups:input_type -> plugin.identity_management.v1.GetAllGroupsRequest
-	5,  // 11: plugin.identity_management.v1.IdentityManagementService.GetUsersForGroup:input_type -> plugin.identity_management.v1.GetUsersForGroupRequest
-	8,  // 12: plugin.identity_management.v1.IdentityManagementService.GetGroupsForUser:input_type -> plugin.identity_management.v1.GetGroupsForUserRequest
-	2,  // 13: plugin.identity_management.v1.IdentityManagementService.GetGroup:output_type -> plugin.identity_management.v1.GetGroupResponse
-	4,  // 14: plugin.identity_management.v1.IdentityManagementService.GetAllGroups:output_type -> plugin.identity_management.v1.GetAllGroupsResponse
-	6,  // 15: plugin.identity_management.v1.IdentityManagementService.GetUsersForGroup:output_type -> plugin.identity_management.v1.GetUsersForGroupResponse
-	9,  // 16: plugin.identity_management.v1.IdentityManagementService.GetGroupsForUser:output_type -> plugin.identity_management.v1.GetGroupsForUserResponse
-	13, // [13:17] is the sub-list for method output_type
-	9,  // [9:13] is the sub-list for method input_type
-	9,  // [9:9] is the sub-list for extension type_name
-	9,  // [9:9] is the sub-list for extension extendee
-	0,  // [0:9] is the sub-list for field type_name
+	13, // 0: plugin.identity_management.v1.AuthContext.data:type_name -> plugin.identity_management.v1.AuthContext.DataEntry
+	0,  // 1: plugin.identity_management.v1.GetUserRequest.auth_context:type_name -> plugin.identity_management.v1.AuthContext
+	9,  // 2: plugin.identity_management.v1.GetUserResponse.user:type_name -> plugin.identity_management.v1.User
+	0,  // 3: plugin.identity_management.v1.GetGroupRequest.auth_context:type_name -> plugin.identity_management.v1.AuthContext
+	12, // 4: plugin.identity_management.v1.GetGroupResponse.group:type_name -> plugin.identity_management.v1.Group
+	0,  // 5: plugin.identity_management.v1.GetAllGroupsRequest.auth_context:type_name -> plugin.identity_management.v1.AuthContext
+	12, // 6: plugin.identity_management.v1.GetAllGroupsResponse.groups:type_name -> plugin.identity_management.v1.Group
+	0,  // 7: plugin.identity_management.v1.GetUsersForGroupRequest.auth_context:type_name -> plugin.identity_management.v1.AuthContext
+	9,  // 8: plugin.identity_management.v1.GetUsersForGroupResponse.users:type_name -> plugin.identity_management.v1.User
+	0,  // 9: plugin.identity_management.v1.GetGroupsForUserRequest.auth_context:type_name -> plugin.identity_management.v1.AuthContext
+	12, // 10: plugin.identity_management.v1.GetGroupsForUserResponse.groups:type_name -> plugin.identity_management.v1.Group
+	1,  // 11: plugin.identity_management.v1.IdentityManagementService.GetUser:input_type -> plugin.identity_management.v1.GetUserRequest
+	3,  // 12: plugin.identity_management.v1.IdentityManagementService.GetGroup:input_type -> plugin.identity_management.v1.GetGroupRequest
+	5,  // 13: plugin.identity_management.v1.IdentityManagementService.GetAllGroups:input_type -> plugin.identity_management.v1.GetAllGroupsRequest
+	7,  // 14: plugin.identity_management.v1.IdentityManagementService.GetUsersForGroup:input_type -> plugin.identity_management.v1.GetUsersForGroupRequest
+	10, // 15: plugin.identity_management.v1.IdentityManagementService.GetGroupsForUser:input_type -> plugin.identity_management.v1.GetGroupsForUserRequest
+	2,  // 16: plugin.identity_management.v1.IdentityManagementService.GetUser:output_type -> plugin.identity_management.v1.GetUserResponse
+	4,  // 17: plugin.identity_management.v1.IdentityManagementService.GetGroup:output_type -> plugin.identity_management.v1.GetGroupResponse
+	6,  // 18: plugin.identity_management.v1.IdentityManagementService.GetAllGroups:output_type -> plugin.identity_management.v1.GetAllGroupsResponse
+	8,  // 19: plugin.identity_management.v1.IdentityManagementService.GetUsersForGroup:output_type -> plugin.identity_management.v1.GetUsersForGroupResponse
+	11, // 20: plugin.identity_management.v1.IdentityManagementService.GetGroupsForUser:output_type -> plugin.identity_management.v1.GetGroupsForUserResponse
+	16, // [16:21] is the sub-list for method output_type
+	11, // [11:16] is the sub-list for method input_type
+	11, // [11:11] is the sub-list for extension type_name
+	11, // [11:11] is the sub-list for extension extendee
+	0,  // [0:11] is the sub-list for field type_name
 }
 
 func init() { file_plugin_identity_management_v1_identity_management_proto_init() }
@@ -661,7 +769,7 @@ func file_plugin_identity_management_v1_identity_management_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_plugin_identity_management_v1_identity_management_proto_rawDesc), len(file_plugin_identity_management_v1_identity_management_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   12,
+			NumMessages:   14,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

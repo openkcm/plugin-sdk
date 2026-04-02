@@ -2,6 +2,7 @@ syntax = "proto3";
 package plugin.identity_management.v1;
 
 service IdentityManagementService {
+  rpc GetUser(GetUserRequest) returns (GetUserResponse);
   rpc GetGroup(GetGroupRequest) returns (GetGroupResponse);
   rpc GetAllGroups(GetAllGroupsRequest) returns (GetAllGroupsResponse);
   rpc GetUsersForGroup(GetUsersForGroupRequest) returns (GetUsersForGroupResponse);
@@ -10,6 +11,15 @@ service IdentityManagementService {
 
 message AuthContext {
   map<string, string> data = 1;
+}
+
+message GetUserRequest {
+  string user_id = 1;
+  AuthContext auth_context = 99;
+}
+
+message GetUserResponse {
+  User user = 1;
 }
 
 message GetGroupRequest {
