@@ -1,0 +1,7 @@
+version = 2
+
+[[dependencies]]
+name = "protovalidate"
+url = "github.com/bufbuild/protovalidate"
+revision = "v1.1.1"
+commit_hash = "b304b85d7f2f072190ca4315ded920fe2310251f"

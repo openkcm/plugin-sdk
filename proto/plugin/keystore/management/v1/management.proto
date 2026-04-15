@@ -4,6 +4,8 @@ package plugin.keystore.management.v1;
 import "google/protobuf/struct.proto";
 import "plugin/keystore/common/v1/common.proto";
 
+option go_package = "github.com/openkcm/plugin-sdk/proto/plugin/keystore/management/v1;managementv1";
+
 service KeystoreProvider {
   rpc CreateKeystore(CreateKeystoreRequest) returns (CreateKeystoreResponse);
   rpc DeleteKeystore(DeleteKeystoreRequest) returns (DeleteKeystoreResponse);

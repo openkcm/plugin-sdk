@@ -5,6 +5,8 @@ import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
 import "plugin/keystore/common/v1/common.proto";
 
+option go_package = "github.com/openkcm/plugin-sdk/proto/plugin/keystore/operations/v1;operationsv1";
+
 // KeystoreInstanceKeyOperation service defines the operations available for key management
 service KeystoreInstanceKeyOperation {
   // GetKey retrieves the details of a key by its ID

@@ -1,0 +1,8 @@
+name = "github.com/openkcm/plugin-sdk"
+description = "Plugins SDK of the OpenKCM project"
+
+[protovalidate]
+url = "github.com/bufbuild/protovalidate"
+revision = "v1.1.1"
+content_roots = ["/proto/protovalidate"]
+allow_policies = ["buf/validate/*"]
