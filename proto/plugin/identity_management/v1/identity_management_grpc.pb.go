@@ -20,6 +20,7 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
+	IdentityManagementService_GetUser_FullMethodName          = "/plugin.identity_management.v1.IdentityManagementService/GetUser"
 	IdentityManagementService_GetGroup_FullMethodName         = "/plugin.identity_management.v1.IdentityManagementService/GetGroup"
 	IdentityManagementService_GetAllGroups_FullMethodName     = "/plugin.identity_management.v1.IdentityManagementService/GetAllGroups"
 	IdentityManagementService_GetUsersForGroup_FullMethodName = "/plugin.identity_management.v1.IdentityManagementService/GetUsersForGroup"
@@ -30,6 +31,7 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type IdentityManagementServiceClient interface {
+	GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*GetUserResponse, error)
 	GetGroup(ctx context.Context, in *GetGroupRequest, opts ...grpc.CallOption) (*GetGroupResponse, error)
 	GetAllGroups(ctx context.Context, in *GetAllGroupsRequest, opts ...grpc.CallOption) (*GetAllGroupsResponse, error)
 	GetUsersForGroup(ctx context.Context, in *GetUsersForGroupRequest, opts ...grpc.CallOption) (*GetUsersForGroupResponse, error)
@@ -42,6 +44,16 @@ type identityManagementServiceClient struct {
 
 func NewIdentityManagementServiceClient(cc grpc.ClientConnInterface) IdentityManagementServiceClient {
 	return &identityManagementServiceClient{cc}
+}
+
+func (c *identityManagementServiceClient) GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*GetUserResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetUserResponse)
+	err := c.cc.Invoke(ctx, IdentityManagementService_GetUser_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *identityManagementServiceClient) GetGroup(ctx context.Context, in *GetGroupRequest, opts ...grpc.CallOption) (*GetGroupResponse, error) {
@@ -88,6 +100,7 @@ func (c *identityManagementServiceClient) GetGroupsForUser(ctx context.Context, 
 // All implementations must embed UnimplementedIdentityManagementServiceServer
 // for forward compatibility.
 type IdentityManagementServiceServer interface {
+	GetUser(context.Context, *GetUserRequest) (*GetUserResponse, error)
 	GetGroup(context.Context, *GetGroupRequest) (*GetGroupResponse, error)
 	GetAllGroups(context.Context, *GetAllGroupsRequest) (*GetAllGroupsResponse, error)
 	GetUsersForGroup(context.Context, *GetUsersForGroupRequest) (*GetUsersForGroupResponse, error)
@@ -102,6 +115,9 @@ type IdentityManagementServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedIdentityManagementServiceServer struct{}
 
+func (UnimplementedIdentityManagementServiceServer) GetUser(context.Context, *GetUserRequest) (*GetUserResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetUser not implemented")
+}
 func (UnimplementedIdentityManagementServiceServer) GetGroup(context.Context, *GetGroupRequest) (*GetGroupResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetGroup not implemented")
 }
@@ -134,6 +150,24 @@ func RegisterIdentityManagementServiceServer(s grpc.ServiceRegistrar, srv Identi
 		t.testEmbeddedByValue()
 	}
 	s.RegisterService(&IdentityManagementService_ServiceDesc, srv)
+}
+
+func _IdentityManagementService_GetUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(IdentityManagementServiceServer).GetUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: IdentityManagementService_GetUser_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(IdentityManagementServiceServer).GetUser(ctx, req.(*GetUserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _IdentityManagementService_GetGroup_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -215,6 +249,10 @@ var IdentityManagementService_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "plugin.identity_management.v1.IdentityManagementService",
 	HandlerType: (*IdentityManagementServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetUser",
+			Handler:    _IdentityManagementService_GetUser_Handler,
+		},
 		{
 			MethodName: "GetGroup",
 			Handler:    _IdentityManagementService_GetGroup_Handler,
