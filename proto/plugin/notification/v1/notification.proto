@@ -1,6 +1,8 @@
 syntax = "proto3";
 package plugin.notification.v1;
 
+option go_package = "github.com/openkcm/plugin-sdk/proto/plugin/notification/v1;notificationv1";
+
 service NotificationService {
   // SendNotification sends a notification to the specified recipients
   rpc SendNotification(SendNotificationRequest) returns (SendNotificationResponse);

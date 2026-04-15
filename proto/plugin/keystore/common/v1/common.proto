@@ -3,6 +3,8 @@ package plugin.keystore.common.v1;
 
 import "google/protobuf/struct.proto";
 
+option go_package = "github.com/openkcm/plugin-sdk/proto/plugin/keystore/common/v1;commonv1";
+
 // KeystoreInstanceConfig represents the configuration for a key store instance
 // This is shared between management and operations plugins
 message KeystoreInstanceConfig {
