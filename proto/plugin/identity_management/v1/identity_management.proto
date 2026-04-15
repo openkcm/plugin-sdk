@@ -1,6 +1,8 @@
 syntax = "proto3";
 package plugin.identity_management.v1;
 
+option go_package = "github.com/openkcm/plugin-sdk/proto/plugin/identity_management/v1;identity_managementv1";
+
 service IdentityManagementService {
   rpc GetUser(GetUserRequest) returns (GetUserResponse);
   rpc GetGroup(GetGroupRequest) returns (GetGroupResponse);

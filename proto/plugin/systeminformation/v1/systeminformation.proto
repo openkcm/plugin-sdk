@@ -3,6 +3,8 @@ package plugin.systeminformation.v1;
 
 import "buf/validate/validate.proto";
 
+option go_package = "github.com/openkcm/plugin-sdk/proto/plugin/systeminformation/v1;systeminformationv1";
+
 service SystemInformationService {
   rpc Get(GetRequest) returns (GetResponse);
 }

@@ -1,35 +1,107 @@
 .PHONY: generate
+generate: fetch-protos format-proto go-gen internal-go-gen
 
-generate: patch-swagger-doc format
-	go mod tidy
-	go mod vendor
+.PHONY: clean-proto
+clean-proto:
+	@find ./proto -type f -name '*.go' -exec rm {} +
 
-patch-swagger-doc: buf-gen internal-buf-gen
-	#./scripts/update_swagger.sh docs/openapiv2/apidocs.swagger.json
+.PHONY: clean-proto-internal
+clean-proto-internal:
+	@find ./internal/proto -type f -name '*.go' -exec rm {} +
 
-init-git-hooks:
-	git config --local core.hooksPath .githooks/
+.PHONY: fetch-protos
+fetch-protos:
+	@protofetch -o vendor-proto fetch
 
-buf-gen: init-git-hooks
-	buf dep update
-	./buf.gen.yaml
-	find . -name \*.go -not -path '.git/*' -exec goimports -local github.com/openkcm/plugin-sdk -w {} \;
+.PHONY: go-gen
+go-gen: clean-proto
+	@find ./proto -type f -iname '*.proto' -exec \
+		protoc -I./proto -I./vendor-proto \
+		--go_out=./proto \
+		--go_opt=paths=import \
+		--go_opt=module=github.com/openkcm/plugin-sdk/proto \
+		--go-grpc_out=./proto \
+		--go-grpc_opt=paths=import \
+		--go-grpc_opt=module=github.com/openkcm/plugin-sdk/proto \
+		--go-extension_out=./proto \
+		--go-extension_opt=module=github.com/openkcm/plugin-sdk/proto \
+		--go-extension_opt=submodule=github.com/openkcm/plugin-sdk/proto/service/common \
+		--go-extension_opt=kind=service \
+		--grpc-gateway_out=./proto \
+		--grpc-gateway_opt=paths=import \
+		--grpc-gateway_opt=module=github.com/openkcm/plugin-sdk/proto \
+		--grpc-gateway_opt=logtostderr=true \
+		{} +
 
-internal-buf-gen:
-	buf dep update
-	./internal-buf.gen.yaml
+	@find ./proto -type f -iname '*.proto' -exec \
+		protoc -I./proto -I./vendor-proto \
+		--go-extension_out=./proto \
+		--go-extension_opt=module=github.com/openkcm/plugin-sdk/proto \
+		--go-extension_opt=submodule=github.com/openkcm/plugin-sdk/proto/plugin \
+		--go-extension_opt=kind=plugin \
+		{} +
 
-format: buf-gen
-	buf format -w
+.PHONY: internal-go-gen
+internal-go-gen: clean-proto-internal
+	@find ./internal/proto -type f -iname '*.proto' -exec \
+		protoc -I./internal/proto -I./proto -I./vendor-proto \
+		--go_out=./internal/proto \
+		--go_opt=paths=import \
+		--go_opt=module=github.com/openkcm/plugin-sdk/internal/proto \
+		--go-grpc_out=./internal/proto \
+		--go-grpc_opt=paths=import \
+		--go-grpc_opt=module=github.com/openkcm/plugin-sdk/internal/proto \
+		--go-extension_out=./internal/proto \
+		--go-extension_opt=module=github.com/openkcm/plugin-sdk/internal/proto \
+		--go-extension_opt=submodule=github.com/openkcm/plugin-sdk/internal/proto/service \
+		--go-extension_opt=kind=service \
+		--grpc-gateway_out=./internal/proto \
+		--grpc-gateway_opt=paths=import \
+		--grpc-gateway_opt=module=github.com/openkcm/plugin-sdk/internal/proto \
+		--grpc-gateway_opt=logtostderr=true \
+		{} +
 
+.PHONY: format-proto
+format-proto:
+	@buf format -w
+
+.PHONY: format
+format: format-proto
+
+.PHONY: validate-proto
+validate-proto: format-proto lint-proto breaking
+
+.PHONY: lint-proto
+lint-proto:
+	@buf lint
+
+.PHONY: breaking
+breaking:
+	@buf breaking --against https://github.com/openkcm/plugin-sdk.git#branch=main
+
+.PHONY: install-proto-tools
+install-proto-tools:
+	brew install protobuf
+	go install \
+		google.golang.org/protobuf/cmd/protoc-gen-go@latest \
+		google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest \
+		github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway@latest \
+		github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2@latest \
+		./cmd/protoc-gen-go-extension
+	brew install bufbuild/buf/buf
+	npm install -g @coralogix/protofetch
+
+.PHONY: lint-install
 lint-install:
 	go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@latest
 
-lint:
+.PHONY: lint
+lint: lint-proto
 	golangci-lint run -v --fix
 
+.PHONY: goimports
 goimports:
-	find . -name \*.go -not -path '.git/*' -exec goimports -local github.com/openkcm/plugin-sdk -w {} \;
+	find ./ -name \*.go -not -path '.git/*' -exec goimports -local github.com/openkcm/plugin-sdk -w {} +
 
 .PHONY: test
 test:

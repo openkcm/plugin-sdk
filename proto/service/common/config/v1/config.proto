@@ -1,6 +1,8 @@
 syntax = "proto3";
 package service.common.config.v1;
 
+option go_package = "github.com/openkcm/plugin-sdk/proto/service/common/config/v1;configv1";
+
 service Config {
   // Configure the plugin with the plugin specific configuration data and a set the core configuration. It is
   // currently called when the plugin is first loaded after it has been initialized. At a future point, it may
