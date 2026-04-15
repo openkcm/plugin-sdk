@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.11.0](https://github.com/openkcm/plugin-sdk/compare/v0.10.2...v0.11.0) (2026-04-15)
+
+
+### Features
+
+* get user details on identity manager ([#144](https://github.com/openkcm/plugin-sdk/issues/144)) ([60a8a80](https://github.com/openkcm/plugin-sdk/commit/60a8a8097cf61645c782b9c77ba520f0b5db77c3))
+
 ## [0.10.2](https://github.com/openkcm/plugin-sdk/compare/v0.10.1...v0.10.2) (2026-03-24)
 
 
