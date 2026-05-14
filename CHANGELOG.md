@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.11.1](https://github.com/openkcm/plugin-sdk/compare/v0.11.0...v0.11.1) (2026-05-14)
+
+
+### Bug Fixes
+
+* **deps:** bump the gomod-group group across 1 directory with 2 updates ([#146](https://github.com/openkcm/plugin-sdk/issues/146)) ([db2696d](https://github.com/openkcm/plugin-sdk/commit/db2696db14dd763a999e3ef7c652ccbcebc88219))
+
 ## [0.11.0](https://github.com/openkcm/plugin-sdk/compare/v0.10.2...v0.11.0) (2026-04-15)
 
 
