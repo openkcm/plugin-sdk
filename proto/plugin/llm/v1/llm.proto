@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+package plugin.llm.v1;
+
+option go_package = "github.com/nnicora/krypton/proto/plugin/llm/v1;llmv1";
+
+// LLM is the plugin interface for AI language-model backends used by the
+// Advisor module. Only aggregate, privacy-safe statistics are ever transmitted —
+// no key material, no key IDs, and no principal names.
+service LLM {
+  // Enrich takes rule-engine findings (plain text, no sensitive data) and
+  // returns enriched descriptions and remediation steps.
+  rpc Enrich(EnrichRequest) returns (EnrichResponse);
+
+  // Answer responds to a free-form question about key posture using only the
+  // supplied aggregate signals — no key material, no key IDs, no principal names.
+  rpc Answer(AnswerRequest) returns (AnswerResponse);
+}
+
+// FindingSummary is a single rule-engine finding passed to the LLM for enrichment.
+// Only aggregate metrics are included — never key material or key IDs.
+message FindingSummary {
+  string category = 1;
+  string severity = 2;
+  string title = 3;
+  string description = 4;
+  // aggregate_metadata contains counts and names only (e.g. algorithm="AES-256", count="12").
+  map<string, string> aggregate_metadata = 5;
+}
+
+// EnrichedFinding contains LLM-enhanced descriptions for a single finding.
+message EnrichedFinding {
+  string enriched_description = 1;
+  string enriched_remediation = 2;
+}
+
+message EnrichRequest {
+  repeated FindingSummary findings = 1;
+}
+
+message EnrichResponse {
+  repeated EnrichedFinding enriched = 1;
+}
+
+// AnswerRequest carries a free-form question and aggregate context signals.
+// context_signals must contain only counts and names — never key material.
+message AnswerRequest {
+  string question = 1;
+  map<string, string> context_signals = 2;
+}
+
+message AnswerResponse {
+  string answer = 1;
+}
