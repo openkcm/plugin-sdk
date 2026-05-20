@@ -369,25 +369,25 @@ var File_plugin_cipher_wrapper_v1_cipher_wrapper_proto protoreflect.FileDescript
 
 const file_plugin_cipher_wrapper_v1_cipher_wrapper_proto_rawDesc = "" +
 	"\n" +
-	"-plugin/cipher_wrapper/v1/cipher_wrapper.proto\x12\x19krypton.cipher_wrapper.v1\x1a\x1bbuf/validate/validate.proto\"\xe8\x01\n" +
+	"-plugin/cipher_wrapper/v1/cipher_wrapper.proto\x12 krypton.plugin.cipher_wrapper.v1\x1a\x1bbuf/validate/validate.proto\"\xef\x01\n" +
 	"\fKeyReference\x12\x15\n" +
 	"\x06key_id\x18\x01 \x01(\tR\x05keyId\x12\x1d\n" +
-	"\aversion\x18\x02 \x01(\tH\x00R\aversion\x88\x01\x01\x12W\n" +
+	"\aversion\x18\x02 \x01(\tH\x00R\aversion\x88\x01\x01\x12^\n" +
 	"\n" +
-	"properties\x18\x03 \x03(\v27.krypton.cipher_wrapper.v1.KeyReference.PropertiesEntryR\n" +
+	"properties\x18\x03 \x03(\v2>.krypton.plugin.cipher_wrapper.v1.KeyReference.PropertiesEntryR\n" +
 	"properties\x1a=\n" +
 	"\x0fPropertiesEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01B\n" +
 	"\n" +
-	"\b_version\"\xde\x02\n" +
-	"\vWrapRequest\x12A\n" +
-	"\x03key\x18\x01 \x01(\v2'.krypton.cipher_wrapper.v1.KeyReferenceB\x06\xbaH\x03\xc8\x01\x01R\x03key\x12(\n" +
+	"\b_version\"\xec\x02\n" +
+	"\vWrapRequest\x12H\n" +
+	"\x03key\x18\x01 \x01(\v2..krypton.plugin.cipher_wrapper.v1.KeyReferenceB\x06\xbaH\x03\xc8\x01\x01R\x03key\x12(\n" +
 	"\tplaintext\x18\x02 \x01(\fB\n" +
 	"\xbaH\a\xc8\x01\x01z\x02\x10\x01R\tplaintext\x12\x15\n" +
 	"\x03aad\x18\x03 \x01(\fH\x00R\x03aad\x88\x01\x01\x12\x13\n" +
-	"\x02iv\x18\x04 \x01(\fH\x01R\x02iv\x88\x01\x01\x12d\n" +
-	"\x0fdynamic_context\x18\x84\a \x03(\v2:.krypton.cipher_wrapper.v1.WrapRequest.DynamicContextEntryR\x0edynamicContext\x1aA\n" +
+	"\x02iv\x18\x04 \x01(\fH\x01R\x02iv\x88\x01\x01\x12k\n" +
+	"\x0fdynamic_context\x18\x84\a \x03(\v2A.krypton.plugin.cipher_wrapper.v1.WrapRequest.DynamicContextEntryR\x0edynamicContext\x1aA\n" +
 	"\x13DynamicContextEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01B\x06\n" +
@@ -400,27 +400,27 @@ const file_plugin_cipher_wrapper_v1_cipher_wrapper_proto_rawDesc = "" +
 	"\x0ekey_version_id\x18\x02 \x01(\tH\x00R\fkeyVersionId\x88\x01\x01\x12\x13\n" +
 	"\x02iv\x18\x03 \x01(\fH\x01R\x02iv\x88\x01\x01B\x11\n" +
 	"\x0f_key_version_idB\x05\n" +
-	"\x03_iv\"\xe4\x02\n" +
-	"\rUnwrapRequest\x12A\n" +
-	"\x03key\x18\x01 \x01(\v2'.krypton.cipher_wrapper.v1.KeyReferenceB\x06\xbaH\x03\xc8\x01\x01R\x03key\x12*\n" +
+	"\x03_iv\"\xf2\x02\n" +
+	"\rUnwrapRequest\x12H\n" +
+	"\x03key\x18\x01 \x01(\v2..krypton.plugin.cipher_wrapper.v1.KeyReferenceB\x06\xbaH\x03\xc8\x01\x01R\x03key\x12*\n" +
 	"\n" +
 	"ciphertext\x18\x02 \x01(\fB\n" +
 	"\xbaH\a\xc8\x01\x01z\x02\x10\x01R\n" +
 	"ciphertext\x12\x15\n" +
 	"\x03aad\x18\x03 \x01(\fH\x00R\x03aad\x88\x01\x01\x12\x13\n" +
-	"\x02iv\x18\x04 \x01(\fH\x01R\x02iv\x88\x01\x01\x12f\n" +
-	"\x0fdynamic_context\x18\x84\a \x03(\v2<.krypton.cipher_wrapper.v1.UnwrapRequest.DynamicContextEntryR\x0edynamicContext\x1aA\n" +
+	"\x02iv\x18\x04 \x01(\fH\x01R\x02iv\x88\x01\x01\x12m\n" +
+	"\x0fdynamic_context\x18\x84\a \x03(\v2C.krypton.plugin.cipher_wrapper.v1.UnwrapRequest.DynamicContextEntryR\x0edynamicContext\x1aA\n" +
 	"\x13DynamicContextEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01B\x06\n" +
 	"\x04_aadB\x05\n" +
 	"\x03_iv\".\n" +
 	"\x0eUnwrapResponse\x12\x1c\n" +
-	"\tplaintext\x18\x01 \x01(\fR\tplaintext2\xc7\x01\n" +
-	"\rCipherWrapper\x12W\n" +
-	"\x04Wrap\x12&.krypton.cipher_wrapper.v1.WrapRequest\x1a'.krypton.cipher_wrapper.v1.WrapResponse\x12]\n" +
-	"\x06Unwrap\x12(.krypton.cipher_wrapper.v1.UnwrapRequest\x1a).krypton.cipher_wrapper.v1.UnwrapResponseB\x84\x02\n" +
-	"\x1dcom.krypton.cipher_wrapper.v1B\x12CipherWrapperProtoP\x01ZMgithub.com/openkcm/plugin-sdk/proto/plugin/cipher_wrapper/v1;cipher_wrapperv1\xa2\x02\x03KCX\xaa\x02\x18Krypton.CipherWrapper.V1\xca\x02\x18Krypton\\CipherWrapper\\V1\xe2\x02$Krypton\\CipherWrapper\\V1\\GPBMetadata\xea\x02\x1aKrypton::CipherWrapper::V1b\x06proto3"
+	"\tplaintext\x18\x01 \x01(\fR\tplaintext2\xe3\x01\n" +
+	"\rCipherWrapper\x12e\n" +
+	"\x04Wrap\x12-.krypton.plugin.cipher_wrapper.v1.WrapRequest\x1a..krypton.plugin.cipher_wrapper.v1.WrapResponse\x12k\n" +
+	"\x06Unwrap\x12/.krypton.plugin.cipher_wrapper.v1.UnwrapRequest\x1a0.krypton.plugin.cipher_wrapper.v1.UnwrapResponseB\xa8\x02\n" +
+	"$com.krypton.plugin.cipher_wrapper.v1B\x12CipherWrapperProtoP\x01ZMgithub.com/openkcm/plugin-sdk/proto/plugin/cipher_wrapper/v1;cipher_wrapperv1\xa2\x02\x03KPC\xaa\x02\x1fKrypton.Plugin.CipherWrapper.V1\xca\x02\x1fKrypton\\Plugin\\CipherWrapper\\V1\xe2\x02+Krypton\\Plugin\\CipherWrapper\\V1\\GPBMetadata\xea\x02\"Krypton::Plugin::CipherWrapper::V1b\x06proto3"
 
 var (
 	file_plugin_cipher_wrapper_v1_cipher_wrapper_proto_rawDescOnce sync.Once
@@ -436,25 +436,25 @@ func file_plugin_cipher_wrapper_v1_cipher_wrapper_proto_rawDescGZIP() []byte {
 
 var file_plugin_cipher_wrapper_v1_cipher_wrapper_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_plugin_cipher_wrapper_v1_cipher_wrapper_proto_goTypes = []any{
-	(*KeyReference)(nil),   // 0: krypton.cipher_wrapper.v1.KeyReference
-	(*WrapRequest)(nil),    // 1: krypton.cipher_wrapper.v1.WrapRequest
-	(*WrapResponse)(nil),   // 2: krypton.cipher_wrapper.v1.WrapResponse
-	(*UnwrapRequest)(nil),  // 3: krypton.cipher_wrapper.v1.UnwrapRequest
-	(*UnwrapResponse)(nil), // 4: krypton.cipher_wrapper.v1.UnwrapResponse
-	nil,                    // 5: krypton.cipher_wrapper.v1.KeyReference.PropertiesEntry
-	nil,                    // 6: krypton.cipher_wrapper.v1.WrapRequest.DynamicContextEntry
-	nil,                    // 7: krypton.cipher_wrapper.v1.UnwrapRequest.DynamicContextEntry
+	(*KeyReference)(nil),   // 0: krypton.plugin.cipher_wrapper.v1.KeyReference
+	(*WrapRequest)(nil),    // 1: krypton.plugin.cipher_wrapper.v1.WrapRequest
+	(*WrapResponse)(nil),   // 2: krypton.plugin.cipher_wrapper.v1.WrapResponse
+	(*UnwrapRequest)(nil),  // 3: krypton.plugin.cipher_wrapper.v1.UnwrapRequest
+	(*UnwrapResponse)(nil), // 4: krypton.plugin.cipher_wrapper.v1.UnwrapResponse
+	nil,                    // 5: krypton.plugin.cipher_wrapper.v1.KeyReference.PropertiesEntry
+	nil,                    // 6: krypton.plugin.cipher_wrapper.v1.WrapRequest.DynamicContextEntry
+	nil,                    // 7: krypton.plugin.cipher_wrapper.v1.UnwrapRequest.DynamicContextEntry
 }
 var file_plugin_cipher_wrapper_v1_cipher_wrapper_proto_depIdxs = []int32{
-	5, // 0: krypton.cipher_wrapper.v1.KeyReference.properties:type_name -> krypton.cipher_wrapper.v1.KeyReference.PropertiesEntry
-	0, // 1: krypton.cipher_wrapper.v1.WrapRequest.key:type_name -> krypton.cipher_wrapper.v1.KeyReference
-	6, // 2: krypton.cipher_wrapper.v1.WrapRequest.dynamic_context:type_name -> krypton.cipher_wrapper.v1.WrapRequest.DynamicContextEntry
-	0, // 3: krypton.cipher_wrapper.v1.UnwrapRequest.key:type_name -> krypton.cipher_wrapper.v1.KeyReference
-	7, // 4: krypton.cipher_wrapper.v1.UnwrapRequest.dynamic_context:type_name -> krypton.cipher_wrapper.v1.UnwrapRequest.DynamicContextEntry
-	1, // 5: krypton.cipher_wrapper.v1.CipherWrapper.Wrap:input_type -> krypton.cipher_wrapper.v1.WrapRequest
-	3, // 6: krypton.cipher_wrapper.v1.CipherWrapper.Unwrap:input_type -> krypton.cipher_wrapper.v1.UnwrapRequest
-	2, // 7: krypton.cipher_wrapper.v1.CipherWrapper.Wrap:output_type -> krypton.cipher_wrapper.v1.WrapResponse
-	4, // 8: krypton.cipher_wrapper.v1.CipherWrapper.Unwrap:output_type -> krypton.cipher_wrapper.v1.UnwrapResponse
+	5, // 0: krypton.plugin.cipher_wrapper.v1.KeyReference.properties:type_name -> krypton.plugin.cipher_wrapper.v1.KeyReference.PropertiesEntry
+	0, // 1: krypton.plugin.cipher_wrapper.v1.WrapRequest.key:type_name -> krypton.plugin.cipher_wrapper.v1.KeyReference
+	6, // 2: krypton.plugin.cipher_wrapper.v1.WrapRequest.dynamic_context:type_name -> krypton.plugin.cipher_wrapper.v1.WrapRequest.DynamicContextEntry
+	0, // 3: krypton.plugin.cipher_wrapper.v1.UnwrapRequest.key:type_name -> krypton.plugin.cipher_wrapper.v1.KeyReference
+	7, // 4: krypton.plugin.cipher_wrapper.v1.UnwrapRequest.dynamic_context:type_name -> krypton.plugin.cipher_wrapper.v1.UnwrapRequest.DynamicContextEntry
+	1, // 5: krypton.plugin.cipher_wrapper.v1.CipherWrapper.Wrap:input_type -> krypton.plugin.cipher_wrapper.v1.WrapRequest
+	3, // 6: krypton.plugin.cipher_wrapper.v1.CipherWrapper.Unwrap:input_type -> krypton.plugin.cipher_wrapper.v1.UnwrapRequest
+	2, // 7: krypton.plugin.cipher_wrapper.v1.CipherWrapper.Wrap:output_type -> krypton.plugin.cipher_wrapper.v1.WrapResponse
+	4, // 8: krypton.plugin.cipher_wrapper.v1.CipherWrapper.Unwrap:output_type -> krypton.plugin.cipher_wrapper.v1.UnwrapResponse
 	7, // [7:9] is the sub-list for method output_type
 	5, // [5:7] is the sub-list for method input_type
 	5, // [5:5] is the sub-list for extension type_name

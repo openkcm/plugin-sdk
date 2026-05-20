@@ -1,8 +1,6 @@
 syntax = "proto3";
 
-package krypton.llm.v1;
-
-option go_package = "github.com/openkcm/krypton/proto/plugin/llm/v1;llmv1";
+package krypton.plugin.llm.v1;
 
 // LLM is the plugin interface for AI language-model backends used by the
 // Advisor module. Only aggregate, privacy-safe statistics are ever transmitted —

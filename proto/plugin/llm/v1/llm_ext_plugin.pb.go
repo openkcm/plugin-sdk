@@ -10,7 +10,7 @@ import (
 
 const (
 	Type                = "LLM"
-	GRPCServiceFullName = "krypton.llm.v1.LLM"
+	GRPCServiceFullName = "krypton.plugin.llm.v1.LLM"
 )
 
 func LLMPluginServer(server LLMServer) api.PluginServer {

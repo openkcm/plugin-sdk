@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.11
 // 	protoc        (unknown)
-// source: plugin/reconciler/v1/reconciler.proto
+// source: plugin/resources/v1/reconciler.proto
 
 package reconcilerv1
 
@@ -42,7 +42,7 @@ type ReconcileRequest struct {
 
 func (x *ReconcileRequest) Reset() {
 	*x = ReconcileRequest{}
-	mi := &file_plugin_reconciler_v1_reconciler_proto_msgTypes[0]
+	mi := &file_plugin_resources_v1_reconciler_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -54,7 +54,7 @@ func (x *ReconcileRequest) String() string {
 func (*ReconcileRequest) ProtoMessage() {}
 
 func (x *ReconcileRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_reconciler_v1_reconciler_proto_msgTypes[0]
+	mi := &file_plugin_resources_v1_reconciler_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -67,7 +67,7 @@ func (x *ReconcileRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ReconcileRequest.ProtoReflect.Descriptor instead.
 func (*ReconcileRequest) Descriptor() ([]byte, []int) {
-	return file_plugin_reconciler_v1_reconciler_proto_rawDescGZIP(), []int{0}
+	return file_plugin_resources_v1_reconciler_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *ReconcileRequest) GetApiGroup() string {
@@ -123,7 +123,7 @@ type ReconcileResponse struct {
 
 func (x *ReconcileResponse) Reset() {
 	*x = ReconcileResponse{}
-	mi := &file_plugin_reconciler_v1_reconciler_proto_msgTypes[1]
+	mi := &file_plugin_resources_v1_reconciler_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -135,7 +135,7 @@ func (x *ReconcileResponse) String() string {
 func (*ReconcileResponse) ProtoMessage() {}
 
 func (x *ReconcileResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_reconciler_v1_reconciler_proto_msgTypes[1]
+	mi := &file_plugin_resources_v1_reconciler_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -148,7 +148,7 @@ func (x *ReconcileResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ReconcileResponse.ProtoReflect.Descriptor instead.
 func (*ReconcileResponse) Descriptor() ([]byte, []int) {
-	return file_plugin_reconciler_v1_reconciler_proto_rawDescGZIP(), []int{1}
+	return file_plugin_resources_v1_reconciler_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *ReconcileResponse) GetErrorMessage() string {
@@ -172,11 +172,11 @@ func (x *ReconcileResponse) GetExecutionPlan() []byte {
 	return nil
 }
 
-var File_plugin_reconciler_v1_reconciler_proto protoreflect.FileDescriptor
+var File_plugin_resources_v1_reconciler_proto protoreflect.FileDescriptor
 
-const file_plugin_reconciler_v1_reconciler_proto_rawDesc = "" +
+const file_plugin_resources_v1_reconciler_proto_rawDesc = "" +
 	"\n" +
-	"%plugin/reconciler/v1/reconciler.proto\x12\x15krypton.reconciler.v1\x1a\x1bbuf/validate/validate.proto\"\xc2\x01\n" +
+	"$plugin/resources/v1/reconciler.proto\x12\x1fkrypton.resources.reconciler.v1\x1a\x1bbuf/validate/validate.proto\"\xc2\x01\n" +
 	"\x10ReconcileRequest\x12#\n" +
 	"\tapi_group\x18\x01 \x01(\tB\x06\xbaH\x03\xc8\x01\x01R\bapiGroup\x12\x1a\n" +
 	"\x04kind\x18\x02 \x01(\tB\x06\xbaH\x03\xc8\x01\x01R\x04kind\x12\x1a\n" +
@@ -186,32 +186,32 @@ const file_plugin_reconciler_v1_reconciler_proto_rawDesc = "" +
 	"\x11ReconcileResponse\x12#\n" +
 	"\rerror_message\x18\x01 \x01(\tR\ferrorMessage\x12'\n" +
 	"\x0ftransient_error\x18\x02 \x01(\bR\x0etransientError\x12%\n" +
-	"\x0eexecution_plan\x18\x03 \x01(\fR\rexecutionPlan2l\n" +
+	"\x0eexecution_plan\x18\x03 \x01(\fR\rexecutionPlan2\x80\x01\n" +
 	"\n" +
-	"Reconciler\x12^\n" +
-	"\tReconcile\x12'.krypton.reconciler.v1.ReconcileRequest\x1a(.krypton.reconciler.v1.ReconcileResponseB\xe9\x01\n" +
-	"\x19com.krypton.reconciler.v1B\x0fReconcilerProtoP\x01ZEgithub.com/openkcm/plugin-sdk/proto/plugin/reconciler/v1;reconcilerv1\xa2\x02\x03KRX\xaa\x02\x15Krypton.Reconciler.V1\xca\x02\x15Krypton\\Reconciler\\V1\xe2\x02!Krypton\\Reconciler\\V1\\GPBMetadata\xea\x02\x17Krypton::Reconciler::V1b\x06proto3"
+	"Reconciler\x12r\n" +
+	"\tReconcile\x121.krypton.resources.reconciler.v1.ReconcileRequest\x1a2.krypton.resources.reconciler.v1.ReconcileResponseB\x9b\x02\n" +
+	"#com.krypton.resources.reconciler.v1B\x0fReconcilerProtoP\x01ZDgithub.com/openkcm/plugin-sdk/proto/plugin/resources/v1;reconcilerv1\xa2\x02\x03KRR\xaa\x02\x1fKrypton.Resources.Reconciler.V1\xca\x02\x1fKrypton\\Resources\\Reconciler\\V1\xe2\x02+Krypton\\Resources\\Reconciler\\V1\\GPBMetadata\xea\x02\"Krypton::Resources::Reconciler::V1b\x06proto3"
 
 var (
-	file_plugin_reconciler_v1_reconciler_proto_rawDescOnce sync.Once
-	file_plugin_reconciler_v1_reconciler_proto_rawDescData []byte
+	file_plugin_resources_v1_reconciler_proto_rawDescOnce sync.Once
+	file_plugin_resources_v1_reconciler_proto_rawDescData []byte
 )
 
-func file_plugin_reconciler_v1_reconciler_proto_rawDescGZIP() []byte {
-	file_plugin_reconciler_v1_reconciler_proto_rawDescOnce.Do(func() {
-		file_plugin_reconciler_v1_reconciler_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_plugin_reconciler_v1_reconciler_proto_rawDesc), len(file_plugin_reconciler_v1_reconciler_proto_rawDesc)))
+func file_plugin_resources_v1_reconciler_proto_rawDescGZIP() []byte {
+	file_plugin_resources_v1_reconciler_proto_rawDescOnce.Do(func() {
+		file_plugin_resources_v1_reconciler_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_plugin_resources_v1_reconciler_proto_rawDesc), len(file_plugin_resources_v1_reconciler_proto_rawDesc)))
 	})
-	return file_plugin_reconciler_v1_reconciler_proto_rawDescData
+	return file_plugin_resources_v1_reconciler_proto_rawDescData
 }
 
-var file_plugin_reconciler_v1_reconciler_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
-var file_plugin_reconciler_v1_reconciler_proto_goTypes = []any{
-	(*ReconcileRequest)(nil),  // 0: krypton.reconciler.v1.ReconcileRequest
-	(*ReconcileResponse)(nil), // 1: krypton.reconciler.v1.ReconcileResponse
+var file_plugin_resources_v1_reconciler_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_plugin_resources_v1_reconciler_proto_goTypes = []any{
+	(*ReconcileRequest)(nil),  // 0: krypton.resources.reconciler.v1.ReconcileRequest
+	(*ReconcileResponse)(nil), // 1: krypton.resources.reconciler.v1.ReconcileResponse
 }
-var file_plugin_reconciler_v1_reconciler_proto_depIdxs = []int32{
-	0, // 0: krypton.reconciler.v1.Reconciler.Reconcile:input_type -> krypton.reconciler.v1.ReconcileRequest
-	1, // 1: krypton.reconciler.v1.Reconciler.Reconcile:output_type -> krypton.reconciler.v1.ReconcileResponse
+var file_plugin_resources_v1_reconciler_proto_depIdxs = []int32{
+	0, // 0: krypton.resources.reconciler.v1.Reconciler.Reconcile:input_type -> krypton.resources.reconciler.v1.ReconcileRequest
+	1, // 1: krypton.resources.reconciler.v1.Reconciler.Reconcile:output_type -> krypton.resources.reconciler.v1.ReconcileResponse
 	1, // [1:2] is the sub-list for method output_type
 	0, // [0:1] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
@@ -219,26 +219,26 @@ var file_plugin_reconciler_v1_reconciler_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for field type_name
 }
 
-func init() { file_plugin_reconciler_v1_reconciler_proto_init() }
-func file_plugin_reconciler_v1_reconciler_proto_init() {
-	if File_plugin_reconciler_v1_reconciler_proto != nil {
+func init() { file_plugin_resources_v1_reconciler_proto_init() }
+func file_plugin_resources_v1_reconciler_proto_init() {
+	if File_plugin_resources_v1_reconciler_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_plugin_reconciler_v1_reconciler_proto_rawDesc), len(file_plugin_reconciler_v1_reconciler_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_plugin_resources_v1_reconciler_proto_rawDesc), len(file_plugin_resources_v1_reconciler_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_plugin_reconciler_v1_reconciler_proto_goTypes,
-		DependencyIndexes: file_plugin_reconciler_v1_reconciler_proto_depIdxs,
-		MessageInfos:      file_plugin_reconciler_v1_reconciler_proto_msgTypes,
+		GoTypes:           file_plugin_resources_v1_reconciler_proto_goTypes,
+		DependencyIndexes: file_plugin_resources_v1_reconciler_proto_depIdxs,
+		MessageInfos:      file_plugin_resources_v1_reconciler_proto_msgTypes,
 	}.Build()
-	File_plugin_reconciler_v1_reconciler_proto = out.File
-	file_plugin_reconciler_v1_reconciler_proto_goTypes = nil
-	file_plugin_reconciler_v1_reconciler_proto_depIdxs = nil
+	File_plugin_resources_v1_reconciler_proto = out.File
+	file_plugin_resources_v1_reconciler_proto_goTypes = nil
+	file_plugin_resources_v1_reconciler_proto_depIdxs = nil
 }

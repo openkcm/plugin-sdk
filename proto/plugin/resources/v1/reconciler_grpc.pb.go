@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.6.1
 // - protoc             (unknown)
-// source: plugin/reconciler/v1/reconciler.proto
+// source: plugin/resources/v1/reconciler.proto
 
 package reconcilerv1
 
@@ -20,7 +20,7 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Reconciler_Reconcile_FullMethodName = "/krypton.reconciler.v1.Reconciler/Reconcile"
+	Reconciler_Reconcile_FullMethodName = "/krypton.resources.reconciler.v1.Reconciler/Reconcile"
 )
 
 // ReconcilerClient is the client API for Reconciler service.
@@ -125,7 +125,7 @@ func _Reconciler_Reconcile_Handler(srv interface{}, ctx context.Context, dec fun
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var Reconciler_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "krypton.reconciler.v1.Reconciler",
+	ServiceName: "krypton.resources.reconciler.v1.Reconciler",
 	HandlerType: (*ReconcilerServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -134,5 +134,5 @@ var Reconciler_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "plugin/reconciler/v1/reconciler.proto",
+	Metadata: "plugin/resources/v1/reconciler.proto",
 }

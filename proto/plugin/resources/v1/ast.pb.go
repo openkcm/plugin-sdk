@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.11
 // 	protoc        (unknown)
-// source: plugin/reconciler/v1/ast.proto
+// source: plugin/resources/v1/ast.proto
 
 package reconcilerv1
 
@@ -44,7 +44,7 @@ type ExecutionPlan struct {
 
 func (x *ExecutionPlan) Reset() {
 	*x = ExecutionPlan{}
-	mi := &file_plugin_reconciler_v1_ast_proto_msgTypes[0]
+	mi := &file_plugin_resources_v1_ast_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -56,7 +56,7 @@ func (x *ExecutionPlan) String() string {
 func (*ExecutionPlan) ProtoMessage() {}
 
 func (x *ExecutionPlan) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_reconciler_v1_ast_proto_msgTypes[0]
+	mi := &file_plugin_resources_v1_ast_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -69,7 +69,7 @@ func (x *ExecutionPlan) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ExecutionPlan.ProtoReflect.Descriptor instead.
 func (*ExecutionPlan) Descriptor() ([]byte, []int) {
-	return file_plugin_reconciler_v1_ast_proto_rawDescGZIP(), []int{0}
+	return file_plugin_resources_v1_ast_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *ExecutionPlan) GetPlanId() string {
@@ -129,7 +129,7 @@ type ASTNode struct {
 
 func (x *ASTNode) Reset() {
 	*x = ASTNode{}
-	mi := &file_plugin_reconciler_v1_ast_proto_msgTypes[1]
+	mi := &file_plugin_resources_v1_ast_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -141,7 +141,7 @@ func (x *ASTNode) String() string {
 func (*ASTNode) ProtoMessage() {}
 
 func (x *ASTNode) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_reconciler_v1_ast_proto_msgTypes[1]
+	mi := &file_plugin_resources_v1_ast_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -154,7 +154,7 @@ func (x *ASTNode) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ASTNode.ProtoReflect.Descriptor instead.
 func (*ASTNode) Descriptor() ([]byte, []int) {
-	return file_plugin_reconciler_v1_ast_proto_rawDescGZIP(), []int{1}
+	return file_plugin_resources_v1_ast_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *ASTNode) GetNodeId() string {
@@ -433,7 +433,7 @@ type SequenceNode struct {
 
 func (x *SequenceNode) Reset() {
 	*x = SequenceNode{}
-	mi := &file_plugin_reconciler_v1_ast_proto_msgTypes[2]
+	mi := &file_plugin_resources_v1_ast_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -445,7 +445,7 @@ func (x *SequenceNode) String() string {
 func (*SequenceNode) ProtoMessage() {}
 
 func (x *SequenceNode) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_reconciler_v1_ast_proto_msgTypes[2]
+	mi := &file_plugin_resources_v1_ast_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -458,7 +458,7 @@ func (x *SequenceNode) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SequenceNode.ProtoReflect.Descriptor instead.
 func (*SequenceNode) Descriptor() ([]byte, []int) {
-	return file_plugin_reconciler_v1_ast_proto_rawDescGZIP(), []int{2}
+	return file_plugin_resources_v1_ast_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *SequenceNode) GetSteps() []*ASTNode {
@@ -480,7 +480,7 @@ type ParallelNode struct {
 
 func (x *ParallelNode) Reset() {
 	*x = ParallelNode{}
-	mi := &file_plugin_reconciler_v1_ast_proto_msgTypes[3]
+	mi := &file_plugin_resources_v1_ast_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -492,7 +492,7 @@ func (x *ParallelNode) String() string {
 func (*ParallelNode) ProtoMessage() {}
 
 func (x *ParallelNode) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_reconciler_v1_ast_proto_msgTypes[3]
+	mi := &file_plugin_resources_v1_ast_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -505,7 +505,7 @@ func (x *ParallelNode) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ParallelNode.ProtoReflect.Descriptor instead.
 func (*ParallelNode) Descriptor() ([]byte, []int) {
-	return file_plugin_reconciler_v1_ast_proto_rawDescGZIP(), []int{3}
+	return file_plugin_resources_v1_ast_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *ParallelNode) GetSteps() []*ASTNode {
@@ -534,7 +534,7 @@ type ConditionalNode struct {
 
 func (x *ConditionalNode) Reset() {
 	*x = ConditionalNode{}
-	mi := &file_plugin_reconciler_v1_ast_proto_msgTypes[4]
+	mi := &file_plugin_resources_v1_ast_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -546,7 +546,7 @@ func (x *ConditionalNode) String() string {
 func (*ConditionalNode) ProtoMessage() {}
 
 func (x *ConditionalNode) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_reconciler_v1_ast_proto_msgTypes[4]
+	mi := &file_plugin_resources_v1_ast_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -559,7 +559,7 @@ func (x *ConditionalNode) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ConditionalNode.ProtoReflect.Descriptor instead.
 func (*ConditionalNode) Descriptor() ([]byte, []int) {
-	return file_plugin_reconciler_v1_ast_proto_rawDescGZIP(), []int{4}
+	return file_plugin_resources_v1_ast_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *ConditionalNode) GetCondition() *Predicate {
@@ -595,7 +595,7 @@ type TryCatchNode struct {
 
 func (x *TryCatchNode) Reset() {
 	*x = TryCatchNode{}
-	mi := &file_plugin_reconciler_v1_ast_proto_msgTypes[5]
+	mi := &file_plugin_resources_v1_ast_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -607,7 +607,7 @@ func (x *TryCatchNode) String() string {
 func (*TryCatchNode) ProtoMessage() {}
 
 func (x *TryCatchNode) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_reconciler_v1_ast_proto_msgTypes[5]
+	mi := &file_plugin_resources_v1_ast_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -620,7 +620,7 @@ func (x *TryCatchNode) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TryCatchNode.ProtoReflect.Descriptor instead.
 func (*TryCatchNode) Descriptor() ([]byte, []int) {
-	return file_plugin_reconciler_v1_ast_proto_rawDescGZIP(), []int{5}
+	return file_plugin_resources_v1_ast_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *TryCatchNode) GetTryNode() *ASTNode {
@@ -647,7 +647,7 @@ type CheckpointNode struct {
 
 func (x *CheckpointNode) Reset() {
 	*x = CheckpointNode{}
-	mi := &file_plugin_reconciler_v1_ast_proto_msgTypes[6]
+	mi := &file_plugin_resources_v1_ast_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -659,7 +659,7 @@ func (x *CheckpointNode) String() string {
 func (*CheckpointNode) ProtoMessage() {}
 
 func (x *CheckpointNode) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_reconciler_v1_ast_proto_msgTypes[6]
+	mi := &file_plugin_resources_v1_ast_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -672,7 +672,7 @@ func (x *CheckpointNode) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CheckpointNode.ProtoReflect.Descriptor instead.
 func (*CheckpointNode) Descriptor() ([]byte, []int) {
-	return file_plugin_reconciler_v1_ast_proto_rawDescGZIP(), []int{6}
+	return file_plugin_resources_v1_ast_proto_rawDescGZIP(), []int{6}
 }
 
 type AssertNode struct {
@@ -685,7 +685,7 @@ type AssertNode struct {
 
 func (x *AssertNode) Reset() {
 	*x = AssertNode{}
-	mi := &file_plugin_reconciler_v1_ast_proto_msgTypes[7]
+	mi := &file_plugin_resources_v1_ast_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -697,7 +697,7 @@ func (x *AssertNode) String() string {
 func (*AssertNode) ProtoMessage() {}
 
 func (x *AssertNode) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_reconciler_v1_ast_proto_msgTypes[7]
+	mi := &file_plugin_resources_v1_ast_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -710,7 +710,7 @@ func (x *AssertNode) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AssertNode.ProtoReflect.Descriptor instead.
 func (*AssertNode) Descriptor() ([]byte, []int) {
-	return file_plugin_reconciler_v1_ast_proto_rawDescGZIP(), []int{7}
+	return file_plugin_resources_v1_ast_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *AssertNode) GetCondition() *Predicate {
@@ -748,7 +748,7 @@ type Predicate struct {
 
 func (x *Predicate) Reset() {
 	*x = Predicate{}
-	mi := &file_plugin_reconciler_v1_ast_proto_msgTypes[8]
+	mi := &file_plugin_resources_v1_ast_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -760,7 +760,7 @@ func (x *Predicate) String() string {
 func (*Predicate) ProtoMessage() {}
 
 func (x *Predicate) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_reconciler_v1_ast_proto_msgTypes[8]
+	mi := &file_plugin_resources_v1_ast_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -773,7 +773,7 @@ func (x *Predicate) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Predicate.ProtoReflect.Descriptor instead.
 func (*Predicate) Descriptor() ([]byte, []int) {
-	return file_plugin_reconciler_v1_ast_proto_rawDescGZIP(), []int{8}
+	return file_plugin_resources_v1_ast_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *Predicate) GetExpr() isPredicate_Expr {
@@ -903,7 +903,7 @@ type KeyExistsPredicate struct {
 
 func (x *KeyExistsPredicate) Reset() {
 	*x = KeyExistsPredicate{}
-	mi := &file_plugin_reconciler_v1_ast_proto_msgTypes[9]
+	mi := &file_plugin_resources_v1_ast_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -915,7 +915,7 @@ func (x *KeyExistsPredicate) String() string {
 func (*KeyExistsPredicate) ProtoMessage() {}
 
 func (x *KeyExistsPredicate) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_reconciler_v1_ast_proto_msgTypes[9]
+	mi := &file_plugin_resources_v1_ast_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -928,7 +928,7 @@ func (x *KeyExistsPredicate) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use KeyExistsPredicate.ProtoReflect.Descriptor instead.
 func (*KeyExistsPredicate) Descriptor() ([]byte, []int) {
-	return file_plugin_reconciler_v1_ast_proto_rawDescGZIP(), []int{9}
+	return file_plugin_resources_v1_ast_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *KeyExistsPredicate) GetTier() *ValueRef {
@@ -960,7 +960,7 @@ type KeyStatePredicate struct {
 
 func (x *KeyStatePredicate) Reset() {
 	*x = KeyStatePredicate{}
-	mi := &file_plugin_reconciler_v1_ast_proto_msgTypes[10]
+	mi := &file_plugin_resources_v1_ast_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -972,7 +972,7 @@ func (x *KeyStatePredicate) String() string {
 func (*KeyStatePredicate) ProtoMessage() {}
 
 func (x *KeyStatePredicate) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_reconciler_v1_ast_proto_msgTypes[10]
+	mi := &file_plugin_resources_v1_ast_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -985,7 +985,7 @@ func (x *KeyStatePredicate) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use KeyStatePredicate.ProtoReflect.Descriptor instead.
 func (*KeyStatePredicate) Descriptor() ([]byte, []int) {
-	return file_plugin_reconciler_v1_ast_proto_rawDescGZIP(), []int{10}
+	return file_plugin_resources_v1_ast_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *KeyStatePredicate) GetTier() *ValueRef {
@@ -1018,7 +1018,7 @@ type TenantActivePredicate struct {
 
 func (x *TenantActivePredicate) Reset() {
 	*x = TenantActivePredicate{}
-	mi := &file_plugin_reconciler_v1_ast_proto_msgTypes[11]
+	mi := &file_plugin_resources_v1_ast_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1030,7 +1030,7 @@ func (x *TenantActivePredicate) String() string {
 func (*TenantActivePredicate) ProtoMessage() {}
 
 func (x *TenantActivePredicate) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_reconciler_v1_ast_proto_msgTypes[11]
+	mi := &file_plugin_resources_v1_ast_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1043,7 +1043,7 @@ func (x *TenantActivePredicate) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TenantActivePredicate.ProtoReflect.Descriptor instead.
 func (*TenantActivePredicate) Descriptor() ([]byte, []int) {
-	return file_plugin_reconciler_v1_ast_proto_rawDescGZIP(), []int{11}
+	return file_plugin_resources_v1_ast_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *TenantActivePredicate) GetTenantId() *ValueRef {
@@ -1062,7 +1062,7 @@ type CredentialExistsPredicate struct {
 
 func (x *CredentialExistsPredicate) Reset() {
 	*x = CredentialExistsPredicate{}
-	mi := &file_plugin_reconciler_v1_ast_proto_msgTypes[12]
+	mi := &file_plugin_resources_v1_ast_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1074,7 +1074,7 @@ func (x *CredentialExistsPredicate) String() string {
 func (*CredentialExistsPredicate) ProtoMessage() {}
 
 func (x *CredentialExistsPredicate) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_reconciler_v1_ast_proto_msgTypes[12]
+	mi := &file_plugin_resources_v1_ast_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1087,7 +1087,7 @@ func (x *CredentialExistsPredicate) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CredentialExistsPredicate.ProtoReflect.Descriptor instead.
 func (*CredentialExistsPredicate) Descriptor() ([]byte, []int) {
-	return file_plugin_reconciler_v1_ast_proto_rawDescGZIP(), []int{12}
+	return file_plugin_resources_v1_ast_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *CredentialExistsPredicate) GetName() *ValueRef {
@@ -1106,7 +1106,7 @@ type AndPredicate struct {
 
 func (x *AndPredicate) Reset() {
 	*x = AndPredicate{}
-	mi := &file_plugin_reconciler_v1_ast_proto_msgTypes[13]
+	mi := &file_plugin_resources_v1_ast_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1118,7 +1118,7 @@ func (x *AndPredicate) String() string {
 func (*AndPredicate) ProtoMessage() {}
 
 func (x *AndPredicate) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_reconciler_v1_ast_proto_msgTypes[13]
+	mi := &file_plugin_resources_v1_ast_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1131,7 +1131,7 @@ func (x *AndPredicate) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AndPredicate.ProtoReflect.Descriptor instead.
 func (*AndPredicate) Descriptor() ([]byte, []int) {
-	return file_plugin_reconciler_v1_ast_proto_rawDescGZIP(), []int{13}
+	return file_plugin_resources_v1_ast_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *AndPredicate) GetTerms() []*Predicate {
@@ -1150,7 +1150,7 @@ type OrPredicate struct {
 
 func (x *OrPredicate) Reset() {
 	*x = OrPredicate{}
-	mi := &file_plugin_reconciler_v1_ast_proto_msgTypes[14]
+	mi := &file_plugin_resources_v1_ast_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1162,7 +1162,7 @@ func (x *OrPredicate) String() string {
 func (*OrPredicate) ProtoMessage() {}
 
 func (x *OrPredicate) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_reconciler_v1_ast_proto_msgTypes[14]
+	mi := &file_plugin_resources_v1_ast_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1175,7 +1175,7 @@ func (x *OrPredicate) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use OrPredicate.ProtoReflect.Descriptor instead.
 func (*OrPredicate) Descriptor() ([]byte, []int) {
-	return file_plugin_reconciler_v1_ast_proto_rawDescGZIP(), []int{14}
+	return file_plugin_resources_v1_ast_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *OrPredicate) GetTerms() []*Predicate {
@@ -1194,7 +1194,7 @@ type NotPredicate struct {
 
 func (x *NotPredicate) Reset() {
 	*x = NotPredicate{}
-	mi := &file_plugin_reconciler_v1_ast_proto_msgTypes[15]
+	mi := &file_plugin_resources_v1_ast_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1206,7 +1206,7 @@ func (x *NotPredicate) String() string {
 func (*NotPredicate) ProtoMessage() {}
 
 func (x *NotPredicate) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_reconciler_v1_ast_proto_msgTypes[15]
+	mi := &file_plugin_resources_v1_ast_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1219,7 +1219,7 @@ func (x *NotPredicate) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use NotPredicate.ProtoReflect.Descriptor instead.
 func (*NotPredicate) Descriptor() ([]byte, []int) {
-	return file_plugin_reconciler_v1_ast_proto_rawDescGZIP(), []int{15}
+	return file_plugin_resources_v1_ast_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *NotPredicate) GetTerm() *Predicate {
@@ -1246,7 +1246,7 @@ type ValueRef struct {
 
 func (x *ValueRef) Reset() {
 	*x = ValueRef{}
-	mi := &file_plugin_reconciler_v1_ast_proto_msgTypes[16]
+	mi := &file_plugin_resources_v1_ast_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1258,7 +1258,7 @@ func (x *ValueRef) String() string {
 func (*ValueRef) ProtoMessage() {}
 
 func (x *ValueRef) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_reconciler_v1_ast_proto_msgTypes[16]
+	mi := &file_plugin_resources_v1_ast_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1271,7 +1271,7 @@ func (x *ValueRef) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ValueRef.ProtoReflect.Descriptor instead.
 func (*ValueRef) Descriptor() ([]byte, []int) {
-	return file_plugin_reconciler_v1_ast_proto_rawDescGZIP(), []int{16}
+	return file_plugin_resources_v1_ast_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *ValueRef) GetKind() isValueRef_Kind {
@@ -1338,7 +1338,7 @@ type KeySyncNode struct {
 
 func (x *KeySyncNode) Reset() {
 	*x = KeySyncNode{}
-	mi := &file_plugin_reconciler_v1_ast_proto_msgTypes[17]
+	mi := &file_plugin_resources_v1_ast_proto_msgTypes[17]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1350,7 +1350,7 @@ func (x *KeySyncNode) String() string {
 func (*KeySyncNode) ProtoMessage() {}
 
 func (x *KeySyncNode) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_reconciler_v1_ast_proto_msgTypes[17]
+	mi := &file_plugin_resources_v1_ast_proto_msgTypes[17]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1363,7 +1363,7 @@ func (x *KeySyncNode) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use KeySyncNode.ProtoReflect.Descriptor instead.
 func (*KeySyncNode) Descriptor() ([]byte, []int) {
-	return file_plugin_reconciler_v1_ast_proto_rawDescGZIP(), []int{17}
+	return file_plugin_resources_v1_ast_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *KeySyncNode) GetTier() *ValueRef {
@@ -1413,7 +1413,7 @@ type KeyDeleteNode struct {
 
 func (x *KeyDeleteNode) Reset() {
 	*x = KeyDeleteNode{}
-	mi := &file_plugin_reconciler_v1_ast_proto_msgTypes[18]
+	mi := &file_plugin_resources_v1_ast_proto_msgTypes[18]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1425,7 +1425,7 @@ func (x *KeyDeleteNode) String() string {
 func (*KeyDeleteNode) ProtoMessage() {}
 
 func (x *KeyDeleteNode) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_reconciler_v1_ast_proto_msgTypes[18]
+	mi := &file_plugin_resources_v1_ast_proto_msgTypes[18]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1438,7 +1438,7 @@ func (x *KeyDeleteNode) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use KeyDeleteNode.ProtoReflect.Descriptor instead.
 func (*KeyDeleteNode) Descriptor() ([]byte, []int) {
-	return file_plugin_reconciler_v1_ast_proto_rawDescGZIP(), []int{18}
+	return file_plugin_resources_v1_ast_proto_rawDescGZIP(), []int{18}
 }
 
 func (x *KeyDeleteNode) GetTier() *ValueRef {
@@ -1470,7 +1470,7 @@ type KeyTransitionNode struct {
 
 func (x *KeyTransitionNode) Reset() {
 	*x = KeyTransitionNode{}
-	mi := &file_plugin_reconciler_v1_ast_proto_msgTypes[19]
+	mi := &file_plugin_resources_v1_ast_proto_msgTypes[19]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1482,7 +1482,7 @@ func (x *KeyTransitionNode) String() string {
 func (*KeyTransitionNode) ProtoMessage() {}
 
 func (x *KeyTransitionNode) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_reconciler_v1_ast_proto_msgTypes[19]
+	mi := &file_plugin_resources_v1_ast_proto_msgTypes[19]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1495,7 +1495,7 @@ func (x *KeyTransitionNode) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use KeyTransitionNode.ProtoReflect.Descriptor instead.
 func (*KeyTransitionNode) Descriptor() ([]byte, []int) {
-	return file_plugin_reconciler_v1_ast_proto_rawDescGZIP(), []int{19}
+	return file_plugin_resources_v1_ast_proto_rawDescGZIP(), []int{19}
 }
 
 func (x *KeyTransitionNode) GetTier() *ValueRef {
@@ -1532,7 +1532,7 @@ type KeyRotateNode struct {
 
 func (x *KeyRotateNode) Reset() {
 	*x = KeyRotateNode{}
-	mi := &file_plugin_reconciler_v1_ast_proto_msgTypes[20]
+	mi := &file_plugin_resources_v1_ast_proto_msgTypes[20]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1544,7 +1544,7 @@ func (x *KeyRotateNode) String() string {
 func (*KeyRotateNode) ProtoMessage() {}
 
 func (x *KeyRotateNode) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_reconciler_v1_ast_proto_msgTypes[20]
+	mi := &file_plugin_resources_v1_ast_proto_msgTypes[20]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1557,7 +1557,7 @@ func (x *KeyRotateNode) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use KeyRotateNode.ProtoReflect.Descriptor instead.
 func (*KeyRotateNode) Descriptor() ([]byte, []int) {
-	return file_plugin_reconciler_v1_ast_proto_rawDescGZIP(), []int{20}
+	return file_plugin_resources_v1_ast_proto_rawDescGZIP(), []int{20}
 }
 
 func (x *KeyRotateNode) GetTier() *ValueRef {
@@ -1586,7 +1586,7 @@ type KeyScheduleNode struct {
 
 func (x *KeyScheduleNode) Reset() {
 	*x = KeyScheduleNode{}
-	mi := &file_plugin_reconciler_v1_ast_proto_msgTypes[21]
+	mi := &file_plugin_resources_v1_ast_proto_msgTypes[21]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1598,7 +1598,7 @@ func (x *KeyScheduleNode) String() string {
 func (*KeyScheduleNode) ProtoMessage() {}
 
 func (x *KeyScheduleNode) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_reconciler_v1_ast_proto_msgTypes[21]
+	mi := &file_plugin_resources_v1_ast_proto_msgTypes[21]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1611,7 +1611,7 @@ func (x *KeyScheduleNode) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use KeyScheduleNode.ProtoReflect.Descriptor instead.
 func (*KeyScheduleNode) Descriptor() ([]byte, []int) {
-	return file_plugin_reconciler_v1_ast_proto_rawDescGZIP(), []int{21}
+	return file_plugin_resources_v1_ast_proto_rawDescGZIP(), []int{21}
 }
 
 func (x *KeyScheduleNode) GetTier() *ValueRef {
@@ -1649,7 +1649,7 @@ type KeyScheduleSpec struct {
 
 func (x *KeyScheduleSpec) Reset() {
 	*x = KeyScheduleSpec{}
-	mi := &file_plugin_reconciler_v1_ast_proto_msgTypes[22]
+	mi := &file_plugin_resources_v1_ast_proto_msgTypes[22]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1661,7 +1661,7 @@ func (x *KeyScheduleSpec) String() string {
 func (*KeyScheduleSpec) ProtoMessage() {}
 
 func (x *KeyScheduleSpec) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_reconciler_v1_ast_proto_msgTypes[22]
+	mi := &file_plugin_resources_v1_ast_proto_msgTypes[22]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1674,7 +1674,7 @@ func (x *KeyScheduleSpec) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use KeyScheduleSpec.ProtoReflect.Descriptor instead.
 func (*KeyScheduleSpec) Descriptor() ([]byte, []int) {
-	return file_plugin_reconciler_v1_ast_proto_rawDescGZIP(), []int{22}
+	return file_plugin_resources_v1_ast_proto_rawDescGZIP(), []int{22}
 }
 
 func (x *KeyScheduleSpec) GetExpiresAt() *timestamppb.Timestamp {
@@ -1711,7 +1711,7 @@ type CredentialSyncNode struct {
 
 func (x *CredentialSyncNode) Reset() {
 	*x = CredentialSyncNode{}
-	mi := &file_plugin_reconciler_v1_ast_proto_msgTypes[23]
+	mi := &file_plugin_resources_v1_ast_proto_msgTypes[23]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1723,7 +1723,7 @@ func (x *CredentialSyncNode) String() string {
 func (*CredentialSyncNode) ProtoMessage() {}
 
 func (x *CredentialSyncNode) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_reconciler_v1_ast_proto_msgTypes[23]
+	mi := &file_plugin_resources_v1_ast_proto_msgTypes[23]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1736,7 +1736,7 @@ func (x *CredentialSyncNode) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CredentialSyncNode.ProtoReflect.Descriptor instead.
 func (*CredentialSyncNode) Descriptor() ([]byte, []int) {
-	return file_plugin_reconciler_v1_ast_proto_rawDescGZIP(), []int{23}
+	return file_plugin_resources_v1_ast_proto_rawDescGZIP(), []int{23}
 }
 
 func (x *CredentialSyncNode) GetName() *ValueRef {
@@ -1770,7 +1770,7 @@ type CredentialDeleteNode struct {
 
 func (x *CredentialDeleteNode) Reset() {
 	*x = CredentialDeleteNode{}
-	mi := &file_plugin_reconciler_v1_ast_proto_msgTypes[24]
+	mi := &file_plugin_resources_v1_ast_proto_msgTypes[24]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1782,7 +1782,7 @@ func (x *CredentialDeleteNode) String() string {
 func (*CredentialDeleteNode) ProtoMessage() {}
 
 func (x *CredentialDeleteNode) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_reconciler_v1_ast_proto_msgTypes[24]
+	mi := &file_plugin_resources_v1_ast_proto_msgTypes[24]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1795,7 +1795,7 @@ func (x *CredentialDeleteNode) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CredentialDeleteNode.ProtoReflect.Descriptor instead.
 func (*CredentialDeleteNode) Descriptor() ([]byte, []int) {
-	return file_plugin_reconciler_v1_ast_proto_rawDescGZIP(), []int{24}
+	return file_plugin_resources_v1_ast_proto_rawDescGZIP(), []int{24}
 }
 
 func (x *CredentialDeleteNode) GetName() *ValueRef {
@@ -1817,7 +1817,7 @@ type BindNode struct {
 
 func (x *BindNode) Reset() {
 	*x = BindNode{}
-	mi := &file_plugin_reconciler_v1_ast_proto_msgTypes[25]
+	mi := &file_plugin_resources_v1_ast_proto_msgTypes[25]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1829,7 +1829,7 @@ func (x *BindNode) String() string {
 func (*BindNode) ProtoMessage() {}
 
 func (x *BindNode) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_reconciler_v1_ast_proto_msgTypes[25]
+	mi := &file_plugin_resources_v1_ast_proto_msgTypes[25]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1842,7 +1842,7 @@ func (x *BindNode) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use BindNode.ProtoReflect.Descriptor instead.
 func (*BindNode) Descriptor() ([]byte, []int) {
-	return file_plugin_reconciler_v1_ast_proto_rawDescGZIP(), []int{25}
+	return file_plugin_resources_v1_ast_proto_rawDescGZIP(), []int{25}
 }
 
 func (x *BindNode) GetVarName() string {
@@ -1870,7 +1870,7 @@ type EmitNode struct {
 
 func (x *EmitNode) Reset() {
 	*x = EmitNode{}
-	mi := &file_plugin_reconciler_v1_ast_proto_msgTypes[26]
+	mi := &file_plugin_resources_v1_ast_proto_msgTypes[26]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1882,7 +1882,7 @@ func (x *EmitNode) String() string {
 func (*EmitNode) ProtoMessage() {}
 
 func (x *EmitNode) ProtoReflect() protoreflect.Message {
-	mi := &file_plugin_reconciler_v1_ast_proto_msgTypes[26]
+	mi := &file_plugin_resources_v1_ast_proto_msgTypes[26]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1895,7 +1895,7 @@ func (x *EmitNode) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use EmitNode.ProtoReflect.Descriptor instead.
 func (*EmitNode) Descriptor() ([]byte, []int) {
-	return file_plugin_reconciler_v1_ast_proto_rawDescGZIP(), []int{26}
+	return file_plugin_resources_v1_ast_proto_rawDescGZIP(), []int{26}
 }
 
 func (x *EmitNode) GetEventType() string {
@@ -1912,118 +1912,119 @@ func (x *EmitNode) GetAttributes() map[string]string {
 	return nil
 }
 
-var File_plugin_reconciler_v1_ast_proto protoreflect.FileDescriptor
+var File_plugin_resources_v1_ast_proto protoreflect.FileDescriptor
 
-const file_plugin_reconciler_v1_ast_proto_rawDesc = "" +
+const file_plugin_resources_v1_ast_proto_rawDesc = "" +
 	"\n" +
-	"\x1eplugin/reconciler/v1/ast.proto\x12\x15krypton.reconciler.v1\x1a\x1cgoogle/protobuf/struct.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xe9\x01\n" +
+	"\x1dplugin/resources/v1/ast.proto\x12\x1fkrypton.resources.reconciler.v1\x1a\x1cgoogle/protobuf/struct.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xfd\x01\n" +
 	"\rExecutionPlan\x12\x17\n" +
-	"\aplan_id\x18\x01 \x01(\tR\x06planId\x122\n" +
-	"\x04root\x18\x02 \x01(\v2\x1e.krypton.reconciler.v1.ASTNodeR\x04root\x12N\n" +
-	"\bbindings\x18\x03 \x03(\v22.krypton.reconciler.v1.ExecutionPlan.BindingsEntryR\bbindings\x1a;\n" +
+	"\aplan_id\x18\x01 \x01(\tR\x06planId\x12<\n" +
+	"\x04root\x18\x02 \x01(\v2(.krypton.resources.reconciler.v1.ASTNodeR\x04root\x12X\n" +
+	"\bbindings\x18\x03 \x03(\v2<.krypton.resources.reconciler.v1.ExecutionPlan.BindingsEntryR\bbindings\x1a;\n" +
 	"\rBindingsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\x8a\t\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xa0\n" +
+	"\n" +
 	"\aASTNode\x12\x17\n" +
 	"\anode_id\x18\x01 \x01(\tR\x06nodeId\x12\x14\n" +
 	"\x05label\x18\x02 \x01(\tR\x05label\x12\x1d\n" +
 	"\n" +
-	"result_var\x18\x03 \x01(\tR\tresultVar\x12A\n" +
+	"result_var\x18\x03 \x01(\tR\tresultVar\x12K\n" +
 	"\bsequence\x18\n" +
-	" \x01(\v2#.krypton.reconciler.v1.SequenceNodeH\x00R\bsequence\x12A\n" +
-	"\bparallel\x18\v \x01(\v2#.krypton.reconciler.v1.ParallelNodeH\x00R\bparallel\x12J\n" +
-	"\vconditional\x18\f \x01(\v2&.krypton.reconciler.v1.ConditionalNodeH\x00R\vconditional\x12B\n" +
-	"\ttry_catch\x18\r \x01(\v2#.krypton.reconciler.v1.TryCatchNodeH\x00R\btryCatch\x12G\n" +
+	" \x01(\v2-.krypton.resources.reconciler.v1.SequenceNodeH\x00R\bsequence\x12K\n" +
+	"\bparallel\x18\v \x01(\v2-.krypton.resources.reconciler.v1.ParallelNodeH\x00R\bparallel\x12T\n" +
+	"\vconditional\x18\f \x01(\v20.krypton.resources.reconciler.v1.ConditionalNodeH\x00R\vconditional\x12L\n" +
+	"\ttry_catch\x18\r \x01(\v2-.krypton.resources.reconciler.v1.TryCatchNodeH\x00R\btryCatch\x12Q\n" +
 	"\n" +
-	"checkpoint\x18\x0e \x01(\v2%.krypton.reconciler.v1.CheckpointNodeH\x00R\n" +
-	"checkpoint\x12;\n" +
-	"\x06assert\x18\x14 \x01(\v2!.krypton.reconciler.v1.AssertNodeH\x00R\x06assert\x12?\n" +
-	"\bkey_sync\x18\x1e \x01(\v2\".krypton.reconciler.v1.KeySyncNodeH\x00R\akeySync\x12E\n" +
+	"checkpoint\x18\x0e \x01(\v2/.krypton.resources.reconciler.v1.CheckpointNodeH\x00R\n" +
+	"checkpoint\x12E\n" +
+	"\x06assert\x18\x14 \x01(\v2+.krypton.resources.reconciler.v1.AssertNodeH\x00R\x06assert\x12I\n" +
+	"\bkey_sync\x18\x1e \x01(\v2,.krypton.resources.reconciler.v1.KeySyncNodeH\x00R\akeySync\x12O\n" +
 	"\n" +
-	"key_delete\x18\x1f \x01(\v2$.krypton.reconciler.v1.KeyDeleteNodeH\x00R\tkeyDelete\x12Q\n" +
-	"\x0ekey_transition\x18  \x01(\v2(.krypton.reconciler.v1.KeyTransitionNodeH\x00R\rkeyTransition\x12E\n" +
+	"key_delete\x18\x1f \x01(\v2..krypton.resources.reconciler.v1.KeyDeleteNodeH\x00R\tkeyDelete\x12[\n" +
+	"\x0ekey_transition\x18  \x01(\v22.krypton.resources.reconciler.v1.KeyTransitionNodeH\x00R\rkeyTransition\x12O\n" +
 	"\n" +
-	"key_rotate\x18! \x01(\v2$.krypton.reconciler.v1.KeyRotateNodeH\x00R\tkeyRotate\x12K\n" +
-	"\fkey_schedule\x18\" \x01(\v2&.krypton.reconciler.v1.KeyScheduleNodeH\x00R\vkeySchedule\x12T\n" +
-	"\x0fcredential_sync\x18( \x01(\v2).krypton.reconciler.v1.CredentialSyncNodeH\x00R\x0ecredentialSync\x12Z\n" +
-	"\x11credential_delete\x18) \x01(\v2+.krypton.reconciler.v1.CredentialDeleteNodeH\x00R\x10credentialDelete\x125\n" +
-	"\x04bind\x18< \x01(\v2\x1f.krypton.reconciler.v1.BindNodeH\x00R\x04bind\x125\n" +
-	"\x04emit\x18= \x01(\v2\x1f.krypton.reconciler.v1.EmitNodeH\x00R\x04emitB\x06\n" +
-	"\x04node\"D\n" +
-	"\fSequenceNode\x124\n" +
-	"\x05steps\x18\x01 \x03(\v2\x1e.krypton.reconciler.v1.ASTNodeR\x05steps\"a\n" +
-	"\fParallelNode\x124\n" +
-	"\x05steps\x18\x01 \x03(\v2\x1e.krypton.reconciler.v1.ASTNodeR\x05steps\x12\x1b\n" +
-	"\tfail_fast\x18\x02 \x01(\bR\bfailFast\"\xcb\x01\n" +
-	"\x0fConditionalNode\x12>\n" +
-	"\tcondition\x18\x01 \x01(\v2 .krypton.reconciler.v1.PredicateR\tcondition\x12;\n" +
-	"\tthen_node\x18\x02 \x01(\v2\x1e.krypton.reconciler.v1.ASTNodeR\bthenNode\x12;\n" +
-	"\telse_node\x18\x03 \x01(\v2\x1e.krypton.reconciler.v1.ASTNodeR\belseNode\"\x88\x01\n" +
-	"\fTryCatchNode\x129\n" +
-	"\btry_node\x18\x01 \x01(\v2\x1e.krypton.reconciler.v1.ASTNodeR\atryNode\x12=\n" +
+	"key_rotate\x18! \x01(\v2..krypton.resources.reconciler.v1.KeyRotateNodeH\x00R\tkeyRotate\x12U\n" +
+	"\fkey_schedule\x18\" \x01(\v20.krypton.resources.reconciler.v1.KeyScheduleNodeH\x00R\vkeySchedule\x12^\n" +
+	"\x0fcredential_sync\x18( \x01(\v23.krypton.resources.reconciler.v1.CredentialSyncNodeH\x00R\x0ecredentialSync\x12d\n" +
+	"\x11credential_delete\x18) \x01(\v25.krypton.resources.reconciler.v1.CredentialDeleteNodeH\x00R\x10credentialDelete\x12?\n" +
+	"\x04bind\x18< \x01(\v2).krypton.resources.reconciler.v1.BindNodeH\x00R\x04bind\x12?\n" +
+	"\x04emit\x18= \x01(\v2).krypton.resources.reconciler.v1.EmitNodeH\x00R\x04emitB\x06\n" +
+	"\x04node\"N\n" +
+	"\fSequenceNode\x12>\n" +
+	"\x05steps\x18\x01 \x03(\v2(.krypton.resources.reconciler.v1.ASTNodeR\x05steps\"k\n" +
+	"\fParallelNode\x12>\n" +
+	"\x05steps\x18\x01 \x03(\v2(.krypton.resources.reconciler.v1.ASTNodeR\x05steps\x12\x1b\n" +
+	"\tfail_fast\x18\x02 \x01(\bR\bfailFast\"\xe9\x01\n" +
+	"\x0fConditionalNode\x12H\n" +
+	"\tcondition\x18\x01 \x01(\v2*.krypton.resources.reconciler.v1.PredicateR\tcondition\x12E\n" +
+	"\tthen_node\x18\x02 \x01(\v2(.krypton.resources.reconciler.v1.ASTNodeR\bthenNode\x12E\n" +
+	"\telse_node\x18\x03 \x01(\v2(.krypton.resources.reconciler.v1.ASTNodeR\belseNode\"\x9c\x01\n" +
+	"\fTryCatchNode\x12C\n" +
+	"\btry_node\x18\x01 \x01(\v2(.krypton.resources.reconciler.v1.ASTNodeR\atryNode\x12G\n" +
 	"\n" +
-	"catch_node\x18\x02 \x01(\v2\x1e.krypton.reconciler.v1.ASTNodeR\tcatchNode\"\x10\n" +
-	"\x0eCheckpointNode\"q\n" +
+	"catch_node\x18\x02 \x01(\v2(.krypton.resources.reconciler.v1.ASTNodeR\tcatchNode\"\x10\n" +
+	"\x0eCheckpointNode\"{\n" +
 	"\n" +
-	"AssertNode\x12>\n" +
-	"\tcondition\x18\x01 \x01(\v2 .krypton.reconciler.v1.PredicateR\tcondition\x12#\n" +
-	"\rerror_message\x18\x02 \x01(\tR\ferrorMessage\"\x86\x04\n" +
-	"\tPredicate\x12J\n" +
+	"AssertNode\x12H\n" +
+	"\tcondition\x18\x01 \x01(\v2*.krypton.resources.reconciler.v1.PredicateR\tcondition\x12#\n" +
+	"\rerror_message\x18\x02 \x01(\tR\ferrorMessage\"\xcc\x04\n" +
+	"\tPredicate\x12T\n" +
 	"\n" +
-	"key_exists\x18\x01 \x01(\v2).krypton.reconciler.v1.KeyExistsPredicateH\x00R\tkeyExists\x12G\n" +
-	"\tkey_state\x18\x02 \x01(\v2(.krypton.reconciler.v1.KeyStatePredicateH\x00R\bkeyState\x12S\n" +
-	"\rtenant_active\x18\x03 \x01(\v2,.krypton.reconciler.v1.TenantActivePredicateH\x00R\ftenantActive\x12_\n" +
-	"\x11credential_exists\x18\x04 \x01(\v20.krypton.reconciler.v1.CredentialExistsPredicateH\x00R\x10credentialExists\x127\n" +
+	"key_exists\x18\x01 \x01(\v23.krypton.resources.reconciler.v1.KeyExistsPredicateH\x00R\tkeyExists\x12Q\n" +
+	"\tkey_state\x18\x02 \x01(\v22.krypton.resources.reconciler.v1.KeyStatePredicateH\x00R\bkeyState\x12]\n" +
+	"\rtenant_active\x18\x03 \x01(\v26.krypton.resources.reconciler.v1.TenantActivePredicateH\x00R\ftenantActive\x12i\n" +
+	"\x11credential_exists\x18\x04 \x01(\v2:.krypton.resources.reconciler.v1.CredentialExistsPredicateH\x00R\x10credentialExists\x12A\n" +
 	"\x03and\x18\n" +
-	" \x01(\v2#.krypton.reconciler.v1.AndPredicateH\x00R\x03and\x124\n" +
-	"\x02or\x18\v \x01(\v2\".krypton.reconciler.v1.OrPredicateH\x00R\x02or\x127\n" +
-	"\x03not\x18\f \x01(\v2#.krypton.reconciler.v1.NotPredicateH\x00R\x03notB\x06\n" +
-	"\x04expr\"\x85\x01\n" +
-	"\x12KeyExistsPredicate\x123\n" +
-	"\x04tier\x18\x01 \x01(\v2\x1f.krypton.reconciler.v1.ValueRefR\x04tier\x12:\n" +
-	"\bkey_name\x18\x02 \x01(\v2\x1f.krypton.reconciler.v1.ValueRefR\akeyName\"\xab\x01\n" +
-	"\x11KeyStatePredicate\x123\n" +
-	"\x04tier\x18\x01 \x01(\v2\x1f.krypton.reconciler.v1.ValueRefR\x04tier\x12:\n" +
-	"\bkey_name\x18\x02 \x01(\v2\x1f.krypton.reconciler.v1.ValueRefR\akeyName\x12%\n" +
-	"\x0eallowed_states\x18\x03 \x03(\tR\rallowedStates\"U\n" +
-	"\x15TenantActivePredicate\x12<\n" +
-	"\ttenant_id\x18\x01 \x01(\v2\x1f.krypton.reconciler.v1.ValueRefR\btenantId\"P\n" +
-	"\x19CredentialExistsPredicate\x123\n" +
-	"\x04name\x18\x01 \x01(\v2\x1f.krypton.reconciler.v1.ValueRefR\x04name\"F\n" +
-	"\fAndPredicate\x126\n" +
-	"\x05terms\x18\x01 \x03(\v2 .krypton.reconciler.v1.PredicateR\x05terms\"E\n" +
-	"\vOrPredicate\x126\n" +
-	"\x05terms\x18\x01 \x03(\v2 .krypton.reconciler.v1.PredicateR\x05terms\"D\n" +
-	"\fNotPredicate\x124\n" +
-	"\x04term\x18\x01 \x01(\v2 .krypton.reconciler.v1.PredicateR\x04term\"I\n" +
+	" \x01(\v2-.krypton.resources.reconciler.v1.AndPredicateH\x00R\x03and\x12>\n" +
+	"\x02or\x18\v \x01(\v2,.krypton.resources.reconciler.v1.OrPredicateH\x00R\x02or\x12A\n" +
+	"\x03not\x18\f \x01(\v2-.krypton.resources.reconciler.v1.NotPredicateH\x00R\x03notB\x06\n" +
+	"\x04expr\"\x99\x01\n" +
+	"\x12KeyExistsPredicate\x12=\n" +
+	"\x04tier\x18\x01 \x01(\v2).krypton.resources.reconciler.v1.ValueRefR\x04tier\x12D\n" +
+	"\bkey_name\x18\x02 \x01(\v2).krypton.resources.reconciler.v1.ValueRefR\akeyName\"\xbf\x01\n" +
+	"\x11KeyStatePredicate\x12=\n" +
+	"\x04tier\x18\x01 \x01(\v2).krypton.resources.reconciler.v1.ValueRefR\x04tier\x12D\n" +
+	"\bkey_name\x18\x02 \x01(\v2).krypton.resources.reconciler.v1.ValueRefR\akeyName\x12%\n" +
+	"\x0eallowed_states\x18\x03 \x03(\tR\rallowedStates\"_\n" +
+	"\x15TenantActivePredicate\x12F\n" +
+	"\ttenant_id\x18\x01 \x01(\v2).krypton.resources.reconciler.v1.ValueRefR\btenantId\"Z\n" +
+	"\x19CredentialExistsPredicate\x12=\n" +
+	"\x04name\x18\x01 \x01(\v2).krypton.resources.reconciler.v1.ValueRefR\x04name\"P\n" +
+	"\fAndPredicate\x12@\n" +
+	"\x05terms\x18\x01 \x03(\v2*.krypton.resources.reconciler.v1.PredicateR\x05terms\"O\n" +
+	"\vOrPredicate\x12@\n" +
+	"\x05terms\x18\x01 \x03(\v2*.krypton.resources.reconciler.v1.PredicateR\x05terms\"N\n" +
+	"\fNotPredicate\x12>\n" +
+	"\x04term\x18\x01 \x01(\v2*.krypton.resources.reconciler.v1.PredicateR\x04term\"I\n" +
 	"\bValueRef\x12\x1a\n" +
 	"\aliteral\x18\x01 \x01(\tH\x00R\aliteral\x12\x19\n" +
 	"\avar_ref\x18\x02 \x01(\tH\x00R\x06varRefB\x06\n" +
-	"\x04kind\"\x8d\x03\n" +
-	"\vKeySyncNode\x123\n" +
-	"\x04tier\x18\x01 \x01(\v2\x1f.krypton.reconciler.v1.ValueRefR\x04tier\x12:\n" +
-	"\bkey_name\x18\x02 \x01(\v2\x1f.krypton.reconciler.v1.ValueRefR\akeyName\x12>\n" +
+	"\x04kind\"\xbf\x03\n" +
+	"\vKeySyncNode\x12=\n" +
+	"\x04tier\x18\x01 \x01(\v2).krypton.resources.reconciler.v1.ValueRefR\x04tier\x12D\n" +
+	"\bkey_name\x18\x02 \x01(\v2).krypton.resources.reconciler.v1.ValueRefR\akeyName\x12H\n" +
 	"\n" +
-	"parent_key\x18\x03 \x01(\v2\x1f.krypton.reconciler.v1.ValueRefR\tparentKey\x12B\n" +
-	"\bschedule\x18\x04 \x01(\v2&.krypton.reconciler.v1.KeyScheduleSpecR\bschedule\x12L\n" +
-	"\bmetadata\x18\x05 \x03(\v20.krypton.reconciler.v1.KeySyncNode.MetadataEntryR\bmetadata\x1a;\n" +
+	"parent_key\x18\x03 \x01(\v2).krypton.resources.reconciler.v1.ValueRefR\tparentKey\x12L\n" +
+	"\bschedule\x18\x04 \x01(\v20.krypton.resources.reconciler.v1.KeyScheduleSpecR\bschedule\x12V\n" +
+	"\bmetadata\x18\x05 \x03(\v2:.krypton.resources.reconciler.v1.KeySyncNode.MetadataEntryR\bmetadata\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\x80\x01\n" +
-	"\rKeyDeleteNode\x123\n" +
-	"\x04tier\x18\x01 \x01(\v2\x1f.krypton.reconciler.v1.ValueRefR\x04tier\x12:\n" +
-	"\bkey_name\x18\x02 \x01(\v2\x1f.krypton.reconciler.v1.ValueRefR\akeyName\"\xa7\x01\n" +
-	"\x11KeyTransitionNode\x123\n" +
-	"\x04tier\x18\x01 \x01(\v2\x1f.krypton.reconciler.v1.ValueRefR\x04tier\x12:\n" +
-	"\bkey_name\x18\x02 \x01(\v2\x1f.krypton.reconciler.v1.ValueRefR\akeyName\x12!\n" +
-	"\ftarget_state\x18\x03 \x01(\tR\vtargetState\"\x80\x01\n" +
-	"\rKeyRotateNode\x123\n" +
-	"\x04tier\x18\x01 \x01(\v2\x1f.krypton.reconciler.v1.ValueRefR\x04tier\x12:\n" +
-	"\bkey_name\x18\x02 \x01(\v2\x1f.krypton.reconciler.v1.ValueRefR\akeyName\"\xc6\x01\n" +
-	"\x0fKeyScheduleNode\x123\n" +
-	"\x04tier\x18\x01 \x01(\v2\x1f.krypton.reconciler.v1.ValueRefR\x04tier\x12:\n" +
-	"\bkey_name\x18\x02 \x01(\v2\x1f.krypton.reconciler.v1.ValueRefR\akeyName\x12B\n" +
-	"\bschedule\x18\x03 \x01(\v2&.krypton.reconciler.v1.KeyScheduleSpecR\bschedule\"\x91\x02\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\x94\x01\n" +
+	"\rKeyDeleteNode\x12=\n" +
+	"\x04tier\x18\x01 \x01(\v2).krypton.resources.reconciler.v1.ValueRefR\x04tier\x12D\n" +
+	"\bkey_name\x18\x02 \x01(\v2).krypton.resources.reconciler.v1.ValueRefR\akeyName\"\xbb\x01\n" +
+	"\x11KeyTransitionNode\x12=\n" +
+	"\x04tier\x18\x01 \x01(\v2).krypton.resources.reconciler.v1.ValueRefR\x04tier\x12D\n" +
+	"\bkey_name\x18\x02 \x01(\v2).krypton.resources.reconciler.v1.ValueRefR\akeyName\x12!\n" +
+	"\ftarget_state\x18\x03 \x01(\tR\vtargetState\"\x94\x01\n" +
+	"\rKeyRotateNode\x12=\n" +
+	"\x04tier\x18\x01 \x01(\v2).krypton.resources.reconciler.v1.ValueRefR\x04tier\x12D\n" +
+	"\bkey_name\x18\x02 \x01(\v2).krypton.resources.reconciler.v1.ValueRefR\akeyName\"\xe4\x01\n" +
+	"\x0fKeyScheduleNode\x12=\n" +
+	"\x04tier\x18\x01 \x01(\v2).krypton.resources.reconciler.v1.ValueRefR\x04tier\x12D\n" +
+	"\bkey_name\x18\x02 \x01(\v2).krypton.resources.reconciler.v1.ValueRefR\akeyName\x12L\n" +
+	"\bschedule\x18\x03 \x01(\v20.krypton.resources.reconciler.v1.KeyScheduleSpecR\bschedule\"\x91\x02\n" +
 	"\x0fKeyScheduleSpec\x12>\n" +
 	"\n" +
 	"expires_at\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampH\x00R\texpiresAt\x88\x01\x01\x12W\n" +
@@ -2031,138 +2032,138 @@ const file_plugin_reconciler_v1_ast_proto_rawDesc = "" +
 	"\rtransition_to\x18\x03 \x01(\tH\x02R\ftransitionTo\x88\x01\x01B\r\n" +
 	"\v_expires_atB\x1a\n" +
 	"\x18_scheduled_transition_atB\x10\n" +
-	"\x0e_transition_to\"\xab\x01\n" +
-	"\x12CredentialSyncNode\x123\n" +
-	"\x04name\x18\x01 \x01(\v2\x1f.krypton.reconciler.v1.ValueRefR\x04name\x123\n" +
-	"\x04type\x18\x02 \x01(\v2\x1f.krypton.reconciler.v1.ValueRefR\x04type\x12+\n" +
-	"\x04spec\x18\x03 \x01(\v2\x17.google.protobuf.StructR\x04spec\"K\n" +
-	"\x14CredentialDeleteNode\x123\n" +
-	"\x04name\x18\x01 \x01(\v2\x1f.krypton.reconciler.v1.ValueRefR\x04name\"\\\n" +
+	"\x0e_transition_to\"\xbf\x01\n" +
+	"\x12CredentialSyncNode\x12=\n" +
+	"\x04name\x18\x01 \x01(\v2).krypton.resources.reconciler.v1.ValueRefR\x04name\x12=\n" +
+	"\x04type\x18\x02 \x01(\v2).krypton.resources.reconciler.v1.ValueRefR\x04type\x12+\n" +
+	"\x04spec\x18\x03 \x01(\v2\x17.google.protobuf.StructR\x04spec\"U\n" +
+	"\x14CredentialDeleteNode\x12=\n" +
+	"\x04name\x18\x01 \x01(\v2).krypton.resources.reconciler.v1.ValueRefR\x04name\"f\n" +
 	"\bBindNode\x12\x19\n" +
-	"\bvar_name\x18\x01 \x01(\tR\avarName\x125\n" +
-	"\x05value\x18\x02 \x01(\v2\x1f.krypton.reconciler.v1.ValueRefR\x05value\"\xb9\x01\n" +
+	"\bvar_name\x18\x01 \x01(\tR\avarName\x12?\n" +
+	"\x05value\x18\x02 \x01(\v2).krypton.resources.reconciler.v1.ValueRefR\x05value\"\xc3\x01\n" +
 	"\bEmitNode\x12\x1d\n" +
 	"\n" +
-	"event_type\x18\x01 \x01(\tR\teventType\x12O\n" +
+	"event_type\x18\x01 \x01(\tR\teventType\x12Y\n" +
 	"\n" +
-	"attributes\x18\x02 \x03(\v2/.krypton.reconciler.v1.EmitNode.AttributesEntryR\n" +
+	"attributes\x18\x02 \x03(\v29.krypton.resources.reconciler.v1.EmitNode.AttributesEntryR\n" +
 	"attributes\x1a=\n" +
 	"\x0fAttributesEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01B\xe2\x01\n" +
-	"\x19com.krypton.reconciler.v1B\bAstProtoP\x01ZEgithub.com/openkcm/plugin-sdk/proto/plugin/reconciler/v1;reconcilerv1\xa2\x02\x03KRX\xaa\x02\x15Krypton.Reconciler.V1\xca\x02\x15Krypton\\Reconciler\\V1\xe2\x02!Krypton\\Reconciler\\V1\\GPBMetadata\xea\x02\x17Krypton::Reconciler::V1b\x06proto3"
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01B\x94\x02\n" +
+	"#com.krypton.resources.reconciler.v1B\bAstProtoP\x01ZDgithub.com/openkcm/plugin-sdk/proto/plugin/resources/v1;reconcilerv1\xa2\x02\x03KRR\xaa\x02\x1fKrypton.Resources.Reconciler.V1\xca\x02\x1fKrypton\\Resources\\Reconciler\\V1\xe2\x02+Krypton\\Resources\\Reconciler\\V1\\GPBMetadata\xea\x02\"Krypton::Resources::Reconciler::V1b\x06proto3"
 
 var (
-	file_plugin_reconciler_v1_ast_proto_rawDescOnce sync.Once
-	file_plugin_reconciler_v1_ast_proto_rawDescData []byte
+	file_plugin_resources_v1_ast_proto_rawDescOnce sync.Once
+	file_plugin_resources_v1_ast_proto_rawDescData []byte
 )
 
-func file_plugin_reconciler_v1_ast_proto_rawDescGZIP() []byte {
-	file_plugin_reconciler_v1_ast_proto_rawDescOnce.Do(func() {
-		file_plugin_reconciler_v1_ast_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_plugin_reconciler_v1_ast_proto_rawDesc), len(file_plugin_reconciler_v1_ast_proto_rawDesc)))
+func file_plugin_resources_v1_ast_proto_rawDescGZIP() []byte {
+	file_plugin_resources_v1_ast_proto_rawDescOnce.Do(func() {
+		file_plugin_resources_v1_ast_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_plugin_resources_v1_ast_proto_rawDesc), len(file_plugin_resources_v1_ast_proto_rawDesc)))
 	})
-	return file_plugin_reconciler_v1_ast_proto_rawDescData
+	return file_plugin_resources_v1_ast_proto_rawDescData
 }
 
-var file_plugin_reconciler_v1_ast_proto_msgTypes = make([]protoimpl.MessageInfo, 30)
-var file_plugin_reconciler_v1_ast_proto_goTypes = []any{
-	(*ExecutionPlan)(nil),             // 0: krypton.reconciler.v1.ExecutionPlan
-	(*ASTNode)(nil),                   // 1: krypton.reconciler.v1.ASTNode
-	(*SequenceNode)(nil),              // 2: krypton.reconciler.v1.SequenceNode
-	(*ParallelNode)(nil),              // 3: krypton.reconciler.v1.ParallelNode
-	(*ConditionalNode)(nil),           // 4: krypton.reconciler.v1.ConditionalNode
-	(*TryCatchNode)(nil),              // 5: krypton.reconciler.v1.TryCatchNode
-	(*CheckpointNode)(nil),            // 6: krypton.reconciler.v1.CheckpointNode
-	(*AssertNode)(nil),                // 7: krypton.reconciler.v1.AssertNode
-	(*Predicate)(nil),                 // 8: krypton.reconciler.v1.Predicate
-	(*KeyExistsPredicate)(nil),        // 9: krypton.reconciler.v1.KeyExistsPredicate
-	(*KeyStatePredicate)(nil),         // 10: krypton.reconciler.v1.KeyStatePredicate
-	(*TenantActivePredicate)(nil),     // 11: krypton.reconciler.v1.TenantActivePredicate
-	(*CredentialExistsPredicate)(nil), // 12: krypton.reconciler.v1.CredentialExistsPredicate
-	(*AndPredicate)(nil),              // 13: krypton.reconciler.v1.AndPredicate
-	(*OrPredicate)(nil),               // 14: krypton.reconciler.v1.OrPredicate
-	(*NotPredicate)(nil),              // 15: krypton.reconciler.v1.NotPredicate
-	(*ValueRef)(nil),                  // 16: krypton.reconciler.v1.ValueRef
-	(*KeySyncNode)(nil),               // 17: krypton.reconciler.v1.KeySyncNode
-	(*KeyDeleteNode)(nil),             // 18: krypton.reconciler.v1.KeyDeleteNode
-	(*KeyTransitionNode)(nil),         // 19: krypton.reconciler.v1.KeyTransitionNode
-	(*KeyRotateNode)(nil),             // 20: krypton.reconciler.v1.KeyRotateNode
-	(*KeyScheduleNode)(nil),           // 21: krypton.reconciler.v1.KeyScheduleNode
-	(*KeyScheduleSpec)(nil),           // 22: krypton.reconciler.v1.KeyScheduleSpec
-	(*CredentialSyncNode)(nil),        // 23: krypton.reconciler.v1.CredentialSyncNode
-	(*CredentialDeleteNode)(nil),      // 24: krypton.reconciler.v1.CredentialDeleteNode
-	(*BindNode)(nil),                  // 25: krypton.reconciler.v1.BindNode
-	(*EmitNode)(nil),                  // 26: krypton.reconciler.v1.EmitNode
-	nil,                               // 27: krypton.reconciler.v1.ExecutionPlan.BindingsEntry
-	nil,                               // 28: krypton.reconciler.v1.KeySyncNode.MetadataEntry
-	nil,                               // 29: krypton.reconciler.v1.EmitNode.AttributesEntry
+var file_plugin_resources_v1_ast_proto_msgTypes = make([]protoimpl.MessageInfo, 30)
+var file_plugin_resources_v1_ast_proto_goTypes = []any{
+	(*ExecutionPlan)(nil),             // 0: krypton.resources.reconciler.v1.ExecutionPlan
+	(*ASTNode)(nil),                   // 1: krypton.resources.reconciler.v1.ASTNode
+	(*SequenceNode)(nil),              // 2: krypton.resources.reconciler.v1.SequenceNode
+	(*ParallelNode)(nil),              // 3: krypton.resources.reconciler.v1.ParallelNode
+	(*ConditionalNode)(nil),           // 4: krypton.resources.reconciler.v1.ConditionalNode
+	(*TryCatchNode)(nil),              // 5: krypton.resources.reconciler.v1.TryCatchNode
+	(*CheckpointNode)(nil),            // 6: krypton.resources.reconciler.v1.CheckpointNode
+	(*AssertNode)(nil),                // 7: krypton.resources.reconciler.v1.AssertNode
+	(*Predicate)(nil),                 // 8: krypton.resources.reconciler.v1.Predicate
+	(*KeyExistsPredicate)(nil),        // 9: krypton.resources.reconciler.v1.KeyExistsPredicate
+	(*KeyStatePredicate)(nil),         // 10: krypton.resources.reconciler.v1.KeyStatePredicate
+	(*TenantActivePredicate)(nil),     // 11: krypton.resources.reconciler.v1.TenantActivePredicate
+	(*CredentialExistsPredicate)(nil), // 12: krypton.resources.reconciler.v1.CredentialExistsPredicate
+	(*AndPredicate)(nil),              // 13: krypton.resources.reconciler.v1.AndPredicate
+	(*OrPredicate)(nil),               // 14: krypton.resources.reconciler.v1.OrPredicate
+	(*NotPredicate)(nil),              // 15: krypton.resources.reconciler.v1.NotPredicate
+	(*ValueRef)(nil),                  // 16: krypton.resources.reconciler.v1.ValueRef
+	(*KeySyncNode)(nil),               // 17: krypton.resources.reconciler.v1.KeySyncNode
+	(*KeyDeleteNode)(nil),             // 18: krypton.resources.reconciler.v1.KeyDeleteNode
+	(*KeyTransitionNode)(nil),         // 19: krypton.resources.reconciler.v1.KeyTransitionNode
+	(*KeyRotateNode)(nil),             // 20: krypton.resources.reconciler.v1.KeyRotateNode
+	(*KeyScheduleNode)(nil),           // 21: krypton.resources.reconciler.v1.KeyScheduleNode
+	(*KeyScheduleSpec)(nil),           // 22: krypton.resources.reconciler.v1.KeyScheduleSpec
+	(*CredentialSyncNode)(nil),        // 23: krypton.resources.reconciler.v1.CredentialSyncNode
+	(*CredentialDeleteNode)(nil),      // 24: krypton.resources.reconciler.v1.CredentialDeleteNode
+	(*BindNode)(nil),                  // 25: krypton.resources.reconciler.v1.BindNode
+	(*EmitNode)(nil),                  // 26: krypton.resources.reconciler.v1.EmitNode
+	nil,                               // 27: krypton.resources.reconciler.v1.ExecutionPlan.BindingsEntry
+	nil,                               // 28: krypton.resources.reconciler.v1.KeySyncNode.MetadataEntry
+	nil,                               // 29: krypton.resources.reconciler.v1.EmitNode.AttributesEntry
 	(*timestamppb.Timestamp)(nil),     // 30: google.protobuf.Timestamp
 	(*structpb.Struct)(nil),           // 31: google.protobuf.Struct
 }
-var file_plugin_reconciler_v1_ast_proto_depIdxs = []int32{
-	1,  // 0: krypton.reconciler.v1.ExecutionPlan.root:type_name -> krypton.reconciler.v1.ASTNode
-	27, // 1: krypton.reconciler.v1.ExecutionPlan.bindings:type_name -> krypton.reconciler.v1.ExecutionPlan.BindingsEntry
-	2,  // 2: krypton.reconciler.v1.ASTNode.sequence:type_name -> krypton.reconciler.v1.SequenceNode
-	3,  // 3: krypton.reconciler.v1.ASTNode.parallel:type_name -> krypton.reconciler.v1.ParallelNode
-	4,  // 4: krypton.reconciler.v1.ASTNode.conditional:type_name -> krypton.reconciler.v1.ConditionalNode
-	5,  // 5: krypton.reconciler.v1.ASTNode.try_catch:type_name -> krypton.reconciler.v1.TryCatchNode
-	6,  // 6: krypton.reconciler.v1.ASTNode.checkpoint:type_name -> krypton.reconciler.v1.CheckpointNode
-	7,  // 7: krypton.reconciler.v1.ASTNode.assert:type_name -> krypton.reconciler.v1.AssertNode
-	17, // 8: krypton.reconciler.v1.ASTNode.key_sync:type_name -> krypton.reconciler.v1.KeySyncNode
-	18, // 9: krypton.reconciler.v1.ASTNode.key_delete:type_name -> krypton.reconciler.v1.KeyDeleteNode
-	19, // 10: krypton.reconciler.v1.ASTNode.key_transition:type_name -> krypton.reconciler.v1.KeyTransitionNode
-	20, // 11: krypton.reconciler.v1.ASTNode.key_rotate:type_name -> krypton.reconciler.v1.KeyRotateNode
-	21, // 12: krypton.reconciler.v1.ASTNode.key_schedule:type_name -> krypton.reconciler.v1.KeyScheduleNode
-	23, // 13: krypton.reconciler.v1.ASTNode.credential_sync:type_name -> krypton.reconciler.v1.CredentialSyncNode
-	24, // 14: krypton.reconciler.v1.ASTNode.credential_delete:type_name -> krypton.reconciler.v1.CredentialDeleteNode
-	25, // 15: krypton.reconciler.v1.ASTNode.bind:type_name -> krypton.reconciler.v1.BindNode
-	26, // 16: krypton.reconciler.v1.ASTNode.emit:type_name -> krypton.reconciler.v1.EmitNode
-	1,  // 17: krypton.reconciler.v1.SequenceNode.steps:type_name -> krypton.reconciler.v1.ASTNode
-	1,  // 18: krypton.reconciler.v1.ParallelNode.steps:type_name -> krypton.reconciler.v1.ASTNode
-	8,  // 19: krypton.reconciler.v1.ConditionalNode.condition:type_name -> krypton.reconciler.v1.Predicate
-	1,  // 20: krypton.reconciler.v1.ConditionalNode.then_node:type_name -> krypton.reconciler.v1.ASTNode
-	1,  // 21: krypton.reconciler.v1.ConditionalNode.else_node:type_name -> krypton.reconciler.v1.ASTNode
-	1,  // 22: krypton.reconciler.v1.TryCatchNode.try_node:type_name -> krypton.reconciler.v1.ASTNode
-	1,  // 23: krypton.reconciler.v1.TryCatchNode.catch_node:type_name -> krypton.reconciler.v1.ASTNode
-	8,  // 24: krypton.reconciler.v1.AssertNode.condition:type_name -> krypton.reconciler.v1.Predicate
-	9,  // 25: krypton.reconciler.v1.Predicate.key_exists:type_name -> krypton.reconciler.v1.KeyExistsPredicate
-	10, // 26: krypton.reconciler.v1.Predicate.key_state:type_name -> krypton.reconciler.v1.KeyStatePredicate
-	11, // 27: krypton.reconciler.v1.Predicate.tenant_active:type_name -> krypton.reconciler.v1.TenantActivePredicate
-	12, // 28: krypton.reconciler.v1.Predicate.credential_exists:type_name -> krypton.reconciler.v1.CredentialExistsPredicate
-	13, // 29: krypton.reconciler.v1.Predicate.and:type_name -> krypton.reconciler.v1.AndPredicate
-	14, // 30: krypton.reconciler.v1.Predicate.or:type_name -> krypton.reconciler.v1.OrPredicate
-	15, // 31: krypton.reconciler.v1.Predicate.not:type_name -> krypton.reconciler.v1.NotPredicate
-	16, // 32: krypton.reconciler.v1.KeyExistsPredicate.tier:type_name -> krypton.reconciler.v1.ValueRef
-	16, // 33: krypton.reconciler.v1.KeyExistsPredicate.key_name:type_name -> krypton.reconciler.v1.ValueRef
-	16, // 34: krypton.reconciler.v1.KeyStatePredicate.tier:type_name -> krypton.reconciler.v1.ValueRef
-	16, // 35: krypton.reconciler.v1.KeyStatePredicate.key_name:type_name -> krypton.reconciler.v1.ValueRef
-	16, // 36: krypton.reconciler.v1.TenantActivePredicate.tenant_id:type_name -> krypton.reconciler.v1.ValueRef
-	16, // 37: krypton.reconciler.v1.CredentialExistsPredicate.name:type_name -> krypton.reconciler.v1.ValueRef
-	8,  // 38: krypton.reconciler.v1.AndPredicate.terms:type_name -> krypton.reconciler.v1.Predicate
-	8,  // 39: krypton.reconciler.v1.OrPredicate.terms:type_name -> krypton.reconciler.v1.Predicate
-	8,  // 40: krypton.reconciler.v1.NotPredicate.term:type_name -> krypton.reconciler.v1.Predicate
-	16, // 41: krypton.reconciler.v1.KeySyncNode.tier:type_name -> krypton.reconciler.v1.ValueRef
-	16, // 42: krypton.reconciler.v1.KeySyncNode.key_name:type_name -> krypton.reconciler.v1.ValueRef
-	16, // 43: krypton.reconciler.v1.KeySyncNode.parent_key:type_name -> krypton.reconciler.v1.ValueRef
-	22, // 44: krypton.reconciler.v1.KeySyncNode.schedule:type_name -> krypton.reconciler.v1.KeyScheduleSpec
-	28, // 45: krypton.reconciler.v1.KeySyncNode.metadata:type_name -> krypton.reconciler.v1.KeySyncNode.MetadataEntry
-	16, // 46: krypton.reconciler.v1.KeyDeleteNode.tier:type_name -> krypton.reconciler.v1.ValueRef
-	16, // 47: krypton.reconciler.v1.KeyDeleteNode.key_name:type_name -> krypton.reconciler.v1.ValueRef
-	16, // 48: krypton.reconciler.v1.KeyTransitionNode.tier:type_name -> krypton.reconciler.v1.ValueRef
-	16, // 49: krypton.reconciler.v1.KeyTransitionNode.key_name:type_name -> krypton.reconciler.v1.ValueRef
-	16, // 50: krypton.reconciler.v1.KeyRotateNode.tier:type_name -> krypton.reconciler.v1.ValueRef
-	16, // 51: krypton.reconciler.v1.KeyRotateNode.key_name:type_name -> krypton.reconciler.v1.ValueRef
-	16, // 52: krypton.reconciler.v1.KeyScheduleNode.tier:type_name -> krypton.reconciler.v1.ValueRef
-	16, // 53: krypton.reconciler.v1.KeyScheduleNode.key_name:type_name -> krypton.reconciler.v1.ValueRef
-	22, // 54: krypton.reconciler.v1.KeyScheduleNode.schedule:type_name -> krypton.reconciler.v1.KeyScheduleSpec
-	30, // 55: krypton.reconciler.v1.KeyScheduleSpec.expires_at:type_name -> google.protobuf.Timestamp
-	30, // 56: krypton.reconciler.v1.KeyScheduleSpec.scheduled_transition_at:type_name -> google.protobuf.Timestamp
-	16, // 57: krypton.reconciler.v1.CredentialSyncNode.name:type_name -> krypton.reconciler.v1.ValueRef
-	16, // 58: krypton.reconciler.v1.CredentialSyncNode.type:type_name -> krypton.reconciler.v1.ValueRef
-	31, // 59: krypton.reconciler.v1.CredentialSyncNode.spec:type_name -> google.protobuf.Struct
-	16, // 60: krypton.reconciler.v1.CredentialDeleteNode.name:type_name -> krypton.reconciler.v1.ValueRef
-	16, // 61: krypton.reconciler.v1.BindNode.value:type_name -> krypton.reconciler.v1.ValueRef
-	29, // 62: krypton.reconciler.v1.EmitNode.attributes:type_name -> krypton.reconciler.v1.EmitNode.AttributesEntry
+var file_plugin_resources_v1_ast_proto_depIdxs = []int32{
+	1,  // 0: krypton.resources.reconciler.v1.ExecutionPlan.root:type_name -> krypton.resources.reconciler.v1.ASTNode
+	27, // 1: krypton.resources.reconciler.v1.ExecutionPlan.bindings:type_name -> krypton.resources.reconciler.v1.ExecutionPlan.BindingsEntry
+	2,  // 2: krypton.resources.reconciler.v1.ASTNode.sequence:type_name -> krypton.resources.reconciler.v1.SequenceNode
+	3,  // 3: krypton.resources.reconciler.v1.ASTNode.parallel:type_name -> krypton.resources.reconciler.v1.ParallelNode
+	4,  // 4: krypton.resources.reconciler.v1.ASTNode.conditional:type_name -> krypton.resources.reconciler.v1.ConditionalNode
+	5,  // 5: krypton.resources.reconciler.v1.ASTNode.try_catch:type_name -> krypton.resources.reconciler.v1.TryCatchNode
+	6,  // 6: krypton.resources.reconciler.v1.ASTNode.checkpoint:type_name -> krypton.resources.reconciler.v1.CheckpointNode
+	7,  // 7: krypton.resources.reconciler.v1.ASTNode.assert:type_name -> krypton.resources.reconciler.v1.AssertNode
+	17, // 8: krypton.resources.reconciler.v1.ASTNode.key_sync:type_name -> krypton.resources.reconciler.v1.KeySyncNode
+	18, // 9: krypton.resources.reconciler.v1.ASTNode.key_delete:type_name -> krypton.resources.reconciler.v1.KeyDeleteNode
+	19, // 10: krypton.resources.reconciler.v1.ASTNode.key_transition:type_name -> krypton.resources.reconciler.v1.KeyTransitionNode
+	20, // 11: krypton.resources.reconciler.v1.ASTNode.key_rotate:type_name -> krypton.resources.reconciler.v1.KeyRotateNode
+	21, // 12: krypton.resources.reconciler.v1.ASTNode.key_schedule:type_name -> krypton.resources.reconciler.v1.KeyScheduleNode
+	23, // 13: krypton.resources.reconciler.v1.ASTNode.credential_sync:type_name -> krypton.resources.reconciler.v1.CredentialSyncNode
+	24, // 14: krypton.resources.reconciler.v1.ASTNode.credential_delete:type_name -> krypton.resources.reconciler.v1.CredentialDeleteNode
+	25, // 15: krypton.resources.reconciler.v1.ASTNode.bind:type_name -> krypton.resources.reconciler.v1.BindNode
+	26, // 16: krypton.resources.reconciler.v1.ASTNode.emit:type_name -> krypton.resources.reconciler.v1.EmitNode
+	1,  // 17: krypton.resources.reconciler.v1.SequenceNode.steps:type_name -> krypton.resources.reconciler.v1.ASTNode
+	1,  // 18: krypton.resources.reconciler.v1.ParallelNode.steps:type_name -> krypton.resources.reconciler.v1.ASTNode
+	8,  // 19: krypton.resources.reconciler.v1.ConditionalNode.condition:type_name -> krypton.resources.reconciler.v1.Predicate
+	1,  // 20: krypton.resources.reconciler.v1.ConditionalNode.then_node:type_name -> krypton.resources.reconciler.v1.ASTNode
+	1,  // 21: krypton.resources.reconciler.v1.ConditionalNode.else_node:type_name -> krypton.resources.reconciler.v1.ASTNode
+	1,  // 22: krypton.resources.reconciler.v1.TryCatchNode.try_node:type_name -> krypton.resources.reconciler.v1.ASTNode
+	1,  // 23: krypton.resources.reconciler.v1.TryCatchNode.catch_node:type_name -> krypton.resources.reconciler.v1.ASTNode
+	8,  // 24: krypton.resources.reconciler.v1.AssertNode.condition:type_name -> krypton.resources.reconciler.v1.Predicate
+	9,  // 25: krypton.resources.reconciler.v1.Predicate.key_exists:type_name -> krypton.resources.reconciler.v1.KeyExistsPredicate
+	10, // 26: krypton.resources.reconciler.v1.Predicate.key_state:type_name -> krypton.resources.reconciler.v1.KeyStatePredicate
+	11, // 27: krypton.resources.reconciler.v1.Predicate.tenant_active:type_name -> krypton.resources.reconciler.v1.TenantActivePredicate
+	12, // 28: krypton.resources.reconciler.v1.Predicate.credential_exists:type_name -> krypton.resources.reconciler.v1.CredentialExistsPredicate
+	13, // 29: krypton.resources.reconciler.v1.Predicate.and:type_name -> krypton.resources.reconciler.v1.AndPredicate
+	14, // 30: krypton.resources.reconciler.v1.Predicate.or:type_name -> krypton.resources.reconciler.v1.OrPredicate
+	15, // 31: krypton.resources.reconciler.v1.Predicate.not:type_name -> krypton.resources.reconciler.v1.NotPredicate
+	16, // 32: krypton.resources.reconciler.v1.KeyExistsPredicate.tier:type_name -> krypton.resources.reconciler.v1.ValueRef
+	16, // 33: krypton.resources.reconciler.v1.KeyExistsPredicate.key_name:type_name -> krypton.resources.reconciler.v1.ValueRef
+	16, // 34: krypton.resources.reconciler.v1.KeyStatePredicate.tier:type_name -> krypton.resources.reconciler.v1.ValueRef
+	16, // 35: krypton.resources.reconciler.v1.KeyStatePredicate.key_name:type_name -> krypton.resources.reconciler.v1.ValueRef
+	16, // 36: krypton.resources.reconciler.v1.TenantActivePredicate.tenant_id:type_name -> krypton.resources.reconciler.v1.ValueRef
+	16, // 37: krypton.resources.reconciler.v1.CredentialExistsPredicate.name:type_name -> krypton.resources.reconciler.v1.ValueRef
+	8,  // 38: krypton.resources.reconciler.v1.AndPredicate.terms:type_name -> krypton.resources.reconciler.v1.Predicate
+	8,  // 39: krypton.resources.reconciler.v1.OrPredicate.terms:type_name -> krypton.resources.reconciler.v1.Predicate
+	8,  // 40: krypton.resources.reconciler.v1.NotPredicate.term:type_name -> krypton.resources.reconciler.v1.Predicate
+	16, // 41: krypton.resources.reconciler.v1.KeySyncNode.tier:type_name -> krypton.resources.reconciler.v1.ValueRef
+	16, // 42: krypton.resources.reconciler.v1.KeySyncNode.key_name:type_name -> krypton.resources.reconciler.v1.ValueRef
+	16, // 43: krypton.resources.reconciler.v1.KeySyncNode.parent_key:type_name -> krypton.resources.reconciler.v1.ValueRef
+	22, // 44: krypton.resources.reconciler.v1.KeySyncNode.schedule:type_name -> krypton.resources.reconciler.v1.KeyScheduleSpec
+	28, // 45: krypton.resources.reconciler.v1.KeySyncNode.metadata:type_name -> krypton.resources.reconciler.v1.KeySyncNode.MetadataEntry
+	16, // 46: krypton.resources.reconciler.v1.KeyDeleteNode.tier:type_name -> krypton.resources.reconciler.v1.ValueRef
+	16, // 47: krypton.resources.reconciler.v1.KeyDeleteNode.key_name:type_name -> krypton.resources.reconciler.v1.ValueRef
+	16, // 48: krypton.resources.reconciler.v1.KeyTransitionNode.tier:type_name -> krypton.resources.reconciler.v1.ValueRef
+	16, // 49: krypton.resources.reconciler.v1.KeyTransitionNode.key_name:type_name -> krypton.resources.reconciler.v1.ValueRef
+	16, // 50: krypton.resources.reconciler.v1.KeyRotateNode.tier:type_name -> krypton.resources.reconciler.v1.ValueRef
+	16, // 51: krypton.resources.reconciler.v1.KeyRotateNode.key_name:type_name -> krypton.resources.reconciler.v1.ValueRef
+	16, // 52: krypton.resources.reconciler.v1.KeyScheduleNode.tier:type_name -> krypton.resources.reconciler.v1.ValueRef
+	16, // 53: krypton.resources.reconciler.v1.KeyScheduleNode.key_name:type_name -> krypton.resources.reconciler.v1.ValueRef
+	22, // 54: krypton.resources.reconciler.v1.KeyScheduleNode.schedule:type_name -> krypton.resources.reconciler.v1.KeyScheduleSpec
+	30, // 55: krypton.resources.reconciler.v1.KeyScheduleSpec.expires_at:type_name -> google.protobuf.Timestamp
+	30, // 56: krypton.resources.reconciler.v1.KeyScheduleSpec.scheduled_transition_at:type_name -> google.protobuf.Timestamp
+	16, // 57: krypton.resources.reconciler.v1.CredentialSyncNode.name:type_name -> krypton.resources.reconciler.v1.ValueRef
+	16, // 58: krypton.resources.reconciler.v1.CredentialSyncNode.type:type_name -> krypton.resources.reconciler.v1.ValueRef
+	31, // 59: krypton.resources.reconciler.v1.CredentialSyncNode.spec:type_name -> google.protobuf.Struct
+	16, // 60: krypton.resources.reconciler.v1.CredentialDeleteNode.name:type_name -> krypton.resources.reconciler.v1.ValueRef
+	16, // 61: krypton.resources.reconciler.v1.BindNode.value:type_name -> krypton.resources.reconciler.v1.ValueRef
+	29, // 62: krypton.resources.reconciler.v1.EmitNode.attributes:type_name -> krypton.resources.reconciler.v1.EmitNode.AttributesEntry
 	63, // [63:63] is the sub-list for method output_type
 	63, // [63:63] is the sub-list for method input_type
 	63, // [63:63] is the sub-list for extension type_name
@@ -2170,12 +2171,12 @@ var file_plugin_reconciler_v1_ast_proto_depIdxs = []int32{
 	0,  // [0:63] is the sub-list for field type_name
 }
 
-func init() { file_plugin_reconciler_v1_ast_proto_init() }
-func file_plugin_reconciler_v1_ast_proto_init() {
-	if File_plugin_reconciler_v1_ast_proto != nil {
+func init() { file_plugin_resources_v1_ast_proto_init() }
+func file_plugin_resources_v1_ast_proto_init() {
+	if File_plugin_resources_v1_ast_proto != nil {
 		return
 	}
-	file_plugin_reconciler_v1_ast_proto_msgTypes[1].OneofWrappers = []any{
+	file_plugin_resources_v1_ast_proto_msgTypes[1].OneofWrappers = []any{
 		(*ASTNode_Sequence)(nil),
 		(*ASTNode_Parallel)(nil),
 		(*ASTNode_Conditional)(nil),
@@ -2192,7 +2193,7 @@ func file_plugin_reconciler_v1_ast_proto_init() {
 		(*ASTNode_Bind)(nil),
 		(*ASTNode_Emit)(nil),
 	}
-	file_plugin_reconciler_v1_ast_proto_msgTypes[8].OneofWrappers = []any{
+	file_plugin_resources_v1_ast_proto_msgTypes[8].OneofWrappers = []any{
 		(*Predicate_KeyExists)(nil),
 		(*Predicate_KeyState)(nil),
 		(*Predicate_TenantActive)(nil),
@@ -2201,26 +2202,26 @@ func file_plugin_reconciler_v1_ast_proto_init() {
 		(*Predicate_Or)(nil),
 		(*Predicate_Not)(nil),
 	}
-	file_plugin_reconciler_v1_ast_proto_msgTypes[16].OneofWrappers = []any{
+	file_plugin_resources_v1_ast_proto_msgTypes[16].OneofWrappers = []any{
 		(*ValueRef_Literal)(nil),
 		(*ValueRef_VarRef)(nil),
 	}
-	file_plugin_reconciler_v1_ast_proto_msgTypes[22].OneofWrappers = []any{}
+	file_plugin_resources_v1_ast_proto_msgTypes[22].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_plugin_reconciler_v1_ast_proto_rawDesc), len(file_plugin_reconciler_v1_ast_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_plugin_resources_v1_ast_proto_rawDesc), len(file_plugin_resources_v1_ast_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   30,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
-		GoTypes:           file_plugin_reconciler_v1_ast_proto_goTypes,
-		DependencyIndexes: file_plugin_reconciler_v1_ast_proto_depIdxs,
-		MessageInfos:      file_plugin_reconciler_v1_ast_proto_msgTypes,
+		GoTypes:           file_plugin_resources_v1_ast_proto_goTypes,
+		DependencyIndexes: file_plugin_resources_v1_ast_proto_depIdxs,
+		MessageInfos:      file_plugin_resources_v1_ast_proto_msgTypes,
 	}.Build()
-	File_plugin_reconciler_v1_ast_proto = out.File
-	file_plugin_reconciler_v1_ast_proto_goTypes = nil
-	file_plugin_reconciler_v1_ast_proto_depIdxs = nil
+	File_plugin_resources_v1_ast_proto = out.File
+	file_plugin_resources_v1_ast_proto_goTypes = nil
+	file_plugin_resources_v1_ast_proto_depIdxs = nil
 }

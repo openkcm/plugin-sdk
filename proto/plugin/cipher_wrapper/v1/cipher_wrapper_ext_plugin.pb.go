@@ -10,7 +10,7 @@ import (
 
 const (
 	Type                = "CipherWrapper"
-	GRPCServiceFullName = "krypton.cipher_wrapper.v1.CipherWrapper"
+	GRPCServiceFullName = "krypton.plugin.cipher_wrapper.v1.CipherWrapper"
 )
 
 func CipherWrapperPluginServer(server CipherWrapperServer) api.PluginServer {

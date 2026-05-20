@@ -20,10 +20,10 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	KeyMaterialStorage_Store_FullMethodName   = "/krypton.key_material_storage.v1.KeyMaterialStorage/Store"
-	KeyMaterialStorage_Load_FullMethodName    = "/krypton.key_material_storage.v1.KeyMaterialStorage/Load"
-	KeyMaterialStorage_Delete_FullMethodName  = "/krypton.key_material_storage.v1.KeyMaterialStorage/Delete"
-	KeyMaterialStorage_ListIDs_FullMethodName = "/krypton.key_material_storage.v1.KeyMaterialStorage/ListIDs"
+	KeyMaterialStorage_Store_FullMethodName   = "/krypton.plugin.key_material_storage.v1.KeyMaterialStorage/Store"
+	KeyMaterialStorage_Load_FullMethodName    = "/krypton.plugin.key_material_storage.v1.KeyMaterialStorage/Load"
+	KeyMaterialStorage_Delete_FullMethodName  = "/krypton.plugin.key_material_storage.v1.KeyMaterialStorage/Delete"
+	KeyMaterialStorage_ListIDs_FullMethodName = "/krypton.plugin.key_material_storage.v1.KeyMaterialStorage/ListIDs"
 )
 
 // KeyMaterialStorageClient is the client API for KeyMaterialStorage service.
@@ -221,7 +221,7 @@ type KeyMaterialStorage_ListIDsServer = grpc.ServerStreamingServer[ListIDsRespon
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var KeyMaterialStorage_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "krypton.key_material_storage.v1.KeyMaterialStorage",
+	ServiceName: "krypton.plugin.key_material_storage.v1.KeyMaterialStorage",
 	HandlerType: (*KeyMaterialStorageServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

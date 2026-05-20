@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package krypton.key_material_storage.v1;
+package krypton.plugin.key_material_storage.v1;
 
 import "buf/validate/validate.proto";
 import "google/protobuf/timestamp.proto";

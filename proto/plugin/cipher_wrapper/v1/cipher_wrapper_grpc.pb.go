@@ -20,8 +20,8 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	CipherWrapper_Wrap_FullMethodName   = "/krypton.cipher_wrapper.v1.CipherWrapper/Wrap"
-	CipherWrapper_Unwrap_FullMethodName = "/krypton.cipher_wrapper.v1.CipherWrapper/Unwrap"
+	CipherWrapper_Wrap_FullMethodName   = "/krypton.plugin.cipher_wrapper.v1.CipherWrapper/Wrap"
+	CipherWrapper_Unwrap_FullMethodName = "/krypton.plugin.cipher_wrapper.v1.CipherWrapper/Unwrap"
 )
 
 // CipherWrapperClient is the client API for CipherWrapper service.
@@ -159,7 +159,7 @@ func _CipherWrapper_Unwrap_Handler(srv interface{}, ctx context.Context, dec fun
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var CipherWrapper_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "krypton.cipher_wrapper.v1.CipherWrapper",
+	ServiceName: "krypton.plugin.cipher_wrapper.v1.CipherWrapper",
 	HandlerType: (*CipherWrapperServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

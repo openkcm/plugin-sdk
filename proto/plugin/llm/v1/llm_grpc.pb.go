@@ -20,8 +20,8 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	LLM_Enrich_FullMethodName = "/krypton.llm.v1.LLM/Enrich"
-	LLM_Answer_FullMethodName = "/krypton.llm.v1.LLM/Answer"
+	LLM_Enrich_FullMethodName = "/krypton.plugin.llm.v1.LLM/Enrich"
+	LLM_Answer_FullMethodName = "/krypton.plugin.llm.v1.LLM/Answer"
 )
 
 // LLMClient is the client API for LLM service.
@@ -159,7 +159,7 @@ func _LLM_Answer_Handler(srv interface{}, ctx context.Context, dec func(interfac
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var LLM_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "krypton.llm.v1.LLM",
+	ServiceName: "krypton.plugin.llm.v1.LLM",
 	HandlerType: (*LLMServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

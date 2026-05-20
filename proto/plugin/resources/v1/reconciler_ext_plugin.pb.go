@@ -10,7 +10,7 @@ import (
 
 const (
 	Type                = "Reconciler"
-	GRPCServiceFullName = "krypton.reconciler.v1.Reconciler"
+	GRPCServiceFullName = "krypton.resources.reconciler.v1.Reconciler"
 )
 
 func ReconcilerPluginServer(server ReconcilerServer) api.PluginServer {

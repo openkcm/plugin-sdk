@@ -1,11 +1,9 @@
 syntax = "proto3";
 
-package krypton.reconciler.v1;
+package krypton.resources.reconciler.v1;
 
 import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
-
-option go_package = "github.com/openkcm/krypton/proto/plugin/reconciler/v1;reconcilerv1";
 
 // ExecutionPlan is the root of the AST returned by a plugin's Reconcile call.
 // It describes every operation Krypton core must execute to drive the custom
