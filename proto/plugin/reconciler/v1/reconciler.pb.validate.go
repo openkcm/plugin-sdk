@@ -59,6 +59,10 @@ func (m *ReconcileRequest) validate(all bool) error {
 
 	// no validation rules for ApiGroup
 
+	// no validation rules for Kind
+
+	// no validation rules for Name
+
 	// no validation rules for ResourcePayload
 
 	// no validation rules for Action

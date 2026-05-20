@@ -28,12 +28,14 @@ const (
 type ReconcileRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// api_group identifies the resource type family, e.g. "mycompany.kms/v1".
-	ApiGroup string `protobuf:"bytes,2,opt,name=api_group,json=apiGroup,proto3" json:"api_group,omitempty"`
+	ApiGroup string `protobuf:"bytes,1,opt,name=api_group,json=apiGroup,proto3" json:"api_group,omitempty"`
+	Kind     string `protobuf:"bytes,2,opt,name=kind,proto3" json:"kind,omitempty"`
+	Name     string `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
 	// resource_payload is the JSON-encoded extension_key Struct from the original
 	// SyncResourceRequest. Core passes it unchanged; the plugin owns the schema.
-	ResourcePayload []byte `protobuf:"bytes,3,opt,name=resource_payload,json=resourcePayload,proto3" json:"resource_payload,omitempty"`
+	ResourcePayload []byte `protobuf:"bytes,4,opt,name=resource_payload,json=resourcePayload,proto3" json:"resource_payload,omitempty"`
 	// action is the operation requested: "SYNC" or "DELETE".
-	Action        string `protobuf:"bytes,4,opt,name=action,proto3" json:"action,omitempty"`
+	Action        string `protobuf:"bytes,5,opt,name=action,proto3" json:"action,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -71,6 +73,20 @@ func (*ReconcileRequest) Descriptor() ([]byte, []int) {
 func (x *ReconcileRequest) GetApiGroup() string {
 	if x != nil {
 		return x.ApiGroup
+	}
+	return ""
+}
+
+func (x *ReconcileRequest) GetKind() string {
+	if x != nil {
+		return x.Kind
+	}
+	return ""
+}
+
+func (x *ReconcileRequest) GetName() string {
+	if x != nil {
+		return x.Name
 	}
 	return ""
 }
@@ -160,11 +176,13 @@ var File_plugin_reconciler_v1_reconciler_proto protoreflect.FileDescriptor
 
 const file_plugin_reconciler_v1_reconciler_proto_rawDesc = "" +
 	"\n" +
-	"%plugin/reconciler/v1/reconciler.proto\x12\x15krypton.reconciler.v1\x1a\x1bbuf/validate/validate.proto\"\x90\x01\n" +
+	"%plugin/reconciler/v1/reconciler.proto\x12\x15krypton.reconciler.v1\x1a\x1bbuf/validate/validate.proto\"\xc2\x01\n" +
 	"\x10ReconcileRequest\x12#\n" +
-	"\tapi_group\x18\x02 \x01(\tB\x06\xbaH\x03\xc8\x01\x01R\bapiGroup\x121\n" +
-	"\x10resource_payload\x18\x03 \x01(\fB\x06\xbaH\x03\xc8\x01\x01R\x0fresourcePayload\x12\x1e\n" +
-	"\x06action\x18\x04 \x01(\tB\x06\xbaH\x03\xc8\x01\x01R\x06actionJ\x04\b\x01\x10\x02\"\x88\x01\n" +
+	"\tapi_group\x18\x01 \x01(\tB\x06\xbaH\x03\xc8\x01\x01R\bapiGroup\x12\x1a\n" +
+	"\x04kind\x18\x02 \x01(\tB\x06\xbaH\x03\xc8\x01\x01R\x04kind\x12\x1a\n" +
+	"\x04name\x18\x03 \x01(\tB\x06\xbaH\x03\xc8\x01\x01R\x04name\x121\n" +
+	"\x10resource_payload\x18\x04 \x01(\fB\x06\xbaH\x03\xc8\x01\x01R\x0fresourcePayload\x12\x1e\n" +
+	"\x06action\x18\x05 \x01(\tB\x06\xbaH\x03\xc8\x01\x01R\x06action\"\x88\x01\n" +
 	"\x11ReconcileResponse\x12#\n" +
 	"\rerror_message\x18\x01 \x01(\tR\ferrorMessage\x12'\n" +
 	"\x0ftransient_error\x18\x02 \x01(\bR\x0etransientError\x12%\n" +
