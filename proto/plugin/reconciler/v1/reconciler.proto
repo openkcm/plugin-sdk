@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package krypton.reconciler.v1;
+
+import "buf/validate/validate.proto";
+
+option go_package = "github.com/openkcm/krypton/proto/plugin/reconciler/v1;reconcilerv1";
+
+// Reconciler is the gRPC contract between Krypton core and an external
+// reconciler plugin. Core is the client; the plugin binary is the server.
+//
+// The plugin receives the raw extension payload for a custom resource kind
+// and returns an ExecutionPlan (AST) describing every key operation Krypton
+// must perform. The plugin never touches keys or state directly — it only
+// declares intent via the JSON-encoded AST. Core is the sole executor.
+service Reconciler {
+  rpc Reconcile(ReconcileRequest) returns (ReconcileResponse);
+}
+
+// ReconcileRequest carries everything the plugin needs to plan operations for
+// this resource. resource_payload is opaque to core and decoded only by the plugin.
+message ReconcileRequest {
+  reserved 1;
+
+  // api_group identifies the resource type family, e.g. "mycompany.kms/v1".
+  string api_group = 2 [(buf.validate.field).required = true];
+
+  // resource_payload is the JSON-encoded extension_key Struct from the original
+  // SyncResourceRequest. Core passes it unchanged; the plugin owns the schema.
+  bytes resource_payload = 3 [(buf.validate.field).required = true];
+
+  // action is the operation requested: "SYNC" or "DELETE".
+  string action = 4 [(buf.validate.field).required = true];
+}
+
+// ReconcileResponse is returned by the plugin and contains the execution plan.
+// Core decodes execution_plan as a JSON-encoded ast.ExecutionPlan and executes it.
+message ReconcileResponse {
+  // error_message non-empty means planning failed.
+  // transient_error = true  → worker requeues up to max retries.
+  // transient_error = false → worker marks operation as terminally failed.
+  string error_message   = 1;
+  bool   transient_error = 2;
+
+  // execution_plan is a JSON-encoded ast.ExecutionPlan (see
+  // internal/modules/resource-reconciler/controller/ast). Empty means no-op.
+  bytes execution_plan = 3;
+}
+

@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	Type                = "IdentityManagementService"
+	Type                = "IdentityManagement"
 	GRPCServiceFullName = "plugin.identity_management.v1.IdentityManagementService"
 )
 

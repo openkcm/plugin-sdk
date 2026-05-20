@@ -10,7 +10,7 @@ import (
 
 const (
 	Type                = "KeyMaterialStorage"
-	GRPCServiceFullName = "plugin.key_material_storage.v1.KeyMaterialStorage"
+	GRPCServiceFullName = "krypton.key_material_storage.v1.KeyMaterialStorage"
 )
 
 func KeyMaterialStoragePluginServer(server KeyMaterialStorageServer) api.PluginServer {

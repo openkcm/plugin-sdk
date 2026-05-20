@@ -344,35 +344,35 @@ var File_plugin_llm_v1_llm_proto protoreflect.FileDescriptor
 
 const file_plugin_llm_v1_llm_proto_rawDesc = "" +
 	"\n" +
-	"\x17plugin/llm/v1/llm.proto\x12\rplugin.llm.v1\"\xab\x02\n" +
+	"\x17plugin/llm/v1/llm.proto\x12\x0ekrypton.llm.v1\"\xac\x02\n" +
 	"\x0eFindingSummary\x12\x1a\n" +
 	"\bcategory\x18\x01 \x01(\tR\bcategory\x12\x1a\n" +
 	"\bseverity\x18\x02 \x01(\tR\bseverity\x12\x14\n" +
 	"\x05title\x18\x03 \x01(\tR\x05title\x12 \n" +
-	"\vdescription\x18\x04 \x01(\tR\vdescription\x12c\n" +
-	"\x12aggregate_metadata\x18\x05 \x03(\v24.plugin.llm.v1.FindingSummary.AggregateMetadataEntryR\x11aggregateMetadata\x1aD\n" +
+	"\vdescription\x18\x04 \x01(\tR\vdescription\x12d\n" +
+	"\x12aggregate_metadata\x18\x05 \x03(\v25.krypton.llm.v1.FindingSummary.AggregateMetadataEntryR\x11aggregateMetadata\x1aD\n" +
 	"\x16AggregateMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"w\n" +
 	"\x0fEnrichedFinding\x121\n" +
 	"\x14enriched_description\x18\x01 \x01(\tR\x13enrichedDescription\x121\n" +
-	"\x14enriched_remediation\x18\x02 \x01(\tR\x13enrichedRemediation\"J\n" +
-	"\rEnrichRequest\x129\n" +
-	"\bfindings\x18\x01 \x03(\v2\x1d.plugin.llm.v1.FindingSummaryR\bfindings\"L\n" +
-	"\x0eEnrichResponse\x12:\n" +
-	"\benriched\x18\x01 \x03(\v2\x1e.plugin.llm.v1.EnrichedFindingR\benriched\"\xc9\x01\n" +
+	"\x14enriched_remediation\x18\x02 \x01(\tR\x13enrichedRemediation\"K\n" +
+	"\rEnrichRequest\x12:\n" +
+	"\bfindings\x18\x01 \x03(\v2\x1e.krypton.llm.v1.FindingSummaryR\bfindings\"M\n" +
+	"\x0eEnrichResponse\x12;\n" +
+	"\benriched\x18\x01 \x03(\v2\x1f.krypton.llm.v1.EnrichedFindingR\benriched\"\xca\x01\n" +
 	"\rAnswerRequest\x12\x1a\n" +
-	"\bquestion\x18\x01 \x01(\tR\bquestion\x12Y\n" +
-	"\x0fcontext_signals\x18\x02 \x03(\v20.plugin.llm.v1.AnswerRequest.ContextSignalsEntryR\x0econtextSignals\x1aA\n" +
+	"\bquestion\x18\x01 \x01(\tR\bquestion\x12Z\n" +
+	"\x0fcontext_signals\x18\x02 \x03(\v21.krypton.llm.v1.AnswerRequest.ContextSignalsEntryR\x0econtextSignals\x1aA\n" +
 	"\x13ContextSignalsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"(\n" +
 	"\x0eAnswerResponse\x12\x16\n" +
-	"\x06answer\x18\x01 \x01(\tR\x06answer2\x93\x01\n" +
-	"\x03LLM\x12E\n" +
-	"\x06Enrich\x12\x1c.plugin.llm.v1.EnrichRequest\x1a\x1d.plugin.llm.v1.EnrichResponse\x12E\n" +
-	"\x06Answer\x12\x1c.plugin.llm.v1.AnswerRequest\x1a\x1d.plugin.llm.v1.AnswerResponseB\xac\x01\n" +
-	"\x11com.plugin.llm.v1B\bLlmProtoP\x01Z7github.com/openkcm/plugin-sdk/proto/plugin/llm/v1;llmv1\xa2\x02\x03PLX\xaa\x02\rPlugin.Llm.V1\xca\x02\rPlugin\\Llm\\V1\xe2\x02\x19Plugin\\Llm\\V1\\GPBMetadata\xea\x02\x0fPlugin::Llm::V1b\x06proto3"
+	"\x06answer\x18\x01 \x01(\tR\x06answer2\x97\x01\n" +
+	"\x03LLM\x12G\n" +
+	"\x06Enrich\x12\x1d.krypton.llm.v1.EnrichRequest\x1a\x1e.krypton.llm.v1.EnrichResponse\x12G\n" +
+	"\x06Answer\x12\x1d.krypton.llm.v1.AnswerRequest\x1a\x1e.krypton.llm.v1.AnswerResponseB\xb1\x01\n" +
+	"\x12com.krypton.llm.v1B\bLlmProtoP\x01Z7github.com/openkcm/plugin-sdk/proto/plugin/llm/v1;llmv1\xa2\x02\x03KLX\xaa\x02\x0eKrypton.Llm.V1\xca\x02\x0eKrypton\\Llm\\V1\xe2\x02\x1aKrypton\\Llm\\V1\\GPBMetadata\xea\x02\x10Krypton::Llm::V1b\x06proto3"
 
 var (
 	file_plugin_llm_v1_llm_proto_rawDescOnce sync.Once
@@ -388,24 +388,24 @@ func file_plugin_llm_v1_llm_proto_rawDescGZIP() []byte {
 
 var file_plugin_llm_v1_llm_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_plugin_llm_v1_llm_proto_goTypes = []any{
-	(*FindingSummary)(nil),  // 0: plugin.llm.v1.FindingSummary
-	(*EnrichedFinding)(nil), // 1: plugin.llm.v1.EnrichedFinding
-	(*EnrichRequest)(nil),   // 2: plugin.llm.v1.EnrichRequest
-	(*EnrichResponse)(nil),  // 3: plugin.llm.v1.EnrichResponse
-	(*AnswerRequest)(nil),   // 4: plugin.llm.v1.AnswerRequest
-	(*AnswerResponse)(nil),  // 5: plugin.llm.v1.AnswerResponse
-	nil,                     // 6: plugin.llm.v1.FindingSummary.AggregateMetadataEntry
-	nil,                     // 7: plugin.llm.v1.AnswerRequest.ContextSignalsEntry
+	(*FindingSummary)(nil),  // 0: krypton.llm.v1.FindingSummary
+	(*EnrichedFinding)(nil), // 1: krypton.llm.v1.EnrichedFinding
+	(*EnrichRequest)(nil),   // 2: krypton.llm.v1.EnrichRequest
+	(*EnrichResponse)(nil),  // 3: krypton.llm.v1.EnrichResponse
+	(*AnswerRequest)(nil),   // 4: krypton.llm.v1.AnswerRequest
+	(*AnswerResponse)(nil),  // 5: krypton.llm.v1.AnswerResponse
+	nil,                     // 6: krypton.llm.v1.FindingSummary.AggregateMetadataEntry
+	nil,                     // 7: krypton.llm.v1.AnswerRequest.ContextSignalsEntry
 }
 var file_plugin_llm_v1_llm_proto_depIdxs = []int32{
-	6, // 0: plugin.llm.v1.FindingSummary.aggregate_metadata:type_name -> plugin.llm.v1.FindingSummary.AggregateMetadataEntry
-	0, // 1: plugin.llm.v1.EnrichRequest.findings:type_name -> plugin.llm.v1.FindingSummary
-	1, // 2: plugin.llm.v1.EnrichResponse.enriched:type_name -> plugin.llm.v1.EnrichedFinding
-	7, // 3: plugin.llm.v1.AnswerRequest.context_signals:type_name -> plugin.llm.v1.AnswerRequest.ContextSignalsEntry
-	2, // 4: plugin.llm.v1.LLM.Enrich:input_type -> plugin.llm.v1.EnrichRequest
-	4, // 5: plugin.llm.v1.LLM.Answer:input_type -> plugin.llm.v1.AnswerRequest
-	3, // 6: plugin.llm.v1.LLM.Enrich:output_type -> plugin.llm.v1.EnrichResponse
-	5, // 7: plugin.llm.v1.LLM.Answer:output_type -> plugin.llm.v1.AnswerResponse
+	6, // 0: krypton.llm.v1.FindingSummary.aggregate_metadata:type_name -> krypton.llm.v1.FindingSummary.AggregateMetadataEntry
+	0, // 1: krypton.llm.v1.EnrichRequest.findings:type_name -> krypton.llm.v1.FindingSummary
+	1, // 2: krypton.llm.v1.EnrichResponse.enriched:type_name -> krypton.llm.v1.EnrichedFinding
+	7, // 3: krypton.llm.v1.AnswerRequest.context_signals:type_name -> krypton.llm.v1.AnswerRequest.ContextSignalsEntry
+	2, // 4: krypton.llm.v1.LLM.Enrich:input_type -> krypton.llm.v1.EnrichRequest
+	4, // 5: krypton.llm.v1.LLM.Answer:input_type -> krypton.llm.v1.AnswerRequest
+	3, // 6: krypton.llm.v1.LLM.Enrich:output_type -> krypton.llm.v1.EnrichResponse
+	5, // 7: krypton.llm.v1.LLM.Answer:output_type -> krypton.llm.v1.AnswerResponse
 	6, // [6:8] is the sub-list for method output_type
 	4, // [4:6] is the sub-list for method input_type
 	4, // [4:4] is the sub-list for extension type_name

@@ -1,0 +1,273 @@
+syntax = "proto3";
+
+package krypton.reconciler.v1;
+
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/openkcm/krypton/proto/plugin/reconciler/v1;reconcilerv1";
+
+// ExecutionPlan is the root of the AST returned by a plugin's Reconcile call.
+// It describes every operation Krypton core must execute to drive the custom
+// resource to its desired state. Core is the sole executor — the plugin never
+// touches keys, state, or the database directly.
+message ExecutionPlan {
+  // plan_id identifies this plan for tracing. Recommended: echo the operation ID.
+  string plan_id = 1;
+
+  // root is the root node of the execution tree.
+  ASTNode root = 2;
+
+  // bindings are pre-declared variables available to every node in the plan.
+  // Use them to pass tenant_id, api_group, external IDs, or any other values
+  // the plugin resolved during planning and wants to thread through execution.
+  map<string, string> bindings = 3;
+}
+
+// ─────────────────────────────────────────────────────────────
+// Core node type — every element of the AST is an ASTNode.
+// ─────────────────────────────────────────────────────────────
+
+message ASTNode {
+  // node_id is an optional stable identifier used for checkpoint persistence.
+  // When set, the executor stores progress so retries resume from here.
+  // Must be stable across retries (use a semantic name, not a random UUID).
+  string node_id = 1;
+
+  // label is a human-readable description surfaced in logs and audit events.
+  string label = 2;
+
+  // result_var, when non-empty, binds the primary string output of this node
+  // (typically a provisioned key ID) into the execution state so downstream
+  // nodes can reference it via ValueRef.var_ref.
+  string result_var = 3;
+
+  oneof node {
+    // ── Control flow ──────────────────────────────────────────
+    SequenceNode    sequence    = 10;
+    ParallelNode    parallel    = 11;
+    ConditionalNode conditional = 12;
+    TryCatchNode    try_catch   = 13;
+
+    // ── Checkpoint ────────────────────────────────────────────
+    // Persists progress at this point; uses node_id as the checkpoint name.
+    CheckpointNode checkpoint = 14;
+
+    // ── Assertions / pre-conditions ───────────────────────────
+    // Fails the plan with error_message if the predicate is false.
+    AssertNode assert = 20;
+
+    // ── Key lifecycle ─────────────────────────────────────────
+    KeySyncNode       key_sync       = 30; // create or idempotently update
+    KeyDeleteNode     key_delete     = 31; // destroy key material
+    KeyTransitionNode key_transition = 32; // explicit lifecycle state change
+    KeyRotateNode     key_rotate     = 33; // generate new key material (forced rotation)
+    KeyScheduleNode   key_schedule   = 34; // set expiry / scheduled transition
+
+    // ── Credential lifecycle ───────────────────────────────────
+    CredentialSyncNode   credential_sync   = 40;
+    CredentialDeleteNode credential_delete = 41;
+
+    // ── Utility ───────────────────────────────────────────────
+    BindNode bind = 60; // set a variable in execution state
+    EmitNode emit = 61; // write a custom audit event
+  }
+}
+
+// ─────────────────────────────────────────────────────────────
+// Control flow
+// ─────────────────────────────────────────────────────────────
+
+// SequenceNode runs steps in order; the first error aborts the remainder
+// and triggers rollback of already-executed steps (same as Pipeline).
+message SequenceNode {
+  repeated ASTNode steps = 1;
+}
+
+// ParallelNode fans steps out concurrently.
+// When fail_fast = true a single error cancels the remaining goroutines.
+message ParallelNode {
+  repeated ASTNode steps     = 1;
+  bool             fail_fast = 2;
+}
+
+// ConditionalNode evaluates a runtime predicate and executes exactly one branch.
+message ConditionalNode {
+  Predicate condition = 1;
+  ASTNode   then_node = 2;
+  ASTNode   else_node = 3; // optional — omit for pure guard
+}
+
+// TryCatchNode executes try_node; on any error executes catch_node instead.
+// Useful for compensating transactions and optional / best-effort steps.
+message TryCatchNode {
+  ASTNode try_node   = 1;
+  ASTNode catch_node = 2;
+}
+
+// CheckpointNode persists the current execution position so retries skip
+// completed steps. Uses the parent ASTNode.node_id as the checkpoint name.
+message CheckpointNode {}
+
+// ─────────────────────────────────────────────────────────────
+// Assertions
+// ─────────────────────────────────────────────────────────────
+
+message AssertNode {
+  Predicate condition     = 1;
+  string    error_message = 2;
+}
+
+// Predicate is a composable boolean expression resolved against live Krypton
+// state at execution time. Core owns all state reads; the plugin only declares
+// what must be true.
+message Predicate {
+  oneof expr {
+    KeyExistsPredicate        key_exists        = 1;
+    KeyStatePredicate         key_state         = 2;
+    TenantActivePredicate     tenant_active     = 3;
+    CredentialExistsPredicate credential_exists = 4;
+
+    // Logical combinators
+    AndPredicate and = 10;
+    OrPredicate  or  = 11;
+    NotPredicate not = 12;
+  }
+}
+
+message KeyExistsPredicate {
+  ValueRef tier     = 1;
+  ValueRef key_name = 2;
+}
+
+message KeyStatePredicate {
+  ValueRef        tier           = 1;
+  ValueRef        key_name       = 2;
+  // allowed_states is an OR list — matches if the key is in ANY of these states.
+  // Valid values: PRE_ACTIVATION, ACTIVE, SUSPENDED, DEACTIVATED, COMPROMISED,
+  //               PENDING_DESTROYING, DESTROYED.
+  repeated string allowed_states = 3;
+}
+
+message TenantActivePredicate {
+  ValueRef tenant_id = 1;
+}
+
+message CredentialExistsPredicate {
+  ValueRef name = 1;
+}
+
+message AndPredicate { repeated Predicate terms = 1; }
+message OrPredicate  { repeated Predicate terms = 1; }
+message NotPredicate { Predicate term = 1;            }
+
+// ─────────────────────────────────────────────────────────────
+// Value references
+// ─────────────────────────────────────────────────────────────
+
+// ValueRef resolves to a string at runtime.
+// Use literal for constants known at plan time.
+// Use var_ref to read a value set by a previous node's result_var or by
+// ExecutionPlan.bindings.
+message ValueRef {
+  oneof kind {
+    string literal = 1;
+    string var_ref = 2;
+  }
+}
+
+// ─────────────────────────────────────────────────────────────
+// Key lifecycle nodes
+// ─────────────────────────────────────────────────────────────
+
+// KeySyncNode provisions a key at the given tier, or is a no-op if the key
+// already exists (idempotent). Core wraps the key under parent_key using the
+// configured tier hierarchy. On success, result_var receives the key ULID.
+message KeySyncNode {
+  // tier is the Krypton tier name as declared in key-hierarchy config,
+  // e.g. "l2-domain", "l3-service", "l4-data".
+  ValueRef tier       = 1;
+  // key_name is the logical name scoped to the tenant.
+  ValueRef key_name   = 2;
+  // parent_key is the name of the wrapping key one tier above.
+  // Required for all tiers except L1 root keys.
+  ValueRef parent_key = 3;
+  // schedule, when set, is applied immediately after provisioning.
+  KeyScheduleSpec schedule = 4;
+  // metadata is attached to the key record after successful provisioning.
+  map<string, string> metadata = 5;
+}
+
+// KeyDeleteNode destroys key material and all version lineages.
+// Core enforces that no child keys exist before allowing deletion.
+message KeyDeleteNode {
+  ValueRef tier     = 1;
+  ValueRef key_name = 2;
+}
+
+// KeyTransitionNode explicitly moves a key to a target lifecycle state.
+// Valid target_state values: PRE_ACTIVATION, ACTIVE, SUSPENDED, DEACTIVATED,
+//                            COMPROMISED, PENDING_DESTROYING, DESTROYED.
+message KeyTransitionNode {
+  ValueRef tier         = 1;
+  ValueRef key_name     = 2;
+  string   target_state = 3;
+}
+
+// KeyRotateNode generates new key material under the same logical key name
+// (forced rotation — bypasses the idempotency guard in ProvisionKey).
+// On success, result_var receives the new key ULID.
+message KeyRotateNode {
+  ValueRef tier     = 1;
+  ValueRef key_name = 2;
+}
+
+// KeyScheduleNode updates the scheduled lifecycle transition for an existing key.
+message KeyScheduleNode {
+  ValueRef tier     = 1;
+  ValueRef key_name = 2;
+  KeyScheduleSpec schedule = 3;
+}
+
+// KeyScheduleSpec carries timing parameters for a scheduled state transition.
+// All fields are optional — set only the ones you need.
+message KeyScheduleSpec {
+  optional google.protobuf.Timestamp expires_at              = 1;
+  optional google.protobuf.Timestamp scheduled_transition_at = 2;
+  // transition_to is the target KeyState when scheduled_transition_at fires.
+  optional string                    transition_to           = 3;
+}
+
+// ─────────────────────────────────────────────────────────────
+// Credential lifecycle nodes
+// ─────────────────────────────────────────────────────────────
+
+// CredentialSyncNode creates or updates a credential.
+// spec is the full credential payload; core encrypts it using the tenant keyring.
+message CredentialSyncNode {
+  ValueRef               name = 1;
+  ValueRef               type = 2;
+  google.protobuf.Struct spec = 3;
+}
+
+// CredentialDeleteNode removes a credential record.
+message CredentialDeleteNode {
+  ValueRef name = 1;
+}
+
+// ─────────────────────────────────────────────────────────────
+// Utility nodes
+// ─────────────────────────────────────────────────────────────
+
+// BindNode sets a named variable in the execution state.
+// Useful for deriving values from existing bindings before referencing them.
+message BindNode {
+  string   var_name = 1;
+  ValueRef value    = 2;
+}
+
+// EmitNode writes a structured event to Krypton's audit trail.
+message EmitNode {
+  string              event_type = 1;
+  map<string, string> attributes = 2;
+}

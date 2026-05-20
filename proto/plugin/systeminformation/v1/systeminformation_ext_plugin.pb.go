@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	Type                = "SystemInformationService"
+	Type                = "SystemInformation"
 	GRPCServiceFullName = "plugin.systeminformation.v1.SystemInformationService"
 )
 

@@ -753,7 +753,7 @@ var File_plugin_key_material_storage_v1_key_material_storage_proto protoreflect.
 
 const file_plugin_key_material_storage_v1_key_material_storage_proto_rawDesc = "" +
 	"\n" +
-	"9plugin/key_material_storage/v1/key_material_storage.proto\x12\x1eplugin.key_material_storage.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xa4\x03\n" +
+	"9plugin/key_material_storage/v1/key_material_storage.proto\x12\x1fkrypton.key_material_storage.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xa5\x03\n" +
 	"\vKeyMaterial\x12\x17\n" +
 	"\x02id\x18\x01 \x01(\tB\a\xbaH\x04r\x02\x10\x01R\x02id\x12\x1b\n" +
 	"\x04data\x18\x02 \x01(\fB\a\xbaH\x04z\x02\x10\x01R\x04data\x12%\n" +
@@ -761,19 +761,19 @@ const file_plugin_key_material_storage_v1_key_material_storage_proto_rawDesc = "
 	"\x13previous_version_id\x18\x04 \x01(\tH\x00R\x11previousVersionId\x88\x01\x01\x12\x1f\n" +
 	"\bchecksum\x18\x05 \x01(\tH\x01R\bchecksum\x88\x01\x01\x129\n" +
 	"\n" +
-	"created_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x12I\n" +
-	"\x04tags\x18\a \x03(\v25.plugin.key_material_storage.v1.KeyMaterial.TagsEntryR\x04tags\x1a7\n" +
+	"created_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x12J\n" +
+	"\x04tags\x18\a \x03(\v26.krypton.key_material_storage.v1.KeyMaterial.TagsEntryR\x04tags\x1a7\n" +
 	"\tTagsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01B\x16\n" +
 	"\x14_previous_version_idB\v\n" +
-	"\t_checksum\"\xd7\x04\n" +
-	"\x06Filter\x12G\n" +
-	"\x02id\x18\x01 \x01(\v22.plugin.key_material_storage.v1.Filter.StringMatchH\x00R\x02id\x88\x01\x01\x12!\n" +
-	"\talgorithm\x18\x02 \x01(\tH\x01R\talgorithm\x88\x01\x01\x12D\n" +
-	"\x04tags\x18\x03 \x03(\v20.plugin.key_material_storage.v1.Filter.TagsEntryR\x04tags\x12T\n" +
+	"\t_checksum\"\xda\x04\n" +
+	"\x06Filter\x12H\n" +
+	"\x02id\x18\x01 \x01(\v23.krypton.key_material_storage.v1.Filter.StringMatchH\x00R\x02id\x88\x01\x01\x12!\n" +
+	"\talgorithm\x18\x02 \x01(\tH\x01R\talgorithm\x88\x01\x01\x12E\n" +
+	"\x04tags\x18\x03 \x03(\v21.krypton.key_material_storage.v1.Filter.TagsEntryR\x04tags\x12U\n" +
 	"\n" +
-	"created_at\x18\x04 \x01(\v20.plugin.key_material_storage.v1.Filter.TimeRangeH\x02R\tcreatedAt\x88\x01\x01\x1a\x7f\n" +
+	"created_at\x18\x04 \x01(\v21.krypton.key_material_storage.v1.Filter.TimeRangeH\x02R\tcreatedAt\x88\x01\x01\x1a\x7f\n" +
 	"\vStringMatch\x12\x18\n" +
 	"\x06prefix\x18\x01 \x01(\tH\x00R\x06prefix\x12\x18\n" +
 	"\x06suffix\x18\x02 \x01(\tH\x00R\x06suffix\x12\x1c\n" +
@@ -789,36 +789,36 @@ const file_plugin_key_material_storage_v1_key_material_storage_proto_rawDesc = "
 	"\x03_idB\f\n" +
 	"\n" +
 	"_algorithmB\r\n" +
-	"\v_created_at\"\xc3\x01\n" +
+	"\v_created_at\"\xc4\x01\n" +
 	"\x0eListIDsRequest\x12%\n" +
-	"\tnamespace\x18\x01 \x01(\tB\a\xbaH\x04r\x02\x10\x01R\tnamespace\x12C\n" +
-	"\x06filter\x18\x02 \x01(\v2&.plugin.key_material_storage.v1.FilterH\x00R\x06filter\x88\x01\x01\x12\x1b\n" +
+	"\tnamespace\x18\x01 \x01(\tB\a\xbaH\x04r\x02\x10\x01R\tnamespace\x12D\n" +
+	"\x06filter\x18\x02 \x01(\v2'.krypton.key_material_storage.v1.FilterH\x00R\x06filter\x88\x01\x01\x12\x1b\n" +
 	"\tpage_size\x18\x03 \x01(\rR\bpageSize\x12\x1d\n" +
 	"\n" +
 	"page_token\x18\x04 \x01(\tR\tpageTokenB\t\n" +
 	"\a_filter\"K\n" +
 	"\x0fListIDsResponse\x12\x10\n" +
 	"\x03ids\x18\x01 \x03(\tR\x03ids\x12&\n" +
-	"\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken\"\x8d\x01\n" +
+	"\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken\"\x8e\x01\n" +
 	"\fStoreRequest\x12%\n" +
-	"\tnamespace\x18\x01 \x01(\tB\a\xbaH\x04r\x02\x10\x01R\tnamespace\x12V\n" +
-	"\fkey_material\x18\x02 \x01(\v2+.plugin.key_material_storage.v1.KeyMaterialB\x06\xbaH\x03\xc8\x01\x01R\vkeyMaterial\"\x0f\n" +
+	"\tnamespace\x18\x01 \x01(\tB\a\xbaH\x04r\x02\x10\x01R\tnamespace\x12W\n" +
+	"\fkey_material\x18\x02 \x01(\v2,.krypton.key_material_storage.v1.KeyMaterialB\x06\xbaH\x03\xc8\x01\x01R\vkeyMaterial\"\x0f\n" +
 	"\rStoreResponse\"M\n" +
 	"\vLoadRequest\x12%\n" +
 	"\tnamespace\x18\x01 \x01(\tB\a\xbaH\x04r\x02\x10\x01R\tnamespace\x12\x17\n" +
-	"\x02id\x18\x02 \x01(\tB\a\xbaH\x04r\x02\x10\x01R\x02id\"^\n" +
-	"\fLoadResponse\x12N\n" +
-	"\fkey_material\x18\x01 \x01(\v2+.plugin.key_material_storage.v1.KeyMaterialR\vkeyMaterial\"O\n" +
+	"\x02id\x18\x02 \x01(\tB\a\xbaH\x04r\x02\x10\x01R\x02id\"_\n" +
+	"\fLoadResponse\x12O\n" +
+	"\fkey_material\x18\x01 \x01(\v2,.krypton.key_material_storage.v1.KeyMaterialR\vkeyMaterial\"O\n" +
 	"\rDeleteRequest\x12%\n" +
 	"\tnamespace\x18\x01 \x01(\tB\a\xbaH\x04r\x02\x10\x01R\tnamespace\x12\x17\n" +
 	"\x02id\x18\x02 \x01(\tB\a\xbaH\x04r\x02\x10\x01R\x02id\"\x10\n" +
-	"\x0eDeleteResponse2\xb4\x03\n" +
-	"\x12KeyMaterialStorage\x12d\n" +
-	"\x05Store\x12,.plugin.key_material_storage.v1.StoreRequest\x1a-.plugin.key_material_storage.v1.StoreResponse\x12a\n" +
-	"\x04Load\x12+.plugin.key_material_storage.v1.LoadRequest\x1a,.plugin.key_material_storage.v1.LoadResponse\x12g\n" +
-	"\x06Delete\x12-.plugin.key_material_storage.v1.DeleteRequest\x1a..plugin.key_material_storage.v1.DeleteResponse\x12l\n" +
-	"\aListIDs\x12..plugin.key_material_storage.v1.ListIDsRequest\x1a/.plugin.key_material_storage.v1.ListIDsResponse0\x01B\xaa\x02\n" +
-	"\"com.plugin.key_material_storage.v1B\x17KeyMaterialStorageProtoP\x01ZYgithub.com/openkcm/plugin-sdk/proto/plugin/key_material_storage/v1;key_material_storagev1\xa2\x02\x03PKX\xaa\x02\x1cPlugin.KeyMaterialStorage.V1\xca\x02\x1cPlugin\\KeyMaterialStorage\\V1\xe2\x02(Plugin\\KeyMaterialStorage\\V1\\GPBMetadata\xea\x02\x1ePlugin::KeyMaterialStorage::V1b\x06proto3"
+	"\x0eDeleteResponse2\xbc\x03\n" +
+	"\x12KeyMaterialStorage\x12f\n" +
+	"\x05Store\x12-.krypton.key_material_storage.v1.StoreRequest\x1a..krypton.key_material_storage.v1.StoreResponse\x12c\n" +
+	"\x04Load\x12,.krypton.key_material_storage.v1.LoadRequest\x1a-.krypton.key_material_storage.v1.LoadResponse\x12i\n" +
+	"\x06Delete\x12..krypton.key_material_storage.v1.DeleteRequest\x1a/.krypton.key_material_storage.v1.DeleteResponse\x12n\n" +
+	"\aListIDs\x12/.krypton.key_material_storage.v1.ListIDsRequest\x1a0.krypton.key_material_storage.v1.ListIDsResponse0\x01B\xaf\x02\n" +
+	"#com.krypton.key_material_storage.v1B\x17KeyMaterialStorageProtoP\x01ZYgithub.com/openkcm/plugin-sdk/proto/plugin/key_material_storage/v1;key_material_storagev1\xa2\x02\x03KKX\xaa\x02\x1dKrypton.KeyMaterialStorage.V1\xca\x02\x1dKrypton\\KeyMaterialStorage\\V1\xe2\x02)Krypton\\KeyMaterialStorage\\V1\\GPBMetadata\xea\x02\x1fKrypton::KeyMaterialStorage::V1b\x06proto3"
 
 var (
 	file_plugin_key_material_storage_v1_key_material_storage_proto_rawDescOnce sync.Once
@@ -834,41 +834,41 @@ func file_plugin_key_material_storage_v1_key_material_storage_proto_rawDescGZIP(
 
 var file_plugin_key_material_storage_v1_key_material_storage_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
 var file_plugin_key_material_storage_v1_key_material_storage_proto_goTypes = []any{
-	(*KeyMaterial)(nil),           // 0: plugin.key_material_storage.v1.KeyMaterial
-	(*Filter)(nil),                // 1: plugin.key_material_storage.v1.Filter
-	(*ListIDsRequest)(nil),        // 2: plugin.key_material_storage.v1.ListIDsRequest
-	(*ListIDsResponse)(nil),       // 3: plugin.key_material_storage.v1.ListIDsResponse
-	(*StoreRequest)(nil),          // 4: plugin.key_material_storage.v1.StoreRequest
-	(*StoreResponse)(nil),         // 5: plugin.key_material_storage.v1.StoreResponse
-	(*LoadRequest)(nil),           // 6: plugin.key_material_storage.v1.LoadRequest
-	(*LoadResponse)(nil),          // 7: plugin.key_material_storage.v1.LoadResponse
-	(*DeleteRequest)(nil),         // 8: plugin.key_material_storage.v1.DeleteRequest
-	(*DeleteResponse)(nil),        // 9: plugin.key_material_storage.v1.DeleteResponse
-	nil,                           // 10: plugin.key_material_storage.v1.KeyMaterial.TagsEntry
-	(*Filter_StringMatch)(nil),    // 11: plugin.key_material_storage.v1.Filter.StringMatch
-	nil,                           // 12: plugin.key_material_storage.v1.Filter.TagsEntry
-	(*Filter_TimeRange)(nil),      // 13: plugin.key_material_storage.v1.Filter.TimeRange
+	(*KeyMaterial)(nil),           // 0: krypton.key_material_storage.v1.KeyMaterial
+	(*Filter)(nil),                // 1: krypton.key_material_storage.v1.Filter
+	(*ListIDsRequest)(nil),        // 2: krypton.key_material_storage.v1.ListIDsRequest
+	(*ListIDsResponse)(nil),       // 3: krypton.key_material_storage.v1.ListIDsResponse
+	(*StoreRequest)(nil),          // 4: krypton.key_material_storage.v1.StoreRequest
+	(*StoreResponse)(nil),         // 5: krypton.key_material_storage.v1.StoreResponse
+	(*LoadRequest)(nil),           // 6: krypton.key_material_storage.v1.LoadRequest
+	(*LoadResponse)(nil),          // 7: krypton.key_material_storage.v1.LoadResponse
+	(*DeleteRequest)(nil),         // 8: krypton.key_material_storage.v1.DeleteRequest
+	(*DeleteResponse)(nil),        // 9: krypton.key_material_storage.v1.DeleteResponse
+	nil,                           // 10: krypton.key_material_storage.v1.KeyMaterial.TagsEntry
+	(*Filter_StringMatch)(nil),    // 11: krypton.key_material_storage.v1.Filter.StringMatch
+	nil,                           // 12: krypton.key_material_storage.v1.Filter.TagsEntry
+	(*Filter_TimeRange)(nil),      // 13: krypton.key_material_storage.v1.Filter.TimeRange
 	(*timestamppb.Timestamp)(nil), // 14: google.protobuf.Timestamp
 }
 var file_plugin_key_material_storage_v1_key_material_storage_proto_depIdxs = []int32{
-	14, // 0: plugin.key_material_storage.v1.KeyMaterial.created_at:type_name -> google.protobuf.Timestamp
-	10, // 1: plugin.key_material_storage.v1.KeyMaterial.tags:type_name -> plugin.key_material_storage.v1.KeyMaterial.TagsEntry
-	11, // 2: plugin.key_material_storage.v1.Filter.id:type_name -> plugin.key_material_storage.v1.Filter.StringMatch
-	12, // 3: plugin.key_material_storage.v1.Filter.tags:type_name -> plugin.key_material_storage.v1.Filter.TagsEntry
-	13, // 4: plugin.key_material_storage.v1.Filter.created_at:type_name -> plugin.key_material_storage.v1.Filter.TimeRange
-	1,  // 5: plugin.key_material_storage.v1.ListIDsRequest.filter:type_name -> plugin.key_material_storage.v1.Filter
-	0,  // 6: plugin.key_material_storage.v1.StoreRequest.key_material:type_name -> plugin.key_material_storage.v1.KeyMaterial
-	0,  // 7: plugin.key_material_storage.v1.LoadResponse.key_material:type_name -> plugin.key_material_storage.v1.KeyMaterial
-	14, // 8: plugin.key_material_storage.v1.Filter.TimeRange.from:type_name -> google.protobuf.Timestamp
-	14, // 9: plugin.key_material_storage.v1.Filter.TimeRange.to:type_name -> google.protobuf.Timestamp
-	4,  // 10: plugin.key_material_storage.v1.KeyMaterialStorage.Store:input_type -> plugin.key_material_storage.v1.StoreRequest
-	6,  // 11: plugin.key_material_storage.v1.KeyMaterialStorage.Load:input_type -> plugin.key_material_storage.v1.LoadRequest
-	8,  // 12: plugin.key_material_storage.v1.KeyMaterialStorage.Delete:input_type -> plugin.key_material_storage.v1.DeleteRequest
-	2,  // 13: plugin.key_material_storage.v1.KeyMaterialStorage.ListIDs:input_type -> plugin.key_material_storage.v1.ListIDsRequest
-	5,  // 14: plugin.key_material_storage.v1.KeyMaterialStorage.Store:output_type -> plugin.key_material_storage.v1.StoreResponse
-	7,  // 15: plugin.key_material_storage.v1.KeyMaterialStorage.Load:output_type -> plugin.key_material_storage.v1.LoadResponse
-	9,  // 16: plugin.key_material_storage.v1.KeyMaterialStorage.Delete:output_type -> plugin.key_material_storage.v1.DeleteResponse
-	3,  // 17: plugin.key_material_storage.v1.KeyMaterialStorage.ListIDs:output_type -> plugin.key_material_storage.v1.ListIDsResponse
+	14, // 0: krypton.key_material_storage.v1.KeyMaterial.created_at:type_name -> google.protobuf.Timestamp
+	10, // 1: krypton.key_material_storage.v1.KeyMaterial.tags:type_name -> krypton.key_material_storage.v1.KeyMaterial.TagsEntry
+	11, // 2: krypton.key_material_storage.v1.Filter.id:type_name -> krypton.key_material_storage.v1.Filter.StringMatch
+	12, // 3: krypton.key_material_storage.v1.Filter.tags:type_name -> krypton.key_material_storage.v1.Filter.TagsEntry
+	13, // 4: krypton.key_material_storage.v1.Filter.created_at:type_name -> krypton.key_material_storage.v1.Filter.TimeRange
+	1,  // 5: krypton.key_material_storage.v1.ListIDsRequest.filter:type_name -> krypton.key_material_storage.v1.Filter
+	0,  // 6: krypton.key_material_storage.v1.StoreRequest.key_material:type_name -> krypton.key_material_storage.v1.KeyMaterial
+	0,  // 7: krypton.key_material_storage.v1.LoadResponse.key_material:type_name -> krypton.key_material_storage.v1.KeyMaterial
+	14, // 8: krypton.key_material_storage.v1.Filter.TimeRange.from:type_name -> google.protobuf.Timestamp
+	14, // 9: krypton.key_material_storage.v1.Filter.TimeRange.to:type_name -> google.protobuf.Timestamp
+	4,  // 10: krypton.key_material_storage.v1.KeyMaterialStorage.Store:input_type -> krypton.key_material_storage.v1.StoreRequest
+	6,  // 11: krypton.key_material_storage.v1.KeyMaterialStorage.Load:input_type -> krypton.key_material_storage.v1.LoadRequest
+	8,  // 12: krypton.key_material_storage.v1.KeyMaterialStorage.Delete:input_type -> krypton.key_material_storage.v1.DeleteRequest
+	2,  // 13: krypton.key_material_storage.v1.KeyMaterialStorage.ListIDs:input_type -> krypton.key_material_storage.v1.ListIDsRequest
+	5,  // 14: krypton.key_material_storage.v1.KeyMaterialStorage.Store:output_type -> krypton.key_material_storage.v1.StoreResponse
+	7,  // 15: krypton.key_material_storage.v1.KeyMaterialStorage.Load:output_type -> krypton.key_material_storage.v1.LoadResponse
+	9,  // 16: krypton.key_material_storage.v1.KeyMaterialStorage.Delete:output_type -> krypton.key_material_storage.v1.DeleteResponse
+	3,  // 17: krypton.key_material_storage.v1.KeyMaterialStorage.ListIDs:output_type -> krypton.key_material_storage.v1.ListIDsResponse
 	14, // [14:18] is the sub-list for method output_type
 	10, // [10:14] is the sub-list for method input_type
 	10, // [10:10] is the sub-list for extension type_name
