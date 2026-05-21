@@ -61,6 +61,10 @@ func (m *KeyReference) validate(all bool) error {
 
 	// no validation rules for Properties
 
+	if m.KeyName != nil {
+		// no validation rules for KeyName
+	}
+
 	if m.Version != nil {
 		// no validation rules for Version
 	}
@@ -142,6 +146,112 @@ var _ interface {
 	ErrorName() string
 } = KeyReferenceValidationError{}
 
+// Validate checks the field values on EncryptedData with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *EncryptedData) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on EncryptedData with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in EncryptedDataMultiError, or
+// nil if none found.
+func (m *EncryptedData) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *EncryptedData) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Ciphertext
+
+	if m.Iv != nil {
+		// no validation rules for Iv
+	}
+
+	if len(errors) > 0 {
+		return EncryptedDataMultiError(errors)
+	}
+
+	return nil
+}
+
+// EncryptedDataMultiError is an error wrapping multiple validation errors
+// returned by EncryptedData.ValidateAll() if the designated constraints
+// aren't met.
+type EncryptedDataMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m EncryptedDataMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m EncryptedDataMultiError) AllErrors() []error { return m }
+
+// EncryptedDataValidationError is the validation error returned by
+// EncryptedData.Validate if the designated constraints aren't met.
+type EncryptedDataValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e EncryptedDataValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e EncryptedDataValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e EncryptedDataValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e EncryptedDataValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e EncryptedDataValidationError) ErrorName() string { return "EncryptedDataValidationError" }
+
+// Error satisfies the builtin error interface
+func (e EncryptedDataValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sEncryptedData.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = EncryptedDataValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = EncryptedDataValidationError{}
+
 // Validate checks the field values on WrapRequest with the rules defined in
 // the proto definition for this message. If any rules are violated, the first
 // error encountered is returned, or nil if there are no violations.
@@ -195,14 +305,12 @@ func (m *WrapRequest) validate(all bool) error {
 
 	// no validation rules for Plaintext
 
-	// no validation rules for DynamicContext
-
 	if m.Aad != nil {
 		// no validation rules for Aad
 	}
 
-	if m.Iv != nil {
-		// no validation rules for Iv
+	if m.IvHint != nil {
+		// no validation rules for IvHint
 	}
 
 	if len(errors) > 0 {
@@ -304,14 +412,37 @@ func (m *WrapResponse) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for Ciphertext
+	if all {
+		switch v := interface{}(m.GetEncryptedData()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, WrapResponseValidationError{
+					field:  "EncryptedData",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, WrapResponseValidationError{
+					field:  "EncryptedData",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetEncryptedData()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return WrapResponseValidationError{
+				field:  "EncryptedData",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
 
 	if m.KeyVersionId != nil {
 		// no validation rules for KeyVersionId
-	}
-
-	if m.Iv != nil {
-		// no validation rules for Iv
 	}
 
 	if len(errors) > 0 {
@@ -442,16 +573,37 @@ func (m *UnwrapRequest) validate(all bool) error {
 		}
 	}
 
-	// no validation rules for Ciphertext
-
-	// no validation rules for DynamicContext
+	if all {
+		switch v := interface{}(m.GetEncryptedData()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, UnwrapRequestValidationError{
+					field:  "EncryptedData",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, UnwrapRequestValidationError{
+					field:  "EncryptedData",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetEncryptedData()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return UnwrapRequestValidationError{
+				field:  "EncryptedData",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
 
 	if m.Aad != nil {
 		// no validation rules for Aad
-	}
-
-	if m.Iv != nil {
-		// no validation rules for Iv
 	}
 
 	if len(errors) > 0 {
