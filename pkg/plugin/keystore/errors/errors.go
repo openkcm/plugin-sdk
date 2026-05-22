@@ -36,6 +36,8 @@ var (
 	// StatusKeyNotFound indicates that the specified key was not found in the keystore provider.
 	StatusKeyNotFound = status.New(
 		codes.NotFound, "key not found in the keystore provider")
+
+	StatusKeyGenericErr = status.New(codes.Unknown, "failed to get key")
 )
 
 // NewGrpcErrorWithDetails creates a gRPC error with the given status and metadata mapping.
