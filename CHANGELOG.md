@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.12.0](https://github.com/openkcm/plugin-sdk/compare/v0.11.1...v0.12.0) (2026-05-22)
+
+
+### Features
+
+* generic key error ([#154](https://github.com/openkcm/plugin-sdk/issues/154)) ([63acb38](https://github.com/openkcm/plugin-sdk/commit/63acb3819240ea0c132ade82f670fd32fb70c8cf))
+
+
+### Bug Fixes
+
+* **deps:** bump the gomod-group group across 1 directory with 3 updates ([#152](https://github.com/openkcm/plugin-sdk/issues/152)) ([acdcf18](https://github.com/openkcm/plugin-sdk/commit/acdcf189790ef2f895f05f27f312c6f035e6a6e0))
+
 ## [0.11.1](https://github.com/openkcm/plugin-sdk/compare/v0.11.0...v0.11.1) (2026-05-14)
 
 
