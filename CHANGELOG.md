@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.13.0](https://github.com/openkcm/plugin-sdk/compare/v0.12.0...v0.13.0) (2026-06-09)
+
+
+### Features
+
+* add grant/remove trust for keystore management plugin ([#157](https://github.com/openkcm/plugin-sdk/issues/157)) ([24dc562](https://github.com/openkcm/plugin-sdk/commit/24dc562a8d7dbed36112992ad5d367a7a91e1ff2))
+
+
+### Bug Fixes
+
+* **deps:** bump the gomod-group group across 1 directory with 2 updates ([#156](https://github.com/openkcm/plugin-sdk/issues/156)) ([dc441bb](https://github.com/openkcm/plugin-sdk/commit/dc441bba13b1debdaf518c67c05cb32be6fffae1))
+
 ## [0.12.0](https://github.com/openkcm/plugin-sdk/compare/v0.11.1...v0.12.0) (2026-05-22)
 
 
