@@ -7,16 +7,44 @@ import "plugin/keystore/common/v1/common.proto";
 option go_package = "github.com/openkcm/plugin-sdk/proto/plugin/keystore/management/v1;managementv1";
 
 service KeystoreProvider {
+  // Create a new keystore instance
   rpc CreateKeystore(CreateKeystoreRequest) returns (CreateKeystoreResponse);
+  // Delete an existing keystore instance
   rpc DeleteKeystore(DeleteKeystoreRequest) returns (DeleteKeystoreResponse);
+  // Grant trust to a client certificate subject pattern for accessing the keystore instance
+  rpc GrantTrust(GrantTrustRequest) returns (GrantTrustResponse);
+  // Remove trust for a client certificate subject pattern to revoke access to the keystore instance
+  rpc RemoveTrust(RemoveTrustRequest) returns (RemoveTrustResponse);
 }
 
+// SupportedRegion represents a region where the keystore can be created or accessed.
+message SupportedRegion {
+  string name = 1;
+  string technical_name = 2;
+}
+
+// ManagementConfig represents the configuration details for the management role of a keystore instance.
+message ManagementConfig {
+  string locality_id = 1;
+  string common_name = 2;
+  plugin.keystore.common.v1.KeystoreInstanceConfig access_data = 3;
+}
+
+// CreateKeystoreRequest represents the request to create a new keystore instance.
+// The values field contains the necessary parameters for creating the keystore,
+// which can vary depending on the implementation and requirements of the keystore provider.
 message CreateKeystoreRequest {
   google.protobuf.Struct values = 1;
 }
 
+// CreateKeystoreResponse represents the response after creating a new keystore instance.
+// - The config field (deprecated) contains the configuration details of the created keystore instance,
+// including fields: locality_id, common_name, management_access_data, and supported_regions.
 message CreateKeystoreResponse {
-  plugin.keystore.common.v1.KeystoreInstanceConfig config = 1;
+  plugin.keystore.common.v1.KeystoreInstanceConfig config = 1 [deprecated = true];
+  ManagementConfig role_management_config = 2;
+  ManagementConfig key_management_config = 3;
+  repeated SupportedRegion supported_regions = 4;
 }
 
 message DeleteKeystoreRequest {
@@ -24,3 +52,33 @@ message DeleteKeystoreRequest {
 }
 
 message DeleteKeystoreResponse {}
+
+// GrantTrustRequest represents the request to grant trust to a client certificate subject pattern
+// for accessing a keystore instance from the crypto layer.
+// - The config field contains the authentication configuration of the role management role for the keystore instance,
+// which is used to authenticate the request to grant trust.
+// - The subject field contains the client certificate subject to grant trust to
+// - The region field specifies the logical region for which the trust is being granted
+message GrantTrustRequest {
+  plugin.keystore.common.v1.KeystoreInstanceConfig config = 1;
+  string subject = 2;
+  string region = 3;
+}
+
+// GrantTrustResponse represents the response after granting trust to a client certificate subject pattern
+// for accessing a keystore instance. Returns the access data of the configured trust
+message GrantTrustResponse {
+  google.protobuf.Struct access_data = 1;
+}
+
+// RemoveTrustRequest represents the request to remove trust for a client certificate subject pattern
+// to revoke access to a keystore instance.
+// - The config field contains the authentication configuration of the role management role for the keystore instance,
+// which is used to authenticate the request to remove trust.
+// - The access_data field contains the access data of the trust to be removed
+message RemoveTrustRequest {
+  plugin.keystore.common.v1.KeystoreInstanceConfig config = 1;
+  google.protobuf.Struct access_data = 2;
+}
+
+message RemoveTrustResponse {}
