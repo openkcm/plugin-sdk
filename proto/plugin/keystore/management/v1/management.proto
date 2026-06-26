@@ -53,16 +53,25 @@ message DeleteKeystoreRequest {
 
 message DeleteKeystoreResponse {}
 
+// GrantTrustType specifies whether a management or crypto role should be created.
+enum GrantTrustType {
+  GRANT_TRUST_TYPE_UNSPECIFIED = 0;
+  GRANT_TRUST_TYPE_MANAGEMENT = 1;
+  GRANT_TRUST_TYPE_CRYPTO = 2;
+}
+
 // GrantTrustRequest represents the request to grant trust to a client certificate subject pattern
 // for accessing a keystore instance from the crypto layer.
 // - The config field contains the authentication configuration of the role management role for the keystore instance,
 // which is used to authenticate the request to grant trust.
 // - The subject field contains the client certificate subject to grant trust to
 // - The region field specifies the logical region for which the trust is being granted
+// - The type field specifies whether to create a management or crypto role
 message GrantTrustRequest {
   plugin.keystore.common.v1.KeystoreInstanceConfig config = 1;
   string subject = 2;
   string region = 3;
+  GrantTrustType type = 4;
 }
 
 // GrantTrustResponse represents the response after granting trust to a client certificate subject pattern
