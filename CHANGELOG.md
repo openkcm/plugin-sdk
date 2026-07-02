@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.14.0](https://github.com/openkcm/plugin-sdk/compare/v0.13.0...v0.14.0) (2026-07-02)
+
+
+### Features
+
+* update keystore role ([#163](https://github.com/openkcm/plugin-sdk/issues/163)) ([48b567f](https://github.com/openkcm/plugin-sdk/commit/48b567f2056129749e4fba32432adea5b40d651b))
+
+
+### Bug Fixes
+
+* **deps:** bump actions/checkout from 6 to 7 ([#161](https://github.com/openkcm/plugin-sdk/issues/161)) ([8df5e9c](https://github.com/openkcm/plugin-sdk/commit/8df5e9c9fa635d0eb1982a6bd8295eb87a36add8))
+* **deps:** bump golang.org/x/sys from 0.45.0 to 0.46.0 in the gomod-group group ([#160](https://github.com/openkcm/plugin-sdk/issues/160)) ([e182aa6](https://github.com/openkcm/plugin-sdk/commit/e182aa69a7e08d6e7570bd03595b798a5026014e))
+
 ## [0.13.0](https://github.com/openkcm/plugin-sdk/compare/v0.12.0...v0.13.0) (2026-06-09)
 
 
