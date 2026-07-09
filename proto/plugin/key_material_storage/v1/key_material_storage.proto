@@ -20,8 +20,8 @@ service KeyMaterialStorage {
 message KeyMaterial {
   string id = 1 [(buf.validate.field).string.min_len = 1];
   bytes data = 2 [(buf.validate.field).bytes.min_len = 1];
-  google.protobuf.Timestamp created_at = 9;
 
+  google.protobuf.Timestamp created_at = 9;
   map<string, string> tags = 10;
 }
 
@@ -39,12 +39,9 @@ message Filter {
   }
   optional StringMatch id = 1;
 
-  // Filter by cryptographic algorithm (e.g., "AES-256-GCM").
-  optional string algorithm = 2;
-
   // Filter by metadata tags (e.g., {"env": "prod"}).
   // Match is typically performed as "contains all".
-  map<string, string> tags = 3;
+  map<string, string> tags = 2;
 
   // Filter by the time the key was created.
   message TimeRange {

@@ -225,10 +225,6 @@ func (m *Filter) validate(all bool) error {
 
 	}
 
-	if m.Algorithm != nil {
-		// no validation rules for Algorithm
-	}
-
 	if m.CreatedAt != nil {
 
 		if all {

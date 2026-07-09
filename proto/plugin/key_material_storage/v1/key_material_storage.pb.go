@@ -96,11 +96,9 @@ func (x *KeyMaterial) GetTags() map[string]string {
 type Filter struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	Id    *Filter_StringMatch    `protobuf:"bytes,1,opt,name=id,proto3,oneof" json:"id,omitempty"`
-	// Filter by cryptographic algorithm (e.g., "AES-256-GCM").
-	Algorithm *string `protobuf:"bytes,2,opt,name=algorithm,proto3,oneof" json:"algorithm,omitempty"`
 	// Filter by metadata tags (e.g., {"env": "prod"}).
 	// Match is typically performed as "contains all".
-	Tags          map[string]string `protobuf:"bytes,3,rep,name=tags,proto3" json:"tags,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	Tags          map[string]string `protobuf:"bytes,2,rep,name=tags,proto3" json:"tags,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	CreatedAt     *Filter_TimeRange `protobuf:"bytes,4,opt,name=created_at,json=createdAt,proto3,oneof" json:"created_at,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -141,13 +139,6 @@ func (x *Filter) GetId() *Filter_StringMatch {
 		return x.Id
 	}
 	return nil
-}
-
-func (x *Filter) GetAlgorithm() string {
-	if x != nil && x.Algorithm != nil {
-		return *x.Algorithm
-	}
-	return ""
 }
 
 func (x *Filter) GetTags() map[string]string {
@@ -739,13 +730,12 @@ const file_plugin_key_material_storage_v1_key_material_storage_proto_rawDesc = "
 	" \x03(\v2=.krypton.plugin.key_material_storage.v1.KeyMaterial.TagsEntryR\x04tags\x1a7\n" +
 	"\tTagsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xef\x04\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xbe\x04\n" +
 	"\x06Filter\x12O\n" +
-	"\x02id\x18\x01 \x01(\v2:.krypton.plugin.key_material_storage.v1.Filter.StringMatchH\x00R\x02id\x88\x01\x01\x12!\n" +
-	"\talgorithm\x18\x02 \x01(\tH\x01R\talgorithm\x88\x01\x01\x12L\n" +
-	"\x04tags\x18\x03 \x03(\v28.krypton.plugin.key_material_storage.v1.Filter.TagsEntryR\x04tags\x12\\\n" +
+	"\x02id\x18\x01 \x01(\v2:.krypton.plugin.key_material_storage.v1.Filter.StringMatchH\x00R\x02id\x88\x01\x01\x12L\n" +
+	"\x04tags\x18\x02 \x03(\v28.krypton.plugin.key_material_storage.v1.Filter.TagsEntryR\x04tags\x12\\\n" +
 	"\n" +
-	"created_at\x18\x04 \x01(\v28.krypton.plugin.key_material_storage.v1.Filter.TimeRangeH\x02R\tcreatedAt\x88\x01\x01\x1a\x7f\n" +
+	"created_at\x18\x04 \x01(\v28.krypton.plugin.key_material_storage.v1.Filter.TimeRangeH\x01R\tcreatedAt\x88\x01\x01\x1a\x7f\n" +
 	"\vStringMatch\x12\x18\n" +
 	"\x06prefix\x18\x01 \x01(\tH\x00R\x06prefix\x12\x18\n" +
 	"\x06suffix\x18\x02 \x01(\tH\x00R\x06suffix\x12\x1c\n" +
@@ -758,9 +748,7 @@ const file_plugin_key_material_storage_v1_key_material_storage_proto_rawDesc = "
 	"\tTimeRange\x12.\n" +
 	"\x04from\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampR\x04from\x12*\n" +
 	"\x02to\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\x02toB\x05\n" +
-	"\x03_idB\f\n" +
-	"\n" +
-	"_algorithmB\r\n" +
+	"\x03_idB\r\n" +
 	"\v_created_at\"\xcb\x01\n" +
 	"\x0eListIDsRequest\x12%\n" +
 	"\tnamespace\x18\x01 \x01(\tB\a\xbaH\x04r\x02\x10\x01R\tnamespace\x12K\n" +
