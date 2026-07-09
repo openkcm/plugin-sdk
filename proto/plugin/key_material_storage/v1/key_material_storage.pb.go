@@ -26,16 +26,13 @@ const (
 
 // KeyMaterial represents a single unit of stored data.
 type KeyMaterial struct {
-	state             protoimpl.MessageState `protogen:"open.v1"`
-	Id                string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Data              []byte                 `protobuf:"bytes,2,opt,name=data,proto3" json:"data,omitempty"`
-	Algorithm         string                 `protobuf:"bytes,3,opt,name=algorithm,proto3" json:"algorithm,omitempty"`
-	PreviousVersionId *string                `protobuf:"bytes,4,opt,name=previous_version_id,json=previousVersionId,proto3,oneof" json:"previous_version_id,omitempty"`
-	Checksum          *string                `protobuf:"bytes,5,opt,name=checksum,proto3,oneof" json:"checksum,omitempty"`
-	CreatedAt         *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	Tags              map[string]string      `protobuf:"bytes,7,rep,name=tags,proto3" json:"tags,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Data          []byte                 `protobuf:"bytes,2,opt,name=data,proto3" json:"data,omitempty"`
+	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,9,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	Tags          map[string]string      `protobuf:"bytes,10,rep,name=tags,proto3" json:"tags,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *KeyMaterial) Reset() {
@@ -80,27 +77,6 @@ func (x *KeyMaterial) GetData() []byte {
 		return x.Data
 	}
 	return nil
-}
-
-func (x *KeyMaterial) GetAlgorithm() string {
-	if x != nil {
-		return x.Algorithm
-	}
-	return ""
-}
-
-func (x *KeyMaterial) GetPreviousVersionId() string {
-	if x != nil && x.PreviousVersionId != nil {
-		return *x.PreviousVersionId
-	}
-	return ""
-}
-
-func (x *KeyMaterial) GetChecksum() string {
-	if x != nil && x.Checksum != nil {
-		return *x.Checksum
-	}
-	return ""
 }
 
 func (x *KeyMaterial) GetCreatedAt() *timestamppb.Timestamp {
@@ -753,21 +729,17 @@ var File_plugin_key_material_storage_v1_key_material_storage_proto protoreflect.
 
 const file_plugin_key_material_storage_v1_key_material_storage_proto_rawDesc = "" +
 	"\n" +
-	"9plugin/key_material_storage/v1/key_material_storage.proto\x12&krypton.plugin.key_material_storage.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xac\x03\n" +
+	"9plugin/key_material_storage/v1/key_material_storage.proto\x12&krypton.plugin.key_material_storage.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x8a\x02\n" +
 	"\vKeyMaterial\x12\x17\n" +
 	"\x02id\x18\x01 \x01(\tB\a\xbaH\x04r\x02\x10\x01R\x02id\x12\x1b\n" +
-	"\x04data\x18\x02 \x01(\fB\a\xbaH\x04z\x02\x10\x01R\x04data\x12%\n" +
-	"\talgorithm\x18\x03 \x01(\tB\a\xbaH\x04r\x02\x10\x01R\talgorithm\x123\n" +
-	"\x13previous_version_id\x18\x04 \x01(\tH\x00R\x11previousVersionId\x88\x01\x01\x12\x1f\n" +
-	"\bchecksum\x18\x05 \x01(\tH\x01R\bchecksum\x88\x01\x01\x129\n" +
+	"\x04data\x18\x02 \x01(\fB\a\xbaH\x04z\x02\x10\x01R\x04data\x129\n" +
 	"\n" +
-	"created_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x12Q\n" +
-	"\x04tags\x18\a \x03(\v2=.krypton.plugin.key_material_storage.v1.KeyMaterial.TagsEntryR\x04tags\x1a7\n" +
+	"created_at\x18\t \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x12Q\n" +
+	"\x04tags\x18\n" +
+	" \x03(\v2=.krypton.plugin.key_material_storage.v1.KeyMaterial.TagsEntryR\x04tags\x1a7\n" +
 	"\tTagsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01B\x16\n" +
-	"\x14_previous_version_idB\v\n" +
-	"\t_checksum\"\xef\x04\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xef\x04\n" +
 	"\x06Filter\x12O\n" +
 	"\x02id\x18\x01 \x01(\v2:.krypton.plugin.key_material_storage.v1.Filter.StringMatchH\x00R\x02id\x88\x01\x01\x12!\n" +
 	"\talgorithm\x18\x02 \x01(\tH\x01R\talgorithm\x88\x01\x01\x12L\n" +
@@ -881,7 +853,6 @@ func file_plugin_key_material_storage_v1_key_material_storage_proto_init() {
 	if File_plugin_key_material_storage_v1_key_material_storage_proto != nil {
 		return
 	}
-	file_plugin_key_material_storage_v1_key_material_storage_proto_msgTypes[0].OneofWrappers = []any{}
 	file_plugin_key_material_storage_v1_key_material_storage_proto_msgTypes[1].OneofWrappers = []any{}
 	file_plugin_key_material_storage_v1_key_material_storage_proto_msgTypes[2].OneofWrappers = []any{}
 	file_plugin_key_material_storage_v1_key_material_storage_proto_msgTypes[11].OneofWrappers = []any{

@@ -20,12 +20,9 @@ service KeyMaterialStorage {
 message KeyMaterial {
   string id = 1 [(buf.validate.field).string.min_len = 1];
   bytes data = 2 [(buf.validate.field).bytes.min_len = 1];
-  string algorithm = 3 [(buf.validate.field).string.min_len = 1];
+  google.protobuf.Timestamp created_at = 9;
 
-  optional string previous_version_id = 4;
-  optional string checksum = 5;
-  google.protobuf.Timestamp created_at = 6;
-  map<string, string> tags = 7;
+  map<string, string> tags = 10;
 }
 
 // --- Filter Refactor ---

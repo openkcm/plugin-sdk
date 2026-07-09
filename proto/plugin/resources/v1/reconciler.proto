@@ -4,7 +4,6 @@ package krypton.resources.reconciler.v1;
 
 import "buf/validate/validate.proto";
 
-
 // Reconciler is the gRPC contract between Krypton core and an external
 // reconciler plugin. Core is the client; the plugin binary is the server.
 //
@@ -40,11 +39,10 @@ message ReconcileResponse {
   // error_message non-empty means planning failed.
   // transient_error = true  → worker requeues up to max retries.
   // transient_error = false → worker marks operation as terminally failed.
-  string error_message   = 1;
-  bool   transient_error = 2;
+  string error_message = 1;
+  bool transient_error = 2;
 
   // execution_plan is a JSON-encoded ast.ExecutionPlan (see
   // internal/modules/resource-reconciler/controller/ast). Empty means no-op.
   bytes execution_plan = 3;
 }
-

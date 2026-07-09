@@ -61,8 +61,6 @@ func (m *KeyMaterial) validate(all bool) error {
 
 	// no validation rules for Data
 
-	// no validation rules for Algorithm
-
 	if all {
 		switch v := interface{}(m.GetCreatedAt()).(type) {
 		case interface{ ValidateAll() error }:
@@ -93,14 +91,6 @@ func (m *KeyMaterial) validate(all bool) error {
 	}
 
 	// no validation rules for Tags
-
-	if m.PreviousVersionId != nil {
-		// no validation rules for PreviousVersionId
-	}
-
-	if m.Checksum != nil {
-		// no validation rules for Checksum
-	}
 
 	if len(errors) > 0 {
 		return KeyMaterialMultiError(errors)

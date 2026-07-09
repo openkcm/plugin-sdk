@@ -42,10 +42,10 @@ message ASTNode {
 
   oneof node {
     // ── Control flow ──────────────────────────────────────────
-    SequenceNode    sequence    = 10;
-    ParallelNode    parallel    = 11;
+    SequenceNode sequence = 10;
+    ParallelNode parallel = 11;
     ConditionalNode conditional = 12;
-    TryCatchNode    try_catch   = 13;
+    TryCatchNode try_catch = 13;
 
     // ── Checkpoint ────────────────────────────────────────────
     // Persists progress at this point; uses node_id as the checkpoint name.
@@ -56,14 +56,14 @@ message ASTNode {
     AssertNode assert = 20;
 
     // ── Key lifecycle ─────────────────────────────────────────
-    KeySyncNode       key_sync       = 30; // create or idempotently update
-    KeyDeleteNode     key_delete     = 31; // destroy key material
+    KeySyncNode key_sync = 30; // create or idempotently update
+    KeyDeleteNode key_delete = 31; // destroy key material
     KeyTransitionNode key_transition = 32; // explicit lifecycle state change
-    KeyRotateNode     key_rotate     = 33; // generate new key material (forced rotation)
-    KeyScheduleNode   key_schedule   = 34; // set expiry / scheduled transition
+    KeyRotateNode key_rotate = 33; // generate new key material (forced rotation)
+    KeyScheduleNode key_schedule = 34; // set expiry / scheduled transition
 
     // ── Credential lifecycle ───────────────────────────────────
-    CredentialSyncNode   credential_sync   = 40;
+    CredentialSyncNode credential_sync = 40;
     CredentialDeleteNode credential_delete = 41;
 
     // ── Utility ───────────────────────────────────────────────
@@ -85,21 +85,21 @@ message SequenceNode {
 // ParallelNode fans steps out concurrently.
 // When fail_fast = true a single error cancels the remaining goroutines.
 message ParallelNode {
-  repeated ASTNode steps     = 1;
-  bool             fail_fast = 2;
+  repeated ASTNode steps = 1;
+  bool fail_fast = 2;
 }
 
 // ConditionalNode evaluates a runtime predicate and executes exactly one branch.
 message ConditionalNode {
   Predicate condition = 1;
-  ASTNode   then_node = 2;
-  ASTNode   else_node = 3; // optional — omit for pure guard
+  ASTNode then_node = 2;
+  ASTNode else_node = 3; // optional — omit for pure guard
 }
 
 // TryCatchNode executes try_node; on any error executes catch_node instead.
 // Useful for compensating transactions and optional / best-effort steps.
 message TryCatchNode {
-  ASTNode try_node   = 1;
+  ASTNode try_node = 1;
   ASTNode catch_node = 2;
 }
 
@@ -112,8 +112,8 @@ message CheckpointNode {}
 // ─────────────────────────────────────────────────────────────
 
 message AssertNode {
-  Predicate condition     = 1;
-  string    error_message = 2;
+  Predicate condition = 1;
+  string error_message = 2;
 }
 
 // Predicate is a composable boolean expression resolved against live Krypton
@@ -121,26 +121,26 @@ message AssertNode {
 // what must be true.
 message Predicate {
   oneof expr {
-    KeyExistsPredicate        key_exists        = 1;
-    KeyStatePredicate         key_state         = 2;
-    TenantActivePredicate     tenant_active     = 3;
+    KeyExistsPredicate key_exists = 1;
+    KeyStatePredicate key_state = 2;
+    TenantActivePredicate tenant_active = 3;
     CredentialExistsPredicate credential_exists = 4;
 
     // Logical combinators
     AndPredicate and = 10;
-    OrPredicate  or  = 11;
+    OrPredicate or = 11;
     NotPredicate not = 12;
   }
 }
 
 message KeyExistsPredicate {
-  ValueRef tier     = 1;
+  ValueRef tier = 1;
   ValueRef key_name = 2;
 }
 
 message KeyStatePredicate {
-  ValueRef        tier           = 1;
-  ValueRef        key_name       = 2;
+  ValueRef tier = 1;
+  ValueRef key_name = 2;
   // allowed_states is an OR list — matches if the key is in ANY of these states.
   // Valid values: PRE_ACTIVATION, ACTIVE, SUSPENDED, DEACTIVATED, COMPROMISED,
   //               PENDING_DESTROYING, DESTROYED.
@@ -155,9 +155,15 @@ message CredentialExistsPredicate {
   ValueRef name = 1;
 }
 
-message AndPredicate { repeated Predicate terms = 1; }
-message OrPredicate  { repeated Predicate terms = 1; }
-message NotPredicate { Predicate term = 1;            }
+message AndPredicate {
+  repeated Predicate terms = 1;
+}
+message OrPredicate {
+  repeated Predicate terms = 1;
+}
+message NotPredicate {
+  Predicate term = 1;
+}
 
 // ─────────────────────────────────────────────────────────────
 // Value references
@@ -184,9 +190,9 @@ message ValueRef {
 message KeySyncNode {
   // tier is the Krypton tier name as declared in key-hierarchy config,
   // e.g. "l2-domain", "l3-service", "l4-data".
-  ValueRef tier       = 1;
+  ValueRef tier = 1;
   // key_name is the logical name scoped to the tenant.
-  ValueRef key_name   = 2;
+  ValueRef key_name = 2;
   // parent_key is the name of the wrapping key one tier above.
   // Required for all tiers except L1 root keys.
   ValueRef parent_key = 3;
@@ -199,7 +205,7 @@ message KeySyncNode {
 // KeyDeleteNode destroys key material and all version lineages.
 // Core enforces that no child keys exist before allowing deletion.
 message KeyDeleteNode {
-  ValueRef tier     = 1;
+  ValueRef tier = 1;
   ValueRef key_name = 2;
 }
 
@@ -207,22 +213,22 @@ message KeyDeleteNode {
 // Valid target_state values: PRE_ACTIVATION, ACTIVE, SUSPENDED, DEACTIVATED,
 //                            COMPROMISED, PENDING_DESTROYING, DESTROYED.
 message KeyTransitionNode {
-  ValueRef tier         = 1;
-  ValueRef key_name     = 2;
-  string   target_state = 3;
+  ValueRef tier = 1;
+  ValueRef key_name = 2;
+  string target_state = 3;
 }
 
 // KeyRotateNode generates new key material under the same logical key name
 // (forced rotation — bypasses the idempotency guard in ProvisionKey).
 // On success, result_var receives the new key ULID.
 message KeyRotateNode {
-  ValueRef tier     = 1;
+  ValueRef tier = 1;
   ValueRef key_name = 2;
 }
 
 // KeyScheduleNode updates the scheduled lifecycle transition for an existing key.
 message KeyScheduleNode {
-  ValueRef tier     = 1;
+  ValueRef tier = 1;
   ValueRef key_name = 2;
   KeyScheduleSpec schedule = 3;
 }
@@ -230,10 +236,10 @@ message KeyScheduleNode {
 // KeyScheduleSpec carries timing parameters for a scheduled state transition.
 // All fields are optional — set only the ones you need.
 message KeyScheduleSpec {
-  optional google.protobuf.Timestamp expires_at              = 1;
+  optional google.protobuf.Timestamp expires_at = 1;
   optional google.protobuf.Timestamp scheduled_transition_at = 2;
   // transition_to is the target KeyState when scheduled_transition_at fires.
-  optional string                    transition_to           = 3;
+  optional string transition_to = 3;
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -243,8 +249,8 @@ message KeyScheduleSpec {
 // CredentialSyncNode creates or updates a credential.
 // spec is the full credential payload; core encrypts it using the tenant keyring.
 message CredentialSyncNode {
-  ValueRef               name = 1;
-  ValueRef               type = 2;
+  ValueRef name = 1;
+  ValueRef type = 2;
   google.protobuf.Struct spec = 3;
 }
 
@@ -260,12 +266,12 @@ message CredentialDeleteNode {
 // BindNode sets a named variable in the execution state.
 // Useful for deriving values from existing bindings before referencing them.
 message BindNode {
-  string   var_name = 1;
-  ValueRef value    = 2;
+  string var_name = 1;
+  ValueRef value = 2;
 }
 
 // EmitNode writes a structured event to Krypton's audit trail.
 message EmitNode {
-  string              event_type = 1;
+  string event_type = 1;
   map<string, string> attributes = 2;
 }

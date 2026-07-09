@@ -70,7 +70,7 @@ message WrapRequest {
 // WrapResponse returns the provider-specific ciphertext and metadata.
 message WrapResponse {
   // REQUIRED: The opaque, vendor-specific ciphertext.
-  EncryptedData   encrypted_data = 1;
+  EncryptedData encrypted_data = 1;
 
   // OPTIONAL: The exact key version ID used during the operation.
   // Some providers (like HSMs) do not have a concept of version IDs.
@@ -79,13 +79,13 @@ message WrapResponse {
 
 message UnwrapRequest {
   // REQUIRED: The structured definition of the key to use.
-  KeyReference  key            = 1 [(buf.validate.field).required = true];
+  KeyReference key = 1 [(buf.validate.field).required = true];
 
   // REQUIRED: The opaque ciphertext retrieved from the CMK persistent storage.
   EncryptedData encrypted_data = 2 [(buf.validate.field).required = true];
 
   // OPTIONAL: Standard Additional Authenticated Data (AAD) byte buffer.
-  optional bytes aad           = 3;
+  optional bytes aad = 3;
 }
 
 // UnwrapResponse returns the recovered raw cryptographic material.
