@@ -20,6 +20,7 @@ const _ = grpc.SupportPackageIsVersion9
 
 const (
 	KeystoreInstanceKeyOperation_GetKey_FullMethodName                    = "/plugin.keystore.operations.v1.KeystoreInstanceKeyOperation/GetKey"
+	KeystoreInstanceKeyOperation_GetKeyVersions_FullMethodName            = "/plugin.keystore.operations.v1.KeystoreInstanceKeyOperation/GetKeyVersions"
 	KeystoreInstanceKeyOperation_CreateKey_FullMethodName                 = "/plugin.keystore.operations.v1.KeystoreInstanceKeyOperation/CreateKey"
 	KeystoreInstanceKeyOperation_DeleteKey_FullMethodName                 = "/plugin.keystore.operations.v1.KeystoreInstanceKeyOperation/DeleteKey"
 	KeystoreInstanceKeyOperation_EnableKey_FullMethodName                 = "/plugin.keystore.operations.v1.KeystoreInstanceKeyOperation/EnableKey"
@@ -44,6 +45,8 @@ type KeystoreInstanceKeyOperationClient interface {
 	// * Returns error "code = NotFound desc = key not found in the keystore provider"
 	// if the key does not exist
 	GetKey(ctx context.Context, in *GetKeyRequest, opts ...grpc.CallOption) (*GetKeyResponse, error)
+	// GetKeyVersions retrieves all versions for a key
+	GetKeyVersions(ctx context.Context, in *GetKeyVersionsRequest, opts ...grpc.CallOption) (*GetKeyVersionsResponse, error)
 	// CreateKey generates a new key with the specified algorithm
 	CreateKey(ctx context.Context, in *CreateKeyRequest, opts ...grpc.CallOption) (*CreateKeyResponse, error)
 	// DeleteKey removes a key, optionally with a deletion window
@@ -78,6 +81,16 @@ func (c *keystoreInstanceKeyOperationClient) GetKey(ctx context.Context, in *Get
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetKeyResponse)
 	err := c.cc.Invoke(ctx, KeystoreInstanceKeyOperation_GetKey_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *keystoreInstanceKeyOperationClient) GetKeyVersions(ctx context.Context, in *GetKeyVersionsRequest, opts ...grpc.CallOption) (*GetKeyVersionsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetKeyVersionsResponse)
+	err := c.cc.Invoke(ctx, KeystoreInstanceKeyOperation_GetKeyVersions_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -196,6 +209,8 @@ type KeystoreInstanceKeyOperationServer interface {
 	// * Returns error "code = NotFound desc = key not found in the keystore provider"
 	// if the key does not exist
 	GetKey(context.Context, *GetKeyRequest) (*GetKeyResponse, error)
+	// GetKeyVersions retrieves all versions for a key
+	GetKeyVersions(context.Context, *GetKeyVersionsRequest) (*GetKeyVersionsResponse, error)
 	// CreateKey generates a new key with the specified algorithm
 	CreateKey(context.Context, *CreateKeyRequest) (*CreateKeyResponse, error)
 	// DeleteKey removes a key, optionally with a deletion window
@@ -228,6 +243,9 @@ type UnimplementedKeystoreInstanceKeyOperationServer struct{}
 
 func (UnimplementedKeystoreInstanceKeyOperationServer) GetKey(context.Context, *GetKeyRequest) (*GetKeyResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetKey not implemented")
+}
+func (UnimplementedKeystoreInstanceKeyOperationServer) GetKeyVersions(context.Context, *GetKeyVersionsRequest) (*GetKeyVersionsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetKeyVersions not implemented")
 }
 func (UnimplementedKeystoreInstanceKeyOperationServer) CreateKey(context.Context, *CreateKeyRequest) (*CreateKeyResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method CreateKey not implemented")
@@ -295,6 +313,24 @@ func _KeystoreInstanceKeyOperation_GetKey_Handler(srv interface{}, ctx context.C
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(KeystoreInstanceKeyOperationServer).GetKey(ctx, req.(*GetKeyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _KeystoreInstanceKeyOperation_GetKeyVersions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetKeyVersionsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(KeystoreInstanceKeyOperationServer).GetKeyVersions(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: KeystoreInstanceKeyOperation_GetKeyVersions_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(KeystoreInstanceKeyOperationServer).GetKeyVersions(ctx, req.(*GetKeyVersionsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -489,6 +525,10 @@ var KeystoreInstanceKeyOperation_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetKey",
 			Handler:    _KeystoreInstanceKeyOperation_GetKey_Handler,
+		},
+		{
+			MethodName: "GetKeyVersions",
+			Handler:    _KeystoreInstanceKeyOperation_GetKeyVersions_Handler,
 		},
 		{
 			MethodName: "CreateKey",
