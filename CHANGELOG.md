@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.15.0](https://github.com/openkcm/plugin-sdk/compare/v0.14.0...v0.15.0) (2026-08-18)
+
+
+### Features
+
+* add get key versions to keystore proto ([#172](https://github.com/openkcm/plugin-sdk/issues/172)) ([7f45e03](https://github.com/openkcm/plugin-sdk/commit/7f45e031d5a62bbfdb6ac89a3da504f015a9f6ef))
+
+
+### Bug Fixes
+
+* **deps:** bump buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go from 1.36.11-20260415201107-50325440f8f2.1 to 1.36.11-20260709200747-435963d16310.1 ([#169](https://github.com/openkcm/plugin-sdk/issues/169)) ([315b18c](https://github.com/openkcm/plugin-sdk/commit/315b18c71cc1b303d44e32561256dae6ca6e6f84))
+* **deps:** bump github.com/google/cel-go from 0.28.0 to 0.29.0 ([#170](https://github.com/openkcm/plugin-sdk/issues/170)) ([9a6cdc2](https://github.com/openkcm/plugin-sdk/commit/9a6cdc2227b6dce6a85bf65fccd88517959514ca))
+* **deps:** bump golang.org/x/net from 0.53.0 to 0.55.0 ([#166](https://github.com/openkcm/plugin-sdk/issues/166)) ([32bb58e](https://github.com/openkcm/plugin-sdk/commit/32bb58e9980cc7d8b130e50b4b27ba5fe54d6232))
+* **deps:** bump google.golang.org/grpc from 1.82.0 to 1.82.1 in the gomod-group group ([#168](https://github.com/openkcm/plugin-sdk/issues/168)) ([78856d9](https://github.com/openkcm/plugin-sdk/commit/78856d9edf71b65d3cb54d0db53e0238e76d23c3))
+* **deps:** bump the gomod-group group across 1 directory with 2 updates ([#167](https://github.com/openkcm/plugin-sdk/issues/167)) ([ea06ed6](https://github.com/openkcm/plugin-sdk/commit/ea06ed64c60d8f9e2a9a515d4240cb60ff34d46a))
+* **deps:** bump the gomod-group group across 1 directory with 4 updates ([#173](https://github.com/openkcm/plugin-sdk/issues/173)) ([45e950e](https://github.com/openkcm/plugin-sdk/commit/45e950e0d93ee237733563d80bfb73c1b6c07f3e))
+
 ## [0.14.0](https://github.com/openkcm/plugin-sdk/compare/v0.13.0...v0.14.0) (2026-07-02)
 
 
