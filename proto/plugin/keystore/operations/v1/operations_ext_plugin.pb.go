@@ -3,9 +3,8 @@
 package operationsv1
 
 import (
-	grpc "google.golang.org/grpc"
-
 	api "github.com/openkcm/plugin-sdk/api"
+	grpc "google.golang.org/grpc"
 )
 
 const (

@@ -5,6 +5,8 @@ import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
 import "plugin/keystore/common/v1/common.proto";
 
+option go_package = "github.com/openkcm/plugin-sdk/proto/plugin/keystore/operations/v1;operationsv1";
+
 // KeystoreInstanceKeyOperation service defines the operations available for key management
 service KeystoreInstanceKeyOperation {
   // GetKey retrieves the details of a key by its ID
@@ -13,6 +15,9 @@ service KeystoreInstanceKeyOperation {
   // * Returns error "code = NotFound desc = key not found in the keystore provider"
   // if the key does not exist
   rpc GetKey(GetKeyRequest) returns (GetKeyResponse);
+
+  // GetKeyVersions retrieves all versions for a key
+  rpc GetKeyVersions(GetKeyVersionsRequest) returns (GetKeyVersionsResponse);
 
   // CreateKey generates a new key with the specified algorithm
   rpc CreateKey(CreateKeyRequest) returns (CreateKeyResponse);
@@ -78,6 +83,19 @@ message GetKeyResponse {
   string usage = 4; // The intended usage of the key (e.g., encryption, signing)
   string latest_key_version_id = 5; // The ID of the latest key version
   optional google.protobuf.Timestamp latest_rotation_time = 6; // The timestamp of the latest key rotation
+}
+
+message GetKeyVersionsRequest {
+  RequestParameters parameters = 1;
+}
+
+message GetKeyVersionsResponse {
+  message KeyVersion {
+    string version_id = 1;
+    google.protobuf.Timestamp creation_time = 2;
+    optional string status = 3;
+  }
+  repeated KeyVersion versions = 1;
 }
 
 // CreateKeyRequest contains parameters for key creation

@@ -1,6 +1,8 @@
 syntax = "proto3";
 package plugin.certificate_issuer.v1;
 
+option go_package = "github.com/openkcm/plugin-sdk/proto/plugin/certificate_issuer/v1;certificate_issuerv1";
+
 service CertificateIssuerService {
   rpc GetCertificate(GetCertificateRequest) returns (GetCertificateResponse);
 }

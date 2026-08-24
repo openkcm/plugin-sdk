@@ -1,14 +1,15 @@
 version: v2
-deps:
-  - buf.build/bufbuild/protovalidate
 modules:
   - path: proto
   - path: internal/proto
+  - path: vendor-proto
 lint:
   use:
     - STANDARD
   except:
     - SERVICE_SUFFIX
+  ignore:
+    - vendor-proto
 breaking:
   use:
     - FILE

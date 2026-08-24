@@ -1,6 +1,8 @@
 syntax = "proto3";
 package plugin.test.v1;
 
+option go_package = "github.com/openkcm/plugin-sdk/proto/plugin/test/v1;testv1";
+
 service TestService {
   rpc Test(TestRequest) returns (TestResponse);
 }
