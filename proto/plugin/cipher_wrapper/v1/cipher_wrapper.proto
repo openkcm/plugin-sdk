@@ -1,0 +1,95 @@
+syntax = "proto3";
+
+package krypton.plugin.cipher_wrapper.v1;
+
+import "buf/validate/validate.proto";
+
+// KeyWrapper defines the universal envelope encryption interface for CMK.
+// It allows the core engine to delegate cryptographic wrapping and unwrapping
+// to any external provider (AWS KMS, Google Cloud KMS, Azure Key Vault,
+// HashiCorp Vault, or hardware HSMs via PKCS#11) over a local gRPC socket.
+service CipherWrapper {
+  // Wrap encrypts the provided plaintext using the remote KMS provider.
+  rpc Wrap(WrapRequest) returns (WrapResponse);
+
+  // Unwrap decrypts the provided ciphertext using the remote KMS provider,
+  // returning the raw plaintext key material.
+  rpc Unwrap(UnwrapRequest) returns (UnwrapResponse);
+}
+
+// KeyReference identifies a specific key within an external KMS provider and
+// carries all routing config the plugin needs to reach it — address, engine path,
+// namespace, region, project, etc. — so no out-of-band registration is required.
+message KeyReference {
+  // Primary external identifier: ARN, Vault transit path, Azure key URI,
+  // GCP resource name, PKCS#11 label.
+  string key_id = 1 [(buf.validate.field).string.min_len = 1];
+
+  // Logical Krypton name — for providers that distinguish path from logical name
+  // and for audit log correlation.
+  optional string key_name = 2;
+
+  // Specific version (for versioned providers: AWS KMS, Azure Key Vault).
+  optional string version = 3;
+
+  // Provider-specific routing: address, engine_path, namespace, region, project_id …
+  // Always flat key-value — KMS addressing never needs nested structure.
+  map<string, string> properties = 4;
+}
+
+// EncryptedData pairs the ciphertext with the IV used during encryption.
+// Kept together so storage and retrieval are always atomic — a ciphertext
+// without its IV is unrecoverable.
+message EncryptedData {
+  bytes ciphertext = 1 [(buf.validate.field).bytes.min_len = 1];
+
+  // OPTIONAL: Initialization Vector (IV) or Nonce.
+  // Must be provided if it was returned in the WrapResponse.
+  optional bytes iv = 2;
+}
+
+message WrapRequest {
+  // OPTIONAL/REQUIRED: The structured definition of the key to use.
+  KeyReference key = 1 [(buf.validate.field).required = true];
+
+  // REQUIRED: The raw cryptographic material to be wrapped.
+  bytes plaintext = 2 [
+    (buf.validate.field).required = true,
+    (buf.validate.field).bytes.min_len = 1
+  ];
+
+  // OPTIONAL: Standard Additional Authenticated Data (AAD) byte buffer.
+  // Kept in proto because AAD often changes per request (e.g., binding to a specific Tenant ID).
+  optional bytes aad = 3;
+
+  // IV hint: only set when the CMK engine is dictating the IV to the HSM
+  // (deterministic-IV hardware modes). Left unset for all software KMS providers.
+  optional bytes iv_hint = 4;
+}
+
+// WrapResponse returns the provider-specific ciphertext and metadata.
+message WrapResponse {
+  // REQUIRED: The opaque, vendor-specific ciphertext.
+  EncryptedData encrypted_data = 1;
+
+  // OPTIONAL: The exact key version ID used during the operation.
+  // Some providers (like HSMs) do not have a concept of version IDs.
+  optional string key_version_id = 2;
+}
+
+message UnwrapRequest {
+  // REQUIRED: The structured definition of the key to use.
+  KeyReference key = 1 [(buf.validate.field).required = true];
+
+  // REQUIRED: The opaque ciphertext retrieved from the CMK persistent storage.
+  EncryptedData encrypted_data = 2 [(buf.validate.field).required = true];
+
+  // OPTIONAL: Standard Additional Authenticated Data (AAD) byte buffer.
+  optional bytes aad = 3;
+}
+
+// UnwrapResponse returns the recovered raw cryptographic material.
+message UnwrapResponse {
+  // REQUIRED: The recovered raw cryptographic material.
+  bytes plaintext = 1;
+}

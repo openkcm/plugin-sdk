@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	Type                = "NotificationService"
+	Type                = "Notification"
 	GRPCServiceFullName = "plugin.notification.v1.NotificationService"
 )
 

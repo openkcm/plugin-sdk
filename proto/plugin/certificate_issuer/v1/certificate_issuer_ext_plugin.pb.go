@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	Type                = "CertificateIssuerService"
+	Type                = "CertificateIssuer"
 	GRPCServiceFullName = "plugin.certificate_issuer.v1.CertificateIssuerService"
 )
 

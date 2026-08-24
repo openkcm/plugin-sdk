@@ -6,12 +6,13 @@ import (
 	"log/slog"
 	"runtime/debug"
 
+	"github.com/openkcm/plugin-sdk/api"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
 
-func newHostServer(log *slog.Logger, pluginName string) *grpc.Server {
+func newHostServer(log *slog.Logger, pluginName string, hostServices []api.ServiceServer) *grpc.Server {
 	s := grpc.NewServer(
 		grpc.ChainStreamInterceptor(
 			streamPanicInterceptor(log),
@@ -22,6 +23,9 @@ func newHostServer(log *slog.Logger, pluginName string) *grpc.Server {
 			unaryPluginInterceptor(pluginName),
 		),
 	)
+	for _, hostService := range hostServices {
+		hostService.RegisterServer(s)
+	}
 	return s
 }
 

@@ -139,7 +139,7 @@ func (d *builtinDialer) DialHost(context.Context) (grpc.ClientConnInterface, err
 	if d.conn != nil {
 		return d.conn, nil
 	}
-	server := newHostServer(d.log, d.pluginName)
+	server := newHostServer(d.log, d.pluginName, d.hostServices)
 	conn, err := startPipeServer(server, d.log)
 	if err != nil {
 		return nil, err
@@ -160,30 +160,24 @@ type pipeConn struct {
 	io.Closer
 }
 
-func startPipeServer(server *grpc.Server, log *slog.Logger) (*pipeConn, error) {
+func startPipeServer(server *grpc.Server, log *slog.Logger) (_ *pipeConn, err error) {
+	var closers closerGroup
+
 	pipeNet := newPipeNet()
+	closers = append(closers, pipeNet)
 
 	var wg sync.WaitGroup
-
-	var closers closerGroup
 	closers = append(closers, closerFunc(wg.Wait), closerFunc(func() {
 		if !gracefulStopWithTimeout(server, time.Minute) {
 			log.Warn("Forced timed-out plugin server to stop")
 		}
-	}), closerFunc(func() {
-		err := pipeNet.Close()
-		if err != nil {
-			return
-		}
 	}))
 
-	wg.Add(1)
-	go func() {
-		defer wg.Done()
+	wg.Go(func() {
 		if err := server.Serve(pipeNet); err != nil && !errors.Is(err, grpc.ErrServerStopped) {
 			log.Error("Pipe server unexpectedly failed to serve", "error", err)
 		}
-	}()
+	})
 
 	// Dial the server
 	conn, err := grpc.NewClient(

@@ -99,7 +99,7 @@ func generateServiceBridges(g *protogen.GeneratedFile, serviceName, serviceFullN
 	g.P()
 	g.P("const (")
 	if isPlugin {
-		g.P("	Type = ", strconv.Quote(serviceName))
+		g.P("	Type = ", strconv.Quote(strings.TrimSuffix(serviceName, "Service")))
 	}
 	g.P("	GRPCServiceFullName = ", strconv.Quote(serviceFullName))
 	g.P(")")
