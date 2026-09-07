@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.15.1](https://github.com/openkcm/plugin-sdk/compare/v0.15.0...v0.15.1) (2026-09-07)
+
+
+### Bug Fixes
+
+* **deps:** bump buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go from 1.36.12-20260709200747-435963d16310.1 to 1.36.12-20260825204119-511051f7f437.1 ([#178](https://github.com/openkcm/plugin-sdk/issues/178)) ([d1de1ca](https://github.com/openkcm/plugin-sdk/commit/d1de1ca0ce7965aaea18afb5a92d12d5b1ecdb42))
+* **deps:** bump github.com/stretchr/testify from 1.11.1 to 1.12.1 in the gomod-group group ([#175](https://github.com/openkcm/plugin-sdk/issues/175)) ([cb12d28](https://github.com/openkcm/plugin-sdk/commit/cb12d284dcb4a388fa19596b74dcbf5359ccf592))
+* **deps:** bump google.golang.org/grpc from 1.83.0 to 1.83.1 in the gomod-group group ([#176](https://github.com/openkcm/plugin-sdk/issues/176)) ([4255850](https://github.com/openkcm/plugin-sdk/commit/425585062a2f5164ab1046f81eca653769e832a3))
+* **deps:** bump google.golang.org/grpc from 1.83.1 to 1.83.2 in the gomod-group group ([#177](https://github.com/openkcm/plugin-sdk/issues/177)) ([68e5797](https://github.com/openkcm/plugin-sdk/commit/68e5797803efaddcdb0f53e7016cc6aec9bd3e29))
+
 ## [0.15.0](https://github.com/openkcm/plugin-sdk/compare/v0.14.0...v0.15.0) (2026-08-18)
 
 
