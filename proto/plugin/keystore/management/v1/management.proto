@@ -59,6 +59,7 @@ message CreateKeystoreResponse {
   // Hyperscaler account ID for tracking pending keystores
   // Required when status is "PENDING_ACTIVATION"
   // Used to poll activation status via GetKeystoreStatus and finalize via FinalizeKeystoreSetup
+  // The plugin maintains the mapping between this ID and the original CreateKeystore request parameters
   optional string hyperscaler_account_id = 6;
 
   // Error message when status is "FAILED"
@@ -132,15 +133,11 @@ message GetKeystoreStatusResponse {
 
 // FinalizeKeystoreSetupRequest represents a request to complete keystore setup.
 // This should be called after GetKeystoreStatus returns "ACTIVE" to create the cloud resources.
+// The plugin should use the hyperscaler_account_id to retrieve the account and complete setup
+// using the same parameters that were originally passed to CreateKeystore.
 message FinalizeKeystoreSetupRequest {
   // Hyperscaler account ID returned from CreateKeystore
   string hyperscaler_account_id = 1;
-
-  // Common name for the keystore (same as was intended during CreateKeystore)
-  string common_name = 2;
-
-  // CMK region (same as was intended during CreateKeystore)
-  string cmk_region = 3;
 }
 
 // FinalizeKeystoreSetupResponse represents the response after finalizing keystore setup.

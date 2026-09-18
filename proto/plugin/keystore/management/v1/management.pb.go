@@ -252,6 +252,7 @@ type CreateKeystoreResponse struct {
 	// Hyperscaler account ID for tracking pending keystores
 	// Required when status is "PENDING_ACTIVATION"
 	// Used to poll activation status via GetKeystoreStatus and finalize via FinalizeKeystoreSetup
+	// The plugin maintains the mapping between this ID and the original CreateKeystore request parameters
 	HyperscalerAccountId *string `protobuf:"bytes,6,opt,name=hyperscaler_account_id,json=hyperscalerAccountId,proto3,oneof" json:"hyperscaler_account_id,omitempty"`
 	// Error message when status is "FAILED"
 	// Provides details about what went wrong during creation
@@ -741,16 +742,14 @@ func (x *GetKeystoreStatusResponse) GetErrorMessage() string {
 
 // FinalizeKeystoreSetupRequest represents a request to complete keystore setup.
 // This should be called after GetKeystoreStatus returns "ACTIVE" to create the cloud resources.
+// The plugin should use the hyperscaler_account_id to retrieve the account and complete setup
+// using the same parameters that were originally passed to CreateKeystore.
 type FinalizeKeystoreSetupRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Hyperscaler account ID returned from CreateKeystore
 	HyperscalerAccountId string `protobuf:"bytes,1,opt,name=hyperscaler_account_id,json=hyperscalerAccountId,proto3" json:"hyperscaler_account_id,omitempty"`
-	// Common name for the keystore (same as was intended during CreateKeystore)
-	CommonName string `protobuf:"bytes,2,opt,name=common_name,json=commonName,proto3" json:"common_name,omitempty"`
-	// CMK region (same as was intended during CreateKeystore)
-	CmkRegion     string `protobuf:"bytes,3,opt,name=cmk_region,json=cmkRegion,proto3" json:"cmk_region,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	unknownFields        protoimpl.UnknownFields
+	sizeCache            protoimpl.SizeCache
 }
 
 func (x *FinalizeKeystoreSetupRequest) Reset() {
@@ -786,20 +785,6 @@ func (*FinalizeKeystoreSetupRequest) Descriptor() ([]byte, []int) {
 func (x *FinalizeKeystoreSetupRequest) GetHyperscalerAccountId() string {
 	if x != nil {
 		return x.HyperscalerAccountId
-	}
-	return ""
-}
-
-func (x *FinalizeKeystoreSetupRequest) GetCommonName() string {
-	if x != nil {
-		return x.CommonName
-	}
-	return ""
-}
-
-func (x *FinalizeKeystoreSetupRequest) GetCmkRegion() string {
-	if x != nil {
-		return x.CmkRegion
 	}
 	return ""
 }
@@ -936,13 +921,9 @@ const file_plugin_keystore_management_v1_management_proto_rawDesc = "" +
 	"\x06status\x18\x01 \x01(\tH\x00R\x06status\x88\x01\x01\x12(\n" +
 	"\rerror_message\x18\x02 \x01(\tH\x01R\ferrorMessage\x88\x01\x01B\t\n" +
 	"\a_statusB\x10\n" +
-	"\x0e_error_message\"\x94\x01\n" +
+	"\x0e_error_message\"T\n" +
 	"\x1cFinalizeKeystoreSetupRequest\x124\n" +
-	"\x16hyperscaler_account_id\x18\x01 \x01(\tR\x14hyperscalerAccountId\x12\x1f\n" +
-	"\vcommon_name\x18\x02 \x01(\tR\n" +
-	"commonName\x12\x1d\n" +
-	"\n" +
-	"cmk_region\x18\x03 \x01(\tR\tcmkRegion\"\xac\x03\n" +
+	"\x16hyperscaler_account_id\x18\x01 \x01(\tR\x14hyperscalerAccountId\"\xac\x03\n" +
 	"\x1dFinalizeKeystoreSetupResponse\x12e\n" +
 	"\x16role_management_config\x18\x01 \x01(\v2/.plugin.keystore.management.v1.ManagementConfigR\x14roleManagementConfig\x12c\n" +
 	"\x15key_management_config\x18\x02 \x01(\v2/.plugin.keystore.management.v1.ManagementConfigR\x13keyManagementConfig\x12[\n" +
