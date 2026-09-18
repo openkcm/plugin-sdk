@@ -11,3 +11,4 @@ testpluginbinary
 # Jetbrains IDE files
 *.iml
 .idea
+PROTO_CHANGES_BACKWARDS_COMPATIBLE.md
