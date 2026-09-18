@@ -51,18 +51,19 @@ message CreateKeystoreResponse {
   repeated SupportedRegion supported_regions = 4;
 
   // Status of keystore creation
-  // Values: "ACTIVE" (default, immediately ready), "PENDING_ACTIVATION" (account created, waiting for activation), "FAILED" (creation failed)
-  // If not set or empty, defaults to "ACTIVE" for backwards compatibility
-  string status = 5;
+  // Values: "ACTIVE" (immediately ready), "PENDING_ACTIVATION" (account created, waiting for activation), "FAILED" (creation failed)
+  // Optional field - when not set (absent), clients should treat the keystore as "ACTIVE" for backwards compatibility with old plugins
+  // New plugins should explicitly set this field to indicate the actual status
+  optional string status = 5;
 
   // Hyperscaler account ID for tracking pending keystores
   // Required when status is "PENDING_ACTIVATION"
   // Used to poll activation status via GetKeystoreStatus and finalize via FinalizeKeystoreSetup
-  string hyperscaler_account_id = 6;
+  optional string hyperscaler_account_id = 6;
 
   // Error message when status is "FAILED"
   // Provides details about what went wrong during creation
-  string error_message = 7;
+  optional string error_message = 7;
 }
 
 message DeleteKeystoreRequest {
@@ -121,10 +122,12 @@ message GetKeystoreStatusRequest {
 // This is informational only and does not trigger any setup actions.
 message GetKeystoreStatusResponse {
   // Current status: "PENDING_ACTIVATION", "ACTIVE", or "FAILED"
-  string status = 1;
+  // Optional field - when not set (absent), status is unknown and client should retry the request
+  optional string status = 1;
 
   // Error message when status is "FAILED"
-  string error_message = 2;
+  // Optional field - only present when status is "FAILED"
+  optional string error_message = 2;
 }
 
 // FinalizeKeystoreSetupRequest represents a request to complete keystore setup.
@@ -147,9 +150,11 @@ message FinalizeKeystoreSetupResponse {
   ManagementConfig key_management_config = 2;
   repeated SupportedRegion supported_regions = 3;
 
-  // Status: should always be "ACTIVE" on success, "FAILED" on error
-  string status = 4;
+  // Status: "ACTIVE" on success, "FAILED" on error
+  // Optional field - when not set (absent), clients should check error_message to determine success/failure
+  optional string status = 4;
 
   // Error message if setup failed
-  string error_message = 5;
+  // Optional field - only present when status is "FAILED"
+  optional string error_message = 5;
 }

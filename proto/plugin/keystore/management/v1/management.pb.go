@@ -245,16 +245,17 @@ type CreateKeystoreResponse struct {
 	KeyManagementConfig  *ManagementConfig          `protobuf:"bytes,3,opt,name=key_management_config,json=keyManagementConfig,proto3" json:"key_management_config,omitempty"`
 	SupportedRegions     []*SupportedRegion         `protobuf:"bytes,4,rep,name=supported_regions,json=supportedRegions,proto3" json:"supported_regions,omitempty"`
 	// Status of keystore creation
-	// Values: "ACTIVE" (default, immediately ready), "PENDING_ACTIVATION" (account created, waiting for activation), "FAILED" (creation failed)
-	// If not set or empty, defaults to "ACTIVE" for backwards compatibility
-	Status string `protobuf:"bytes,5,opt,name=status,proto3" json:"status,omitempty"`
+	// Values: "ACTIVE" (immediately ready), "PENDING_ACTIVATION" (account created, waiting for activation), "FAILED" (creation failed)
+	// Optional field - when not set (absent), clients should treat the keystore as "ACTIVE" for backwards compatibility with old plugins
+	// New plugins should explicitly set this field to indicate the actual status
+	Status *string `protobuf:"bytes,5,opt,name=status,proto3,oneof" json:"status,omitempty"`
 	// Hyperscaler account ID for tracking pending keystores
 	// Required when status is "PENDING_ACTIVATION"
 	// Used to poll activation status via GetKeystoreStatus and finalize via FinalizeKeystoreSetup
-	HyperscalerAccountId string `protobuf:"bytes,6,opt,name=hyperscaler_account_id,json=hyperscalerAccountId,proto3" json:"hyperscaler_account_id,omitempty"`
+	HyperscalerAccountId *string `protobuf:"bytes,6,opt,name=hyperscaler_account_id,json=hyperscalerAccountId,proto3,oneof" json:"hyperscaler_account_id,omitempty"`
 	// Error message when status is "FAILED"
 	// Provides details about what went wrong during creation
-	ErrorMessage  string `protobuf:"bytes,7,opt,name=error_message,json=errorMessage,proto3" json:"error_message,omitempty"`
+	ErrorMessage  *string `protobuf:"bytes,7,opt,name=error_message,json=errorMessage,proto3,oneof" json:"error_message,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -319,22 +320,22 @@ func (x *CreateKeystoreResponse) GetSupportedRegions() []*SupportedRegion {
 }
 
 func (x *CreateKeystoreResponse) GetStatus() string {
-	if x != nil {
-		return x.Status
+	if x != nil && x.Status != nil {
+		return *x.Status
 	}
 	return ""
 }
 
 func (x *CreateKeystoreResponse) GetHyperscalerAccountId() string {
-	if x != nil {
-		return x.HyperscalerAccountId
+	if x != nil && x.HyperscalerAccountId != nil {
+		return *x.HyperscalerAccountId
 	}
 	return ""
 }
 
 func (x *CreateKeystoreResponse) GetErrorMessage() string {
-	if x != nil {
-		return x.ErrorMessage
+	if x != nil && x.ErrorMessage != nil {
+		return *x.ErrorMessage
 	}
 	return ""
 }
@@ -685,9 +686,11 @@ func (x *GetKeystoreStatusRequest) GetHyperscalerAccountId() string {
 type GetKeystoreStatusResponse struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Current status: "PENDING_ACTIVATION", "ACTIVE", or "FAILED"
-	Status string `protobuf:"bytes,1,opt,name=status,proto3" json:"status,omitempty"`
+	// Optional field - when not set (absent), status is unknown and client should retry the request
+	Status *string `protobuf:"bytes,1,opt,name=status,proto3,oneof" json:"status,omitempty"`
 	// Error message when status is "FAILED"
-	ErrorMessage  string `protobuf:"bytes,2,opt,name=error_message,json=errorMessage,proto3" json:"error_message,omitempty"`
+	// Optional field - only present when status is "FAILED"
+	ErrorMessage  *string `protobuf:"bytes,2,opt,name=error_message,json=errorMessage,proto3,oneof" json:"error_message,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -723,15 +726,15 @@ func (*GetKeystoreStatusResponse) Descriptor() ([]byte, []int) {
 }
 
 func (x *GetKeystoreStatusResponse) GetStatus() string {
-	if x != nil {
-		return x.Status
+	if x != nil && x.Status != nil {
+		return *x.Status
 	}
 	return ""
 }
 
 func (x *GetKeystoreStatusResponse) GetErrorMessage() string {
-	if x != nil {
-		return x.ErrorMessage
+	if x != nil && x.ErrorMessage != nil {
+		return *x.ErrorMessage
 	}
 	return ""
 }
@@ -808,10 +811,12 @@ type FinalizeKeystoreSetupResponse struct {
 	RoleManagementConfig *ManagementConfig      `protobuf:"bytes,1,opt,name=role_management_config,json=roleManagementConfig,proto3" json:"role_management_config,omitempty"`
 	KeyManagementConfig  *ManagementConfig      `protobuf:"bytes,2,opt,name=key_management_config,json=keyManagementConfig,proto3" json:"key_management_config,omitempty"`
 	SupportedRegions     []*SupportedRegion     `protobuf:"bytes,3,rep,name=supported_regions,json=supportedRegions,proto3" json:"supported_regions,omitempty"`
-	// Status: should always be "ACTIVE" on success, "FAILED" on error
-	Status string `protobuf:"bytes,4,opt,name=status,proto3" json:"status,omitempty"`
+	// Status: "ACTIVE" on success, "FAILED" on error
+	// Optional field - when not set (absent), clients should check error_message to determine success/failure
+	Status *string `protobuf:"bytes,4,opt,name=status,proto3,oneof" json:"status,omitempty"`
 	// Error message if setup failed
-	ErrorMessage  string `protobuf:"bytes,5,opt,name=error_message,json=errorMessage,proto3" json:"error_message,omitempty"`
+	// Optional field - only present when status is "FAILED"
+	ErrorMessage  *string `protobuf:"bytes,5,opt,name=error_message,json=errorMessage,proto3,oneof" json:"error_message,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -868,15 +873,15 @@ func (x *FinalizeKeystoreSetupResponse) GetSupportedRegions() []*SupportedRegion
 }
 
 func (x *FinalizeKeystoreSetupResponse) GetStatus() string {
-	if x != nil {
-		return x.Status
+	if x != nil && x.Status != nil {
+		return *x.Status
 	}
 	return ""
 }
 
 func (x *FinalizeKeystoreSetupResponse) GetErrorMessage() string {
-	if x != nil {
-		return x.ErrorMessage
+	if x != nil && x.ErrorMessage != nil {
+		return *x.ErrorMessage
 	}
 	return ""
 }
@@ -897,15 +902,18 @@ const file_plugin_keystore_management_v1_management_proto_rawDesc = "" +
 	"\vaccess_data\x18\x03 \x01(\v21.plugin.keystore.common.v1.KeystoreInstanceConfigR\n" +
 	"accessData\"H\n" +
 	"\x15CreateKeystoreRequest\x12/\n" +
-	"\x06values\x18\x01 \x01(\v2\x17.google.protobuf.StructR\x06values\"\x83\x04\n" +
+	"\x06values\x18\x01 \x01(\v2\x17.google.protobuf.StructR\x06values\"\xca\x04\n" +
 	"\x16CreateKeystoreResponse\x12M\n" +
 	"\x06config\x18\x01 \x01(\v21.plugin.keystore.common.v1.KeystoreInstanceConfigB\x02\x18\x01R\x06config\x12e\n" +
 	"\x16role_management_config\x18\x02 \x01(\v2/.plugin.keystore.management.v1.ManagementConfigR\x14roleManagementConfig\x12c\n" +
 	"\x15key_management_config\x18\x03 \x01(\v2/.plugin.keystore.management.v1.ManagementConfigR\x13keyManagementConfig\x12[\n" +
-	"\x11supported_regions\x18\x04 \x03(\v2..plugin.keystore.management.v1.SupportedRegionR\x10supportedRegions\x12\x16\n" +
-	"\x06status\x18\x05 \x01(\tR\x06status\x124\n" +
-	"\x16hyperscaler_account_id\x18\x06 \x01(\tR\x14hyperscalerAccountId\x12#\n" +
-	"\rerror_message\x18\a \x01(\tR\ferrorMessage\"b\n" +
+	"\x11supported_regions\x18\x04 \x03(\v2..plugin.keystore.management.v1.SupportedRegionR\x10supportedRegions\x12\x1b\n" +
+	"\x06status\x18\x05 \x01(\tH\x00R\x06status\x88\x01\x01\x129\n" +
+	"\x16hyperscaler_account_id\x18\x06 \x01(\tH\x01R\x14hyperscalerAccountId\x88\x01\x01\x12(\n" +
+	"\rerror_message\x18\a \x01(\tH\x02R\ferrorMessage\x88\x01\x01B\t\n" +
+	"\a_statusB\x19\n" +
+	"\x17_hyperscaler_account_idB\x10\n" +
+	"\x0e_error_message\"b\n" +
 	"\x15DeleteKeystoreRequest\x12I\n" +
 	"\x06config\x18\x01 \x01(\v21.plugin.keystore.common.v1.KeystoreInstanceConfigR\x06config\"\x18\n" +
 	"\x16DeleteKeystoreResponse\"\xce\x01\n" +
@@ -923,22 +931,26 @@ const file_plugin_keystore_management_v1_management_proto_rawDesc = "" +
 	"accessData\"\x15\n" +
 	"\x13RemoveTrustResponse\"P\n" +
 	"\x18GetKeystoreStatusRequest\x124\n" +
-	"\x16hyperscaler_account_id\x18\x01 \x01(\tR\x14hyperscalerAccountId\"X\n" +
-	"\x19GetKeystoreStatusResponse\x12\x16\n" +
-	"\x06status\x18\x01 \x01(\tR\x06status\x12#\n" +
-	"\rerror_message\x18\x02 \x01(\tR\ferrorMessage\"\x94\x01\n" +
+	"\x16hyperscaler_account_id\x18\x01 \x01(\tR\x14hyperscalerAccountId\"\x7f\n" +
+	"\x19GetKeystoreStatusResponse\x12\x1b\n" +
+	"\x06status\x18\x01 \x01(\tH\x00R\x06status\x88\x01\x01\x12(\n" +
+	"\rerror_message\x18\x02 \x01(\tH\x01R\ferrorMessage\x88\x01\x01B\t\n" +
+	"\a_statusB\x10\n" +
+	"\x0e_error_message\"\x94\x01\n" +
 	"\x1cFinalizeKeystoreSetupRequest\x124\n" +
 	"\x16hyperscaler_account_id\x18\x01 \x01(\tR\x14hyperscalerAccountId\x12\x1f\n" +
 	"\vcommon_name\x18\x02 \x01(\tR\n" +
 	"commonName\x12\x1d\n" +
 	"\n" +
-	"cmk_region\x18\x03 \x01(\tR\tcmkRegion\"\x85\x03\n" +
+	"cmk_region\x18\x03 \x01(\tR\tcmkRegion\"\xac\x03\n" +
 	"\x1dFinalizeKeystoreSetupResponse\x12e\n" +
 	"\x16role_management_config\x18\x01 \x01(\v2/.plugin.keystore.management.v1.ManagementConfigR\x14roleManagementConfig\x12c\n" +
 	"\x15key_management_config\x18\x02 \x01(\v2/.plugin.keystore.management.v1.ManagementConfigR\x13keyManagementConfig\x12[\n" +
-	"\x11supported_regions\x18\x03 \x03(\v2..plugin.keystore.management.v1.SupportedRegionR\x10supportedRegions\x12\x16\n" +
-	"\x06status\x18\x04 \x01(\tR\x06status\x12#\n" +
-	"\rerror_message\x18\x05 \x01(\tR\ferrorMessage*Y\n" +
+	"\x11supported_regions\x18\x03 \x03(\v2..plugin.keystore.management.v1.SupportedRegionR\x10supportedRegions\x12\x1b\n" +
+	"\x06status\x18\x04 \x01(\tH\x00R\x06status\x88\x01\x01\x12(\n" +
+	"\rerror_message\x18\x05 \x01(\tH\x01R\ferrorMessage\x88\x01\x01B\t\n" +
+	"\a_statusB\x10\n" +
+	"\x0e_error_message*Y\n" +
 	"\tTrustType\x12\x1a\n" +
 	"\x16TRUST_TYPE_UNSPECIFIED\x10\x00\x12\x19\n" +
 	"\x15TRUST_TYPE_MANAGEMENT\x10\x01\x12\x15\n" +
@@ -1025,6 +1037,9 @@ func file_plugin_keystore_management_v1_management_proto_init() {
 	if File_plugin_keystore_management_v1_management_proto != nil {
 		return
 	}
+	file_plugin_keystore_management_v1_management_proto_msgTypes[3].OneofWrappers = []any{}
+	file_plugin_keystore_management_v1_management_proto_msgTypes[11].OneofWrappers = []any{}
+	file_plugin_keystore_management_v1_management_proto_msgTypes[13].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
