@@ -15,6 +15,10 @@ service KeystoreProvider {
   rpc GrantTrust(GrantTrustRequest) returns (GrantTrustResponse);
   // Remove trust for a client certificate subject pattern to revoke access to the keystore instance
   rpc RemoveTrust(RemoveTrustRequest) returns (RemoveTrustResponse);
+  // Get the current status of a pending keystore creation (read-only, does not modify state)
+  rpc GetKeystoreStatus(GetKeystoreStatusRequest) returns (GetKeystoreStatusResponse);
+  // Finalize keystore setup by creating cloud resources after hyperscaler account is active
+  rpc FinalizeKeystoreSetup(FinalizeKeystoreSetupRequest) returns (FinalizeKeystoreSetupResponse);
 }
 
 // SupportedRegion represents a region where the keystore can be created or accessed.
@@ -45,6 +49,22 @@ message CreateKeystoreResponse {
   ManagementConfig role_management_config = 2;
   ManagementConfig key_management_config = 3;
   repeated SupportedRegion supported_regions = 4;
+
+  // Status of keystore creation
+  // Values: "ACTIVE" (immediately ready), "PENDING_ACTIVATION" (account created, waiting for activation), "FAILED" (creation failed)
+  // Optional field - when not set (absent), clients should treat the keystore as "ACTIVE" for backwards compatibility with old plugins
+  // New plugins should explicitly set this field to indicate the actual status
+  optional string status = 5;
+
+  // Hyperscaler account ID for tracking pending keystores
+  // Required when status is "PENDING_ACTIVATION"
+  // Used to poll activation status via GetKeystoreStatus and finalize via FinalizeKeystoreSetup
+  // The plugin maintains the mapping between this ID and the original CreateKeystore request parameters
+  optional string hyperscaler_account_id = 6;
+
+  // Error message when status is "FAILED"
+  // Provides details about what went wrong during creation
+  optional string error_message = 7;
 }
 
 message DeleteKeystoreRequest {
@@ -91,3 +111,47 @@ message RemoveTrustRequest {
 }
 
 message RemoveTrustResponse {}
+
+// GetKeystoreStatusRequest represents a request to check the current status of a pending keystore.
+// This is a read-only operation that does not modify any state.
+message GetKeystoreStatusRequest {
+  // Hyperscaler account ID returned from CreateKeystore when status was PENDING_ACTIVATION
+  string hyperscaler_account_id = 1;
+}
+
+// GetKeystoreStatusResponse represents the current status of a keystore creation.
+// This is informational only and does not trigger any setup actions.
+message GetKeystoreStatusResponse {
+  // Current status: "PENDING_ACTIVATION", "ACTIVE", or "FAILED"
+  // Optional field - when not set (absent), status is unknown and client should retry the request
+  optional string status = 1;
+
+  // Error message when status is "FAILED"
+  // Optional field - only present when status is "FAILED"
+  optional string error_message = 2;
+}
+
+// FinalizeKeystoreSetupRequest represents a request to complete keystore setup.
+// This should be called after GetKeystoreStatus returns "ACTIVE" to create the cloud resources.
+// The plugin should use the hyperscaler_account_id to retrieve the account and complete setup
+// using the same parameters that were originally passed to CreateKeystore.
+message FinalizeKeystoreSetupRequest {
+  // Hyperscaler account ID returned from CreateKeystore
+  string hyperscaler_account_id = 1;
+}
+
+// FinalizeKeystoreSetupResponse represents the response after finalizing keystore setup.
+// Returns the full configuration with all cloud resources created.
+message FinalizeKeystoreSetupResponse {
+  ManagementConfig role_management_config = 1;
+  ManagementConfig key_management_config = 2;
+  repeated SupportedRegion supported_regions = 3;
+
+  // Status: "ACTIVE" on success, "FAILED" on error
+  // Optional field - when not set (absent), clients should check error_message to determine success/failure
+  optional string status = 4;
+
+  // Error message if setup failed
+  // Optional field - only present when status is "FAILED"
+  optional string error_message = 5;
+}
