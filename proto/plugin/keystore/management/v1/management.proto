@@ -2,9 +2,21 @@ syntax = "proto3";
 package plugin.keystore.management.v1;
 
 import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
 import "plugin/keystore/common/v1/common.proto";
 
 option go_package = "github.com/openkcm/plugin-sdk/proto/plugin/keystore/management/v1;managementv1";
+
+enum KeystoreCreationStatus {
+  // Default value when status field is not set (for backwards compatibility)
+  KEYSTORE_CREATION_STATUS_UNSPECIFIED = 0;
+  // Keystore is fully configured and ready to use
+  KEYSTORE_CREATION_STATUS_ACTIVE = 1;
+  // Hyperscaler account created, waiting for activation
+  KEYSTORE_CREATION_STATUS_PENDING_ACTIVATION = 2;
+  // Keystore creation failed permanently
+  KEYSTORE_CREATION_STATUS_FAILED = 3;
+}
 
 service KeystoreProvider {
   // Create a new keystore instance
@@ -54,7 +66,7 @@ message CreateKeystoreResponse {
   // Values: "ACTIVE" (immediately ready), "PENDING_ACTIVATION" (account created, waiting for activation), "FAILED" (creation failed)
   // Optional field - when not set (absent), clients should treat the keystore as "ACTIVE" for backwards compatibility with old plugins
   // New plugins should explicitly set this field to indicate the actual status
-  optional string status = 5;
+  optional KeystoreCreationStatus status = 5;
 
   // Hyperscaler account ID for tracking pending keystores
   // Required when status is "PENDING_ACTIVATION"
@@ -65,6 +77,13 @@ message CreateKeystoreResponse {
   // Error message when status is "FAILED"
   // Provides details about what went wrong during creation
   optional string error_message = 7;
+
+  // NEW: Estimated time until account becomes active (in seconds)
+  // Helps CMK decide polling frequency
+  optional int64 estimated_activation_time_seconds = 8;
+
+  // NEW: When the account was created (for tracking age)
+  optional google.protobuf.Timestamp creation_time = 9;
 }
 
 message DeleteKeystoreRequest {
@@ -124,7 +143,7 @@ message GetKeystoreStatusRequest {
 message GetKeystoreStatusResponse {
   // Current status: "PENDING_ACTIVATION", "ACTIVE", or "FAILED"
   // Optional field - when not set (absent), status is unknown and client should retry the request
-  optional string status = 1;
+  optional KeystoreCreationStatus status = 1;
 
   // Error message when status is "FAILED"
   // Optional field - only present when status is "FAILED"
@@ -149,7 +168,7 @@ message FinalizeKeystoreSetupResponse {
 
   // Status: "ACTIVE" on success, "FAILED" on error
   // Optional field - when not set (absent), clients should check error_message to determine success/failure
-  optional string status = 4;
+  optional KeystoreCreationStatus status = 4;
 
   // Error message if setup failed
   // Optional field - only present when status is "FAILED"
