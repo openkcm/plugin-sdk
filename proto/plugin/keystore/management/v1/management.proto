@@ -29,7 +29,7 @@ service KeystoreProvider {
   rpc RemoveTrust(RemoveTrustRequest) returns (RemoveTrustResponse);
   // Get the current status of a pending keystore creation (read-only, does not modify state)
   rpc GetKeystoreStatus(GetKeystoreStatusRequest) returns (GetKeystoreStatusResponse);
-  // Finalize keystore setup by creating cloud resources after hyperscaler account is active
+  // Finalize keystore setup by completing additional setup and resource creation in keystore provider
   rpc FinalizeKeystoreSetup(FinalizeKeystoreSetupRequest) returns (FinalizeKeystoreSetupResponse);
 }
 
@@ -72,7 +72,7 @@ message CreateKeystoreResponse {
   // Required when status is "PENDING_ACTIVATION"
   // Used to poll activation status via GetKeystoreStatus and finalize via FinalizeKeystoreSetup
   // The plugin maintains the mapping between this ID and the original CreateKeystore request parameters
-  optional string hyperscaler_account_id = 6;
+  optional string account_id = 6;
 
   // Error message when status is "FAILED"
   // Provides details about what went wrong during creation
@@ -135,7 +135,7 @@ message RemoveTrustResponse {}
 // This is a read-only operation that does not modify any state.
 message GetKeystoreStatusRequest {
   // Hyperscaler account ID returned from CreateKeystore when status was PENDING_ACTIVATION
-  string hyperscaler_account_id = 1;
+  string account_id = 1;
 }
 
 // GetKeystoreStatusResponse represents the current status of a keystore creation.
@@ -152,11 +152,15 @@ message GetKeystoreStatusResponse {
 
 // FinalizeKeystoreSetupRequest represents a request to complete keystore setup.
 // This should be called after GetKeystoreStatus returns "ACTIVE" to create the cloud resources.
-// The plugin should use the hyperscaler_account_id to retrieve the account and complete setup
-// using the same parameters that were originally passed to CreateKeystore.
+// CMK passes back the original CreateKeystore parameters so the plugin remains stateless.
 message FinalizeKeystoreSetupRequest {
   // Hyperscaler account ID returned from CreateKeystore
-  string hyperscaler_account_id = 1;
+  string account_id = 1;
+
+  // Original parameters from CreateKeystoreRequest
+  // CMK stores these when CreateKeystore returns PENDING_ACTIVATION and passes them back here
+  // This allows the plugin to remain stateless - no need to cache creation parameters
+  google.protobuf.Struct values = 2;
 }
 
 // FinalizeKeystoreSetupResponse represents the response after finalizing keystore setup.

@@ -41,7 +41,7 @@ type KeystoreProviderClient interface {
 	RemoveTrust(ctx context.Context, in *RemoveTrustRequest, opts ...grpc.CallOption) (*RemoveTrustResponse, error)
 	// Get the current status of a pending keystore creation (read-only, does not modify state)
 	GetKeystoreStatus(ctx context.Context, in *GetKeystoreStatusRequest, opts ...grpc.CallOption) (*GetKeystoreStatusResponse, error)
-	// Finalize keystore setup by creating cloud resources after hyperscaler account is active
+	// Finalize keystore setup by completing additional setup and resource creation in keystore provider
 	FinalizeKeystoreSetup(ctx context.Context, in *FinalizeKeystoreSetupRequest, opts ...grpc.CallOption) (*FinalizeKeystoreSetupResponse, error)
 }
 
@@ -127,7 +127,7 @@ type KeystoreProviderServer interface {
 	RemoveTrust(context.Context, *RemoveTrustRequest) (*RemoveTrustResponse, error)
 	// Get the current status of a pending keystore creation (read-only, does not modify state)
 	GetKeystoreStatus(context.Context, *GetKeystoreStatusRequest) (*GetKeystoreStatusResponse, error)
-	// Finalize keystore setup by creating cloud resources after hyperscaler account is active
+	// Finalize keystore setup by completing additional setup and resource creation in keystore provider
 	FinalizeKeystoreSetup(context.Context, *FinalizeKeystoreSetupRequest) (*FinalizeKeystoreSetupResponse, error)
 	mustEmbedUnimplementedKeystoreProviderServer()
 }
