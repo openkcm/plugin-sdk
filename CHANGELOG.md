@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.16.0](https://github.com/openkcm/plugin-sdk/compare/v0.15.1...v0.16.0) (2026-10-01)
+
+
+### Features
+
+* add common error for cryptographically failed key import ([#184](https://github.com/openkcm/plugin-sdk/issues/184)) ([6daf400](https://github.com/openkcm/plugin-sdk/commit/6daf40019b337609798b889f1cb49fd5ebe7b321))
+
+
+### Bug Fixes
+
+* **deps:** bump buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go from 1.36.12-20260825204119-511051f7f437.1 to 1.36.12-20260825204119-511051f7f437.2 ([#181](https://github.com/openkcm/plugin-sdk/issues/181)) ([43eefff](https://github.com/openkcm/plugin-sdk/commit/43eefff3aca6ecfad1854902b8811f9791e2377c))
+* **deps:** bump google.golang.org/grpc from 1.83.2 to 1.84.0 in the gomod-group group ([#183](https://github.com/openkcm/plugin-sdk/issues/183)) ([652e08e](https://github.com/openkcm/plugin-sdk/commit/652e08e9136cd498a7842aff434f25dd146d5cae))
+* **deps:** bump the gomod-group group across 1 directory with 3 updates ([#180](https://github.com/openkcm/plugin-sdk/issues/180)) ([f20ce88](https://github.com/openkcm/plugin-sdk/commit/f20ce887261bc0056f6a4d13be9458f0db49b6fb))
+
 ## [0.15.1](https://github.com/openkcm/plugin-sdk/compare/v0.15.0...v0.15.1) (2026-09-07)
 
 
