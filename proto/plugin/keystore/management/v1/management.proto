@@ -78,12 +78,8 @@ message CreateKeystoreResponse {
   // Provides details about what went wrong during creation
   optional string error_message = 7;
 
-  // NEW: Estimated time until account becomes active (in seconds)
-  // Helps CMK decide polling frequency
-  optional int64 estimated_activation_time_seconds = 8;
-
-  // NEW: When the account was created (for tracking age)
-  optional google.protobuf.Timestamp creation_time = 9;
+  // When the account was created (for tracking age)
+  optional google.protobuf.Timestamp creation_time = 8;
 }
 
 message DeleteKeystoreRequest {

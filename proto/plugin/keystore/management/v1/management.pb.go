@@ -314,11 +314,8 @@ type CreateKeystoreResponse struct {
 	// Error message when status is "FAILED"
 	// Provides details about what went wrong during creation
 	ErrorMessage *string `protobuf:"bytes,7,opt,name=error_message,json=errorMessage,proto3,oneof" json:"error_message,omitempty"`
-	// NEW: Estimated time until account becomes active (in seconds)
-	// Helps CMK decide polling frequency
-	EstimatedActivationTimeSeconds *int64 `protobuf:"varint,8,opt,name=estimated_activation_time_seconds,json=estimatedActivationTimeSeconds,proto3,oneof" json:"estimated_activation_time_seconds,omitempty"`
-	// NEW: When the account was created (for tracking age)
-	CreationTime  *timestamppb.Timestamp `protobuf:"bytes,9,opt,name=creation_time,json=creationTime,proto3,oneof" json:"creation_time,omitempty"`
+	// When the account was created (for tracking age)
+	CreationTime  *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=creation_time,json=creationTime,proto3,oneof" json:"creation_time,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -401,13 +398,6 @@ func (x *CreateKeystoreResponse) GetErrorMessage() string {
 		return *x.ErrorMessage
 	}
 	return ""
-}
-
-func (x *CreateKeystoreResponse) GetEstimatedActivationTimeSeconds() int64 {
-	if x != nil && x.EstimatedActivationTimeSeconds != nil {
-		return *x.EstimatedActivationTimeSeconds
-	}
-	return 0
 }
 
 func (x *CreateKeystoreResponse) GetCreationTime() *timestamppb.Timestamp {
@@ -973,7 +963,7 @@ const file_plugin_keystore_management_v1_management_proto_rawDesc = "" +
 	"\vaccess_data\x18\x03 \x01(\v21.plugin.keystore.common.v1.KeystoreInstanceConfigR\n" +
 	"accessData\"H\n" +
 	"\x15CreateKeystoreRequest\x12/\n" +
-	"\x06values\x18\x01 \x01(\v2\x17.google.protobuf.StructR\x06values\"\xac\x06\n" +
+	"\x06values\x18\x01 \x01(\v2\x17.google.protobuf.StructR\x06values\"\xb6\x05\n" +
 	"\x16CreateKeystoreResponse\x12M\n" +
 	"\x06config\x18\x01 \x01(\v21.plugin.keystore.common.v1.KeystoreInstanceConfigB\x02\x18\x01R\x06config\x12e\n" +
 	"\x16role_management_config\x18\x02 \x01(\v2/.plugin.keystore.management.v1.ManagementConfigR\x14roleManagementConfig\x12c\n" +
@@ -982,13 +972,11 @@ const file_plugin_keystore_management_v1_management_proto_rawDesc = "" +
 	"\x06status\x18\x05 \x01(\x0e25.plugin.keystore.management.v1.KeystoreCreationStatusH\x00R\x06status\x88\x01\x01\x12\"\n" +
 	"\n" +
 	"account_id\x18\x06 \x01(\tH\x01R\taccountId\x88\x01\x01\x12(\n" +
-	"\rerror_message\x18\a \x01(\tH\x02R\ferrorMessage\x88\x01\x01\x12N\n" +
-	"!estimated_activation_time_seconds\x18\b \x01(\x03H\x03R\x1eestimatedActivationTimeSeconds\x88\x01\x01\x12D\n" +
-	"\rcreation_time\x18\t \x01(\v2\x1a.google.protobuf.TimestampH\x04R\fcreationTime\x88\x01\x01B\t\n" +
+	"\rerror_message\x18\a \x01(\tH\x02R\ferrorMessage\x88\x01\x01\x12D\n" +
+	"\rcreation_time\x18\b \x01(\v2\x1a.google.protobuf.TimestampH\x03R\fcreationTime\x88\x01\x01B\t\n" +
 	"\a_statusB\r\n" +
 	"\v_account_idB\x10\n" +
-	"\x0e_error_messageB$\n" +
-	"\"_estimated_activation_time_secondsB\x10\n" +
+	"\x0e_error_messageB\x10\n" +
 	"\x0e_creation_time\"b\n" +
 	"\x15DeleteKeystoreRequest\x12I\n" +
 	"\x06config\x18\x01 \x01(\v21.plugin.keystore.common.v1.KeystoreInstanceConfigR\x06config\"\x18\n" +
