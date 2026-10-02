@@ -37,7 +37,13 @@ var (
 	StatusKeyNotFound = status.New(
 		codes.NotFound, "key not found in the keystore provider")
 
+	// StatusKeyGenericErr indicates a generic error occurred while trying to get the key from the keystore provider.
 	StatusKeyGenericErr = status.New(codes.Unknown, "failed to get key")
+
+	// StatusImportKeyMaterialFailed indicates that the import of key material failed cryptographically, typically
+	// due to invalid or incorrectly wrapped key material.
+	StatusImportKeyMaterialFailed = status.New(
+		codes.InvalidArgument, "key material decryption failed: invalid or incorrectly wrapped key material")
 )
 
 // NewGrpcErrorWithDetails creates a gRPC error with the given status and metadata mapping.
