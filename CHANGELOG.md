@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.17.0](https://github.com/openkcm/plugin-sdk/compare/v0.16.0...v0.17.0) (2026-10-08)
+
+
+### Features
+
+* add error handling for byok import job not ready ([#186](https://github.com/openkcm/plugin-sdk/issues/186)) ([a29b094](https://github.com/openkcm/plugin-sdk/commit/a29b094ac27fb06cc418f1b451436928e62369a0))
+
 ## [0.16.0](https://github.com/openkcm/plugin-sdk/compare/v0.15.1...v0.16.0) (2026-10-01)
 
 
