@@ -12,7 +12,7 @@ enum KeystoreCreationStatus {
   KEYSTORE_CREATION_STATUS_UNSPECIFIED = 0;
   // Keystore is fully configured and ready to use
   KEYSTORE_CREATION_STATUS_ACTIVE = 1;
-  // Hyperscaler account created, waiting for activation
+  // Account created, waiting for activation
   KEYSTORE_CREATION_STATUS_PENDING_ACTIVATION = 2;
   // Keystore creation failed permanently
   KEYSTORE_CREATION_STATUS_FAILED = 3;
