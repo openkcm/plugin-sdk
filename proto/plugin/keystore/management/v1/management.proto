@@ -68,7 +68,7 @@ message CreateKeystoreResponse {
   // New plugins should explicitly set this field to indicate the actual status
   optional KeystoreCreationStatus status = 5;
 
-  // Hyperscaler account ID for tracking pending keystores
+  // Account ID for tracking pending keystores
   // Required when status is "PENDING_ACTIVATION"
   // Used to poll activation status via GetKeystoreStatus and finalize via FinalizeKeystoreSetup
   // The plugin maintains the mapping between this ID and the original CreateKeystore request parameters
@@ -130,7 +130,7 @@ message RemoveTrustResponse {}
 // GetKeystoreStatusRequest represents a request to check the current status of a pending keystore.
 // This is a read-only operation that does not modify any state.
 message GetKeystoreStatusRequest {
-  // Hyperscaler account ID returned from CreateKeystore when status was PENDING_ACTIVATION
+  // Account ID returned from CreateKeystore when status was PENDING_ACTIVATION
   string account_id = 1;
 }
 
@@ -150,7 +150,7 @@ message GetKeystoreStatusResponse {
 // This should be called after GetKeystoreStatus returns "ACTIVE" to create the cloud resources.
 // CMK passes back the original CreateKeystore parameters so the plugin remains stateless.
 message FinalizeKeystoreSetupRequest {
-  // Hyperscaler account ID returned from CreateKeystore
+  // Account ID returned from CreateKeystore
   string account_id = 1;
 
   // Original parameters from CreateKeystoreRequest

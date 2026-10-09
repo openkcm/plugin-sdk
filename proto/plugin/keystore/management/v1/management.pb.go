@@ -31,7 +31,7 @@ const (
 	KeystoreCreationStatus_KEYSTORE_CREATION_STATUS_UNSPECIFIED KeystoreCreationStatus = 0
 	// Keystore is fully configured and ready to use
 	KeystoreCreationStatus_KEYSTORE_CREATION_STATUS_ACTIVE KeystoreCreationStatus = 1
-	// Hyperscaler account created, waiting for activation
+	// Account created, waiting for activation
 	KeystoreCreationStatus_KEYSTORE_CREATION_STATUS_PENDING_ACTIVATION KeystoreCreationStatus = 2
 	// Keystore creation failed permanently
 	KeystoreCreationStatus_KEYSTORE_CREATION_STATUS_FAILED KeystoreCreationStatus = 3
@@ -306,7 +306,7 @@ type CreateKeystoreResponse struct {
 	// Optional field - when not set (absent), clients should treat the keystore as "ACTIVE" for backwards compatibility with old plugins
 	// New plugins should explicitly set this field to indicate the actual status
 	Status *KeystoreCreationStatus `protobuf:"varint,5,opt,name=status,proto3,enum=plugin.keystore.management.v1.KeystoreCreationStatus,oneof" json:"status,omitempty"`
-	// Hyperscaler account ID for tracking pending keystores
+	// Account ID for tracking pending keystores
 	// Required when status is "PENDING_ACTIVATION"
 	// Used to poll activation status via GetKeystoreStatus and finalize via FinalizeKeystoreSetup
 	// The plugin maintains the mapping between this ID and the original CreateKeystore request parameters
@@ -705,7 +705,7 @@ func (*RemoveTrustResponse) Descriptor() ([]byte, []int) {
 // This is a read-only operation that does not modify any state.
 type GetKeystoreStatusRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// Hyperscaler account ID returned from CreateKeystore when status was PENDING_ACTIVATION
+	// Account ID returned from CreateKeystore when status was PENDING_ACTIVATION
 	AccountId     string `protobuf:"bytes,1,opt,name=account_id,json=accountId,proto3" json:"account_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -811,7 +811,7 @@ func (x *GetKeystoreStatusResponse) GetErrorMessage() string {
 // CMK passes back the original CreateKeystore parameters so the plugin remains stateless.
 type FinalizeKeystoreSetupRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// Hyperscaler account ID returned from CreateKeystore
+	// Account ID returned from CreateKeystore
 	AccountId string `protobuf:"bytes,1,opt,name=account_id,json=accountId,proto3" json:"account_id,omitempty"`
 	// Original parameters from CreateKeystoreRequest
 	// CMK stores these when CreateKeystore returns PENDING_ACTIVATION and passes them back here
