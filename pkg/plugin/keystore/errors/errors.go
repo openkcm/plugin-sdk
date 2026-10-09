@@ -44,6 +44,11 @@ var (
 	// due to invalid or incorrectly wrapped key material.
 	StatusImportKeyMaterialFailed = status.New(
 		codes.InvalidArgument, "key material decryption failed: invalid or incorrectly wrapped key material")
+
+	// StatusImportJobNotReady indicates that the provider import job is still being prepared.
+	// The caller should retry GetImportParameters after a short delay.
+	StatusImportJobNotReady = status.New(
+		codes.Unavailable, "import job is not yet ready; please retry GetImportParameters after a few seconds")
 )
 
 // NewGrpcErrorWithDetails creates a gRPC error with the given status and metadata mapping.
