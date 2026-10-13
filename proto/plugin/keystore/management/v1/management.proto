@@ -8,13 +8,10 @@ import "plugin/keystore/common/v1/common.proto";
 option go_package = "github.com/openkcm/plugin-sdk/proto/plugin/keystore/management/v1;managementv1";
 
 enum KeystoreCreationStatus {
-  // Default value when status field is not set (for backwards compatibility)
+  // Unset. Interpretation depends on the enclosing message.
   KEYSTORE_CREATION_STATUS_UNSPECIFIED = 0;
-  // Keystore is fully configured and ready to use
   KEYSTORE_CREATION_STATUS_ACTIVE = 1;
-  // Account created, waiting for activation
   KEYSTORE_CREATION_STATUS_PENDING_ACTIVATION = 2;
-  // Keystore creation failed permanently
   KEYSTORE_CREATION_STATUS_FAILED = 3;
 }
 
@@ -27,9 +24,9 @@ service KeystoreProvider {
   rpc GrantTrust(GrantTrustRequest) returns (GrantTrustResponse);
   // Remove trust for a client certificate subject pattern to revoke access to the keystore instance
   rpc RemoveTrust(RemoveTrustRequest) returns (RemoveTrustResponse);
-  // Get the current status of a pending keystore creation (read-only, does not modify state)
+  // Read-only status of a pending keystore creation
   rpc GetKeystoreStatus(GetKeystoreStatusRequest) returns (GetKeystoreStatusResponse);
-  // Finalize keystore setup by completing additional setup and resource creation in keystore provider
+  // Complete setup after the keystore becomes ACTIVE
   rpc FinalizeKeystoreSetup(FinalizeKeystoreSetupRequest) returns (FinalizeKeystoreSetupResponse);
 }
 
@@ -62,23 +59,11 @@ message CreateKeystoreResponse {
   ManagementConfig key_management_config = 3;
   repeated SupportedRegion supported_regions = 4;
 
-  // Status of keystore creation
-  // Values: "ACTIVE" (immediately ready), "PENDING_ACTIVATION" (account created, waiting for activation), "FAILED" (creation failed)
-  // Optional field - when not set (absent), clients should treat the keystore as "ACTIVE" for backwards compatibility with old plugins
-  // New plugins should explicitly set this field to indicate the actual status
+  // Absent or UNSPECIFIED: treat as ACTIVE (old plugins).
   optional KeystoreCreationStatus status = 5;
-
-  // Account ID for tracking pending keystores
-  // Required when status is "PENDING_ACTIVATION"
-  // Used to poll activation status via GetKeystoreStatus and finalize via FinalizeKeystoreSetup
-  // The plugin maintains the mapping between this ID and the original CreateKeystore request parameters
+  // Required when status is PENDING_ACTIVATION.
   optional string account_id = 6;
-
-  // Error message when status is "FAILED"
-  // Provides details about what went wrong during creation
   optional string error_message = 7;
-
-  // When the account was created (for tracking age)
   optional google.protobuf.Timestamp creation_time = 8;
 }
 
@@ -127,50 +112,29 @@ message RemoveTrustRequest {
 
 message RemoveTrustResponse {}
 
-// GetKeystoreStatusRequest represents a request to check the current status of a pending keystore.
-// This is a read-only operation that does not modify any state.
 message GetKeystoreStatusRequest {
-  // Account ID returned from CreateKeystore when status was PENDING_ACTIVATION
   string account_id = 1;
 }
 
-// GetKeystoreStatusResponse represents the current status of a keystore creation.
-// This is informational only and does not trigger any setup actions.
+// Does not trigger setup; use FinalizeKeystoreSetup after status is ACTIVE.
 message GetKeystoreStatusResponse {
-  // Current status: "PENDING_ACTIVATION", "ACTIVE", or "FAILED"
-  // Optional field - when not set (absent), status is unknown and client should retry the request
+  // Absent or UNSPECIFIED: status is unknown; retry the request.
   optional KeystoreCreationStatus status = 1;
-
-  // Error message when status is "FAILED"
-  // Optional field - only present when status is "FAILED"
   optional string error_message = 2;
 }
 
-// FinalizeKeystoreSetupRequest represents a request to complete keystore setup.
-// This should be called after GetKeystoreStatus returns "ACTIVE" to create the cloud resources.
-// CMK passes back the original CreateKeystore parameters so the plugin remains stateless.
 message FinalizeKeystoreSetupRequest {
-  // Account ID returned from CreateKeystore
   string account_id = 1;
-
-  // Original parameters from CreateKeystoreRequest
-  // CMK stores these when CreateKeystore returns PENDING_ACTIVATION and passes them back here
-  // This allows the plugin to remain stateless - no need to cache creation parameters
+  // Original CreateKeystoreRequest.values; allows the plugin to stay stateless.
   google.protobuf.Struct values = 2;
 }
 
-// FinalizeKeystoreSetupResponse represents the response after finalizing keystore setup.
-// Returns the full configuration with all cloud resources created.
 message FinalizeKeystoreSetupResponse {
   ManagementConfig role_management_config = 1;
   ManagementConfig key_management_config = 2;
   repeated SupportedRegion supported_regions = 3;
 
-  // Status: "ACTIVE" on success, "FAILED" on error
-  // Optional field - when not set (absent), clients should check error_message to determine success/failure
+  // Absent or UNSPECIFIED: inspect error_message to determine success or failure.
   optional KeystoreCreationStatus status = 4;
-
-  // Error message if setup failed
-  // Optional field - only present when status is "FAILED"
   optional string error_message = 5;
 }

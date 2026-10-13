@@ -39,9 +39,9 @@ type KeystoreProviderClient interface {
 	GrantTrust(ctx context.Context, in *GrantTrustRequest, opts ...grpc.CallOption) (*GrantTrustResponse, error)
 	// Remove trust for a client certificate subject pattern to revoke access to the keystore instance
 	RemoveTrust(ctx context.Context, in *RemoveTrustRequest, opts ...grpc.CallOption) (*RemoveTrustResponse, error)
-	// Get the current status of a pending keystore creation (read-only, does not modify state)
+	// Read-only status of a pending keystore creation
 	GetKeystoreStatus(ctx context.Context, in *GetKeystoreStatusRequest, opts ...grpc.CallOption) (*GetKeystoreStatusResponse, error)
-	// Finalize keystore setup by completing additional setup and resource creation in keystore provider
+	// Complete setup after the keystore becomes ACTIVE
 	FinalizeKeystoreSetup(ctx context.Context, in *FinalizeKeystoreSetupRequest, opts ...grpc.CallOption) (*FinalizeKeystoreSetupResponse, error)
 }
 
@@ -125,9 +125,9 @@ type KeystoreProviderServer interface {
 	GrantTrust(context.Context, *GrantTrustRequest) (*GrantTrustResponse, error)
 	// Remove trust for a client certificate subject pattern to revoke access to the keystore instance
 	RemoveTrust(context.Context, *RemoveTrustRequest) (*RemoveTrustResponse, error)
-	// Get the current status of a pending keystore creation (read-only, does not modify state)
+	// Read-only status of a pending keystore creation
 	GetKeystoreStatus(context.Context, *GetKeystoreStatusRequest) (*GetKeystoreStatusResponse, error)
-	// Finalize keystore setup by completing additional setup and resource creation in keystore provider
+	// Complete setup after the keystore becomes ACTIVE
 	FinalizeKeystoreSetup(context.Context, *FinalizeKeystoreSetupRequest) (*FinalizeKeystoreSetupResponse, error)
 	mustEmbedUnimplementedKeystoreProviderServer()
 }

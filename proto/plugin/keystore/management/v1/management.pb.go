@@ -27,14 +27,11 @@ const (
 type KeystoreCreationStatus int32
 
 const (
-	// Default value when status field is not set (for backwards compatibility)
-	KeystoreCreationStatus_KEYSTORE_CREATION_STATUS_UNSPECIFIED KeystoreCreationStatus = 0
-	// Keystore is fully configured and ready to use
-	KeystoreCreationStatus_KEYSTORE_CREATION_STATUS_ACTIVE KeystoreCreationStatus = 1
-	// Account created, waiting for activation
+	// Unset. Interpretation depends on the enclosing message.
+	KeystoreCreationStatus_KEYSTORE_CREATION_STATUS_UNSPECIFIED        KeystoreCreationStatus = 0
+	KeystoreCreationStatus_KEYSTORE_CREATION_STATUS_ACTIVE             KeystoreCreationStatus = 1
 	KeystoreCreationStatus_KEYSTORE_CREATION_STATUS_PENDING_ACTIVATION KeystoreCreationStatus = 2
-	// Keystore creation failed permanently
-	KeystoreCreationStatus_KEYSTORE_CREATION_STATUS_FAILED KeystoreCreationStatus = 3
+	KeystoreCreationStatus_KEYSTORE_CREATION_STATUS_FAILED             KeystoreCreationStatus = 3
 )
 
 // Enum value maps for KeystoreCreationStatus.
@@ -301,20 +298,11 @@ type CreateKeystoreResponse struct {
 	RoleManagementConfig *ManagementConfig          `protobuf:"bytes,2,opt,name=role_management_config,json=roleManagementConfig,proto3" json:"role_management_config,omitempty"`
 	KeyManagementConfig  *ManagementConfig          `protobuf:"bytes,3,opt,name=key_management_config,json=keyManagementConfig,proto3" json:"key_management_config,omitempty"`
 	SupportedRegions     []*SupportedRegion         `protobuf:"bytes,4,rep,name=supported_regions,json=supportedRegions,proto3" json:"supported_regions,omitempty"`
-	// Status of keystore creation
-	// Values: "ACTIVE" (immediately ready), "PENDING_ACTIVATION" (account created, waiting for activation), "FAILED" (creation failed)
-	// Optional field - when not set (absent), clients should treat the keystore as "ACTIVE" for backwards compatibility with old plugins
-	// New plugins should explicitly set this field to indicate the actual status
+	// Absent or UNSPECIFIED: treat as ACTIVE (old plugins).
 	Status *KeystoreCreationStatus `protobuf:"varint,5,opt,name=status,proto3,enum=plugin.keystore.management.v1.KeystoreCreationStatus,oneof" json:"status,omitempty"`
-	// Account ID for tracking pending keystores
-	// Required when status is "PENDING_ACTIVATION"
-	// Used to poll activation status via GetKeystoreStatus and finalize via FinalizeKeystoreSetup
-	// The plugin maintains the mapping between this ID and the original CreateKeystore request parameters
-	AccountId *string `protobuf:"bytes,6,opt,name=account_id,json=accountId,proto3,oneof" json:"account_id,omitempty"`
-	// Error message when status is "FAILED"
-	// Provides details about what went wrong during creation
-	ErrorMessage *string `protobuf:"bytes,7,opt,name=error_message,json=errorMessage,proto3,oneof" json:"error_message,omitempty"`
-	// When the account was created (for tracking age)
+	// Required when status is PENDING_ACTIVATION.
+	AccountId     *string                `protobuf:"bytes,6,opt,name=account_id,json=accountId,proto3,oneof" json:"account_id,omitempty"`
+	ErrorMessage  *string                `protobuf:"bytes,7,opt,name=error_message,json=errorMessage,proto3,oneof" json:"error_message,omitempty"`
 	CreationTime  *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=creation_time,json=creationTime,proto3,oneof" json:"creation_time,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -701,12 +689,9 @@ func (*RemoveTrustResponse) Descriptor() ([]byte, []int) {
 	return file_plugin_keystore_management_v1_management_proto_rawDescGZIP(), []int{9}
 }
 
-// GetKeystoreStatusRequest represents a request to check the current status of a pending keystore.
-// This is a read-only operation that does not modify any state.
 type GetKeystoreStatusRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// Account ID returned from CreateKeystore when status was PENDING_ACTIVATION
-	AccountId     string `protobuf:"bytes,1,opt,name=account_id,json=accountId,proto3" json:"account_id,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	AccountId     string                 `protobuf:"bytes,1,opt,name=account_id,json=accountId,proto3" json:"account_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -748,16 +733,12 @@ func (x *GetKeystoreStatusRequest) GetAccountId() string {
 	return ""
 }
 
-// GetKeystoreStatusResponse represents the current status of a keystore creation.
-// This is informational only and does not trigger any setup actions.
+// Does not trigger setup; use FinalizeKeystoreSetup after status is ACTIVE.
 type GetKeystoreStatusResponse struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// Current status: "PENDING_ACTIVATION", "ACTIVE", or "FAILED"
-	// Optional field - when not set (absent), status is unknown and client should retry the request
-	Status *KeystoreCreationStatus `protobuf:"varint,1,opt,name=status,proto3,enum=plugin.keystore.management.v1.KeystoreCreationStatus,oneof" json:"status,omitempty"`
-	// Error message when status is "FAILED"
-	// Optional field - only present when status is "FAILED"
-	ErrorMessage  *string `protobuf:"bytes,2,opt,name=error_message,json=errorMessage,proto3,oneof" json:"error_message,omitempty"`
+	// Absent or UNSPECIFIED: status is unknown; retry the request.
+	Status        *KeystoreCreationStatus `protobuf:"varint,1,opt,name=status,proto3,enum=plugin.keystore.management.v1.KeystoreCreationStatus,oneof" json:"status,omitempty"`
+	ErrorMessage  *string                 `protobuf:"bytes,2,opt,name=error_message,json=errorMessage,proto3,oneof" json:"error_message,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -806,16 +787,10 @@ func (x *GetKeystoreStatusResponse) GetErrorMessage() string {
 	return ""
 }
 
-// FinalizeKeystoreSetupRequest represents a request to complete keystore setup.
-// This should be called after GetKeystoreStatus returns "ACTIVE" to create the cloud resources.
-// CMK passes back the original CreateKeystore parameters so the plugin remains stateless.
 type FinalizeKeystoreSetupRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// Account ID returned from CreateKeystore
-	AccountId string `protobuf:"bytes,1,opt,name=account_id,json=accountId,proto3" json:"account_id,omitempty"`
-	// Original parameters from CreateKeystoreRequest
-	// CMK stores these when CreateKeystore returns PENDING_ACTIVATION and passes them back here
-	// This allows the plugin to remain stateless - no need to cache creation parameters
+	state     protoimpl.MessageState `protogen:"open.v1"`
+	AccountId string                 `protobuf:"bytes,1,opt,name=account_id,json=accountId,proto3" json:"account_id,omitempty"`
+	// Original CreateKeystoreRequest.values; allows the plugin to stay stateless.
 	Values        *structpb.Struct `protobuf:"bytes,2,opt,name=values,proto3" json:"values,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -865,19 +840,14 @@ func (x *FinalizeKeystoreSetupRequest) GetValues() *structpb.Struct {
 	return nil
 }
 
-// FinalizeKeystoreSetupResponse represents the response after finalizing keystore setup.
-// Returns the full configuration with all cloud resources created.
 type FinalizeKeystoreSetupResponse struct {
 	state                protoimpl.MessageState `protogen:"open.v1"`
 	RoleManagementConfig *ManagementConfig      `protobuf:"bytes,1,opt,name=role_management_config,json=roleManagementConfig,proto3" json:"role_management_config,omitempty"`
 	KeyManagementConfig  *ManagementConfig      `protobuf:"bytes,2,opt,name=key_management_config,json=keyManagementConfig,proto3" json:"key_management_config,omitempty"`
 	SupportedRegions     []*SupportedRegion     `protobuf:"bytes,3,rep,name=supported_regions,json=supportedRegions,proto3" json:"supported_regions,omitempty"`
-	// Status: "ACTIVE" on success, "FAILED" on error
-	// Optional field - when not set (absent), clients should check error_message to determine success/failure
-	Status *KeystoreCreationStatus `protobuf:"varint,4,opt,name=status,proto3,enum=plugin.keystore.management.v1.KeystoreCreationStatus,oneof" json:"status,omitempty"`
-	// Error message if setup failed
-	// Optional field - only present when status is "FAILED"
-	ErrorMessage  *string `protobuf:"bytes,5,opt,name=error_message,json=errorMessage,proto3,oneof" json:"error_message,omitempty"`
+	// Absent or UNSPECIFIED: inspect error_message to determine success or failure.
+	Status        *KeystoreCreationStatus `protobuf:"varint,4,opt,name=status,proto3,enum=plugin.keystore.management.v1.KeystoreCreationStatus,oneof" json:"status,omitempty"`
+	ErrorMessage  *string                 `protobuf:"bytes,5,opt,name=error_message,json=errorMessage,proto3,oneof" json:"error_message,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
