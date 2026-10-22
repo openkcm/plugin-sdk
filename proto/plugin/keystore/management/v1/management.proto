@@ -2,9 +2,18 @@ syntax = "proto3";
 package plugin.keystore.management.v1;
 
 import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
 import "plugin/keystore/common/v1/common.proto";
 
 option go_package = "github.com/openkcm/plugin-sdk/proto/plugin/keystore/management/v1;managementv1";
+
+enum KeystoreCreationStatus {
+  // Unset. Interpretation depends on the enclosing message.
+  KEYSTORE_CREATION_STATUS_UNSPECIFIED = 0;
+  KEYSTORE_CREATION_STATUS_ACTIVE = 1;
+  KEYSTORE_CREATION_STATUS_PENDING_ACTIVATION = 2;
+  KEYSTORE_CREATION_STATUS_FAILED = 3;
+}
 
 service KeystoreProvider {
   // Create a new keystore instance
@@ -15,6 +24,10 @@ service KeystoreProvider {
   rpc GrantTrust(GrantTrustRequest) returns (GrantTrustResponse);
   // Remove trust for a client certificate subject pattern to revoke access to the keystore instance
   rpc RemoveTrust(RemoveTrustRequest) returns (RemoveTrustResponse);
+  // Read-only status of a pending keystore creation
+  rpc GetKeystoreStatus(GetKeystoreStatusRequest) returns (GetKeystoreStatusResponse);
+  // Complete setup after the keystore becomes ACTIVE
+  rpc FinalizeKeystoreSetup(FinalizeKeystoreSetupRequest) returns (FinalizeKeystoreSetupResponse);
 }
 
 // SupportedRegion represents a region where the keystore can be created or accessed.
@@ -45,6 +58,13 @@ message CreateKeystoreResponse {
   ManagementConfig role_management_config = 2;
   ManagementConfig key_management_config = 3;
   repeated SupportedRegion supported_regions = 4;
+
+  // Absent or UNSPECIFIED: treat as ACTIVE (old plugins).
+  optional KeystoreCreationStatus status = 5;
+  // Required when status is PENDING_ACTIVATION.
+  optional string account_id = 6;
+  optional string error_message = 7;
+  optional google.protobuf.Timestamp creation_time = 8;
 }
 
 message DeleteKeystoreRequest {
@@ -91,3 +111,30 @@ message RemoveTrustRequest {
 }
 
 message RemoveTrustResponse {}
+
+message GetKeystoreStatusRequest {
+  string account_id = 1;
+}
+
+// Does not trigger setup; use FinalizeKeystoreSetup after status is ACTIVE.
+message GetKeystoreStatusResponse {
+  // Absent or UNSPECIFIED: status is unknown; retry the request.
+  optional KeystoreCreationStatus status = 1;
+  optional string error_message = 2;
+}
+
+message FinalizeKeystoreSetupRequest {
+  string account_id = 1;
+  // Original CreateKeystoreRequest.values; allows the plugin to stay stateless.
+  google.protobuf.Struct values = 2;
+}
+
+message FinalizeKeystoreSetupResponse {
+  ManagementConfig role_management_config = 1;
+  ManagementConfig key_management_config = 2;
+  repeated SupportedRegion supported_regions = 3;
+
+  // Absent or UNSPECIFIED: inspect error_message to determine success or failure.
+  optional KeystoreCreationStatus status = 4;
+  optional string error_message = 5;
+}
