@@ -46,6 +46,8 @@ type PluginConfig struct {
 
 	DataSource DataSource
 
+	unaryInterceptors []grpc.UnaryClientInterceptor
+
 	YamlConfiguration string
 
 	LogLevel string
@@ -66,6 +68,14 @@ func (c *PluginConfig) IsExternal() bool {
 
 func (c *PluginConfig) IsEnabled() bool {
 	return !c.Disabled
+}
+
+func (c *PluginConfig) getDialOptions() []grpc.DialOption {
+	opts := make([]grpc.DialOption, 0, len(c.unaryInterceptors))
+	if len(c.unaryInterceptors) > 0 {
+		opts = append(opts, grpc.WithChainUnaryInterceptor(c.unaryInterceptors...))
+	}
+	return opts
 }
 
 type DataSource interface {
@@ -122,15 +132,19 @@ type pluginImpl struct {
 func (p *pluginImpl) Close() error {
 	return p.closerGroup.Close()
 }
+
 func (p *pluginImpl) ClientConnection() grpc.ClientConnInterface {
 	return p.conn
 }
+
 func (p *pluginImpl) Info() api.Info {
 	return p.info
 }
+
 func (p *pluginImpl) Logger() *slog.Logger {
 	return p.logger
 }
+
 func (p *pluginImpl) GrpcServiceNames() []string {
 	return p.grpcServiceNames
 }
@@ -148,7 +162,6 @@ func loadPlugin(ctx context.Context, config PluginConfig) (*pluginImpl, error) {
 	}
 
 	// Start the plugin client
-
 	pluginClient := goplugin.NewClient(&goplugin.ClientConfig{
 		SecureConfig: seccfg,
 		Logger:       slog2hclog.NewWithLevel(config.Logger, config.LogLevel),
@@ -161,6 +174,7 @@ func loadPlugin(ctx context.Context, config PluginConfig) (*pluginImpl, error) {
 		Plugins:          map[string]goplugin.Plugin{config.Name: &HCRPCPlugin{config: config}},
 		Cmd:              cmd,
 		AllowedProtocols: []goplugin.Protocol{goplugin.ProtocolGRPC},
+		GRPCDialOptions:  config.getDialOptions(),
 	})
 
 	// Connect via RPC
@@ -199,7 +213,6 @@ func loadPlugin(ctx context.Context, config PluginConfig) (*pluginImpl, error) {
 	}
 
 	return newPlugin(ctx, plugin.conn, info, config.Logger, plugin.closers, config.HostServices)
-
 }
 
 // injectEnv injects the environment variables into the command

@@ -116,6 +116,10 @@ func New(ctx context.Context, config Config, repo api.Repository, builtIns ...Bu
 			continue
 		}
 
+		for _, opt := range config.PluginOptions {
+			opt(&pluginConfig)
+		}
+
 		pluginConfig.HostServices = config.HostServices
 
 		pluginRepo, ok := pluginRepos[pluginConfig.Type]
