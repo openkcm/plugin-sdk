@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.18.0](https://github.com/openkcm/plugin-sdk/compare/v0.17.0...v0.18.0) (2026-10-27)
+
+
+### Features
+
+* async keystore creation ([#182](https://github.com/openkcm/plugin-sdk/issues/182)) ([0786322](https://github.com/openkcm/plugin-sdk/commit/078632235da61329e7fb7928e5acc05e7d6ecc2c))
+
+
+### Bug Fixes
+
+* **deps:** bump golang.org/x/sys from 0.48.0 to 0.49.0 in the gomod-group group ([#188](https://github.com/openkcm/plugin-sdk/issues/188)) ([4de915a](https://github.com/openkcm/plugin-sdk/commit/4de915abdfab1ee3951dc8fdc30612fa30b605e8))
+
 ## [0.17.0](https://github.com/openkcm/plugin-sdk/compare/v0.16.0...v0.17.0) (2026-10-08)
 
 
