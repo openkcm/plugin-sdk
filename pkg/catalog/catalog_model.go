@@ -23,4 +23,12 @@ type Config struct {
 	// HostServices are the servers for host services provided by SPIRE to
 	// plugins.
 	HostServices []api.ServiceServer
+
+	// PluginOptions are applied to every PluginConfig when the catalog is
+	// created. Use them to inject cross-cutting behaviour such as a middleware.
+	PluginOptions []PluginOption
 }
+
+// PluginOption mutates a PluginConfig. Options supplied via Config.PluginOptions
+// are applied to every plugin before it is loaded.
+type PluginOption func(*PluginConfig)
