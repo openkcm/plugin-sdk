@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.19.0](https://github.com/openkcm/plugin-sdk/compare/v0.18.0...v0.19.0) (2026-10-29)
+
+
+### Features
+
+* add error logging plugin middleware ([#190](https://github.com/openkcm/plugin-sdk/issues/190)) ([52294d3](https://github.com/openkcm/plugin-sdk/commit/52294d30cb98466b8887da4885f993ad6c30ad18))
+
 ## [0.18.0](https://github.com/openkcm/plugin-sdk/compare/v0.17.0...v0.18.0) (2026-10-27)
 
 
