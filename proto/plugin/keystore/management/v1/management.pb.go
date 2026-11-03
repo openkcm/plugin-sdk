@@ -737,8 +737,12 @@ func (x *GetKeystoreStatusRequest) GetAccountId() string {
 type GetKeystoreStatusResponse struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Absent or UNSPECIFIED: status is unknown; retry the request.
-	Status        *KeystoreCreationStatus `protobuf:"varint,1,opt,name=status,proto3,enum=plugin.keystore.management.v1.KeystoreCreationStatus,oneof" json:"status,omitempty"`
-	ErrorMessage  *string                 `protobuf:"bytes,2,opt,name=error_message,json=errorMessage,proto3,oneof" json:"error_message,omitempty"`
+	Status       *KeystoreCreationStatus `protobuf:"varint,1,opt,name=status,proto3,enum=plugin.keystore.management.v1.KeystoreCreationStatus,oneof" json:"status,omitempty"`
+	ErrorMessage *string                 `protobuf:"bytes,2,opt,name=error_message,json=errorMessage,proto3,oneof" json:"error_message,omitempty"`
+	// needs_renewal is true when the keystore account is due for renewal.
+	NeedsRenewal *bool `protobuf:"varint,3,opt,name=needs_renewal,json=needsRenewal,proto3,oneof" json:"needs_renewal,omitempty"`
+	// Unset when the provider has no renewal deadline.
+	RenewBy       *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=renew_by,json=renewBy,proto3,oneof" json:"renew_by,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -785,6 +789,20 @@ func (x *GetKeystoreStatusResponse) GetErrorMessage() string {
 		return *x.ErrorMessage
 	}
 	return ""
+}
+
+func (x *GetKeystoreStatusResponse) GetNeedsRenewal() bool {
+	if x != nil && x.NeedsRenewal != nil {
+		return *x.NeedsRenewal
+	}
+	return false
+}
+
+func (x *GetKeystoreStatusResponse) GetRenewBy() *timestamppb.Timestamp {
+	if x != nil {
+		return x.RenewBy
+	}
+	return nil
 }
 
 type FinalizeKeystoreSetupRequest struct {
@@ -917,6 +935,86 @@ func (x *FinalizeKeystoreSetupResponse) GetErrorMessage() string {
 	return ""
 }
 
+type RenewKeystoreRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	AccountId     string                 `protobuf:"bytes,1,opt,name=account_id,json=accountId,proto3" json:"account_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RenewKeystoreRequest) Reset() {
+	*x = RenewKeystoreRequest{}
+	mi := &file_plugin_keystore_management_v1_management_proto_msgTypes[14]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RenewKeystoreRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RenewKeystoreRequest) ProtoMessage() {}
+
+func (x *RenewKeystoreRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_plugin_keystore_management_v1_management_proto_msgTypes[14]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RenewKeystoreRequest.ProtoReflect.Descriptor instead.
+func (*RenewKeystoreRequest) Descriptor() ([]byte, []int) {
+	return file_plugin_keystore_management_v1_management_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *RenewKeystoreRequest) GetAccountId() string {
+	if x != nil {
+		return x.AccountId
+	}
+	return ""
+}
+
+type RenewKeystoreResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RenewKeystoreResponse) Reset() {
+	*x = RenewKeystoreResponse{}
+	mi := &file_plugin_keystore_management_v1_management_proto_msgTypes[15]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RenewKeystoreResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RenewKeystoreResponse) ProtoMessage() {}
+
+func (x *RenewKeystoreResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_plugin_keystore_management_v1_management_proto_msgTypes[15]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RenewKeystoreResponse.ProtoReflect.Descriptor instead.
+func (*RenewKeystoreResponse) Descriptor() ([]byte, []int) {
+	return file_plugin_keystore_management_v1_management_proto_rawDescGZIP(), []int{15}
+}
+
 var File_plugin_keystore_management_v1_management_proto protoreflect.FileDescriptor
 
 const file_plugin_keystore_management_v1_management_proto_rawDesc = "" +
@@ -966,12 +1064,16 @@ const file_plugin_keystore_management_v1_management_proto_rawDesc = "" +
 	"\x13RemoveTrustResponse\"9\n" +
 	"\x18GetKeystoreStatusRequest\x12\x1d\n" +
 	"\n" +
-	"account_id\x18\x01 \x01(\tR\taccountId\"\xb6\x01\n" +
+	"account_id\x18\x01 \x01(\tR\taccountId\"\xbb\x02\n" +
 	"\x19GetKeystoreStatusResponse\x12R\n" +
 	"\x06status\x18\x01 \x01(\x0e25.plugin.keystore.management.v1.KeystoreCreationStatusH\x00R\x06status\x88\x01\x01\x12(\n" +
-	"\rerror_message\x18\x02 \x01(\tH\x01R\ferrorMessage\x88\x01\x01B\t\n" +
+	"\rerror_message\x18\x02 \x01(\tH\x01R\ferrorMessage\x88\x01\x01\x12(\n" +
+	"\rneeds_renewal\x18\x03 \x01(\bH\x02R\fneedsRenewal\x88\x01\x01\x12:\n" +
+	"\brenew_by\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampH\x03R\arenewBy\x88\x01\x01B\t\n" +
 	"\a_statusB\x10\n" +
-	"\x0e_error_message\"n\n" +
+	"\x0e_error_messageB\x10\n" +
+	"\x0e_needs_renewalB\v\n" +
+	"\t_renew_by\"n\n" +
 	"\x1cFinalizeKeystoreSetupRequest\x12\x1d\n" +
 	"\n" +
 	"account_id\x18\x01 \x01(\tR\taccountId\x12/\n" +
@@ -983,7 +1085,11 @@ const file_plugin_keystore_management_v1_management_proto_rawDesc = "" +
 	"\x06status\x18\x04 \x01(\x0e25.plugin.keystore.management.v1.KeystoreCreationStatusH\x00R\x06status\x88\x01\x01\x12(\n" +
 	"\rerror_message\x18\x05 \x01(\tH\x01R\ferrorMessage\x88\x01\x01B\t\n" +
 	"\a_statusB\x10\n" +
-	"\x0e_error_message*\xbd\x01\n" +
+	"\x0e_error_message\"5\n" +
+	"\x14RenewKeystoreRequest\x12\x1d\n" +
+	"\n" +
+	"account_id\x18\x01 \x01(\tR\taccountId\"\x17\n" +
+	"\x15RenewKeystoreResponse*\xbd\x01\n" +
 	"\x16KeystoreCreationStatus\x12(\n" +
 	"$KEYSTORE_CREATION_STATUS_UNSPECIFIED\x10\x00\x12#\n" +
 	"\x1fKEYSTORE_CREATION_STATUS_ACTIVE\x10\x01\x12/\n" +
@@ -992,7 +1098,7 @@ const file_plugin_keystore_management_v1_management_proto_rawDesc = "" +
 	"\tTrustType\x12\x1a\n" +
 	"\x16TRUST_TYPE_UNSPECIFIED\x10\x00\x12\x19\n" +
 	"\x15TRUST_TYPE_MANAGEMENT\x10\x01\x12\x15\n" +
-	"\x11TRUST_TYPE_CRYPTO\x10\x022\x97\x06\n" +
+	"\x11TRUST_TYPE_CRYPTO\x10\x022\x93\a\n" +
 	"\x10KeystoreProvider\x12}\n" +
 	"\x0eCreateKeystore\x124.plugin.keystore.management.v1.CreateKeystoreRequest\x1a5.plugin.keystore.management.v1.CreateKeystoreResponse\x12}\n" +
 	"\x0eDeleteKeystore\x124.plugin.keystore.management.v1.DeleteKeystoreRequest\x1a5.plugin.keystore.management.v1.DeleteKeystoreResponse\x12q\n" +
@@ -1000,7 +1106,8 @@ const file_plugin_keystore_management_v1_management_proto_rawDesc = "" +
 	"GrantTrust\x120.plugin.keystore.management.v1.GrantTrustRequest\x1a1.plugin.keystore.management.v1.GrantTrustResponse\x12t\n" +
 	"\vRemoveTrust\x121.plugin.keystore.management.v1.RemoveTrustRequest\x1a2.plugin.keystore.management.v1.RemoveTrustResponse\x12\x86\x01\n" +
 	"\x11GetKeystoreStatus\x127.plugin.keystore.management.v1.GetKeystoreStatusRequest\x1a8.plugin.keystore.management.v1.GetKeystoreStatusResponse\x12\x92\x01\n" +
-	"\x15FinalizeKeystoreSetup\x12;.plugin.keystore.management.v1.FinalizeKeystoreSetupRequest\x1a<.plugin.keystore.management.v1.FinalizeKeystoreSetupResponseBPZNgithub.com/openkcm/plugin-sdk/proto/plugin/keystore/management/v1;managementv1b\x06proto3"
+	"\x15FinalizeKeystoreSetup\x12;.plugin.keystore.management.v1.FinalizeKeystoreSetupRequest\x1a<.plugin.keystore.management.v1.FinalizeKeystoreSetupResponse\x12z\n" +
+	"\rRenewKeystore\x123.plugin.keystore.management.v1.RenewKeystoreRequest\x1a4.plugin.keystore.management.v1.RenewKeystoreResponseBPZNgithub.com/openkcm/plugin-sdk/proto/plugin/keystore/management/v1;managementv1b\x06proto3"
 
 var (
 	file_plugin_keystore_management_v1_management_proto_rawDescOnce sync.Once
@@ -1015,7 +1122,7 @@ func file_plugin_keystore_management_v1_management_proto_rawDescGZIP() []byte {
 }
 
 var file_plugin_keystore_management_v1_management_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_plugin_keystore_management_v1_management_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
+var file_plugin_keystore_management_v1_management_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
 var file_plugin_keystore_management_v1_management_proto_goTypes = []any{
 	(KeystoreCreationStatus)(0),           // 0: plugin.keystore.management.v1.KeystoreCreationStatus
 	(TrustType)(0),                        // 1: plugin.keystore.management.v1.TrustType
@@ -1033,48 +1140,53 @@ var file_plugin_keystore_management_v1_management_proto_goTypes = []any{
 	(*GetKeystoreStatusResponse)(nil),     // 13: plugin.keystore.management.v1.GetKeystoreStatusResponse
 	(*FinalizeKeystoreSetupRequest)(nil),  // 14: plugin.keystore.management.v1.FinalizeKeystoreSetupRequest
 	(*FinalizeKeystoreSetupResponse)(nil), // 15: plugin.keystore.management.v1.FinalizeKeystoreSetupResponse
-	(*v1.KeystoreInstanceConfig)(nil),     // 16: plugin.keystore.common.v1.KeystoreInstanceConfig
-	(*structpb.Struct)(nil),               // 17: google.protobuf.Struct
-	(*timestamppb.Timestamp)(nil),         // 18: google.protobuf.Timestamp
+	(*RenewKeystoreRequest)(nil),          // 16: plugin.keystore.management.v1.RenewKeystoreRequest
+	(*RenewKeystoreResponse)(nil),         // 17: plugin.keystore.management.v1.RenewKeystoreResponse
+	(*v1.KeystoreInstanceConfig)(nil),     // 18: plugin.keystore.common.v1.KeystoreInstanceConfig
+	(*structpb.Struct)(nil),               // 19: google.protobuf.Struct
+	(*timestamppb.Timestamp)(nil),         // 20: google.protobuf.Timestamp
 }
 var file_plugin_keystore_management_v1_management_proto_depIdxs = []int32{
-	16, // 0: plugin.keystore.management.v1.ManagementConfig.access_data:type_name -> plugin.keystore.common.v1.KeystoreInstanceConfig
-	17, // 1: plugin.keystore.management.v1.CreateKeystoreRequest.values:type_name -> google.protobuf.Struct
-	16, // 2: plugin.keystore.management.v1.CreateKeystoreResponse.config:type_name -> plugin.keystore.common.v1.KeystoreInstanceConfig
+	18, // 0: plugin.keystore.management.v1.ManagementConfig.access_data:type_name -> plugin.keystore.common.v1.KeystoreInstanceConfig
+	19, // 1: plugin.keystore.management.v1.CreateKeystoreRequest.values:type_name -> google.protobuf.Struct
+	18, // 2: plugin.keystore.management.v1.CreateKeystoreResponse.config:type_name -> plugin.keystore.common.v1.KeystoreInstanceConfig
 	3,  // 3: plugin.keystore.management.v1.CreateKeystoreResponse.role_management_config:type_name -> plugin.keystore.management.v1.ManagementConfig
 	3,  // 4: plugin.keystore.management.v1.CreateKeystoreResponse.key_management_config:type_name -> plugin.keystore.management.v1.ManagementConfig
 	2,  // 5: plugin.keystore.management.v1.CreateKeystoreResponse.supported_regions:type_name -> plugin.keystore.management.v1.SupportedRegion
 	0,  // 6: plugin.keystore.management.v1.CreateKeystoreResponse.status:type_name -> plugin.keystore.management.v1.KeystoreCreationStatus
-	18, // 7: plugin.keystore.management.v1.CreateKeystoreResponse.creation_time:type_name -> google.protobuf.Timestamp
-	16, // 8: plugin.keystore.management.v1.DeleteKeystoreRequest.config:type_name -> plugin.keystore.common.v1.KeystoreInstanceConfig
-	16, // 9: plugin.keystore.management.v1.GrantTrustRequest.config:type_name -> plugin.keystore.common.v1.KeystoreInstanceConfig
+	20, // 7: plugin.keystore.management.v1.CreateKeystoreResponse.creation_time:type_name -> google.protobuf.Timestamp
+	18, // 8: plugin.keystore.management.v1.DeleteKeystoreRequest.config:type_name -> plugin.keystore.common.v1.KeystoreInstanceConfig
+	18, // 9: plugin.keystore.management.v1.GrantTrustRequest.config:type_name -> plugin.keystore.common.v1.KeystoreInstanceConfig
 	1,  // 10: plugin.keystore.management.v1.GrantTrustRequest.type:type_name -> plugin.keystore.management.v1.TrustType
-	17, // 11: plugin.keystore.management.v1.GrantTrustResponse.access_data:type_name -> google.protobuf.Struct
-	16, // 12: plugin.keystore.management.v1.RemoveTrustRequest.config:type_name -> plugin.keystore.common.v1.KeystoreInstanceConfig
-	17, // 13: plugin.keystore.management.v1.RemoveTrustRequest.access_data:type_name -> google.protobuf.Struct
+	19, // 11: plugin.keystore.management.v1.GrantTrustResponse.access_data:type_name -> google.protobuf.Struct
+	18, // 12: plugin.keystore.management.v1.RemoveTrustRequest.config:type_name -> plugin.keystore.common.v1.KeystoreInstanceConfig
+	19, // 13: plugin.keystore.management.v1.RemoveTrustRequest.access_data:type_name -> google.protobuf.Struct
 	0,  // 14: plugin.keystore.management.v1.GetKeystoreStatusResponse.status:type_name -> plugin.keystore.management.v1.KeystoreCreationStatus
-	17, // 15: plugin.keystore.management.v1.FinalizeKeystoreSetupRequest.values:type_name -> google.protobuf.Struct
-	3,  // 16: plugin.keystore.management.v1.FinalizeKeystoreSetupResponse.role_management_config:type_name -> plugin.keystore.management.v1.ManagementConfig
-	3,  // 17: plugin.keystore.management.v1.FinalizeKeystoreSetupResponse.key_management_config:type_name -> plugin.keystore.management.v1.ManagementConfig
-	2,  // 18: plugin.keystore.management.v1.FinalizeKeystoreSetupResponse.supported_regions:type_name -> plugin.keystore.management.v1.SupportedRegion
-	0,  // 19: plugin.keystore.management.v1.FinalizeKeystoreSetupResponse.status:type_name -> plugin.keystore.management.v1.KeystoreCreationStatus
-	4,  // 20: plugin.keystore.management.v1.KeystoreProvider.CreateKeystore:input_type -> plugin.keystore.management.v1.CreateKeystoreRequest
-	6,  // 21: plugin.keystore.management.v1.KeystoreProvider.DeleteKeystore:input_type -> plugin.keystore.management.v1.DeleteKeystoreRequest
-	8,  // 22: plugin.keystore.management.v1.KeystoreProvider.GrantTrust:input_type -> plugin.keystore.management.v1.GrantTrustRequest
-	10, // 23: plugin.keystore.management.v1.KeystoreProvider.RemoveTrust:input_type -> plugin.keystore.management.v1.RemoveTrustRequest
-	12, // 24: plugin.keystore.management.v1.KeystoreProvider.GetKeystoreStatus:input_type -> plugin.keystore.management.v1.GetKeystoreStatusRequest
-	14, // 25: plugin.keystore.management.v1.KeystoreProvider.FinalizeKeystoreSetup:input_type -> plugin.keystore.management.v1.FinalizeKeystoreSetupRequest
-	5,  // 26: plugin.keystore.management.v1.KeystoreProvider.CreateKeystore:output_type -> plugin.keystore.management.v1.CreateKeystoreResponse
-	7,  // 27: plugin.keystore.management.v1.KeystoreProvider.DeleteKeystore:output_type -> plugin.keystore.management.v1.DeleteKeystoreResponse
-	9,  // 28: plugin.keystore.management.v1.KeystoreProvider.GrantTrust:output_type -> plugin.keystore.management.v1.GrantTrustResponse
-	11, // 29: plugin.keystore.management.v1.KeystoreProvider.RemoveTrust:output_type -> plugin.keystore.management.v1.RemoveTrustResponse
-	13, // 30: plugin.keystore.management.v1.KeystoreProvider.GetKeystoreStatus:output_type -> plugin.keystore.management.v1.GetKeystoreStatusResponse
-	15, // 31: plugin.keystore.management.v1.KeystoreProvider.FinalizeKeystoreSetup:output_type -> plugin.keystore.management.v1.FinalizeKeystoreSetupResponse
-	26, // [26:32] is the sub-list for method output_type
-	20, // [20:26] is the sub-list for method input_type
-	20, // [20:20] is the sub-list for extension type_name
-	20, // [20:20] is the sub-list for extension extendee
-	0,  // [0:20] is the sub-list for field type_name
+	20, // 15: plugin.keystore.management.v1.GetKeystoreStatusResponse.renew_by:type_name -> google.protobuf.Timestamp
+	19, // 16: plugin.keystore.management.v1.FinalizeKeystoreSetupRequest.values:type_name -> google.protobuf.Struct
+	3,  // 17: plugin.keystore.management.v1.FinalizeKeystoreSetupResponse.role_management_config:type_name -> plugin.keystore.management.v1.ManagementConfig
+	3,  // 18: plugin.keystore.management.v1.FinalizeKeystoreSetupResponse.key_management_config:type_name -> plugin.keystore.management.v1.ManagementConfig
+	2,  // 19: plugin.keystore.management.v1.FinalizeKeystoreSetupResponse.supported_regions:type_name -> plugin.keystore.management.v1.SupportedRegion
+	0,  // 20: plugin.keystore.management.v1.FinalizeKeystoreSetupResponse.status:type_name -> plugin.keystore.management.v1.KeystoreCreationStatus
+	4,  // 21: plugin.keystore.management.v1.KeystoreProvider.CreateKeystore:input_type -> plugin.keystore.management.v1.CreateKeystoreRequest
+	6,  // 22: plugin.keystore.management.v1.KeystoreProvider.DeleteKeystore:input_type -> plugin.keystore.management.v1.DeleteKeystoreRequest
+	8,  // 23: plugin.keystore.management.v1.KeystoreProvider.GrantTrust:input_type -> plugin.keystore.management.v1.GrantTrustRequest
+	10, // 24: plugin.keystore.management.v1.KeystoreProvider.RemoveTrust:input_type -> plugin.keystore.management.v1.RemoveTrustRequest
+	12, // 25: plugin.keystore.management.v1.KeystoreProvider.GetKeystoreStatus:input_type -> plugin.keystore.management.v1.GetKeystoreStatusRequest
+	14, // 26: plugin.keystore.management.v1.KeystoreProvider.FinalizeKeystoreSetup:input_type -> plugin.keystore.management.v1.FinalizeKeystoreSetupRequest
+	16, // 27: plugin.keystore.management.v1.KeystoreProvider.RenewKeystore:input_type -> plugin.keystore.management.v1.RenewKeystoreRequest
+	5,  // 28: plugin.keystore.management.v1.KeystoreProvider.CreateKeystore:output_type -> plugin.keystore.management.v1.CreateKeystoreResponse
+	7,  // 29: plugin.keystore.management.v1.KeystoreProvider.DeleteKeystore:output_type -> plugin.keystore.management.v1.DeleteKeystoreResponse
+	9,  // 30: plugin.keystore.management.v1.KeystoreProvider.GrantTrust:output_type -> plugin.keystore.management.v1.GrantTrustResponse
+	11, // 31: plugin.keystore.management.v1.KeystoreProvider.RemoveTrust:output_type -> plugin.keystore.management.v1.RemoveTrustResponse
+	13, // 32: plugin.keystore.management.v1.KeystoreProvider.GetKeystoreStatus:output_type -> plugin.keystore.management.v1.GetKeystoreStatusResponse
+	15, // 33: plugin.keystore.management.v1.KeystoreProvider.FinalizeKeystoreSetup:output_type -> plugin.keystore.management.v1.FinalizeKeystoreSetupResponse
+	17, // 34: plugin.keystore.management.v1.KeystoreProvider.RenewKeystore:output_type -> plugin.keystore.management.v1.RenewKeystoreResponse
+	28, // [28:35] is the sub-list for method output_type
+	21, // [21:28] is the sub-list for method input_type
+	21, // [21:21] is the sub-list for extension type_name
+	21, // [21:21] is the sub-list for extension extendee
+	0,  // [0:21] is the sub-list for field type_name
 }
 
 func init() { file_plugin_keystore_management_v1_management_proto_init() }
@@ -1091,7 +1203,7 @@ func file_plugin_keystore_management_v1_management_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_plugin_keystore_management_v1_management_proto_rawDesc), len(file_plugin_keystore_management_v1_management_proto_rawDesc)),
 			NumEnums:      2,
-			NumMessages:   14,
+			NumMessages:   16,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
