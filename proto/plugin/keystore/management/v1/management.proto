@@ -28,6 +28,9 @@ service KeystoreProvider {
   rpc GetKeystoreStatus(GetKeystoreStatusRequest) returns (GetKeystoreStatusResponse);
   // Complete setup after the keystore becomes ACTIVE
   rpc FinalizeKeystoreSetup(FinalizeKeystoreSetupRequest) returns (FinalizeKeystoreSetupResponse);
+  // Some keystore providers require periodic renewal of the underlying account.
+  // This action renews the keystore instance, e.g. extend lease, or re-confirm attributes.
+  rpc RenewKeystore(RenewKeystoreRequest) returns (RenewKeystoreResponse);
 }
 
 // SupportedRegion represents a region where the keystore can be created or accessed.
@@ -121,6 +124,10 @@ message GetKeystoreStatusResponse {
   // Absent or UNSPECIFIED: status is unknown; retry the request.
   optional KeystoreCreationStatus status = 1;
   optional string error_message = 2;
+  // needs_renewal is true when the keystore account is due for renewal.
+  optional bool needs_renewal = 3;
+  // Unset when the provider has no renewal deadline.
+  optional google.protobuf.Timestamp renew_by = 4;
 }
 
 message FinalizeKeystoreSetupRequest {
@@ -138,3 +145,9 @@ message FinalizeKeystoreSetupResponse {
   optional KeystoreCreationStatus status = 4;
   optional string error_message = 5;
 }
+
+message RenewKeystoreRequest {
+  string account_id = 1;
+}
+
+message RenewKeystoreResponse {}
