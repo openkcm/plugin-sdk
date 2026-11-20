@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.19.1 (2026-11-20)
+
+## What's Changed
+* fix(deps): bump google.golang.org/grpc from 1.84.0 to 1.85.0 in the gomod-group group by @dependabot[bot] in https://github.com/openkcm/plugin-sdk/pull/193
+* fix(deps): bump golang.org/x/sys from 0.49.0 to 0.50.0 in the gomod-group group by @dependabot[bot] in https://github.com/openkcm/plugin-sdk/pull/194
+* fix(deps): bump buf.build/go/protovalidate from 1.4.0 to 1.4.1 in the gomod-group group by @dependabot[bot] in https://github.com/openkcm/plugin-sdk/pull/195
+* feat: add RenewLease RPC to keystore management service by @niazkhansap in https://github.com/openkcm/plugin-sdk/pull/192
+
+## New Contributors
+* @niazkhansap made their first contribution in https://github.com/openkcm/plugin-sdk/pull/192
+
+**Full Changelog**: https://github.com/openkcm/plugin-sdk/compare/v0.19.0...v0.19.1
+
 ## [0.19.0](https://github.com/openkcm/plugin-sdk/compare/v0.18.0...v0.19.0) (2026-10-29)
 
 
