@@ -25,6 +25,7 @@ const (
 	KeystoreProvider_RemoveTrust_FullMethodName           = "/plugin.keystore.management.v1.KeystoreProvider/RemoveTrust"
 	KeystoreProvider_GetKeystoreStatus_FullMethodName     = "/plugin.keystore.management.v1.KeystoreProvider/GetKeystoreStatus"
 	KeystoreProvider_FinalizeKeystoreSetup_FullMethodName = "/plugin.keystore.management.v1.KeystoreProvider/FinalizeKeystoreSetup"
+	KeystoreProvider_RenewKeystore_FullMethodName         = "/plugin.keystore.management.v1.KeystoreProvider/RenewKeystore"
 )
 
 // KeystoreProviderClient is the client API for KeystoreProvider service.
@@ -43,6 +44,9 @@ type KeystoreProviderClient interface {
 	GetKeystoreStatus(ctx context.Context, in *GetKeystoreStatusRequest, opts ...grpc.CallOption) (*GetKeystoreStatusResponse, error)
 	// Complete setup after the keystore becomes ACTIVE
 	FinalizeKeystoreSetup(ctx context.Context, in *FinalizeKeystoreSetupRequest, opts ...grpc.CallOption) (*FinalizeKeystoreSetupResponse, error)
+	// Some keystore providers require periodic renewal of the underlying account.
+	// This action renews the keystore instance, e.g. extend lease, or re-confirm attributes.
+	RenewKeystore(ctx context.Context, in *RenewKeystoreRequest, opts ...grpc.CallOption) (*RenewKeystoreResponse, error)
 }
 
 type keystoreProviderClient struct {
@@ -113,6 +117,16 @@ func (c *keystoreProviderClient) FinalizeKeystoreSetup(ctx context.Context, in *
 	return out, nil
 }
 
+func (c *keystoreProviderClient) RenewKeystore(ctx context.Context, in *RenewKeystoreRequest, opts ...grpc.CallOption) (*RenewKeystoreResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(RenewKeystoreResponse)
+	err := c.cc.Invoke(ctx, KeystoreProvider_RenewKeystore_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // KeystoreProviderServer is the server API for KeystoreProvider service.
 // All implementations must embed UnimplementedKeystoreProviderServer
 // for forward compatibility.
@@ -129,6 +143,9 @@ type KeystoreProviderServer interface {
 	GetKeystoreStatus(context.Context, *GetKeystoreStatusRequest) (*GetKeystoreStatusResponse, error)
 	// Complete setup after the keystore becomes ACTIVE
 	FinalizeKeystoreSetup(context.Context, *FinalizeKeystoreSetupRequest) (*FinalizeKeystoreSetupResponse, error)
+	// Some keystore providers require periodic renewal of the underlying account.
+	// This action renews the keystore instance, e.g. extend lease, or re-confirm attributes.
+	RenewKeystore(context.Context, *RenewKeystoreRequest) (*RenewKeystoreResponse, error)
 	mustEmbedUnimplementedKeystoreProviderServer()
 }
 
@@ -156,6 +173,9 @@ func (UnimplementedKeystoreProviderServer) GetKeystoreStatus(context.Context, *G
 }
 func (UnimplementedKeystoreProviderServer) FinalizeKeystoreSetup(context.Context, *FinalizeKeystoreSetupRequest) (*FinalizeKeystoreSetupResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method FinalizeKeystoreSetup not implemented")
+}
+func (UnimplementedKeystoreProviderServer) RenewKeystore(context.Context, *RenewKeystoreRequest) (*RenewKeystoreResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method RenewKeystore not implemented")
 }
 func (UnimplementedKeystoreProviderServer) mustEmbedUnimplementedKeystoreProviderServer() {}
 func (UnimplementedKeystoreProviderServer) testEmbeddedByValue()                          {}
@@ -286,6 +306,24 @@ func _KeystoreProvider_FinalizeKeystoreSetup_Handler(srv interface{}, ctx contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _KeystoreProvider_RenewKeystore_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RenewKeystoreRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(KeystoreProviderServer).RenewKeystore(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: KeystoreProvider_RenewKeystore_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(KeystoreProviderServer).RenewKeystore(ctx, req.(*RenewKeystoreRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // KeystoreProvider_ServiceDesc is the grpc.ServiceDesc for KeystoreProvider service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -316,6 +354,10 @@ var KeystoreProvider_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "FinalizeKeystoreSetup",
 			Handler:    _KeystoreProvider_FinalizeKeystoreSetup_Handler,
+		},
+		{
+			MethodName: "RenewKeystore",
+			Handler:    _KeystoreProvider_RenewKeystore_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
