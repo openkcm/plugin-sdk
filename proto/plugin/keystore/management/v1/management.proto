@@ -146,8 +146,13 @@ message FinalizeKeystoreSetupResponse {
   optional string error_message = 5;
 }
 
+// RenewKeystoreRequest represents the request to renew a keystore instance's underlying account.
+// - The account_id field identifies the account to renew.
+// - The values field carries provider-specific attributes to apply during renewal; the contents
+//   vary by keystore provider and are interpreted by the plugin.
 message RenewKeystoreRequest {
   string account_id = 1;
+  google.protobuf.Struct values = 2;
 }
 
 message RenewKeystoreResponse {}
