@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.19.2 (2026-11-25)
+
+## What's Changed
+* feat: add security attributes to RenewKeystoreRequest by @niazkhansap in https://github.com/openkcm/plugin-sdk/pull/197
+
+
+**Full Changelog**: https://github.com/openkcm/plugin-sdk/compare/v0.19.1...v0.19.2
+
 ## 0.19.1 (2026-11-20)
 
 ## What's Changed
